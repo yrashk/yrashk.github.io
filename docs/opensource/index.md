@@ -52,7 +52,7 @@ authenticating (useful in CI, particularly in pull requests)
 
 ## __Past__
 
-Below are the contributions that I am not using actively (but others may). Some projects maybe in a derelict shape.
+Below are the contributions that I am not using or involved in actively anymore (but others could be). Some projects maybe in a derelict shape.
 
 
 ### [Ruby on Rails](https://rubyonrails.org)
