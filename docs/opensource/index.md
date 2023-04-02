@@ -19,6 +19,11 @@ needed.
 I [contribute](https://github.com/tcdi/pgx/commits?author=yrashk) to pgx, a library to build Postgres extensions in Rust with, on an
 ongoing basis, primarily driven by needs of clients and my interests.
 
+### [pg_graphql](https://github.com/supabase/pg_graphql)
+
+I am [contributing](https://github.com/supabase/pg_graphql/commits?author=yrashk) to `pg_graphql` as requested. More contributions
+expected.
+
 ### [Postgres](https://postgresql.org/)
 
 So far, I've proposed two small patches:
