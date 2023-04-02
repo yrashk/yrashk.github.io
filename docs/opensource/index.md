@@ -43,6 +43,12 @@ impact on your project.
 I've made a [tiny contribution](https://github.com/moby/buildkit/pull/3692) that makes it possible to use S3 cache without
 authenticating (useful in CI, particularly in pull requests)
 
+---
+
+## __Past__
+
+Below are the contributions that I am not using actively (but others may). Some projects maybe in a derelict shape.
+
 
 ### [Ruby on Rails](https://rubyonrails.org)
 
@@ -52,11 +58,7 @@ A few minor [contributions](https://contributors.rubyonrails.org/contributors/yu
 
 I've [contributed to Turbo Rails a bit](https://github.com/hotwired/turbo-rails/commits?author=yrashk) when developing my startup HackerIntro.
 
----
 
-## __Past__
-
-Below are the contributions done in the deep past.
 
 ### [wasm.rs](https://wasm.rs)
 
