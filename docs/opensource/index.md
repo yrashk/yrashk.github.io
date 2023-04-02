@@ -54,6 +54,10 @@ I've [contributed to Turbo Rails a bit](https://github.com/hotwired/turbo-rails/
 
 Below are the contributions done in the deep past.
 
+### [graphql-java-annotations](https://github.com/Enigmatis/graphql-java-annotations)
+
+I've [conceived the project](https://github.com/Enigmatis/graphql-java-annotations/commits?author=yrashk) long time ago and it has since been taken over.
+
 ### [Elixir](https://elixir-lang.org)
 
 In the early days, I've [contributed](https://github.com/elixir-lang/elixir/commits?author=yrashk) to Elixir programming language as I was deeply involved in the Erlang community
