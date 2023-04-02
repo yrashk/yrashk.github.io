@@ -24,6 +24,11 @@ ongoing basis, primarily driven by needs of clients and my interests.
 I am [contributing](https://github.com/supabase/pg_graphql/commits?author=yrashk) to `pg_graphql` as requested. More contributions
 expected.
 
+### [wrappers](https://github.com/supabase/wrappers)
+
+I've helped [refactoring](https://github.com/supabase/wrappers/commits?author=yrashk) Supabase wrappers (a framework and a collection of
+Foreign Data Wrappers for Postgres)
+
 ### [Postgres](https://postgresql.org/)
 
 So far, I've proposed two small patches:
