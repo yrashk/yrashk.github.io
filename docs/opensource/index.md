@@ -68,6 +68,6 @@ I've [conceived the project](https://github.com/Enigmatis/graphql-java-annotatio
 In the early days, I've [contributed](https://github.com/elixir-lang/elixir/commits?author=yrashk) to Elixir programming language as I was deeply involved in the Erlang community
 and was looking for ways to improve my code.
 
-### [erlzm2](https://github.com/zeromq/erlzmq2)
+### [erlzmq2](https://github.com/zeromq/erlzmq2)
 
 I've built this better-performing ZeroMQ wrapper many years ago.
