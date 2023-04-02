@@ -17,7 +17,8 @@ involvement, advisory).
 
 ---
 
-__In personal life__, I am a husband and a father of one amazing daughter. I enjoy running, skiing and sailing and outdoors in general.
+__In personal life__, I am a husband and a father of one amazing daughter. I enjoy running, skiing, cycling and outdoors in general. Trying to figure out
+sailing.
 
 ---
 
