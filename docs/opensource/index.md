@@ -54,6 +54,11 @@ I've [contributed to Turbo Rails a bit](https://github.com/hotwired/turbo-rails/
 
 Below are the contributions done in the deep past.
 
+### [wasm.rs](https://wasm.rs)
+
+I've tried to build a few WebAssembly-related libraries and a community. The attempt has fizzled out but I still think there's
+something to it. At least the domain name is interesting!
+
 ### [graphql-java-annotations](https://github.com/Enigmatis/graphql-java-annotations)
 
 I've [conceived the project](https://github.com/Enigmatis/graphql-java-annotations/commits?author=yrashk) long time ago and it has since been taken over.
