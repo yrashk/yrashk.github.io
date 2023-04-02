@@ -5,9 +5,11 @@ watch:
 
 theme:
   name: material
+  custom_dir: overrides
   features:
     - navigation.tabs
     - content.tooltips
+    - announce.dismiss
   logo: yrashk.jpeg
   favicon: favicon.png
   palette:
