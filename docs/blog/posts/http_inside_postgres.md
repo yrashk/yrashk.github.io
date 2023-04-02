@@ -1,9 +1,8 @@
 ---
 date: 2023-02-16
 categories:
-  - webdev
-  - postgres
-  - omnigres
+  - Postgres
+  - Omnigres
   - performance
 ---
 

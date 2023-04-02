@@ -56,7 +56,6 @@ markdown_extensions:
 plugins:
   - blog:
       archive: false
-      categories: false
   - search
   - include-markdown
   - privacy
