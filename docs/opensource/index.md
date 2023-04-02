@@ -36,7 +36,8 @@ impact on your project.
 
 ### [BuildKit](https://github.com/moby/buildkit)
 
-I've made a [tiny contribution](https://github.com/moby/buildkit/pull/3692)
+I've made a [tiny contribution](https://github.com/moby/buildkit/pull/3692) that makes it possible to use S3 cache without
+authenticating (useful in CI, particularly in pull requests)
 
 ---
 
