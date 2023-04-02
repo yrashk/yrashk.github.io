@@ -1,4 +1,6 @@
 site_name: Yurii Rashkovskii
+site_description: Writings on software development and work practices, entrepreneurship, tech in general.
+site_url: https://yrashk.com
 
 watch:
   - .
@@ -59,6 +61,9 @@ plugins:
   - search
   - include-markdown
   - privacy
+  - social:
+      cards_color:
+        fill: "#D63964"
 
 nav:
   - Home: index.md
