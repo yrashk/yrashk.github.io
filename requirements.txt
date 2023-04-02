@@ -14,6 +14,7 @@ markdown2==2.4.8
 MarkupSafe==2.1.2
 mergedeep==1.3.4
 mkdocs==1.4.2
+mkdocs-include-markdown-plugin==4.0.4
 mkdocs-material @ git+ssh://git@github.com/squidfunk/mkdocs-material-insiders.git@e9edb87f09ff35e709aae8d30f85d7c9904b27d0
 mkdocs-material-extensions==1.1.1
 packaging==23.0

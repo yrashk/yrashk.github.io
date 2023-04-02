@@ -54,6 +54,7 @@ plugins:
       archive: false
       categories: false
   - search
+  - include-markdown
 
 nav:
   - Home: index.md
