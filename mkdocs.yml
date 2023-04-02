@@ -57,6 +57,7 @@ plugins:
       categories: false
   - search
   - include-markdown
+  - privacy
 
 nav:
   - Home: index.md
