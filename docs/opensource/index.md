@@ -39,6 +39,10 @@ impact on your project.
 I've made a [tiny contribution](https://github.com/moby/buildkit/pull/3692) that makes it possible to use S3 cache without
 authenticating (useful in CI, particularly in pull requests)
 
+### [Hotwire](https://hotwired.dev/)
+
+I've [contributed to Turbo Rails a bit](https://github.com/hotwired/turbo-rails/commits?author=yrashk) when developing my startup HackerIntro.
+
 ---
 
 ## __Past__
