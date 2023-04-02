@@ -4,7 +4,7 @@
 </script>
 
 <style>
-* {
+#flag {
   font-family: "Twemoji Country Flags", "Helvetica", "Comic Sans", serif;
 }
 </style>
@@ -12,5 +12,5 @@
 {% extends "base.html" %}
 
 {% block announce %}
-🇺🇦 Please support Ukrainians in their fight against Russian invaders. Your help and donations are invaluable.
+<span id="flag">🇺🇦</span> Please support Ukrainians in their fight against Russian invaders. Your help and donations are invaluable.
 {% endblock %}

@@ -5,6 +5,8 @@ watch:
 
 theme:
   name: material
+  font:
+    text: Poppins
   custom_dir: overrides
   features:
     - navigation.tabs
