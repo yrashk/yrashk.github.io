@@ -53,6 +53,7 @@ plugins:
   - blog:
       archive: false
       categories: false
+  - search
 
 nav:
   - Home: index.md
