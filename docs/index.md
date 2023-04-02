@@ -21,5 +21,6 @@ __In personal life__, I am a husband and a father of one amazing daughter. I enj
 
 ---
 
+[:simple-github:](https://github.com/yrashk)
 [:simple-twitter:](https://twitter.com/yrashk)
 [:simple-linkedin:](https://www.linkedin.com/in/yrashk)
