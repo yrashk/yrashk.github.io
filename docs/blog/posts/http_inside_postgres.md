@@ -40,7 +40,7 @@ And it is not "one-size-fits-all." But it fits a good set of problems. Anyway,
 that's a subject for another conversation.
 
 In the past weeks, I've taken the task of adding an embedded HTTP server to
-Omnigres. Since Omnigres is [implemented in C](https://dev.to/omnigres/why-not-rust-for-omnigres-43ak), it was only natural
+Omnigres. Since Omnigres is [implemented in C](why_not_rust_for_omnigres.md), it was only natural
 for me to choose [libh2o](https://github.com/h2o/h2o) to implement the
 functionality of an HTTP server. It did help that H2O is known for its good
 performance characteristics.
