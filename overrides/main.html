@@ -12,7 +12,22 @@
 }
 </style>
 
-{%endblock %}
+<script>window.SavvyCal=window.SavvyCal||function(){(SavvyCal.q=SavvyCal.q||[]).push(arguments)};</script>
+<script async src="https://embed.savvycal.com/v1/embed.js"></script>
+<script>
+  SavvyCal('init', {
+   widget: {
+      enabled: true,
+      link: 'yrashk/chat?d=30',
+      prompt: 'Schedule a call',
+      backgroundColor: "#D63964",
+      textColor: "#FFFFFF",
+      theme: 'os',
+      delay: 1000
+    }
+  })
+</script>
+{% endblock %}
 
 {% block announce %}
 <span id="flag">🇺🇦</span> Please support Ukrainians in their fight against Russian invaders. Your help and donations are invaluable.
