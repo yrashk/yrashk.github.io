@@ -1,3 +1,6 @@
+{% extends "base.html" %}
+
+{% block extrahead %}
 <script type="module" defer>
   import { polyfillCountryFlagEmojis } from "https://cdn.skypack.dev/country-flag-emoji-polyfill";
   polyfillCountryFlagEmojis();
@@ -9,7 +12,7 @@
 }
 </style>
 
-{% extends "base.html" %}
+{%endblock %}
 
 {% block announce %}
 <span id="flag">🇺🇦</span> Please support Ukrainians in their fight against Russian invaders. Your help and donations are invaluable.
