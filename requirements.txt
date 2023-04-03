@@ -12,6 +12,8 @@ cssselect==1.2.0
 cssselect2==0.7.0
 defusedxml==0.7.1
 ghp-import==2.1.0
+gitdb==4.0.10
+GitPython==3.1.31
 htmlmin2==0.1.13
 idna==3.4
 Jinja2==3.1.2
@@ -26,6 +28,7 @@ mkdocs-include-markdown-plugin==4.0.4
 mkdocs-material @ git+ssh://git@github.com/squidfunk/mkdocs-material-insiders.git@e9edb87f09ff35e709aae8d30f85d7c9904b27d0
 mkdocs-material-extensions==1.1.1
 mkdocs-minify-plugin==0.6.4
+mkdocs-rss-plugin==1.6.0
 packaging==23.0
 paginate==0.5.6
 Pillow==9.5.0
@@ -41,6 +44,7 @@ readtime==2.0.0
 regex==2023.3.23
 requests==2.28.2
 six==1.16.0
+smmap==5.0.0
 soupsieve==2.4
 tinycss2==1.2.1
 urllib3==1.26.15

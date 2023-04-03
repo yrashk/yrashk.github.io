@@ -75,6 +75,13 @@ plugins:
       cards_color:
         fill: "#D63964"
   - meta
+  - rss:
+      match_path: blog/posts/.*
+      date_from_meta:
+        as_creation: date
+      categories:
+        - categories
+        - tags
 
 nav:
   - Home: index.md
