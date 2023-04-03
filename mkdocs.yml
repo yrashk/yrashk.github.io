@@ -82,6 +82,7 @@ plugins:
       categories:
         - categories
         - tags
+      category_feeds: true
 
 nav:
   - Home: index.md
