@@ -64,8 +64,6 @@ plugins:
   - social:
       cards_color:
         fill: "#D63964"
-  - optimize:
-      print_gain_summary: false
 
 nav:
   - Home: index.md
