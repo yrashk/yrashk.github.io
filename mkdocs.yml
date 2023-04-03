@@ -15,6 +15,7 @@ theme:
     - content.tooltips
     - announce.dismiss
     - navigation.top
+    - navigation.instant
   logo: yrashk.jpeg
   favicon: favicon.png
   palette:
