@@ -1,6 +1,6 @@
 # About Me
 
-__Professionally__, I am an software developer with a keen interest in reducing complexity with over 30 years of professional
+__Professionally__, I am a software developer with a keen interest in reducing complexity with over 30 years of professional
 experience.
 
 Presently, I am doing a lot of work concerning using and extending [Postgres](postgres) database (extension development, [open source](opensource)
