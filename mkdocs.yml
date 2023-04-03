@@ -60,10 +60,13 @@ plugins:
       archive: false
   - search
   - include-markdown
-  - privacy
+  - privacy:
+      external_assets_exclude:
+        - giscus.app/*
   - social:
       cards_color:
         fill: "#D63964"
+  - meta
 
 nav:
   - Home: index.md
