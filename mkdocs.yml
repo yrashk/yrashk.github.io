@@ -13,6 +13,8 @@ theme:
   features:
     - navigation.tabs
     - content.tooltips
+    - content.code.copy
+    - content.code.annotate
     - announce.dismiss
     - navigation.top
     - navigation.instant
