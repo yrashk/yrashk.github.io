@@ -28,7 +28,7 @@ mkdocs-include-markdown-plugin==4.0.4
 mkdocs-material @ git+ssh://git@github.com/squidfunk/mkdocs-material-insiders.git@e9edb87f09ff35e709aae8d30f85d7c9904b27d0
 mkdocs-material-extensions==1.1.1
 mkdocs-minify-plugin==0.6.4
-mkdocs-rss-plugin @ git+https://github.com/yrashk/mkdocs-rss-plugin@30de42ddcc8eed32c14eac315bad749354298172
+mkdocs-rss-plugin @ git+https://github.com/yrashk/mkdocs-rss-plugin@638f75e25dedb31f88552156d797e2f837316ea1
 packaging==23.0
 paginate==0.5.6
 Pillow==9.5.0
