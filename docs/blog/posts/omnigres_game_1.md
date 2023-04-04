@@ -82,6 +82,17 @@ Check out Omnigres
 
 ## Where to Learn?
 
+The easiest way to start Omnigres is to use a [container image](https://docs.omnigres.org/quick_start/):
+
+```shell
+docker volume create omnigres
+docker run --name omnigres -e POSTGRES_PASSWORD=omnigres -e POSTGRES_USER=omnigres \
+                           -e POSTGRES_DB=omnigres --mount source=omnigres,target=/var/lib/postgresql/data \
+           -p 5432:5432 -p 8080:8080 --rm ghcr.io/omnigres/omnigres:latest
+# Now you can connect to it:
+psql -h localhost -p 5432 -U omnigres omnigres # password is `omnigres`
+```
+
 Please refer to [Omnigres documentation](https://docs.omnigres.org) or drop by
 [our Discord server](https://discord.gg/Jghrq588qS) to ask questions.
 
