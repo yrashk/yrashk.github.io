@@ -20,6 +20,7 @@ theme:
     - navigation.instant
     - content.tabs.link
     - search.share
+    - search.highlight
   logo: yrashk.jpeg
   favicon: favicon.png
   palette:
