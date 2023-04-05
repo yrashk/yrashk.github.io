@@ -102,7 +102,7 @@ The easiest way to start Omnigres is to use a [container image](https://docs.omn
 
 === "Default image"
 
-     The image below is rather _large (over 8Gb)_. If you prefer a smaller one, select the next tab.
+     :warning: The image below is rather _large (over 8Gb)_. If you prefer a smaller one, select the next tab.
 
      ```shell
      docker volume create omnigres
