@@ -98,5 +98,7 @@ plugins:
 
 nav:
   - Home: index.md
-  - Open Source: opensource/index.md
+  - Open Source: 
+    - Involvement: opensource/index.md
+    - Ideas: opensource/ideas.md
   - Blog: blog/index.md
