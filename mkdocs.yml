@@ -18,6 +18,7 @@ theme:
     - announce.dismiss
     - navigation.top
     - navigation.instant
+    - content.tabs.link
   logo: yrashk.jpeg
   favicon: favicon.png
   palette:
@@ -58,6 +59,10 @@ markdown_extensions:
   - pymdownx.keys
   - pymdownx.mark
   - pymdownx.tilde
+  - footnotes
+  - pymdownx.tabbed:
+      alternate_style: true
+
 
 plugins:
   - minify:

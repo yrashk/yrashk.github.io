@@ -141,6 +141,8 @@ Knowing how Rust crowd behaves sometimes, there may be those inclined to
 persuade me to change my opinion or prove me wrong. Of course, they are free to
 do so, but I'd prefer to focus on getting things done!
 
-**Ultimately**, I think Rust is great. Omnigres will have first-class support
+Ultimately, I think Rust is great. Omnigres will have first-class support
 for it and will promote its use and the use of
-[pgx](https://github.com/tcdi/pgx) for building extensions.
+[pgx](https://github.com/tcdi/pgx) for building extensions. __Update__: [PL/Rust
+is now being shipped with Omnigres](plrust_in_omnigres.md)!
+
