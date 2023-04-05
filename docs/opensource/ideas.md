@@ -1,7 +1,3 @@
----
-title: Open Source Ideas
----
-
 These are some of the projects I would like to work on, but haven't started yet.
 
 # Postgres Patches
