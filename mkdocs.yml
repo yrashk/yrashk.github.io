@@ -19,6 +19,7 @@ theme:
     - navigation.top
     - navigation.instant
     - content.tabs.link
+    - search.share
   logo: yrashk.jpeg
   favicon: favicon.png
   palette:
