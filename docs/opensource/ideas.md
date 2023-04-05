@@ -1,5 +1,33 @@
 These are some of the projects I would like to work on, but haven't started yet.
 
+# Postgres Patches
+
+## Enable overriding hard-coded paths in `postgresql.conf`
+
+The fact that many paths are hard-coded in postgres during compile-time can be frustrating
+at times. No way to change that without recompiling it. It'd be great if `postgres` and `pg_config`
+were able to do this. 
+
+??? question "How can this be implemented?"
+
+    There's `src/port/pg_config_paths.h` generated when configuring Postgres that hard-codes all these
+    paths.
+
+    What I've done so far is augmenting it with something like:
+
+    ```c
+    const char * _PGSHAREDIR = PGSHAREDIR;
+    #undef PGSHAREDIR
+    #define PGSHAREDIR ((const char *)getenv("PGSHAREDIR") ? : _PGSHAREDIR)
+    ```
+
+    Now, of course, this `getenv` call would have to be changed to attempt retrieving the string from
+    the configuration setting.
+
+    Also, `pg_config` would need to be able to take an option to point to
+    `postgresql.conf`.
+
+
 # Shell Scripting Language Compiler
 
 A simple imperative language intended to be used for shell scripting. However, it won't
