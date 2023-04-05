@@ -57,6 +57,12 @@ $ curl --header "Accept: application/json" http://localhost:8080
 {"content": "...", "posted_at": "..."}
 ```
 
+??? success "First prize claimed"
+
+    [@ggaughan solved it first](https://github.com/yrashk/yrashk.github.io/discussions/1#discussioncomment-5529719). You can still
+    get the Finisher's prize.
+
+
 ### #2: Authorized User Updates
 
 Make it possible to update MOTD only by authorized users. It's up to you how you define "authorized" but be reasonable!
@@ -79,6 +85,16 @@ GET /postgres # => HTTP/1.1 200 OK
 Posted at 2023-04-04 08:01:23:13.317115
 Check out Omnigres
 ```
+
+
+??? success "First prize claimed"
+
+    [@ggaughan solved it first](https://github.com/yrashk/yrashk.github.io/discussions/1#discussioncomment-5531309). You can still
+    get the Finisher's prize.
+
+### Surprise Challenge
+
+Build something not listed in the above challenges and make it awesome. First three entries win!
 
 ## Where to Learn?
 
