@@ -50,6 +50,13 @@ authenticating (useful in CI, particularly in pull requests)
 
 ---
 
+## __Ideas__ :bulb: 
+
+{% include-markdown "ideas.md" heading-offset=2 %}
+
+
+---
+
 ## __Past__
 
 Below are the contributions that I am not using or involved in actively anymore (but others could be). Some projects maybe in a derelict shape.
