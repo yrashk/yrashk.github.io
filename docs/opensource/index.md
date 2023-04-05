@@ -52,8 +52,7 @@ authenticating (useful in CI, particularly in pull requests)
 
 ## __Ideas__ :bulb: 
 
-{% include-markdown "ideas.md" heading-offset=2 %}
-
+{% include-markdown "ideas_.md" heading-offset=2 %}
 
 ---
 
