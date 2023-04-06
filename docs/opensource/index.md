@@ -2,6 +2,12 @@
 
 The order of entries on this page is an attempt to highlight projects based on recency and impact.
 
+ If any of these sound exciting to you and you'd like to support my work, please consider [sponsoring my work](https://github.com/sponsors/yrashk)
+ [^sponsor].
+
+[^sponsor]: You can create a custom monthly or one-time amount. Send me a [message](mailto:yrashk@gmail.com) to discuss details.
+
+
 ## __Current__
 
 ### [Omnigres](https://github.com/omnigres/omnigres)
