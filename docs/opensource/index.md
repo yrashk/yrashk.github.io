@@ -1,3 +1,7 @@
+---
+title: Open Source Involvement
+---
+
 # Open Source Involvement
 
 The order of entries on this page is an attempt to highlight projects based on recency and impact.
