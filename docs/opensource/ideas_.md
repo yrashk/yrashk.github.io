@@ -1,5 +1,5 @@
 These are some of the projects I would like to work on, but haven't started yet. If any of these
-sound exciting to you and you'd like them to be implemented, please consider [sponsoring my work](https://github.com/sponsors/yrashk) [^sponsor]
+sound exciting to you and you'd like them to be implemented, please consider [sponsoring my work](https://github.com/sponsors/yrashk) [^sponsor].
 
 [^sponsor]: You can create a custom monthly or one-time amount. Send me a [message](mailto:yrashk@gmail.com) to discuss details.
 
