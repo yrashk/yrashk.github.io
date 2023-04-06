@@ -67,6 +67,12 @@ $ curl --header "Accept: application/json" http://localhost:8080
 
 Make it possible to update MOTD only by authorized users. It's up to you how you define "authorized" but be reasonable!
 
+??? success "First prize claimed"
+
+    [@kartikynwa solved it first](https://github.com/yrashk/yrashk.github.io/discussions/1#discussioncomment-5542003). You can still
+    get the Finisher's prize.
+
+
 ### #3: Separate Rooms
 
 Instead of having one global MOTD, allow updating MOTD by "rooms" (room name can be derived from the path or the query string).
