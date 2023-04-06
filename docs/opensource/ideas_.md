@@ -1,5 +1,22 @@
 These are some of the projects I would like to work on, but haven't started yet.
 
+# Postgres-related
+
+## In-memory access method
+
+For cases like long-term in-memory caches, it'd be great to not have them
+stored on disk at all (_that rules out unlogged tables_) and have them
+persisted across sessions (_that rules out temporary tables_).
+
+I am eyeing the idea of implementing a table/index access method that will work
+in shared memory.
+
+??? abstract "Notes"
+
+    I think that in order to make it easier to deploy, it should not use Postgres shared memory
+    and instead work with operating system's shared memory directly. 
+
+
 # Postgres Patches
 
 ## Enable overriding hard-coded paths in `postgresql.conf`
