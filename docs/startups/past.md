@@ -54,3 +54,10 @@ some [NRC IRAP](https://nrc.canada.ca/en/support-technology-innovation) funding)
 Failing to secure clients for this, it became a consultancy company.
 
 !!! tip "Domain was gone and is now listed on [HugeDomains](https://www.hugedomains.com/domain_profile.cfm?d=spawngrid.com) for $2,195"
+
+## Issues Done (2007-2008) { #issuesdone }
+
+An early startup trying to build a web-based [Getting Things Done](https://en.wikipedia.org/wiki/Getting_Things_Done) application.
+Had some fun ideas but wasn't able to market it.
+
+!!! tip "The domain is still owned by a friend of mine who was a partner in this venture"
