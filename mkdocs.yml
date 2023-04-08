@@ -95,6 +95,7 @@ plugins:
         - tags
       category_feeds: true
       pretty_print: true
+  - glightbox
 
 nav:
   - Home: index.md
@@ -103,5 +104,6 @@ nav:
     - Ideas: opensource/ideas.md
   - Startups:
      - Startups: startups/index.md
+     - Past: startups/past.md
      - Ideas: startups/ideas.md
   - Blog: blog/index.md
