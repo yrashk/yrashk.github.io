@@ -104,6 +104,7 @@ nav:
     - Ideas: opensource/ideas.md
   - Startups:
      - Startups: startups/index.md
+     - Current: startups/current.md
      - Past: startups/past.md
      - Ideas: startups/ideas.md
   - Blog: blog/index.md
