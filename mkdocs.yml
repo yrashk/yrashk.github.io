@@ -102,5 +102,6 @@ nav:
     - Involvement: opensource/index.md
     - Ideas: opensource/ideas.md
   - Startups:
+     - Startups: startups/index.md
      - Ideas: startups/ideas.md
   - Blog: blog/index.md
