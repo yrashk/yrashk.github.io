@@ -4,7 +4,7 @@ title: Past Startups
 
 # Past Startups
 
-## Trustatom (2014-2015)
+## Trustatom (2014-2015) { #trustatom }
 
 After deparing Trustatom I travelled to Asia to reset. While in Japan, I came up with the idea of
 a small service that would do a limited set of _smart contracts_ based on Bitcoin. 
@@ -30,7 +30,7 @@ that those weren't essentially _made up last night_, providing better assurance 
 
 !!! tip "[streamline.vc](streamline.vc) was also let go and is now on sale on [Dan.com](https://dan.com/buy-domain/streamline.vc) for $7,495"
 
-## Bex.io (2013-2014)
+## Bex.io (2013-2014) { #bex-io }
 
 Bex.io was a spin off from Spawngrid's consultancy. In 2013, with all that
 early hype around Bitcoin, there was a great interest in running exchanges. Some clients
@@ -44,7 +44,7 @@ share of issues both in leadership and delivery so it was wound down around 2015
 
 !!! tip "Somebody is now trying to [sell bex.io domain](https://ca.godaddy.com/domainsearch/find?checkAvail=1&tmskey=&domainToCheck=bex.io&isc=cjc99com&cjelbDays=45&AID=10450071&SID=domainr.com&utm_source=cj&utm_medium=affiliate&utm_campaign=xx-xx_corp_affiliate_10450071_001&utm_content=nb.io%2c+LLC_2513766&tgt=3198382&cjdata=MXxOfDB8WXww) for $100K"
 
-## Spawngrid (2011-2013)
+## Spawngrid (2011-2013) { #spawngrid }
 
 Spawngrid started around 2011 as an attempt to build a cloud for deploying
 complex Erlang-based systems. Over time, overwhelmed with the sheer
