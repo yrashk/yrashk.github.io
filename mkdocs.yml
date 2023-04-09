@@ -21,8 +21,8 @@ theme:
     - content.tabs.link
     - search.share
     - search.highlight
-  logo: yrashk.jpeg
-  favicon: favicon.png
+  logo: profile-pic.png
+  favicon: favicon-32x32.png
   palette:
     # Palette toggle for automatic mode
     - media: "(prefers-color-scheme)"
