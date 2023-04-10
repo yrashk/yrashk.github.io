@@ -26,7 +26,7 @@ fundraising and created a small product called Streamline.vc. The product was us
 information (such as ownership structure, KPIs and other documents) by startups to prove to their investors
 that those weren't essentially _made up last night_, providing better assurance of the accuracy of this information.
 
-!!! tip "Domain was gone and is now listed on [HugeDomains](https://www.hugedomains.com/domain_profile.cfm?d=trustatom.com) for $2,795"
+!!! tip "Domain has gone and is now listed on [HugeDomains](https://www.hugedomains.com/domain_profile.cfm?d=trustatom.com) for $2,795"
 
 !!! tip "[streamline.vc](https://streamline.vc) was also let go and is now on sale on [Dan.com](https://dan.com/buy-domain/streamline.vc) for $7,495"
 
@@ -53,7 +53,7 @@ like Test.io (_automatic test generation product_, for which it received
 some [NRC IRAP](https://nrc.canada.ca/en/support-technology-innovation) funding). 
 Failing to secure clients for this, it became a consultancy company.
 
-!!! tip "Domain was gone and is now listed on [HugeDomains](https://www.hugedomains.com/domain_profile.cfm?d=spawngrid.com) for $2,195"
+!!! tip "Domain has gone and is now listed on [HugeDomains](https://www.hugedomains.com/domain_profile.cfm?d=spawngrid.com) for $2,195"
 
 ## Issues Done (2007-2008) { #issuesdone }
 
