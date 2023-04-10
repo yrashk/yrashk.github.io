@@ -28,7 +28,7 @@ that those weren't essentially _made up last night_, providing better assurance 
 
 !!! tip "Domain was gone and is now listed on [HugeDomains](https://www.hugedomains.com/domain_profile.cfm?d=trustatom.com) for $2,795"
 
-!!! tip "[streamline.vc](streamline.vc) was also let go and is now on sale on [Dan.com](https://dan.com/buy-domain/streamline.vc) for $7,495"
+!!! tip "[streamline.vc](https://streamline.vc) was also let go and is now on sale on [Dan.com](https://dan.com/buy-domain/streamline.vc) for $7,495"
 
 ## Bex.io (2013-2014) { #bex-io }
 
