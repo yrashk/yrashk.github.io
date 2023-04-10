@@ -15,6 +15,6 @@
 <script async src="https://embed.savvycal.com/v1/embed.js"></script>
 <script>
   SavvyCal('init');
-  SavvyCal('inline', { link: 'yrashk/chat?d=30', theme: 'os', selector: '#booking-page' });
+  SavvyCal('inline', { link: '{{ page.meta.selector|default('yrashk/chat?d=30') }}', theme: 'os', selector: '#booking-page' });
 </script>
 {% endblock %}
