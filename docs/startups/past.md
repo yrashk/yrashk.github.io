@@ -13,7 +13,7 @@ a small service that would do a limited set of _smart contracts_ based on Bitcoi
 
     ![Main page](trustatom.png)
 
-=== "Join Escrows"
+=== "Joint Escrows"
 
     ![Joint Escrows](trustatom-1.png)
 
