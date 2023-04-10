@@ -12,6 +12,7 @@
 }
 </style>
 
+{% block calljs %}
 <script>window.SavvyCal=window.SavvyCal||function(){(SavvyCal.q=SavvyCal.q||[]).push(arguments)};</script>
 <script async src="https://embed.savvycal.com/v1/embed.js"></script>
 <script>
@@ -27,6 +28,7 @@
     }
   })
 </script>
+{% endblock calljs %}
 {% endblock %}
 
 {% block announce %}
