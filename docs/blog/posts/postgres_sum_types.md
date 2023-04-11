@@ -79,8 +79,8 @@ omni_types=# select * from geoms where
 (2 rows)
 ```
 
-There are still a few issues to work out (adding binary send/recv support, ensuring proper TOAST support,
-convenience API, etc.) but I think it's a worthy prototype to play with. 
+There are still a few issues to work out ([{--adding binary send/recv support--}](https://github.com/omnigres/omnigres/pull/149),
+[{--ensuring proper TOAST support--}](https://github.com/omnigres/omnigres/pull/145), convenience API, etc.) but I think it's a worthy prototype to play with. 
 
 ## Try it out
 
