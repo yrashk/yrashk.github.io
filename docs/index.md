@@ -4,7 +4,7 @@ __Professionally__, I am a software developer with a keen interest in reducing c
 experience.
 
 Presently, I am doing a lot of work concerning using and extending [Postgres](postgres) database (extension development, [open source](opensource)
-involvement, advisory). 
+involvement, [advisory](/call/consulting)). 
 
 ??? question "Which programming languages do I use?"
 
