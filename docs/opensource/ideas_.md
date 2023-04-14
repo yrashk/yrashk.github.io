@@ -106,3 +106,33 @@ tools as binaries doesn't seem attractive anymore. I want to be able to use
 use Virtualization Framework on macOS [^virtualization-framework].
 
 [^virtualization-framework]: I know it doesn't have a great API and it has tons of deficiencies. But I think I may have a workaround or two.
+
+# Application Operating System
+
+!!! tip "Codename "ParaOS""
+
+We build software systems on top of many layers (in the name of focus,
+efficiency and to avoid reinventing the wheel.) Battlefield-tested
+foundation that addresses common needs is a great time, money and energy saver.
+
+However, many of the layers we use today have been designed for a different
+environment, needs and deployment size.
+
+We (predominantly) write code in programming languages that were intended to
+make programs that run on a single computer, put that code into files and
+deploy instances of operating systems, the foundations of which were designed
+about 50 years ago, primarily concerning itself with serving the resources (CPU
+time, memory, persistence, networking and other peripherals) of an
+underlying computer to multiple users and their programs.
+
+The systems we develop these days span multiple nodes and heavily rely on
+lage-scale, highly-available persistence capabilities as opposed to dealing
+with local files, multiuser access, etc.
+
+So, what if built an operating system for these applications?
+
+Unlike traditional operating systems, this system would focus on providing
+building blocks (operational guarantees, APIs, code mobility, etc.) for
+building applications that span multiple computers as opposed to focusing on
+serving the underlying hardware to applications as in programs in user space.
+
