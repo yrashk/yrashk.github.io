@@ -25,3 +25,4 @@ sailing.
 [:simple-github:](https://github.com/yrashk)
 [:simple-twitter:](https://twitter.com/yrashk)
 [:simple-linkedin:](https://www.linkedin.com/in/yrashk)
+[:simple-telegram:](https://t.me/yrashk)
