@@ -22,6 +22,19 @@ in shared memory.
 
 # Postgres Patches
 
+## Object Synomyms
+
+Sometimes naming objects the way they were designed (either in Postgres or in
+an extension) is problematic, especially when you need to qualify name
+to the schema or import the whole schema by adding it to search path.
+
+Oracle has support for
+[synonyms](https://docs.oracle.com/en/database/oracle/oracle-database/21/admin/managing-views-sequences-and-synonyms.html#GUID-F66725AA-B410-49EA-9C96-CF5C408879F1)
+for this exact reason.
+
+Postgres doesn't, but it'd be great to have it.
+
+
 ## Enable overriding hard-coded paths in `postgresql.conf`
 
 The fact that many paths are hard-coded in postgres during compile-time can be frustrating
