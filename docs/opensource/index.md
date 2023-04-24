@@ -24,9 +24,11 @@ needed.
 
     I am most actively involved in this project at the moment.
 
-### [pgx](https://github.com/tcdi/pgx)
+### [pgrx](https://github.com/tcdi/pgrx)
 
-I [contribute](https://github.com/tcdi/pgx/commits?author=yrashk) to pgx, a library to build Postgres extensions in Rust with, on an
+!!! tip "Previously known as `pgx`"
+
+I [contribute](https://github.com/tcdi/pgrx/commits?author=yrashk) to `pgrx`, a library to build Postgres extensions in Rust with, on an
 ongoing basis, primarily driven by needs of clients and my interests.
 
 ### [pg_graphql](https://github.com/supabase/pg_graphql)
