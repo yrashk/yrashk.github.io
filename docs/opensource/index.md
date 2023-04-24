@@ -53,11 +53,6 @@ This helps with workflows in absence of a good internet connection, and ensures
 that dependencies that are gone are not going to have an immediate disrupting
 impact on your project.
 
-### [BuildKit](https://github.com/moby/buildkit)
-
-I've made a [tiny contribution](https://github.com/moby/buildkit/pull/3692) that makes it possible to use S3 cache without
-authenticating (useful in CI, particularly in pull requests)
-
 ---
 
 ## __Ideas__ :bulb: 
