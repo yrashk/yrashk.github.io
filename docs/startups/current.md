@@ -4,13 +4,14 @@ title: Current Startups
 
 # Current Startups
 
-## HackerIntro (2021-)
+## [Omnigres](https://omnigres.com) (2022-)
 
-Started as a way to deal with inefficiencies and annoyances of finding
-developers and finding jobs for those said developers.
+Omnigres makes Postgres a complete application platform. You can deploy a
+single database instance and it can host your entire application, scaling as
+needed.
 
-Its current main product is [Resume Search](https://hackerintro.com/resume-search),
-it crawls and indexes developer resumes 24/7 and provides access to this database to
-subscribers.
-
-![Resume Search](resume_search.png)
+I started Omnigres because data-centric application development was getting more
+complex and I was seeking an antidote for that. I believe Postgres can be a great
+platform for such applications, especially considering its popularity. It needs a
+much improved DX and a constellations of extensions that would make it just perfect.
+That's Omnigres.

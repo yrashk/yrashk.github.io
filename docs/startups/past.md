@@ -4,6 +4,17 @@ title: Past Startups
 
 # Past Startups
 
+## HackerIntro (2021-2023) { #hackerintro }
+
+Started as a way to deal with inefficiencies and annoyances of finding
+developers and finding jobs for those said developers.
+
+Its current main product is [Resume Search](https://hackerintro.com/resume-search),
+it crawls and indexes developer resumes 24/7 and provides access to this database to
+subscribers.
+
+I wasn't able to grow it sufficiently and have shut it down.
+
 ## Trustatom (2014-2015) { #trustatom }
 
 After deparing Trustatom I travelled to Asia to reset. While in Japan, I came up with the idea of
@@ -61,3 +72,5 @@ An early startup trying to build a web-based [Getting Things Done](https://en.wi
 Had some fun ideas but wasn't able to market it.
 
 !!! tip "The domain is still owned by a friend of mine who was a partner in this venture"
+
+![Resume Search](resume_search.png)
