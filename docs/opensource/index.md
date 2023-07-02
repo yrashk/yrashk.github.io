@@ -24,6 +24,10 @@ needed.
 
     I am most actively involved in this project at the moment.
 
+### [libfyaml](https://github.com/pantoniou/libfyaml)
+
+I am actively [contributing](https://github.com/pantoniou/libfyaml/pulls?q=is%3Apr+author%3Ayrashk+) to this YAML library for C.
+
 ### [pgrx](https://github.com/tcdi/pgrx)
 
 !!! tip "Previously known as `pgx`"
