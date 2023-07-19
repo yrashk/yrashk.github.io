@@ -8,7 +8,7 @@ categories:
 # Omnigres Developer Experience
 
 Software developer's job is not an easy one; anything that makes it less
-frustrating and makes them more productive is highly sought for. This is why
+frustrating and makes developers more productive is highly sought for. This is why
 the most successful developer tools are usually the ones that have an amazing
 developer experience.
 
@@ -26,7 +26,7 @@ used to having database workflows distinct from our development activities
 One of the core idea in Omnigres is that your database can run your application, too.
 There are many reasons for that (performance, simpler and cheaper deployment,
 atomic migrations, etc.). What's important is that this means we have to make the development
-experience of this approach familiar, smooth and, dare I to say, a bit magical.
+experience of this approach familiar, smooth and, dare I say, a bit magical.
 
 Omnigres is still a young project. It has already contributed to an improved experience,
 but let's __peak into the future__ and see a more complete picture of where it's going.
@@ -52,7 +52,7 @@ you're running a version you need.
 
 ## Managing schema migrations
 
-You don't really need an external tool to do the well-known incremental migrations,
+You don't really need an external tool to run incremental migrations,
 your database is perfectly capable of doing that. [omni_schema](https://docs.omnigres.org/omni_schema/reference/)
 loads all your migration files in the correct order. Similar to many projects, simply put
 an order-prefixed (`1_create_users.sql`, `2_add_deleted_at_to_users.sql` or a
@@ -61,14 +61,13 @@ the tooling will pick those up to run the migrations.
 
 And for cases where incremental migrations can be unambiguously deduced
 from a DDL (with hints or without), it can make your life even easier: simply
-edit the your `create table` statement in place.
+edit your `create table` statement in place.
 
 ## Putting functionality into Postgres
 
 One of the reasons people avoid putting functions inside of Postgres is that
-the very experience of doing so can be frustrating. Should they be created as parts
-of migrations to ensure they are used with the correct data model? 
-Should they be deployed separately?
+the very experience of doing so can be frustrating. Should they be part of incremental
+migrations to ensure they are used with the correct data model? Should they be deployed separately?
 
 Since we don't really need to change functions incrementally, functions can be
 simply reloaded from a single source of truth. That's what
@@ -88,7 +87,7 @@ inside Postgres?
 
 But you know what sucks the most today when you have to write a function in one of those languages?
 You have to stick it inside of SQL and your editors are mostly not very helpful after that, as this
-is no longer a Python file.
+is no longer a [Python | JavaScript | Rust] file.
 
 ```postgresql hl_lines="4-8"
 create function pymax(a integer, b integer)
@@ -107,12 +106,12 @@ create SQL functions out of them.
 
 ## How do I develop my web applications end-to-end?
 
-Without prescribing the single best approach (there probably isn't!), Omnigres offers a few components
+Without prescribing a single best approach (there probably isn't!), Omnigres offers a few components
 and approaches:
 
 * HTML templates
 * REST/GraphQL integration
-* Over-the-wire components (similar to [Phoenix LiveVew](https://github.com/phoenixframework/phoenix_live_view)
+* Over-the-wire components (similar to [Phoenix LiveVew](https://github.com/phoenixframework/phoenix_live_view))
 * Integrated UI framework ([SQLPage](https://sql.ophir.dev/) is a source of inspiration)  
 
 As with functions, all of these are developed in regular files so that the experience is
@@ -179,11 +178,25 @@ an external job server (and maybe even Redis for it?) Omnigres has an embedded j
 server that uses local and remote workers to complete these. Jobs benefit from being
 close to data and can be trigerred by reactive queries, too.
 
+## Scaling
+
+Even though your need in extra computing goes down when performance is higher, you will
+need to scale at some point. Building on and augmenting Postgres' own replication facilities,
+Omnigres can grow your deployment smoothly. Having control over migrations workflow gives us 
+better control over scaling roll out and schema synchronization.
+
+Beyond physical and logical replication, novel approaches like Neon DB can also facilitate
+beter scaling and elastic resource use.
+
+Think about it this way: Omnigres is ultimately an application server with a database inside.
+That database's replication, foreign data wrappers and elastic provisioning allows the application
+server to scale horizontally.
+
 ## What do I do with legacy pieces?
 
 Don't throw them out! Also, you don't have to rewrite them right away, either. Omnigres platform can also
 be used as a manager/orchestrator for external components (like containers[^omni_containers]) so that you maintain the source of truth
-in a single place and can query or direct traffic to these components based on the data you have.
+in a single place and can query against or sent traffic to these components based on the data you have.
 
 [^omni_containers]: There's [omni_containers extension](https://github.com/omnigres/omnigres/tree/master/extensions/omni_containers) already,
 but it's not quite documented yet.
