@@ -108,6 +108,7 @@ nav:
      - Past: startups/past.md
      - Ideas: startups/ideas.md
   - Blog: blog/index.md
+  - Awesome: awesome/index.md
 
 extra:
   social:
