@@ -1,15 +1,19 @@
 # About Me
 
-__Professionally__, I am a software developer with a keen interest in reducing complexity with over 30 years of professional
-experience.
+__Professionally__, I am a software developer and entrepreneur with a keen
+interest in reducing complexity with over 30 years of professional experience.
 
-Presently, I am doing a lot of work concerning using and extending [Postgres](postgres) database (extension development, [open source](opensource)
-involvement, [advisory](/call/consulting)). 
+I am a cofounder at [Omnigres](https://omnigres.com), where we aspire to radically
+improve the efficiency of data-intensive software delivery by extending Postgres
+to make it good at a lot of things.
+
+I have been involved in [open source](opensource) for a long time.
 
 ??? question "Which programming languages do I use?"
 
-    These days, I use a lot of ==Rust== and ==C== (more of the latter when it comes to integrating with other software, like Postgres). Naturally,
-    due to my current work, I am also doing a lot of SQL.
+    These days, I write a lot of ==C==, some ==Logtalk==, some occassional ==OCaml== and ==Rust==.
+
+    I like languages that change or augment the way I think about programming.
 
     That being said, I know a lot of other languages (to varying degrees of competency), such as: JavaScript, Ruby, [Zig](https://ziglang.org), Java,
     Python, etc.
