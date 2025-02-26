@@ -1,0 +1,65 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<rss version="2.0" xmlns:atom="http://www.w3.org/2005/Atom" xmlns:dc="http://purl.org/dc/elements/1.1/">
+  <channel>
+    
+    <title>Yurii Rashkovskii</title>
+    <description>Writings on software development and work practices, entrepreneurship, tech in general.</description>
+    <link>https://yrashk.com/</link>
+    <atom:link href="https://yrashk.com/rss/containers.xml" rel="self" type="application/rss+xml" />
+
+    
+    
+    
+    <language>en-None</language>
+
+    
+    <pubDate>Wed, 26 Feb 2025 12:03:19 -0000</pubDate>
+    <lastBuildDate>Wed, 26 Feb 2025 12:03:19 -0000</lastBuildDate>
+    <ttl>1440</ttl>
+
+    
+    <generator>MkDocs RSS plugin - v1.6.0</generator>
+
+    
+    
+
+    
+    
+    <item>
+      <title>PL/Rust Just Shipped: Easy Way to Try It Out</title>
+      
+      
+        
+      <author>yrashk</author>
+        
+      
+      
+      
+        
+      <category>Docker</category>
+        
+      <category>Omnigres</category>
+        
+      <category>Postgres</category>
+        
+      <category>Rust</category>
+        
+      <category>containers</category>
+        
+      
+      <description>&lt;h1&gt;PL/Rust Just Shipped: Easy Way to Try It Out&lt;/h1&gt;
+&lt;p&gt;As a Rust enthusiast and a contributor to a &lt;a href=&#34;https://github.com/tcdi/pgx&#34;&gt;sister
+project&lt;/a&gt; I am stoked about the release of PL/Rust
+1.0.0 that was &lt;a href=&#34;https://github.com/tcdi/plrust/releases/tag/v1.0.0&#34;&gt;just announced&lt;/a&gt;.&lt;/p&gt;
+&lt;p&gt;However, its setup instructions are rather long and it takes time to build it. So I
+took the time to prepare a build for you to try.&lt;/p&gt;</description>
+      <link>https://yrashk.com/blog/2023/04/05/plrust-just-shipped-easy-way-to-try-it-out/</link>
+      <pubDate>Wed, 05 Apr 2023 00:00:00 +0000</pubDate>
+      <source url="https://yrashk.com/rss/containers.xml">Yurii Rashkovskii</source>
+      
+      <guid isPermaLink="true">https://yrashk.com/blog/2023/04/05/plrust-just-shipped-easy-way-to-try-it-out/</guid>
+      
+    </item>
+    
+  </channel>
+</rss>

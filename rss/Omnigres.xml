@@ -1,0 +1,256 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<rss version="2.0" xmlns:atom="http://www.w3.org/2005/Atom" xmlns:dc="http://purl.org/dc/elements/1.1/">
+  <channel>
+    
+    <title>Yurii Rashkovskii</title>
+    <description>Writings on software development and work practices, entrepreneurship, tech in general.</description>
+    <link>https://yrashk.com/</link>
+    <atom:link href="https://yrashk.com/rss/Omnigres.xml" rel="self" type="application/rss+xml" />
+
+    
+    
+    
+    <language>en-None</language>
+
+    
+    <pubDate>Wed, 26 Feb 2025 12:03:19 -0000</pubDate>
+    <lastBuildDate>Wed, 26 Feb 2025 12:03:19 -0000</lastBuildDate>
+    <ttl>1440</ttl>
+
+    
+    <generator>MkDocs RSS plugin - v1.6.0</generator>
+
+    
+    
+
+    
+    
+    <item>
+      <title>Omnigres Developer Experience</title>
+      
+      
+        
+      <author>yrashk</author>
+        
+      
+      
+      
+        
+      <category>D3X</category>
+        
+      <category>Omnigres</category>
+        
+      
+      <description>&lt;h1&gt;Omnigres Developer Experience&lt;/h1&gt;
+&lt;p&gt;Software developer&#39;s job is not an easy one; anything that makes it less
+frustrating and makes developers more productive is highly sought for. This is why
+the most successful developer tools are usually the ones that have an amazing
+developer experience.&lt;/p&gt;
+&lt;p&gt;&lt;a href=&#34;https://omnigres.com&#34;&gt;Omnigres&lt;/a&gt; turns Postgres into a complete Application
+Platform, and by doing that, we must focus on &lt;em&gt;Development, Debugging and
+Deployment Experience (D3X)&lt;/em&gt; as the #1 priority.&lt;/p&gt;</description>
+      <link>https://yrashk.com/blog/2023/07/20/omnigres-developer-experience/</link>
+      <pubDate>Thu, 20 Jul 2023 00:00:00 +0000</pubDate>
+      <source url="https://yrashk.com/rss/Omnigres.xml">Yurii Rashkovskii</source>
+      
+      <guid isPermaLink="true">https://yrashk.com/blog/2023/07/20/omnigres-developer-experience/</guid>
+      
+    </item>
+    
+    <item>
+      <title>Structured Postgres Regression Tests</title>
+      
+      
+        
+      <author>yrashk</author>
+        
+      
+      
+      
+        
+      <category>Omnigres</category>
+        
+      <category>Postgres</category>
+        
+      
+      <description>&lt;h1&gt;Structured Postgres Regression Tests&lt;/h1&gt;
+&lt;p&gt;I&#39;ve been using &lt;code&gt;pg_regress&lt;/code&gt; tests for a while. It&#39;s generally a great way to ensure
+the behavior of your Postgres code works and continues working as expected. However,
+as my tests became larger, I started getting lost in them; and there are limits as to
+what you can test by having a &lt;code&gt;psql&lt;/code&gt; session.&lt;/p&gt;</description>
+      <link>https://yrashk.com/blog/2023/04/23/structured-postgres-regression-tests/</link>
+      <pubDate>Sun, 23 Apr 2023 00:00:00 +0000</pubDate>
+      <source url="https://yrashk.com/rss/Omnigres.xml">Yurii Rashkovskii</source>
+      
+      <guid isPermaLink="true">https://yrashk.com/blog/2023/04/23/structured-postgres-regression-tests/</guid>
+      
+    </item>
+    
+    <item>
+      <title>Sum Types in Postgres</title>
+      
+      
+        
+      <author>yrashk</author>
+        
+      
+      
+      
+        
+      <category>Omnigres</category>
+        
+      <category>Postgres</category>
+        
+      <category>types</category>
+        
+      
+      <description>&lt;h1&gt;Sum Types in Postgres&lt;/h1&gt;
+&lt;p&gt;At times, representing the variety of types a value can take through multiple tables can taxing, both
+in terms of development complexity as well as, potentially, performance. You must just need a value
+to be of any of the given variants. I&#39;ve set out to build a generalized mechanism for defining these. &lt;/p&gt;</description>
+      <link>https://yrashk.com/blog/2023/04/09/sum-types-in-postgres/</link>
+      <pubDate>Sun, 09 Apr 2023 00:00:00 +0000</pubDate>
+      <source url="https://yrashk.com/rss/Omnigres.xml">Yurii Rashkovskii</source>
+      
+      <guid isPermaLink="true">https://yrashk.com/blog/2023/04/09/sum-types-in-postgres/</guid>
+      
+    </item>
+    
+    <item>
+      <title>PL/Rust Just Shipped: Easy Way to Try It Out</title>
+      
+      
+        
+      <author>yrashk</author>
+        
+      
+      
+      
+        
+      <category>Docker</category>
+        
+      <category>Omnigres</category>
+        
+      <category>Postgres</category>
+        
+      <category>Rust</category>
+        
+      <category>containers</category>
+        
+      
+      <description>&lt;h1&gt;PL/Rust Just Shipped: Easy Way to Try It Out&lt;/h1&gt;
+&lt;p&gt;As a Rust enthusiast and a contributor to a &lt;a href=&#34;https://github.com/tcdi/pgx&#34;&gt;sister
+project&lt;/a&gt; I am stoked about the release of PL/Rust
+1.0.0 that was &lt;a href=&#34;https://github.com/tcdi/plrust/releases/tag/v1.0.0&#34;&gt;just announced&lt;/a&gt;.&lt;/p&gt;
+&lt;p&gt;However, its setup instructions are rather long and it takes time to build it. So I
+took the time to prepare a build for you to try.&lt;/p&gt;</description>
+      <link>https://yrashk.com/blog/2023/04/05/plrust-just-shipped-easy-way-to-try-it-out/</link>
+      <pubDate>Wed, 05 Apr 2023 00:00:00 +0000</pubDate>
+      <source url="https://yrashk.com/rss/Omnigres.xml">Yurii Rashkovskii</source>
+      
+      <guid isPermaLink="true">https://yrashk.com/blog/2023/04/05/plrust-just-shipped-easy-way-to-try-it-out/</guid>
+      
+    </item>
+    
+    <item>
+      <title>Make Postgres an Application Server, Gamified</title>
+      
+      
+        
+      <author>yrashk</author>
+        
+      
+      
+      
+        
+      <category>Omnigres</category>
+        
+      <category>Postgres</category>
+        
+      <category>contest</category>
+        
+      
+      <description>&lt;h1&gt;Make Postgres an Application Server, Gamified&lt;/h1&gt;
+&lt;p&gt;Have you ever wondered if Postgres can be a fully self-sufficient platform for your
+application? Learn how to make it become an application server and win some prizes, too!&lt;/p&gt;</description>
+      <link>https://yrashk.com/blog/2023/04/04/make-postgres-an-application-server-gamified/</link>
+      <pubDate>Tue, 04 Apr 2023 00:00:00 +0000</pubDate>
+      <source url="https://yrashk.com/rss/Omnigres.xml">Yurii Rashkovskii</source>
+      
+      <guid isPermaLink="true">https://yrashk.com/blog/2023/04/04/make-postgres-an-application-server-gamified/</guid>
+      
+    </item>
+    
+    <item>
+      <title>What happens if you put HTTP server inside Postgres?</title>
+      
+      
+        
+      <author>yrashk</author>
+        
+      
+      
+      
+        
+      <category>Omnigres</category>
+        
+      <category>Postgres</category>
+        
+      <category>performance</category>
+        
+      
+      <description>&lt;h1&gt;What happens if you put HTTP server inside Postgres?&lt;/h1&gt;
+&lt;p&gt;Benchmarks and performance claims are attention-grabbers, but that&#39;s not what
+drew me to work on Omnigres. When I first built a prototype of its HTTP server,
+I didn&#39;t foresee the desire to share the numbers. As we all know, getting
+benchmarks right is hard, and everybody&#39;s mileage may vary. But I&#39;ll show
+you some numbers here anyway. It&#39;ll be great to validate or invalidate my
+findings!&lt;/p&gt;</description>
+      <link>https://yrashk.com/blog/2023/02/16/what-happens-if-you-put-http-server-inside-postgres/</link>
+      <pubDate>Thu, 16 Feb 2023 00:00:00 +0000</pubDate>
+      <source url="https://yrashk.com/rss/Omnigres.xml">Yurii Rashkovskii</source>
+      
+      <guid isPermaLink="true">https://yrashk.com/blog/2023/02/16/what-happens-if-you-put-http-server-inside-postgres/</guid>
+      
+    </item>
+    
+    <item>
+      <title>Why not Rust for Omnigres?</title>
+      
+      
+        
+      <author>yrashk</author>
+        
+      
+      
+      
+        
+      <category>C</category>
+        
+      <category>Omnigres</category>
+        
+      <category>Postgres</category>
+        
+      <category>Rust</category>
+        
+      
+      <description>&lt;h1&gt;Why not Rust for Omnigres?&lt;/h1&gt;
+&lt;p&gt;&lt;a href=&#34;https://github.com/omnigres/omnigres&#34;&gt;Omnigres&lt;/a&gt; is a new project to turn
+Postgres into a complete development and production deployment platform. I&#39;ve
+started it to reflect on the complexity and inefficiencies plaguing modern
+business software development.&lt;/p&gt;
+&lt;p&gt;As an aging (and sometimes cranky!) developer, I crave simplicity. But that&#39;s a
+topic for another post. Here I wanted to address a common question:&lt;/p&gt;
+&lt;blockquote&gt;
+&lt;p&gt;&lt;strong&gt;Why didn&#39;t you implement this in Rust?&lt;/strong&gt;&lt;/p&gt;
+&lt;/blockquote&gt;</description>
+      <link>https://yrashk.com/blog/2023/01/07/why-not-rust-for-omnigres/</link>
+      <pubDate>Sat, 07 Jan 2023 00:00:00 +0000</pubDate>
+      <source url="https://yrashk.com/rss/Omnigres.xml">Yurii Rashkovskii</source>
+      
+      <guid isPermaLink="true">https://yrashk.com/blog/2023/01/07/why-not-rust-for-omnigres/</guid>
+      
+    </item>
+    
+  </channel>
+</rss>

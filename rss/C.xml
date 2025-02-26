@@ -1,0 +1,67 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<rss version="2.0" xmlns:atom="http://www.w3.org/2005/Atom" xmlns:dc="http://purl.org/dc/elements/1.1/">
+  <channel>
+    
+    <title>Yurii Rashkovskii</title>
+    <description>Writings on software development and work practices, entrepreneurship, tech in general.</description>
+    <link>https://yrashk.com/</link>
+    <atom:link href="https://yrashk.com/rss/C.xml" rel="self" type="application/rss+xml" />
+
+    
+    
+    
+    <language>en-None</language>
+
+    
+    <pubDate>Wed, 26 Feb 2025 12:03:19 -0000</pubDate>
+    <lastBuildDate>Wed, 26 Feb 2025 12:03:19 -0000</lastBuildDate>
+    <ttl>1440</ttl>
+
+    
+    <generator>MkDocs RSS plugin - v1.6.0</generator>
+
+    
+    
+
+    
+    
+    <item>
+      <title>Why not Rust for Omnigres?</title>
+      
+      
+        
+      <author>yrashk</author>
+        
+      
+      
+      
+        
+      <category>C</category>
+        
+      <category>Omnigres</category>
+        
+      <category>Postgres</category>
+        
+      <category>Rust</category>
+        
+      
+      <description>&lt;h1&gt;Why not Rust for Omnigres?&lt;/h1&gt;
+&lt;p&gt;&lt;a href=&#34;https://github.com/omnigres/omnigres&#34;&gt;Omnigres&lt;/a&gt; is a new project to turn
+Postgres into a complete development and production deployment platform. I&#39;ve
+started it to reflect on the complexity and inefficiencies plaguing modern
+business software development.&lt;/p&gt;
+&lt;p&gt;As an aging (and sometimes cranky!) developer, I crave simplicity. But that&#39;s a
+topic for another post. Here I wanted to address a common question:&lt;/p&gt;
+&lt;blockquote&gt;
+&lt;p&gt;&lt;strong&gt;Why didn&#39;t you implement this in Rust?&lt;/strong&gt;&lt;/p&gt;
+&lt;/blockquote&gt;</description>
+      <link>https://yrashk.com/blog/2023/01/07/why-not-rust-for-omnigres/</link>
+      <pubDate>Sat, 07 Jan 2023 00:00:00 +0000</pubDate>
+      <source url="https://yrashk.com/rss/C.xml">Yurii Rashkovskii</source>
+      
+      <guid isPermaLink="true">https://yrashk.com/blog/2023/01/07/why-not-rust-for-omnigres/</guid>
+      
+    </item>
+    
+  </channel>
+</rss>

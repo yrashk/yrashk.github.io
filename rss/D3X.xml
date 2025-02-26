@@ -1,0 +1,61 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<rss version="2.0" xmlns:atom="http://www.w3.org/2005/Atom" xmlns:dc="http://purl.org/dc/elements/1.1/">
+  <channel>
+    
+    <title>Yurii Rashkovskii</title>
+    <description>Writings on software development and work practices, entrepreneurship, tech in general.</description>
+    <link>https://yrashk.com/</link>
+    <atom:link href="https://yrashk.com/rss/D3X.xml" rel="self" type="application/rss+xml" />
+
+    
+    
+    
+    <language>en-None</language>
+
+    
+    <pubDate>Wed, 26 Feb 2025 12:03:19 -0000</pubDate>
+    <lastBuildDate>Wed, 26 Feb 2025 12:03:19 -0000</lastBuildDate>
+    <ttl>1440</ttl>
+
+    
+    <generator>MkDocs RSS plugin - v1.6.0</generator>
+
+    
+    
+
+    
+    
+    <item>
+      <title>Omnigres Developer Experience</title>
+      
+      
+        
+      <author>yrashk</author>
+        
+      
+      
+      
+        
+      <category>D3X</category>
+        
+      <category>Omnigres</category>
+        
+      
+      <description>&lt;h1&gt;Omnigres Developer Experience&lt;/h1&gt;
+&lt;p&gt;Software developer&#39;s job is not an easy one; anything that makes it less
+frustrating and makes developers more productive is highly sought for. This is why
+the most successful developer tools are usually the ones that have an amazing
+developer experience.&lt;/p&gt;
+&lt;p&gt;&lt;a href=&#34;https://omnigres.com&#34;&gt;Omnigres&lt;/a&gt; turns Postgres into a complete Application
+Platform, and by doing that, we must focus on &lt;em&gt;Development, Debugging and
+Deployment Experience (D3X)&lt;/em&gt; as the #1 priority.&lt;/p&gt;</description>
+      <link>https://yrashk.com/blog/2023/07/20/omnigres-developer-experience/</link>
+      <pubDate>Thu, 20 Jul 2023 00:00:00 +0000</pubDate>
+      <source url="https://yrashk.com/rss/D3X.xml">Yurii Rashkovskii</source>
+      
+      <guid isPermaLink="true">https://yrashk.com/blog/2023/07/20/omnigres-developer-experience/</guid>
+      
+    </item>
+    
+  </channel>
+</rss>

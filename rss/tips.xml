@@ -1,0 +1,63 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<rss version="2.0" xmlns:atom="http://www.w3.org/2005/Atom" xmlns:dc="http://purl.org/dc/elements/1.1/">
+  <channel>
+    
+    <title>Yurii Rashkovskii</title>
+    <description>Writings on software development and work practices, entrepreneurship, tech in general.</description>
+    <link>https://yrashk.com/</link>
+    <atom:link href="https://yrashk.com/rss/tips.xml" rel="self" type="application/rss+xml" />
+
+    
+    
+    
+    <language>en-None</language>
+
+    
+    <pubDate>Wed, 26 Feb 2025 12:03:19 -0000</pubDate>
+    <lastBuildDate>Wed, 26 Feb 2025 12:03:19 -0000</lastBuildDate>
+    <ttl>1440</ttl>
+
+    
+    <generator>MkDocs RSS plugin - v1.6.0</generator>
+
+    
+    
+
+    
+    
+    <item>
+      <title>Avoiding Postgres Extensions Limitations</title>
+      
+      
+        
+      <author>yrashk</author>
+        
+      
+      
+      
+        
+      <category>Postgres</category>
+        
+      <category>tips</category>
+        
+      
+      <description>&lt;h1&gt;Avoiding Postgres Extensions Limitations&lt;/h1&gt;
+&lt;p&gt;Postgres extensions are great. They enable fantastic use cases and bring new
+capabilities to one of the most loved open source databases. But there are
+edges in some of its features and this can be heard in conversations:
+limitations of the upgrade system, lack of parameterized initialization, search
+path/OID resolution issues, hard-wired dependency on &lt;code&gt;.control&lt;/code&gt; files,
+schema droppage [^droppage], etc.&lt;/p&gt;
+&lt;p&gt;However, the beauty of it is that what we &lt;em&gt;ultimately&lt;/em&gt; want from extensions does not
+&lt;em&gt;need&lt;/em&gt; to use &lt;code&gt;CREATE EXTENSION&lt;/code&gt;&#39;s framework.&lt;/p&gt;
+&lt;p&gt;[^droppage]: Unless explicitly depended on afterwards&lt;/p&gt;</description>
+      <link>https://yrashk.com/blog/2023/04/10/avoiding-postgres-extensions-limitations/</link>
+      <pubDate>Mon, 10 Apr 2023 00:00:00 +0000</pubDate>
+      <source url="https://yrashk.com/rss/tips.xml">Yurii Rashkovskii</source>
+      
+      <guid isPermaLink="true">https://yrashk.com/blog/2023/04/10/avoiding-postgres-extensions-limitations/</guid>
+      
+    </item>
+    
+  </channel>
+</rss>

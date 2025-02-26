@@ -1,0 +1,62 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<rss version="2.0" xmlns:atom="http://www.w3.org/2005/Atom" xmlns:dc="http://purl.org/dc/elements/1.1/">
+  <channel>
+    
+    <title>Yurii Rashkovskii</title>
+    <description>Writings on software development and work practices, entrepreneurship, tech in general.</description>
+    <link>https://yrashk.com/</link>
+    <atom:link href="https://yrashk.com/rss/performance.xml" rel="self" type="application/rss+xml" />
+
+    
+    
+    
+    <language>en-None</language>
+
+    
+    <pubDate>Wed, 26 Feb 2025 12:03:19 -0000</pubDate>
+    <lastBuildDate>Wed, 26 Feb 2025 12:03:19 -0000</lastBuildDate>
+    <ttl>1440</ttl>
+
+    
+    <generator>MkDocs RSS plugin - v1.6.0</generator>
+
+    
+    
+
+    
+    
+    <item>
+      <title>What happens if you put HTTP server inside Postgres?</title>
+      
+      
+        
+      <author>yrashk</author>
+        
+      
+      
+      
+        
+      <category>Omnigres</category>
+        
+      <category>Postgres</category>
+        
+      <category>performance</category>
+        
+      
+      <description>&lt;h1&gt;What happens if you put HTTP server inside Postgres?&lt;/h1&gt;
+&lt;p&gt;Benchmarks and performance claims are attention-grabbers, but that&#39;s not what
+drew me to work on Omnigres. When I first built a prototype of its HTTP server,
+I didn&#39;t foresee the desire to share the numbers. As we all know, getting
+benchmarks right is hard, and everybody&#39;s mileage may vary. But I&#39;ll show
+you some numbers here anyway. It&#39;ll be great to validate or invalidate my
+findings!&lt;/p&gt;</description>
+      <link>https://yrashk.com/blog/2023/02/16/what-happens-if-you-put-http-server-inside-postgres/</link>
+      <pubDate>Thu, 16 Feb 2023 00:00:00 +0000</pubDate>
+      <source url="https://yrashk.com/rss/performance.xml">Yurii Rashkovskii</source>
+      
+      <guid isPermaLink="true">https://yrashk.com/blog/2023/02/16/what-happens-if-you-put-http-server-inside-postgres/</guid>
+      
+    </item>
+    
+  </channel>
+</rss>

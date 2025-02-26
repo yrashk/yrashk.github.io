@@ -1,0 +1,59 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<rss version="2.0" xmlns:atom="http://www.w3.org/2005/Atom" xmlns:dc="http://purl.org/dc/elements/1.1/">
+  <channel>
+    
+    <title>Yurii Rashkovskii</title>
+    <description>Writings on software development and work practices, entrepreneurship, tech in general.</description>
+    <link>https://yrashk.com/</link>
+    <atom:link href="https://yrashk.com/rss/types.xml" rel="self" type="application/rss+xml" />
+
+    
+    
+    
+    <language>en-None</language>
+
+    
+    <pubDate>Wed, 26 Feb 2025 12:03:19 -0000</pubDate>
+    <lastBuildDate>Wed, 26 Feb 2025 12:03:19 -0000</lastBuildDate>
+    <ttl>1440</ttl>
+
+    
+    <generator>MkDocs RSS plugin - v1.6.0</generator>
+
+    
+    
+
+    
+    
+    <item>
+      <title>Sum Types in Postgres</title>
+      
+      
+        
+      <author>yrashk</author>
+        
+      
+      
+      
+        
+      <category>Omnigres</category>
+        
+      <category>Postgres</category>
+        
+      <category>types</category>
+        
+      
+      <description>&lt;h1&gt;Sum Types in Postgres&lt;/h1&gt;
+&lt;p&gt;At times, representing the variety of types a value can take through multiple tables can taxing, both
+in terms of development complexity as well as, potentially, performance. You must just need a value
+to be of any of the given variants. I&#39;ve set out to build a generalized mechanism for defining these. &lt;/p&gt;</description>
+      <link>https://yrashk.com/blog/2023/04/09/sum-types-in-postgres/</link>
+      <pubDate>Sun, 09 Apr 2023 00:00:00 +0000</pubDate>
+      <source url="https://yrashk.com/rss/types.xml">Yurii Rashkovskii</source>
+      
+      <guid isPermaLink="true">https://yrashk.com/blog/2023/04/09/sum-types-in-postgres/</guid>
+      
+    </item>
+    
+  </channel>
+</rss>

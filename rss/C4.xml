@@ -1,0 +1,59 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<rss version="2.0" xmlns:atom="http://www.w3.org/2005/Atom" xmlns:dc="http://purl.org/dc/elements/1.1/">
+  <channel>
+    
+    <title>Yurii Rashkovskii</title>
+    <description>Writings on software development and work practices, entrepreneurship, tech in general.</description>
+    <link>https://yrashk.com/</link>
+    <atom:link href="https://yrashk.com/rss/C4.xml" rel="self" type="application/rss+xml" />
+
+    
+    
+    
+    <language>en-None</language>
+
+    
+    <pubDate>Wed, 26 Feb 2025 12:03:19 -0000</pubDate>
+    <lastBuildDate>Wed, 26 Feb 2025 12:03:19 -0000</lastBuildDate>
+    <ttl>1440</ttl>
+
+    
+    <generator>MkDocs RSS plugin - v1.6.0</generator>
+
+    
+    
+
+    
+    
+    <item>
+      <title>Solving Problems, One Commit at a Time</title>
+      
+      
+        
+      <author>yrashk</author>
+        
+      
+      
+      
+        
+      <category>C4</category>
+        
+      <category>Git</category>
+        
+      <category>practices</category>
+        
+      
+      <description>&lt;h1&gt;Solving Problems, One Commit at a Time&lt;/h1&gt;
+&lt;p&gt;If you have been following some of my projects in the past year or so, you
+might have noticed that the my commit messages changed considerably and they no
+longer look typical. Take a look at this one:&lt;/p&gt;</description>
+      <link>https://yrashk.com/blog/2017/09/04/solving-problems-one-commit-at-a-time/</link>
+      <pubDate>Mon, 04 Sep 2017 00:00:00 +0000</pubDate>
+      <source url="https://yrashk.com/rss/C4.xml">Yurii Rashkovskii</source>
+      
+      <guid isPermaLink="true">https://yrashk.com/blog/2017/09/04/solving-problems-one-commit-at-a-time/</guid>
+      
+    </item>
+    
+  </channel>
+</rss>
