@@ -77,7 +77,6 @@ plugins:
           remove_comments: true
   - blog:
       archive: false
-      authors_file: "blog/.authors.yml"
   - search
   - include-markdown
   - privacy:

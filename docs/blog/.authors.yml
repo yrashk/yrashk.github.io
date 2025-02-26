@@ -1,3 +1,5 @@
-yrashk:
-  name: Yurii Rashkovskii
-  avatar: https://yrashk.com/profile-pic.png
+authors:
+  yrashk:
+    name: Yurii Rashkovskii
+    description: Author
+    avatar: https://yrashk.com/profile-pic.png
