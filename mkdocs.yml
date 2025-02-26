@@ -107,7 +107,8 @@ nav:
      - Current: startups/current.md
      - Past: startups/past.md
      - Ideas: startups/ideas.md
-  - Blog: blog/index.md
+  - Blog:
+     - blog/index.md
   - Awesome: awesome/index.md
 
 extra:
