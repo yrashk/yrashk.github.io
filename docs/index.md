@@ -23,10 +23,3 @@ I have been involved in [open source](opensource) for a long time.
 
 __In personal life__, I am a husband and a father of one amazing daughter. I enjoy running, skiing, cycling and outdoors in general. Trying to figure out
 sailing.
-
----
-
-[:simple-github:](https://github.com/yrashk)
-[:simple-twitter:](https://twitter.com/yrashk)
-[:simple-linkedin:](https://www.linkedin.com/in/yrashk)
-[:simple-telegram:](https://t.me/yrashk)
