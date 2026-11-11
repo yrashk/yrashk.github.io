@@ -451,6 +451,7 @@ for (const [target, paths] of Object.entries(RETIRED)) {
   for (const p of paths) {
     write(join(p, "index.html"), `<!doctype html>
 <html lang="en"><head><meta charset="utf-8"><title>Moved — ${esc(SITE_TITLE)}</title>
+<link rel="icon" href="/favicon-32x32.png" sizes="32x32" type="image/png">
 <meta name="robots" content="noindex"><meta http-equiv="refresh" content="0; url=${target}"><link rel="canonical" href="${canonical}">
 ${PREPAINT}
 <style>:root,:root[data-theme="dark"]{--desk:#0a0c0f;--bone:#e9e4d9;--signal:#ff6a3d}:root[data-theme="paper"]{--desk:#e4ded2;--bone:#17191c;--signal:#d9481f;color-scheme:light}body{margin:0;min-height:100vh;display:grid;place-items:center;background:var(--desk);color:var(--bone);font:15px/1.6 ui-monospace,Menlo,monospace}a{color:var(--signal)}</style></head>
@@ -469,7 +470,8 @@ ${PREPAINT}
   // a quoted string that is the file's name, optionally preceded by a path: "contributions.ttl", '/data/atlas.ttl', "./sparql.js"
   const stamp = (text, versions) =>
     versions.reduce((t, [name, v]) => t.replace(new RegExp(`(["'\`])((?:\\.{0,2}/)?(?:[\\w.-]+/)*)${reEsc(name)}\\1`, "g"), (_, q, dir) => `${q}${dir}${name}?v=${v}${q}`), text);
-  const leaves = [...walk(join(DIST, "data")), ...walk(join(DIST, "vendor"))].map((f) => [basename(f), hash(f)]);
+  const icons = readdirSync(DIST).filter((f) => /^(favicon|apple-touch-icon)/.test(f)).map((f) => join(DIST, f));
+  const leaves = [...walk(join(DIST, "data")), ...walk(join(DIST, "vendor")), ...icons].map((f) => [basename(f), hash(f)]);
   const sparql = join(DIST, "sparql.js");
   if (existsSync(sparql)) {
     writeFileSync(sparql, stamp(readFileSync(sparql, "utf8"), leaves));
