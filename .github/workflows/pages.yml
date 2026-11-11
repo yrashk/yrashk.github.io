@@ -1,32 +1,59 @@
-name: docs
+name: pages
+# Builds yrashk.com and publishes dist/ to the gh-pages branch (GitHub Pages serves that branch).
+# Runs on every push to master, once a day (to refresh GitHub activity data), and on demand.
 on:
   push:
-    branches:
-      - master
+    branches: [master]
+  schedule:
+    - cron: "17 4 * * *" # 04:17 UTC daily
+  workflow_dispatch:
 
 permissions:
   contents: write
+
+concurrency:
+  group: pages
+  cancel-in-progress: true
+
 jobs:
   deploy:
     runs-on: ubuntu-latest
     steps:
-      - uses: actions/checkout@v3
-      - uses: actions/setup-python@v4
-        with:
-          python-version: 3.11
-      - uses: actions/cache@v4
-        with:
-          key: ${{ github.ref }}
-          path: .cache
-      - run: |
-          # For social plugin
-          sudo apt-get update
-          sudo apt-get install -y libcairo2-dev libfreetype6-dev libffi-dev libjpeg-dev libpng-dev libz-dev libxml2-dev  libxslt-dev
-          pip config set global.disable-pip-version-check true
-          pip install git+https://${{secrets.GH_TOKEN}}@github.com/squidfunk/mkdocs-material-insiders.git
-          echo "Filtering out mkdocs-material-insiders"
-          cat requirements.txt | grep -v squidfunk > req.txt
-          echo "Other requirements:"
-          pip install -r req.txt
-      - run: mkdocs gh-deploy --force
+      - uses: actions/checkout@v4
 
+      - uses: actions/setup-node@v4
+        with:
+          node-version: lts/*
+          cache: npm
+
+      - run: npm ci
+
+      # GitHub activity: refresh the committed data files; if the API fails, keep the committed ones.
+      - name: GitHub data
+        env:
+          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+        run: |
+          if node scripts/github-data.mjs site/data; then
+            echo "github-data: refreshed"
+          else
+            echo "::warning::github-data failed; building with the committed site/data/github.* files"
+            git checkout -- site/data/github.json site/data/github.js site/data/contrib.js site/data/github-detail.json
+          fi
+
+      - name: Atlas RDF
+        run: node scripts/atlas-rdf.mjs site/data
+
+      - run: npm run build
+      - run: npm run check
+
+      - name: Deploy to gh-pages
+        uses: peaceiris/actions-gh-pages@v4
+        with:
+          github_token: ${{ secrets.GITHUB_TOKEN }}
+          publish_dir: ./dist
+          publish_branch: gh-pages
+          cname: yrashk.com
+          force_orphan: true
+          user_name: github-actions[bot]
+          user_email: 41898282+github-actions[bot]@users.noreply.github.com
+          commit_message: "Deploy ${{ github.sha }}"

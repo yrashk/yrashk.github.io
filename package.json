@@ -1,0 +1,24 @@
+{
+  "name": "yrashk.com",
+  "private": true,
+  "description": "Static generator for yrashk.com",
+  "type": "module",
+  "engines": {
+    "node": ">=20"
+  },
+  "scripts": {
+    "build": "node scripts/build.mjs",
+    "data": "node scripts/github-data.mjs site/data && node scripts/atlas-rdf.mjs site/data",
+    "serve": "node scripts/serve.mjs",
+    "check": "node scripts/check.mjs"
+  },
+  "dependencies": {
+    "markdown-it": "^14.1.0",
+    "markdown-it-anchor": "^9.2.0",
+    "markdown-it-attrs": "^4.3.1",
+    "markdown-it-container": "^4.0.0",
+    "markdown-it-footnote": "^4.0.0",
+    "markdown-it-mark": "^4.0.0",
+    "shiki": "^3.4.0"
+  }
+}

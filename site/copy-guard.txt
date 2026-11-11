@@ -1,0 +1,25 @@
+# Copy guard: phrases that must never appear in the built site.
+# One entry per line: a plain phrase (matched case-insensitively) or a /regex/.
+# `npm run check` scans the visible text of every page (text, title, alt, aria-label, meta,
+# UI strings in scripts; not code blocks or comments) and data/atlas.json, atlas.ttl, posts.js, notes.js.
+# github.json/github.js are raw API data and are exempt (filtered by github-data.mjs's exclude list).
+
+pelmet                 # a fork he tried; not his project
+thoughtful oddball     # retired label
+exif                   # Shutters copy: useless detail
+contact sheet          # Shutters feature claims
+darkroom               # Shutters feature claims
+/\brim\b/              # wording he dislikes ("outer ring", not "rim")
+outermost charted
+yrashkOS               # internal name only
+pending his pick
+/\bdaughter\b/   # family copy is "his wife and children" (no number, no names)
+/dreadful things/   # old manifesto; now "Technology is most fascinating when you get it to do new things…"
+multiplied by the luck factor   # old startup quote; replaced by "It's my way of converting a calling into a lifelong job…"
+mastodon   # he does not use it; no Mastodon links anywhere
+/discuss\.systems/
+unbuilt, deliberately   # Shelf copy is "not built yet"
+occasional machine   # lede trimmed: "building companies and software"
+/\bCTX \d{4}\b/   # the top-bar context-switch counter was dropped (terminal `sys` may still report ctx)
+domains are for sale   # Track record candor line was dropped
+Open source along the way

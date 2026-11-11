@@ -1,0 +1,246 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Query console — harness</title>
+<meta name="color-scheme" content="dark light">
+<script>
+  // Theme contract (site/DATA.md): ?theme= overrides and is stored; else localStorage; default dark. Before paint.
+  (function(){var t;try{t=new URLSearchParams(location.search).get("theme")||localStorage.getItem("yr-theme")}catch(e){}
+  t=t==="paper"?"paper":"dark";document.documentElement.setAttribute("data-theme",t);try{localStorage.setItem("yr-theme",t)}catch(e){}})();
+</script>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=IBM+Plex+Mono:ital,wght@0,400;0,500;1,400&family=Instrument+Sans:ital,wght@0,400;0,500;0,600;1,400&family=Instrument+Serif:ital@0;1&display=swap" rel="stylesheet">
+<!--
+  Mounts site/app/sparql.js full-window, outside the OS, for testing.
+  Hash hooks: #q=<preset id>  #view=table|graph|schema  #node=<atlas id or IRI>  #sparql=<raw query>
+  Query params: ?theme=dark|paper  ?test=vim (runs the Vim suite, logs [vimtest])  ?test=complete (completion suite, [actest])  ?test=stale  ?nocm (textarea fallback)
+  e.g. sparql-harness.html#q=constellation&view=graph&node=omnigres
+  The tokens below mirror :root in index.html (dark) plus a paper palette for the toggle (⌘? no: the `p` key, or the button).
+-->
+<style>
+:root,:root[data-theme="dark"]{
+  --bg:#0c0e11; --desk:#0a0c0f; --panel:#121518; --panel-2:#181c21; --panel-3:#1e2329;
+  --line:#242a31; --line-2:#30373f;
+  --bone:#e9e4d9; --bone-2:#b7b1a6; --bone-3:#7f7a71; --bone-4:#514d47;
+  --signal:#ff6a3d; --signal-2:#ffa98a; --signal-dim:rgba(255,106,61,.16); --signal-glow:rgba(255,106,61,.55);
+  --sans:"Instrument Sans",system-ui,-apple-system,"Segoe UI",sans-serif;
+  --serif:"Instrument Serif",Georgia,"Times New Roman",serif;
+  --mono:"IBM Plex Mono",ui-monospace,"SF Mono",Menlo,monospace;
+  --r:7px; --ease:cubic-bezier(.2,.7,.2,1);
+}
+:root[data-theme="paper"]{
+  --bg:#f3efe6; --desk:#ebe6da; --panel:#faf7f1; --panel-2:#f1ece2; --panel-3:#e7e1d4;
+  --line:#ddd6c8; --line-2:#c9c0ae;
+  --bone:#1a1917; --bone-2:#45423c; --bone-3:#7a756b; --bone-4:#a9a397;
+  --signal:#d94f24; --signal-2:#a63d1a; --signal-dim:rgba(217,79,36,.12); --signal-glow:rgba(217,79,36,.35);
+  --on-signal:#faf7f1;
+}
+:root[data-theme="paper"]{color-scheme:light}
+.theme{margin-left:auto;height:20px;padding:0 8px;border:1px solid var(--line-2);border-radius:4px;background:var(--panel-2);color:var(--bone-2);font:500 10px/1 var(--mono);letter-spacing:.08em;text-transform:uppercase;cursor:pointer}
+.theme:hover{color:var(--signal)}
+*{box-sizing:border-box}
+html,body{height:100%}
+body{margin:0;background:var(--desk);color:var(--bone);font:15px/1.5 var(--sans);overflow:hidden;display:grid;grid-template-rows:30px 1fr;padding:8px;gap:0}
+.win-h{height:30px;display:flex;align-items:center;gap:10px;padding:0 12px;border:1px solid var(--line);border-bottom:0;border-radius:var(--r) var(--r) 0 0;background:var(--panel);font:500 10.5px/1 var(--mono);letter-spacing:.1em;text-transform:uppercase;color:var(--bone-3)}
+.win-h .ttl{color:var(--signal)}
+.win-h .sub{color:var(--bone-4);text-transform:none;letter-spacing:.06em;font-weight:400}
+.win-h .log{margin-left:8px;color:var(--bone-4);text-transform:none;letter-spacing:0;font-weight:400;max-width:50%;overflow:hidden;text-overflow:ellipsis;white-space:nowrap}
+#q{min-height:0;border:1px solid var(--line);border-radius:0 0 var(--r) var(--r);overflow:hidden}
+</style>
+</head>
+<body>
+<header class="win-h"><span>09</span><span class="ttl">query</span><span class="sub">/ sparql · atlas.ttl · WAT engine</span><span class="log" id="log"></span><button class="theme" id="theme" title="Toggle theme (p)">theme: dark</button></header>
+<div id="q"></div>
+<script type="module">
+  import { mountQueryConsole } from "./sparql.js";
+  const log = document.getElementById("log");
+  // Theme toggle per the site contract: data-theme + storage + the `yr-theme` event; `p` key too.
+  const themeBtn = document.getElementById("theme");
+  const setTheme = (t) => {
+    document.documentElement.setAttribute("data-theme", t);
+    try { localStorage.setItem("yr-theme", t); } catch {}
+    themeBtn.textContent = "theme: " + t;
+    window.dispatchEvent(new CustomEvent("yr-theme", { detail: t }));
+  };
+  themeBtn.textContent = "theme: " + document.documentElement.getAttribute("data-theme");
+  themeBtn.addEventListener("click", () => setTheme(document.documentElement.getAttribute("data-theme") === "paper" ? "dark" : "paper"));
+  addEventListener("keydown", (e) => { if (e.key === "p" && !e.metaKey && !e.ctrlKey && !/^(INPUT|TEXTAREA)$/.test(document.activeElement?.tagName)) themeBtn.click(); });
+  addEventListener("storage", (e) => { if (e.key === "yr-theme" && e.newValue && e.newValue !== document.documentElement.getAttribute("data-theme")) setTheme(e.newValue); });
+  const say = (m) => { log.textContent = m; console.log("[harness]", m); };
+  window.addEventListener("error", (e) => say("error: " + e.message));
+  window.addEventListener("unhandledrejection", (e) => say("rejection: " + (e.reason?.message || e.reason)));
+  async function completeTest(qc) {
+    const ed = qc.editor;
+    const out = [];
+    const t = (name, ok, got) => { out.push([name, ok]); console.log(`[actest] ${ok ? "PASS" : "FAIL"} ${name}${ok ? "" : " → " + JSON.stringify(got).slice(0, 400)}`); };
+    if (ed.kind !== "cm") { t("codemirror loaded", false, ed.kind); return; }
+    const wait = (ms = 130) => new Promise((r) => setTimeout(r, ms)); // > CodeMirror's 75 ms interactionDelay
+    // Type `text` (the cursor ends at its end), open completion, read the list.
+    const open = async (text) => { ed.setValue(text); ed.setCursor(text.length); ed.focus(); ed.completeOpen(); await wait(); return ed.completions(); };
+    const labels = (c, n = 8) => c.options.slice(0, n).map((o) => o.label);
+    await qc.contributions; // the index then covers PRs too
+    t("term index built", qc.termIndex?.size > 500, qc.termIndex?.size);
+    // 1. prefixes: a bare word offers prefix names; picking owl: declares it
+    let c = await open("SELECT * WHERE { ?s ow");
+    t("bare word offers owl:", c.options.some((o) => o.label === "owl:"), labels(c));
+    ed.completeAccept(); await wait();
+    t("accepting owl: inserts it", ed.value.endsWith("?s owl:"), ed.value);
+    t("owl declared in the prefix block", /PREFIX owl: <http:\/\/www\.w3\.org\/2002\/07\/owl#>/.test(document.querySelector(".qc-pfx pre").textContent), document.querySelector(".qc-pfx pre").textContent);
+    const r = await qc.run("SELECT * WHERE { ?s a owl:Class }");
+    t("query using owl: runs (PREFIX added invisibly)", r && r.type === "select", r);
+    // 2. PREFIX x: < offers namespace IRIs
+    c = await open("PREFIX skos: <");
+    t("PREFIX position offers IRIs", c.options.some((o) => o.label === "<http://www.w3.org/2004/02/skos/core#>"), labels(c));
+    // 3. yr: terms ranked by usage, with kind + count + name
+    c = await open("SELECT * WHERE { ?s yr:");
+    const counts = c.options.map((o) => Number(/(\d+)$/.exec(o.detail || "")?.[1] || 0));
+    t("yr: lists terms with counts", c.options.length > 20 && counts[0] > 0, labels(c));
+    t("yr: founded present with kind property", c.options.some((o) => o.label === "yr:founded" && /property/.test(o.detail)), c.options.find((o) => o.label === "yr:founded"));
+    c = await open("SELECT * WHERE { :omni");
+    t(": names individuals with label (Omnigres · company)", c.options.some((o) => o.label === ":omnigres" && /Omnigres · company/.test(o.detail)), c.options.filter((o) => /omni/.test(o.label)).slice(0, 3));
+    // 4. classes first after `a`
+    c = await open("SELECT * WHERE { ?s a yr:");
+    t("after a: classes first", c.options[0].type === "class" && c.options.slice(0, 5).every((o) => o.type === "class"), labels(c));
+    c = await open("SELECT * WHERE { ?s rdf:type schema:");
+    t("after rdf:type: schema classes first", c.options[0].type === "class", labels(c));
+    // 5. predicate position: properties, those used with the subject's class first
+    c = await open("SELECT * WHERE { ?c a yr:Company ; yr:");
+    const cp = qc.termIndex.classProps.get("https://yrashk.com/ns#Company");
+    t("after ; : properties first", c.options[0].type === "property", labels(c));
+    t("…and ones used with Company ranked first", cp && c.options.slice(0, 3).every((o) => cp.has("https://yrashk.com/ns#" + o.label.slice(3))), labels(c));
+    c = await open("SELECT * WHERE { :omnigres yr:");
+    t("IRI subject: its class's properties first", c.options.slice(0, 2).every((o) => cp.has("https://yrashk.com/ns#" + o.label.slice(3))), labels(c));
+    c = await open("SELECT * WHERE { ?pr a yr:PullRequest .\n  ?pr yr:");
+    const pp = qc.termIndex.classProps.get("https://yrashk.com/ns#PullRequest");
+    t("new triple, variable typed as PullRequest: its properties first", pp && c.options.slice(0, 3).every((o) => pp.has("https://yrashk.com/ns#" + o.label.slice(3))), labels(c));
+    // 6. object position: individuals (and datatypes)
+    c = await open("SELECT * WHERE { ?e yr:related :");
+    t("object position: individuals first", c.options[0].type === "individual", labels(c));
+    c = await open("SELECT * WHERE { ?s ?p ?o FILTER(DATATYPE(?o) = xsd:");
+    t("xsd: offers datatypes", c.options.some((o) => o.type === "datatype" && o.label === "xsd:gYear"), labels(c));
+    // 7. full IRIs
+    c = await open("SELECT * WHERE { ?s a <https://yrashk.com/ns#Comp");
+    t("full IRI completion", c.options.some((o) => o.label === "<https://yrashk.com/ns#Company>"), labels(c));
+    // 8. fuzzy: `fnd` → yr:founded among options
+    c = await open("SELECT * WHERE { ?s yr:fnd");
+    t("fuzzy yr:fnd → yr:founded", c.options.some((o) => o.label === "yr:founded"), labels(c));
+    // 9. variables, most recent first
+    c = await open("SELECT ?name WHERE { ?company schema:name ?name . ?company yr:start ?");
+    t("variables offered, nearest first", labels(c, 2).join(" ") === "?company ?name", labels(c));
+    c = await open("SELECT ?name (COUNT(?x) AS ?n) WHERE { ?x schema:name ?name } GROUP BY ?name ORDER BY DESC(?");
+    t("variables include SELECT/AS ones", c.options.map((o) => o.label).includes("?n"), labels(c));
+    // 10. keywords and functions, below data terms, with signatures
+    c = await open("SELECT * WHERE { ?s ?p ?o FILTER(STRST");
+    t("STRSTARTS with signature", c.options.some((o) => o.label === "STRSTARTS" && /prefix/.test(o.detail)), labels(c));
+    ed.completeAccept(); await wait();
+    t("function accept inserts parens, cursor inside", ed.value.endsWith("FILTER(STRSTARTS()"), ed.value);
+    c = await open("SELECT * WHERE { ?s ?p ?o } ORD");
+    t("keyword ORDER offered", c.options.some((o) => o.label === "ORDER"), labels(c));
+    c = await open("SELECT * WHERE { ?s found");
+    const fi = c.options.findIndex((o) => o.label === "yr:founded"), ki = c.options.findIndex((o) => o.type === "keyword" || o.type === "function");
+    t("data terms rank above keywords", fi >= 0 && (ki < 0 || fi < ki), labels(c, 6));
+    // 11. Vim: Esc closes the popup first, then leaves insert mode; Ctrl-n moves
+    const vimToggle = document.querySelector('[data-pref="vim"]'); if (!vimToggle.checked) vimToggle.click();
+    const modeEl = document.querySelector(".st-mode"); const mode = () => (modeEl.hidden ? "" : modeEl.textContent);
+    ed.setValue("SELECT * WHERE { ?s yr:"); ed.vimKeys("<Esc>G$"); ed.vimKeys("a"); t("insert mode", mode() === "INSERT", mode());
+    ed.completeOpen(); await wait(); t("popup open in insert mode", ed.completions().status === "active", ed.completions().status);
+    const first = ed.completions().selected; ed.view.contentDOM.dispatchEvent(new KeyboardEvent("keydown", { key: "n", ctrlKey: true, bubbles: true, cancelable: true })); await wait(20);
+    t("Ctrl-n moves the selection", ed.completions().selected !== first, [first, ed.completions().selected]);
+    ed.view.contentDOM.dispatchEvent(new KeyboardEvent("keydown", { key: "Escape", bubbles: true, cancelable: true })); await wait(20);
+    t("first Esc closes the popup, stays INSERT", ed.completions().status !== "active" && mode() === "INSERT", [ed.completions().status, mode()]);
+    ed.view.contentDOM.dispatchEvent(new KeyboardEvent("keydown", { key: "Escape", bubbles: true, cancelable: true })); await wait(20);
+    t("second Esc → NORMAL", mode() === "NORMAL", mode());
+    const pass = out.filter((o) => o[1]).length;
+    say(`completion test: ${pass}/${out.length} passed`);
+    console.log(`[actest] ${pass}/${out.length} passed`);
+    // leave the popup open for the screenshot
+    ed.setValue("SELECT ?company ?name WHERE {\n  :yrashk yr:founded ?company .\n  ?company a yr:Company ; yr:"); ed.vimKeys("<Esc>G$a"); ed.completeOpen(); await wait();
+  }
+  async function vimTest(qc) {
+    const ed = qc.editor;
+    const out = [];
+    const t = (name, ok, got) => { out.push([name, ok, got]); console.log(`[vimtest] ${ok ? "PASS" : "FAIL"} ${name}${ok ? "" : " → " + JSON.stringify(got)}`); };
+    if (ed.kind !== "cm") { t("codemirror loaded", false, ed.kind); return; }
+    const vimToggle = document.querySelector('[data-pref="vim"]');
+    if (!vimToggle.checked) { vimToggle.click(); }
+    ed.focus();
+    const modeEl = document.querySelector(".st-mode");
+    const mode = () => (modeEl.hidden ? "" : modeEl.textContent);
+    const doc = "alpha beta gamma\ndelta epsilon\nzeta eta theta\niota kappa\nlambda mu\n";
+    const reset = () => { ed.setValue(doc); ed.vimKeys("<Esc>gg0"); };
+    const run = (name, keys, expect) => { reset(); ed.vimKeys(keys); t(name + "  (" + keys.replace(/</g, "‹").replace(/>/g, "›") + ")", ed.value === expect, ed.value); };
+    t("mode NORMAL on enable", mode() === "NORMAL", mode());
+    run("dw", "dw", "beta gamma\ndelta epsilon\nzeta eta theta\niota kappa\nlambda mu\n");
+    run("ciw", "wciwBETA<Esc>", "alpha BETA gamma\ndelta epsilon\nzeta eta theta\niota kappa\nlambda mu\n");
+    run("3j then dd", "3jdd", "alpha beta gamma\ndelta epsilon\nzeta eta theta\nlambda mu\n");
+    run("yyp", "yyp", "alpha beta gamma\nalpha beta gamma\ndelta epsilon\nzeta eta theta\niota kappa\nlambda mu\n");
+    run("vjd", "vjd", "elta epsilon\nzeta eta theta\niota kappa\nlambda mu\n");
+    run("Vjd (linewise)", "Vjd", "zeta eta theta\niota kappa\nlambda mu\n");
+    run("u (undo)", "ddu", doc);
+    run(". (repeat)", "dd.", "zeta eta theta\niota kappa\nlambda mu\n");
+    run("x and A", "xA!<Esc>", "lpha beta gamma!\ndelta epsilon\nzeta eta theta\niota kappa\nlambda mu\n");
+    run("G then dd (last, empty line)", "Gdd", "alpha beta gamma\ndelta epsilon\nzeta eta theta\niota kappa\nlambda mu");
+    run("2dw", "2dw", "gamma\ndelta epsilon\nzeta eta theta\niota kappa\nlambda mu\n");
+    run("d$ at w", "wd$", "alpha \ndelta epsilon\nzeta eta theta\niota kappa\nlambda mu\n");
+    run(">> indent", ">>", "  alpha beta gamma\ndelta epsilon\nzeta eta theta\niota kappa\nlambda mu\n");
+    run("ct(space) + registers yw P", "ywwP", "alpha alpha beta gamma\ndelta epsilon\nzeta eta theta\niota kappa\nlambda mu\n");
+    run("o new line", "oNEW<Esc>", "alpha beta gamma\nNEW\ndelta epsilon\nzeta eta theta\niota kappa\nlambda mu\n");
+    run("f/t motions", "fbdtg", "alpha gamma\ndelta epsilon\nzeta eta theta\niota kappa\nlambda mu\n");
+    run("text object di(", "ccSELECT (COUNT(?x) AS ?n)<Esc>0f(ldi(", "SELECT ()\ndelta epsilon\nzeta eta theta\niota kappa\nlambda mu\n");
+    run("marks ma 'a", "jmaggdd'add", "alpha beta gamma\nzeta eta theta\niota kappa\nlambda mu\n".replace("alpha beta gamma\n", "") === "" ? "" : "zeta eta theta\niota kappa\nlambda mu\n");
+    // modes
+    reset(); ed.vimKeys("i"); t("mode INSERT after i", mode() === "INSERT", mode());
+    ed.vimKeys("<Esc>"); t("mode NORMAL after Esc", mode() === "NORMAL", mode());
+    ed.vimKeys("v"); t("mode VISUAL after v", mode() === "VISUAL", mode());
+    ed.vimKeys("<Esc>V"); t("mode VISUAL LINE after V", mode() === "VISUAL LINE", mode());
+    ed.vimKeys("<Esc>");
+    // ex commands run the query
+    reset(); ed.setValue("SELECT ?c WHERE { :yrashk yr:founded ?c }");
+    const before = document.querySelector(".st-res").textContent;
+    ed.vimEx("run"); t(":run runs the query", /rows/.test(document.querySelector(".st-res").textContent), document.querySelector(".st-res").textContent);
+    ed.setValue("ASK { :yrashk yr:founded :inferal }"); ed.vimEx("w"); t(":w runs the query", /true/.test(document.querySelector(".st-res").textContent), document.querySelector(".st-res").textContent);
+    ed.focus(); ed.vimEx("q"); t(":q blurs the editor", !ed.view.hasFocus, ed.view.hasFocus);
+    // Esc inside the editor never reaches the window (the OS's global handler)
+    let leaked = 0; const spy = () => leaked++; window.addEventListener("keydown", spy);
+    ed.focus(); ed.view.contentDOM.dispatchEvent(new KeyboardEvent("keydown", { key: "Escape", bubbles: true, cancelable: true }));
+    ed.view.contentDOM.dispatchEvent(new KeyboardEvent("keydown", { key: "p", bubbles: true, cancelable: true }));
+    window.removeEventListener("keydown", spy);
+    t("Esc / p do not bubble to window", leaked === 0, leaked);
+    // vim off and on again remembers
+    t("localStorage yr-vim remembered", localStorage.getItem("yr-vim") === "1", localStorage.getItem("yr-vim"));
+    const pass = out.filter((o) => o[1]).length;
+    say(`vim test: ${pass}/${out.length} passed`);
+    console.log(`[vimtest] ${pass}/${out.length} passed`);
+    // leave something nice on screen: insert mode on a preset
+    await qc.run("companies"); ed.focus(); ed.vimKeys("jjA");
+  }
+  try {
+    window.qc = await mountQueryConsole(document.getElementById("q"), {
+      turtleUrl: "../data/atlas.ttl",
+      engineUrl: "../data/rdf/",
+      hash: true,
+      codemirror: !new URLSearchParams(location.search).has("nocm"), // ?nocm → the textarea fallback
+      onLocate: (id) => say(`locate → ${id}`),
+      onHighlight: (ids) => say(`highlight ${ids.length}: ${ids.slice(0, 6).join(" ")}${ids.length > 6 ? " …" : ""}`),
+    });
+    window.__ready = true;
+    // ?test=vim — drive real Vim sequences through the editor and check the document after each.
+    // ?test=stale — run a preset, then type a broken query: results stay, dimmed, with the error.
+    const test = new URLSearchParams(location.search).get("test");
+    if (test === "vim") await vimTest(window.qc);
+    if (test === "complete") await completeTest(window.qc);
+    if (test === "stale") {
+      await qc.run("companies");
+      qc.editor.setValue("SELECT ?x WHERE {\n  ?x a yr:Company\n  FILTER(?x == 1)\n}");
+      say("stale scenario armed");
+    }
+  } catch (e) {
+    say("mount failed: " + e.message);
+    console.error(e);
+  }
+</script>
+</body>
+</html>
