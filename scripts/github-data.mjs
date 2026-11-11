@@ -17,8 +17,22 @@ import { join } from "node:path";
 
 const LOGIN = process.env.GITHUB_LOGIN || "yrashk";
 // Repos to leave off the site entirely (owner/name, case-insensitive): forks
-// tried once, experiments that don't represent the work.
-const EXCLUDE = new Set(["ismatbabirli/pelmet", "yrashk/pelmet"]);
+// tried once, experiments that don't represent the work, and copies of other
+// people's code that GitHub doesn't flag as forks.
+const EXCLUDE = new Set([
+  "ismatbabirli/pelmet",
+  "yrashk/pelmet",
+  "yrashk/erlang", // an import of Erlang/OTP R13B01 carrying a few patches
+]);
+// Authorship is decided by who wrote the code, not who owns the repo: a repo
+// counts as his when he is its top contributor (see isMine). Overrides, for the
+// few repos where that test is wrong:
+const OWN = new Set([
+  "yrashk/hypnotoad", // his prototype; the vendored CLIPS and ZeroMQ history outnumbers his commits
+]);
+// His commit identity on commits whose email isn't linked to the account
+// (contributors?anon=1 reports those by name).
+const ME_NAME = /\bRashkovskii\b/i;
 const FIRST_YEAR = 2008; // account created 2008-02-19
 const outDir = process.argv[2] || "site/data";
 
@@ -102,8 +116,9 @@ const cal = user.contributionsCollection.contributionCalendar;
 const days = cal.weeks.flatMap((w) => w.contributionDays.map((d) => [d.date, d.contributionCount]));
 
 // ── per-year activity by repository ─────────────────────────────────────────
-// Commits and pull requests per repo per year. Commits to one of our forks are
-// credited to the fork's parent: that is where the work was aimed.
+// Commits and pull requests per repo per year. Commits to a fork (his or an
+// organization's) are credited to the fork's parent: a fork is somebody else's
+// code, and the parent is where the work was aimed.
 const REPO = `repository { nameWithOwner url description stargazerCount isFork isArchived
   owner { login } primaryLanguage { name } parent { nameWithOwner url description stargazerCount owner { login } primaryLanguage { name } } }
   contributions { totalCount }`;
@@ -116,7 +131,7 @@ const detailOf = (key) => {
   return d;
 };
 function credit(r, year, count) {
-  const target = r.isFork && r.owner.login === LOGIN && r.parent ? r.parent : r;
+  const target = r.isFork && r.parent ? r.parent : r;
   const key = target.nameWithOwner;
   if (EXCLUDE.has(key.toLowerCase()) || EXCLUDE.has(r.nameWithOwner.toLowerCase())) return null;
   let rec = repos.get(key);
@@ -189,7 +204,7 @@ async function authoredItems(field, extra) {
     after = page.pageInfo.endCursor;
   }
 }
-const itemKey = (r) => (r.isFork && r.owner.login === LOGIN && r.parent ? r.parent.nameWithOwner : r.nameWithOwner);
+const itemKey = (r) => (r.isFork && r.parent ? r.parent.nameWithOwner : r.nameWithOwner);
 const STATE = { MERGED: "merged", OPEN: "open", CLOSED: "closed" };
 for (const pr of await authoredItems("pullRequests", "merged")) {
   const key = itemKey(pr.repository);
@@ -202,10 +217,40 @@ for (const issue of await authoredItems("issues", "")) {
   detailOf(key).issues.push([issue.number, issue.title, STATE[issue.state], issue.createdAt.slice(0, 10)]);
 }
 
-// ── authored repositories (owned, not forks) ────────────────────────────────
-const owned = (await restAll(`/users/${LOGIN}/repos?type=owner&sort=created`)).filter(
-  (r) => !r.fork && !EXCLUDE.has(r.full_name.toLowerCase()),
-);
+// ── authorship test ─────────────────────────────────────────────────────────
+// Is he the top contributor? Counts anonymous (unlinked-email) commits too, so
+// early work under old addresses still counts and imported history does not.
+// true / false, "empty" for a repo with no commits, null when GitHub won't say
+// (very large repos, transient errors).
+async function isMine(fullName) {
+  if (OWN.has(fullName.toLowerCase())) return true;
+  let res;
+  try {
+    res = await fetch(`https://api.github.com/repos/${fullName}/contributors?anon=1&per_page=1`, {
+      headers: { authorization: `bearer ${token}`, "user-agent": "yrashk.com-build" },
+    });
+  } catch {
+    return null;
+  }
+  if (res.status === 204) return "empty";
+  if (!res.ok) return null;
+  const [top] = await res.json().catch(() => []);
+  if (!top) return "empty";
+  return top.type === "Anonymous" ? ME_NAME.test(top.name ?? "") : top.login?.toLowerCase() === LOGIN.toLowerCase();
+}
+
+// ── authored repositories (owned, not forks, and actually his) ──────────────
+// Owning a repo isn't writing it: mirrors, imports and detached copies of other
+// people's projects live under his account too. Those drop to "contributed"
+// when he has activity there, and off the site when he has none.
+const owned = [];
+for (const r of await restAll(`/users/${LOGIN}/repos?type=owner&sort=created`)) {
+  if (r.fork || EXCLUDE.has(r.full_name.toLowerCase())) continue;
+  const mine = await isMine(r.full_name);
+  if (mine === true || (mine === null && repos.has(r.full_name))) owned.push(r);
+  else if (mine !== false) repos.delete(r.full_name); // empty, or unknown with no activity
+  else console.log(`github-data: ${r.full_name} is under his account but not his work`);
+}
 
 const authored = owned.map((r) => {
   const activity = repos.get(r.full_name);
@@ -232,18 +277,10 @@ const span = (years) => {
 for (const a of authored) Object.assign(a, span(a.years));
 const others = [...repos.values()].map((r) => ({ ...r, ...span(r.years) }));
 
-// Organization repos where we are the top contributor are ours too (Omnigres,
-// Flyology, PumpkinDB…). Only repos with real activity are worth an API call.
-const MIN_LED_CHECK = 20;
-for (const r of others) {
-  if (r.total < MIN_LED_CHECK) continue;
-  const res = await fetch(`https://api.github.com/repos/${r.name}/contributors?per_page=1`, {
-    headers: { authorization: `bearer ${token}`, "user-agent": "yrashk.com-build" },
-  });
-  if (!res.ok) continue; // 204 for empty repos, 404 for gone ones
-  const [top] = await res.json().catch(() => []);
-  r.led = top?.login?.toLowerCase() === LOGIN.toLowerCase();
-}
+// Organization repos where he is the top contributor are his too (Omnigres,
+// Flyology, PumpkinDB, the agner package index…), however small. Everything
+// else is a contribution to someone else's project.
+for (const r of others) r.led = (await isMine(r.name)) === true;
 
 const led = others.filter((r) => r.led).map(({ led, ...r }) => ({ ...r, org: r.owner }));
 const contributed = others

@@ -50,6 +50,14 @@ RDF script may regenerate `atlas.js` from `atlas.json`).
 
 The Atlas draws `bodies` plus GitHub repos: `authored[]` are **filled** dots, `contributed[]` are
 **hollow** (outline) dots. A repo listed in some body's `github` is drawn as that body, not twice.
+
+`authored` means he wrote it, not that he owns it: a repo (his or an organization's) is authored
+only when he is its top contributor, counting unlinked-email commits by name
+(`contributors?anon=1`). Forks, whoever owns them, credit their activity to the parent as a
+contribution. Repos under his account that are someone else's code (mirrors, imports, detached
+copies) drop to `contributed` if he has activity there and off the site if not. `EXCLUDE` and
+`OWN` in `github-data.mjs` override the test; a curated body's `github` list holds only repos that
+belong to that body (no forks).
 GitHub repos get the sector their language/topic suggests or a dedicated "Open source" sector — the
 Atlas owner decides.
 

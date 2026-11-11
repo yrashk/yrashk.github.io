@@ -1779,21 +1779,6 @@
    "total": 1
   },
   {
-   "name": "asyncify",
-   "url": "https://github.com/yrashk/asyncify",
-   "homepage": null,
-   "description": null,
-   "language": null,
-   "stars": 0,
-   "archived": false,
-   "created": "2021-02-27",
-   "pushed": "2021-02-27",
-   "years": {},
-   "first": null,
-   "last": null,
-   "total": 0
-  },
-  {
    "name": "bpxe.rs",
    "url": "https://github.com/yrashk/bpxe.rs",
    "homepage": null,
@@ -1896,21 +1881,6 @@
    "first": 2018,
    "last": 2018,
    "total": 6
-  },
-  {
-   "name": "wiki",
-   "url": "https://github.com/yrashk/wiki",
-   "homepage": null,
-   "description": null,
-   "language": null,
-   "stars": 0,
-   "archived": false,
-   "created": "2018-10-14",
-   "pushed": "2018-10-14",
-   "years": {},
-   "first": null,
-   "last": null,
-   "total": 0
   },
   {
    "name": "imxrt1052",
@@ -2052,21 +2022,6 @@
    "total": 1
   },
   {
-   "name": "EventDB",
-   "url": "https://github.com/yrashk/EventDB",
-   "homepage": null,
-   "description": "Lazy Event Sourcing Database",
-   "language": null,
-   "stars": 0,
-   "archived": false,
-   "created": "2017-06-22",
-   "pushed": "2017-06-22",
-   "years": {},
-   "first": null,
-   "last": null,
-   "total": 0
-  },
-  {
    "name": "futures-shim",
    "url": "https://github.com/yrashk/futures-shim",
    "homepage": null,
@@ -2082,21 +2037,6 @@
    "first": 2017,
    "last": 2017,
    "total": 5
-  },
-  {
-   "name": "EtceteraLabs",
-   "url": "https://github.com/yrashk/EtceteraLabs",
-   "homepage": null,
-   "description": null,
-   "language": null,
-   "stars": 0,
-   "archived": false,
-   "created": "2017-05-18",
-   "pushed": "2017-05-18",
-   "years": {},
-   "first": null,
-   "last": null,
-   "total": 0
   },
   {
    "name": "etcetera",
@@ -2167,21 +2107,6 @@
    "total": 11
   },
   {
-   "name": "itclocks",
-   "url": "https://github.com/yrashk/itclocks",
-   "homepage": null,
-   "description": "Automatically exported from code.google.com/p/itclocks",
-   "language": "Java",
-   "stars": 0,
-   "archived": false,
-   "created": "2015-09-04",
-   "pushed": "2015-09-04",
-   "years": {},
-   "first": null,
-   "last": null,
-   "total": 0
-  },
-  {
    "name": "old-yrashk.github.io",
    "url": "https://github.com/yrashk/old-yrashk.github.io",
    "homepage": null,
@@ -2197,21 +2122,6 @@
    "first": 2014,
    "last": 2014,
    "total": 31
-  },
-  {
-   "name": "cutkey",
-   "url": "https://github.com/yrashk/cutkey",
-   "homepage": null,
-   "description": null,
-   "language": "Erlang",
-   "stars": 15,
-   "archived": false,
-   "created": "2013-07-31",
-   "pushed": "2015-10-17",
-   "years": {},
-   "first": null,
-   "last": null,
-   "total": 0
   },
   {
    "name": "exmsgpack",
@@ -2795,21 +2705,6 @@
    "total": 0
   },
   {
-   "name": "libev-erlang",
-   "url": "https://github.com/yrashk/libev-erlang",
-   "homepage": null,
-   "description": "libev NIF for Erlang",
-   "language": "C",
-   "stars": 17,
-   "archived": false,
-   "created": "2011-03-07",
-   "pushed": "2011-03-11",
-   "years": {},
-   "first": null,
-   "last": null,
-   "total": 0
-  },
-  {
    "name": "erlang-ossp-uuid",
    "url": "https://github.com/yrashk/erlang-ossp-uuid",
    "homepage": null,
@@ -2952,38 +2847,6 @@
    "first": 2009,
    "last": 2009,
    "total": 26
-  },
-  {
-   "name": "erlang",
-   "url": "https://github.com/yrashk/erlang",
-   "homepage": "http://erlang.org/",
-   "description": "Erlang with extra unofficial patches (see branches for patches in development, alterline for merged patches)",
-   "language": "Erlang",
-   "stars": 14,
-   "archived": false,
-   "created": "2009-08-16",
-   "pushed": "2009-08-17",
-   "years": {
-    "2009": 1
-   },
-   "first": 2009,
-   "last": 2009,
-   "total": 1
-  },
-  {
-   "name": "couchdb",
-   "url": "https://github.com/yrashk/couchdb",
-   "homepage": null,
-   "description": "Another unofficial couchdb mirror",
-   "language": null,
-   "stars": 7,
-   "archived": false,
-   "created": "2008-11-05",
-   "pushed": "2008-11-05",
-   "years": {},
-   "first": null,
-   "last": null,
-   "total": 0
   },
   {
    "name": "tokyotyrant.rb",
@@ -4456,6 +4319,2736 @@
    "first": 2026,
    "last": 2026,
    "total": 24
+  },
+  {
+   "name": "cohepub/mod_flash_crossdomain",
+   "url": "https://github.com/cohepub/mod_flash_crossdomain",
+   "homepage": null,
+   "description": "mod_flash_crossdomain plugin for ejabberd",
+   "language": "Erlang",
+   "stars": 4,
+   "archived": false,
+   "created": null,
+   "pushed": null,
+   "org": "cohepub",
+   "years": {
+    "2009": 3
+   },
+   "first": 2009,
+   "last": 2009,
+   "total": 3
+  },
+  {
+   "name": "agner/rebar.agner",
+   "url": "https://github.com/agner/rebar.agner",
+   "homepage": null,
+   "description": "A sophisticated build-tool for Erlang projects that follows OTP principles",
+   "language": null,
+   "stars": 1,
+   "archived": false,
+   "created": null,
+   "pushed": null,
+   "org": "agner",
+   "years": {
+    "2011": 14
+   },
+   "first": 2011,
+   "last": 2011,
+   "total": 14
+  },
+  {
+   "name": "agner/erlando.agner",
+   "url": "https://github.com/agner/erlando.agner",
+   "homepage": null,
+   "description": "Cuts and monads for Erlang",
+   "language": null,
+   "stars": 1,
+   "archived": false,
+   "created": null,
+   "pushed": null,
+   "org": "agner",
+   "years": {
+    "2011": 12
+   },
+   "first": 2011,
+   "last": 2011,
+   "total": 12
+  },
+  {
+   "name": "agner/agner.agner",
+   "url": "https://github.com/agner/agner.agner",
+   "homepage": null,
+   "description": "A Giant Nebula of Erlang Repositories",
+   "language": "Shell",
+   "stars": 1,
+   "archived": false,
+   "created": null,
+   "pushed": null,
+   "org": "agner",
+   "years": {
+    "2011": 9
+   },
+   "first": 2011,
+   "last": 2011,
+   "total": 9
+  },
+  {
+   "name": "agner/ezmq.agner.limbo",
+   "url": "https://github.com/agner/ezmq.agner.limbo",
+   "homepage": null,
+   "description": "NIF-based zeromq binding for Erlang",
+   "language": null,
+   "stars": 1,
+   "archived": false,
+   "created": null,
+   "pushed": null,
+   "org": "agner",
+   "years": {
+    "2011": 8
+   },
+   "first": 2011,
+   "last": 2011,
+   "total": 8
+  },
+  {
+   "name": "agner/zippers.agner",
+   "url": "https://github.com/agner/zippers.agner",
+   "homepage": null,
+   "description": "Zippers is a library containing basic zipper functional data structures",
+   "language": null,
+   "stars": 1,
+   "archived": false,
+   "created": null,
+   "pushed": null,
+   "org": "agner",
+   "years": {
+    "2011": 8
+   },
+   "first": 2011,
+   "last": 2011,
+   "total": 8
+  },
+  {
+   "name": "agner/yaws.agner",
+   "url": "https://github.com/agner/yaws.agner",
+   "homepage": null,
+   "description": "Yaws webserver",
+   "language": null,
+   "stars": 0,
+   "archived": false,
+   "created": null,
+   "pushed": null,
+   "org": "agner",
+   "years": {
+    "2011": 8
+   },
+   "first": 2011,
+   "last": 2011,
+   "total": 8
+  },
+  {
+   "name": "agner/elixir.agner",
+   "url": "https://github.com/agner/elixir.agner",
+   "homepage": null,
+   "description": "Elixir is a functional meta-programming aware language built on top of the Erlang VM. It is a dynamic language with flexible syntax with macros support that leverages Erlang's abilities to build concurrent, distributed, fault-tolerant applications with hot code upgrades",
+   "language": null,
+   "stars": 2,
+   "archived": false,
+   "created": null,
+   "pushed": null,
+   "org": "agner",
+   "years": {
+    "2011": 7,
+    "2012": 1
+   },
+   "first": 2011,
+   "last": 2012,
+   "total": 8
+  },
+  {
+   "name": "agner/statebox.agner",
+   "url": "https://github.com/agner/statebox.agner",
+   "homepage": null,
+   "description": "Erlang state \"monad\" with merge/conflict-resolution capabilities. Useful for Riak.",
+   "language": null,
+   "stars": 1,
+   "archived": false,
+   "created": null,
+   "pushed": null,
+   "org": "agner",
+   "years": {
+    "2011": 7
+   },
+   "first": 2011,
+   "last": 2011,
+   "total": 7
+  },
+  {
+   "name": "agner/timed_supervisor.agner",
+   "url": "https://github.com/agner/timed_supervisor.agner",
+   "homepage": null,
+   "description": "Allows to run an application on given days of week and hours of day",
+   "language": null,
+   "stars": 1,
+   "archived": false,
+   "created": null,
+   "pushed": null,
+   "org": "agner",
+   "years": {
+    "2011": 7
+   },
+   "first": 2011,
+   "last": 2011,
+   "total": 7
+  },
+  {
+   "name": "agner/efene.agner",
+   "url": "https://github.com/agner/efene.agner",
+   "homepage": null,
+   "description": "Programming language with C-like syntax that runs on the Erlang platform",
+   "language": "Shell",
+   "stars": 1,
+   "archived": false,
+   "created": null,
+   "pushed": null,
+   "org": "agner",
+   "years": {
+    "2011": 7
+   },
+   "first": 2011,
+   "last": 2011,
+   "total": 7
+  },
+  {
+   "name": "agner/jsx.agner",
+   "url": "https://github.com/agner/jsx.agner",
+   "homepage": null,
+   "description": "an evented, streaming json parser based in part on yajl",
+   "language": null,
+   "stars": 1,
+   "archived": false,
+   "created": null,
+   "pushed": null,
+   "org": "agner",
+   "years": {
+    "2011": 7
+   },
+   "first": 2011,
+   "last": 2011,
+   "total": 7
+  },
+  {
+   "name": "agner/erlzmq.agner",
+   "url": "https://github.com/agner/erlzmq.agner",
+   "homepage": null,
+   "description": "Erlang bindings for ZeroMQ messaging",
+   "language": "Shell",
+   "stars": 1,
+   "archived": false,
+   "created": null,
+   "pushed": null,
+   "org": "agner",
+   "years": {
+    "2011": 7
+   },
+   "first": 2011,
+   "last": 2011,
+   "total": 7
+  },
+  {
+   "name": "agner/entop.agner",
+   "url": "https://github.com/agner/entop.agner",
+   "homepage": null,
+   "description": "A top-like tool for monitoring an Erlang node",
+   "language": null,
+   "stars": 1,
+   "archived": false,
+   "created": null,
+   "pushed": null,
+   "org": "agner",
+   "years": {
+    "2011": 7
+   },
+   "first": 2011,
+   "last": 2011,
+   "total": 7
+  },
+  {
+   "name": "agner/epubnub.agner",
+   "url": "https://github.com/agner/epubnub.agner",
+   "homepage": null,
+   "description": "Erlang bindings for PubNub.com service",
+   "language": null,
+   "stars": 1,
+   "archived": false,
+   "created": null,
+   "pushed": null,
+   "org": "agner",
+   "years": {
+    "2011": 7
+   },
+   "first": 2011,
+   "last": 2011,
+   "total": 7
+  },
+  {
+   "name": "agner/mochijson.agner",
+   "url": "https://github.com/agner/mochijson.agner",
+   "homepage": null,
+   "description": "The json encoding modules from mochiweb",
+   "language": "Shell",
+   "stars": 1,
+   "archived": false,
+   "created": null,
+   "pushed": null,
+   "org": "agner",
+   "years": {
+    "2011": 7
+   },
+   "first": 2011,
+   "last": 2011,
+   "total": 7
+  },
+  {
+   "name": "agner/reloader.agner",
+   "url": "https://github.com/agner/reloader.agner",
+   "homepage": null,
+   "description": "Erlang module for automatically reloading modified modules during development",
+   "language": "Shell",
+   "stars": 1,
+   "archived": false,
+   "created": null,
+   "pushed": null,
+   "org": "agner",
+   "years": {
+    "2011": 7
+   },
+   "first": 2011,
+   "last": 2011,
+   "total": 7
+  },
+  {
+   "name": "agner/rabbitmq_server.agner",
+   "url": "https://github.com/agner/rabbitmq_server.agner",
+   "homepage": null,
+   "description": "RabbitMQ AMQP Server",
+   "language": null,
+   "stars": 1,
+   "archived": false,
+   "created": null,
+   "pushed": null,
+   "org": "agner",
+   "years": {
+    "2011": 7
+   },
+   "first": 2011,
+   "last": 2011,
+   "total": 7
+  },
+  {
+   "name": "agner/jiffy.agner",
+   "url": "https://github.com/agner/jiffy.agner",
+   "homepage": null,
+   "description": "JSON NIFs for Erlang",
+   "language": null,
+   "stars": 0,
+   "archived": false,
+   "created": null,
+   "pushed": null,
+   "org": "agner",
+   "years": {
+    "2011": 7
+   },
+   "first": 2011,
+   "last": 2011,
+   "total": 7
+  },
+  {
+   "name": "agner/nitrogen.agner",
+   "url": "https://github.com/agner/nitrogen.agner",
+   "homepage": null,
+   "description": "Nitrogen Web Framework for Erlang",
+   "language": null,
+   "stars": 1,
+   "archived": false,
+   "created": null,
+   "pushed": null,
+   "org": "agner",
+   "years": {
+    "2011": 7
+   },
+   "first": 2011,
+   "last": 2011,
+   "total": 7
+  },
+  {
+   "name": "spawngrid/quickrel",
+   "url": "https://github.com/spawngrid/quickrel",
+   "homepage": null,
+   "description": "A way to build a development environment style release in a fraction of time rebar/reltool take",
+   "language": "Erlang",
+   "stars": 5,
+   "archived": false,
+   "created": null,
+   "pushed": null,
+   "org": "spawngrid",
+   "years": {
+    "2011": 7
+   },
+   "first": 2011,
+   "last": 2011,
+   "total": 7
+  },
+  {
+   "name": "agner/chicagoboss.agner",
+   "url": "https://github.com/agner/chicagoboss.agner",
+   "homepage": null,
+   "description": "Rails-like web MVC, now featuring Comet",
+   "language": null,
+   "stars": 1,
+   "archived": false,
+   "created": null,
+   "pushed": null,
+   "org": "agner",
+   "years": {
+    "2011": 6
+   },
+   "first": 2011,
+   "last": 2011,
+   "total": 6
+  },
+  {
+   "name": "agner/jobs.agner",
+   "url": "https://github.com/agner/jobs.agner",
+   "homepage": null,
+   "description": "Job scheduler for load regulation",
+   "language": null,
+   "stars": 1,
+   "archived": false,
+   "created": null,
+   "pushed": null,
+   "org": "agner",
+   "years": {
+    "2011": 6
+   },
+   "first": 2011,
+   "last": 2011,
+   "total": 6
+  },
+  {
+   "name": "agner/serial.agner",
+   "url": "https://github.com/agner/serial.agner",
+   "homepage": null,
+   "description": "Erlang serial-port support",
+   "language": null,
+   "stars": 1,
+   "archived": false,
+   "created": null,
+   "pushed": null,
+   "org": "agner",
+   "years": {
+    "2011": 6
+   },
+   "first": 2011,
+   "last": 2011,
+   "total": 6
+  },
+  {
+   "name": "agner/cowboy.agner",
+   "url": "https://github.com/agner/cowboy.agner",
+   "homepage": null,
+   "description": "Small, fast, modular HTTP server",
+   "language": null,
+   "stars": 1,
+   "archived": false,
+   "created": null,
+   "pushed": null,
+   "org": "agner",
+   "years": {
+    "2011": 6
+   },
+   "first": 2011,
+   "last": 2011,
+   "total": 6
+  },
+  {
+   "name": "agner/ezk.agner",
+   "url": "https://github.com/agner/ezk.agner",
+   "homepage": null,
+   "description": "Erlang-Bindings for Zookeeper",
+   "language": null,
+   "stars": 1,
+   "archived": false,
+   "created": null,
+   "pushed": null,
+   "org": "agner",
+   "years": {
+    "2011": 6
+   },
+   "first": 2011,
+   "last": 2011,
+   "total": 6
+  },
+  {
+   "name": "agner/socketio.agner",
+   "url": "https://github.com/agner/socketio.agner",
+   "homepage": null,
+   "description": "Socket.IO server in Erlang",
+   "language": null,
+   "stars": 1,
+   "archived": false,
+   "created": null,
+   "pushed": null,
+   "org": "agner",
+   "years": {
+    "2011": 6
+   },
+   "first": 2011,
+   "last": 2011,
+   "total": 6
+  },
+  {
+   "name": "agner/convey.agner.limbo",
+   "url": "https://github.com/agner/convey.agner.limbo",
+   "homepage": null,
+   "description": "a high performance, highly concurrent tcp server implementation",
+   "language": null,
+   "stars": 1,
+   "archived": false,
+   "created": null,
+   "pushed": null,
+   "org": "agner",
+   "years": {
+    "2011": 6
+   },
+   "first": 2011,
+   "last": 2011,
+   "total": 6
+  },
+  {
+   "name": "agner/efps.agner",
+   "url": "https://github.com/agner/efps.agner",
+   "homepage": null,
+   "description": "Erlang/OTP Flash Policy Server",
+   "language": null,
+   "stars": 1,
+   "archived": false,
+   "created": null,
+   "pushed": null,
+   "org": "agner",
+   "years": {
+    "2011": 6
+   },
+   "first": 2011,
+   "last": 2011,
+   "total": 6
+  },
+  {
+   "name": "agner/uuid.agner",
+   "url": "https://github.com/agner/uuid.agner",
+   "homepage": null,
+   "description": "Erlang Native UUID (v1, v3, v4, & v5) Generation",
+   "language": null,
+   "stars": 1,
+   "archived": false,
+   "created": null,
+   "pushed": null,
+   "org": "agner",
+   "years": {
+    "2011": 6
+   },
+   "first": 2011,
+   "last": 2011,
+   "total": 6
+  },
+  {
+   "name": "agner/kvc.agner",
+   "url": "https://github.com/agner/kvc.agner",
+   "homepage": null,
+   "description": "Key Value Coding for Erlang data structures",
+   "language": null,
+   "stars": 1,
+   "archived": false,
+   "created": null,
+   "pushed": null,
+   "org": "agner",
+   "years": {
+    "2011": 6
+   },
+   "first": 2011,
+   "last": 2011,
+   "total": 6
+  },
+  {
+   "name": "agner/estring.agner",
+   "url": "https://github.com/agner/estring.agner",
+   "homepage": null,
+   "description": "string manipulation library for erlang",
+   "language": null,
+   "stars": 1,
+   "archived": false,
+   "created": null,
+   "pushed": null,
+   "org": "agner",
+   "years": {
+    "2011": 6
+   },
+   "first": 2011,
+   "last": 2011,
+   "total": 6
+  },
+  {
+   "name": "agner/ossp_uuid.agner",
+   "url": "https://github.com/agner/ossp_uuid.agner",
+   "homepage": null,
+   "description": "NIF-based ossp-uuid binding",
+   "language": null,
+   "stars": 1,
+   "archived": false,
+   "created": null,
+   "pushed": null,
+   "org": "agner",
+   "years": {
+    "2011": 6
+   },
+   "first": 2011,
+   "last": 2011,
+   "total": 6
+  },
+  {
+   "name": "agner/erlsha2.agner",
+   "url": "https://github.com/agner/erlsha2.agner",
+   "homepage": null,
+   "description": "SHA-224, SHA-256, SHA-384, SHA-512 implemented in Erlang NIFs",
+   "language": null,
+   "stars": 1,
+   "archived": false,
+   "created": null,
+   "pushed": null,
+   "org": "agner",
+   "years": {
+    "2011": 6
+   },
+   "first": 2011,
+   "last": 2011,
+   "total": 6
+  },
+  {
+   "name": "agner/rabbitmq_client.agner",
+   "url": "https://github.com/agner/rabbitmq_client.agner",
+   "homepage": null,
+   "description": "RabbitMQ Erlang AMQP client",
+   "language": null,
+   "stars": 1,
+   "archived": false,
+   "created": null,
+   "pushed": null,
+   "org": "agner",
+   "years": {
+    "2011": 6
+   },
+   "first": 2011,
+   "last": 2011,
+   "total": 6
+  },
+  {
+   "name": "agner/riak_search.agner",
+   "url": "https://github.com/agner/riak_search.agner",
+   "homepage": null,
+   "description": "Full-text search engine based on Riak",
+   "language": null,
+   "stars": 1,
+   "archived": false,
+   "created": null,
+   "pushed": null,
+   "org": "agner",
+   "years": {
+    "2011": 6
+   },
+   "first": 2011,
+   "last": 2011,
+   "total": 6
+  },
+  {
+   "name": "agner/erlv8.agner",
+   "url": "https://github.com/agner/erlv8.agner",
+   "homepage": null,
+   "description": "Erlang interface for V8",
+   "language": null,
+   "stars": 1,
+   "archived": false,
+   "created": null,
+   "pushed": null,
+   "org": "agner",
+   "years": {
+    "2011": 6
+   },
+   "first": 2011,
+   "last": 2011,
+   "total": 6
+  },
+  {
+   "name": "agner/erlcloud.agner",
+   "url": "https://github.com/agner/erlcloud.agner",
+   "homepage": null,
+   "description": "Cloud Computing library for erlang (Amazon EC2, S3, SQS, SimpleDB, Mechanical Turk)",
+   "language": null,
+   "stars": 1,
+   "archived": false,
+   "created": null,
+   "pushed": null,
+   "org": "agner",
+   "years": {
+    "2011": 6
+   },
+   "first": 2011,
+   "last": 2011,
+   "total": 6
+  },
+  {
+   "name": "agner/eredis.agner",
+   "url": "https://github.com/agner/eredis.agner",
+   "homepage": null,
+   "description": "Wooga redis client package",
+   "language": null,
+   "stars": 1,
+   "archived": false,
+   "created": null,
+   "pushed": null,
+   "org": "agner",
+   "years": {
+    "2011": 6
+   },
+   "first": 2011,
+   "last": 2011,
+   "total": 6
+  },
+  {
+   "name": "agner/folsom.agner",
+   "url": "https://github.com/agner/folsom.agner",
+   "homepage": null,
+   "description": "Expose Erlang Events and Metrics",
+   "language": null,
+   "stars": 1,
+   "archived": false,
+   "created": null,
+   "pushed": null,
+   "org": "agner",
+   "years": {
+    "2011": 6
+   },
+   "first": 2011,
+   "last": 2011,
+   "total": 6
+  },
+  {
+   "name": "agner/nicedecimal.agner",
+   "url": "https://github.com/agner/nicedecimal.agner",
+   "homepage": null,
+   "description": "nicedecimal package",
+   "language": null,
+   "stars": 1,
+   "archived": false,
+   "created": null,
+   "pushed": null,
+   "org": "agner",
+   "years": {
+    "2011": 6
+   },
+   "first": 2011,
+   "last": 2011,
+   "total": 6
+  },
+  {
+   "name": "agner/lager.agner",
+   "url": "https://github.com/agner/lager.agner",
+   "homepage": null,
+   "description": "Logging Framework for Erlang/OTP",
+   "language": null,
+   "stars": 1,
+   "archived": false,
+   "created": null,
+   "pushed": null,
+   "org": "agner",
+   "years": {
+    "2011": 6
+   },
+   "first": 2011,
+   "last": 2011,
+   "total": 6
+  },
+  {
+   "name": "agner/ddb.agner",
+   "url": "https://github.com/agner/ddb.agner",
+   "homepage": null,
+   "description": "Amazon DynamoDB API for Erlang",
+   "language": null,
+   "stars": 1,
+   "archived": false,
+   "created": null,
+   "pushed": null,
+   "org": "agner",
+   "years": {
+    "2011": 6
+   },
+   "first": 2011,
+   "last": 2011,
+   "total": 6
+  },
+  {
+   "name": "agner/seresye.agner",
+   "url": "https://github.com/agner/seresye.agner",
+   "homepage": null,
+   "description": null,
+   "language": null,
+   "stars": 1,
+   "archived": false,
+   "created": null,
+   "pushed": null,
+   "org": "agner",
+   "years": {
+    "2011": 6
+   },
+   "first": 2011,
+   "last": 2011,
+   "total": 6
+  },
+  {
+   "name": "agner/erlware_commons.agner",
+   "url": "https://github.com/agner/erlware_commons.agner",
+   "homepage": null,
+   "description": "Erlware Commons agner package",
+   "language": null,
+   "stars": 1,
+   "archived": false,
+   "created": null,
+   "pushed": null,
+   "org": "agner",
+   "years": {
+    "2011": 6
+   },
+   "first": 2011,
+   "last": 2011,
+   "total": 6
+  },
+  {
+   "name": "agner/erlastic_search.agner",
+   "url": "https://github.com/agner/erlastic_search.agner",
+   "homepage": null,
+   "description": "An Erlang app for communicating with Elastic Search's rest interface. ",
+   "language": null,
+   "stars": 1,
+   "archived": false,
+   "created": null,
+   "pushed": null,
+   "org": "agner",
+   "years": {
+    "2011": 6
+   },
+   "first": 2011,
+   "last": 2011,
+   "total": 6
+  },
+  {
+   "name": "agner/erlson.agner",
+   "url": "https://github.com/agner/erlson.agner",
+   "homepage": null,
+   "description": "Erlson package",
+   "language": null,
+   "stars": 1,
+   "archived": false,
+   "created": null,
+   "pushed": null,
+   "org": "agner",
+   "years": {
+    "2011": 6
+   },
+   "first": 2011,
+   "last": 2011,
+   "total": 6
+  },
+  {
+   "name": "agner/erlbrake.agner",
+   "url": "https://github.com/agner/erlbrake.agner",
+   "homepage": null,
+   "description": "Erlbrake agner package",
+   "language": null,
+   "stars": 1,
+   "archived": false,
+   "created": null,
+   "pushed": null,
+   "org": "agner",
+   "years": {
+    "2011": 6
+   },
+   "first": 2011,
+   "last": 2011,
+   "total": 6
+  },
+  {
+   "name": "agner/agner.template",
+   "url": "https://github.com/agner/agner.template",
+   "homepage": null,
+   "description": "Template spec repository, fork & rename it",
+   "language": null,
+   "stars": 0,
+   "archived": false,
+   "created": null,
+   "pushed": null,
+   "org": "agner",
+   "years": {
+    "2011": 6
+   },
+   "first": 2011,
+   "last": 2011,
+   "total": 6
+  },
+  {
+   "name": "agner/riak_pipe.agner",
+   "url": "https://github.com/agner/riak_pipe.agner",
+   "homepage": null,
+   "description": "Riak Pipelines",
+   "language": null,
+   "stars": 1,
+   "archived": false,
+   "created": null,
+   "pushed": null,
+   "org": "agner",
+   "years": {
+    "2011": 6
+   },
+   "first": 2011,
+   "last": 2011,
+   "total": 6
+  },
+  {
+   "name": "agner/stomp_client.agner",
+   "url": "https://github.com/agner/stomp_client.agner",
+   "homepage": null,
+   "description": "A stomp client written in Erlang",
+   "language": null,
+   "stars": 1,
+   "archived": false,
+   "created": null,
+   "pushed": null,
+   "org": "agner",
+   "years": {
+    "2011": 6
+   },
+   "first": 2011,
+   "last": 2011,
+   "total": 6
+  },
+  {
+   "name": "agner/procket.agner",
+   "url": "https://github.com/agner/procket.agner",
+   "homepage": null,
+   "description": "Erlang interface to low level socket operations",
+   "language": null,
+   "stars": 1,
+   "archived": false,
+   "created": null,
+   "pushed": null,
+   "org": "agner",
+   "years": {
+    "2011": 6
+   },
+   "first": 2011,
+   "last": 2011,
+   "total": 6
+  },
+  {
+   "name": "agner/lhttpc.agner",
+   "url": "https://github.com/agner/lhttpc.agner",
+   "homepage": null,
+   "description": "lhttpc is a lightweight HTTP/1.1 client implemented in Erlang",
+   "language": null,
+   "stars": 2,
+   "archived": false,
+   "created": null,
+   "pushed": null,
+   "org": "agner",
+   "years": {
+    "2011": 6
+   },
+   "first": 2011,
+   "last": 2011,
+   "total": 6
+  },
+  {
+   "name": "agner/gen_event_forwarder.agner",
+   "url": "https://github.com/agner/gen_event_forwarder.agner",
+   "homepage": null,
+   "description": "gen_event forwarder",
+   "language": null,
+   "stars": 1,
+   "archived": false,
+   "created": null,
+   "pushed": null,
+   "org": "agner",
+   "years": {
+    "2011": 6
+   },
+   "first": 2011,
+   "last": 2011,
+   "total": 6
+  },
+  {
+   "name": "agner/tsung.agner",
+   "url": "https://github.com/agner/tsung.agner",
+   "homepage": null,
+   "description": "Tsung is an open-source multi-protocol distributed load testing tool",
+   "language": "Shell",
+   "stars": 1,
+   "archived": false,
+   "created": null,
+   "pushed": null,
+   "org": "agner",
+   "years": {
+    "2011": 6
+   },
+   "first": 2011,
+   "last": 2011,
+   "total": 6
+  },
+  {
+   "name": "agner/riak_zab.agner",
+   "url": "https://github.com/agner/riak_zab.agner",
+   "homepage": null,
+   "description": "Pure Erlang implementation of Zab, the Zookeeper Atomic Broadcast protocol",
+   "language": null,
+   "stars": 1,
+   "archived": false,
+   "created": null,
+   "pushed": null,
+   "org": "agner",
+   "years": {
+    "2011": 6
+   },
+   "first": 2011,
+   "last": 2011,
+   "total": 6
+  },
+  {
+   "name": "agner/plain_fsm.agner",
+   "url": "https://github.com/agner/plain_fsm.agner",
+   "homepage": null,
+   "description": "A behaviour/support library for writing plain Erlang FSMs",
+   "language": null,
+   "stars": 1,
+   "archived": false,
+   "created": null,
+   "pushed": null,
+   "org": "agner",
+   "years": {
+    "2011": 6
+   },
+   "first": 2011,
+   "last": 2011,
+   "total": 6
+  },
+  {
+   "name": "agner/epgsql.agner",
+   "url": "https://github.com/agner/epgsql.agner",
+   "homepage": null,
+   "description": "Erlang PostgreSQL client library",
+   "language": null,
+   "stars": 1,
+   "archived": false,
+   "created": null,
+   "pushed": null,
+   "org": "agner",
+   "years": {
+    "2011": 5
+   },
+   "first": 2011,
+   "last": 2011,
+   "total": 5
+  },
+  {
+   "name": "agner/erldis.agner",
+   "url": "https://github.com/agner/erldis.agner",
+   "homepage": null,
+   "description": "redis erlang client library",
+   "language": null,
+   "stars": 1,
+   "archived": false,
+   "created": null,
+   "pushed": null,
+   "org": "agner",
+   "years": {
+    "2011": 5
+   },
+   "first": 2011,
+   "last": 2011,
+   "total": 5
+  },
+  {
+   "name": "agner/gen_fsm2.agner",
+   "url": "https://github.com/agner/gen_fsm2.agner",
+   "homepage": null,
+   "description": "Extended version of gen_fsm",
+   "language": null,
+   "stars": 1,
+   "archived": false,
+   "created": null,
+   "pushed": null,
+   "org": "agner",
+   "years": {
+    "2011": 5
+   },
+   "first": 2011,
+   "last": 2011,
+   "total": 5
+  },
+  {
+   "name": "agner/plists.agner",
+   "url": "https://github.com/agner/plists.agner",
+   "homepage": null,
+   "description": "An Erlang module for doing list operations in parallel",
+   "language": null,
+   "stars": 1,
+   "archived": false,
+   "created": null,
+   "pushed": null,
+   "org": "agner",
+   "years": {
+    "2011": 5
+   },
+   "first": 2011,
+   "last": 2011,
+   "total": 5
+  },
+  {
+   "name": "agner/gen_nb_server.agner",
+   "url": "https://github.com/agner/gen_nb_server.agner",
+   "homepage": null,
+   "description": "OTP behavior for writing non-blocking servers",
+   "language": null,
+   "stars": 1,
+   "archived": false,
+   "created": null,
+   "pushed": null,
+   "org": "agner",
+   "years": {
+    "2011": 5
+   },
+   "first": 2011,
+   "last": 2011,
+   "total": 5
+  },
+  {
+   "name": "agner/couchbeam.agner",
+   "url": "https://github.com/agner/couchbeam.agner",
+   "homepage": null,
+   "description": "Erlang Couchdb kit",
+   "language": null,
+   "stars": 1,
+   "archived": false,
+   "created": null,
+   "pushed": null,
+   "org": "agner",
+   "years": {
+    "2011": 5
+   },
+   "first": 2011,
+   "last": 2011,
+   "total": 5
+  },
+  {
+   "name": "agner/riak_sysmon.agner",
+   "url": "https://github.com/agner/riak_sysmon.agner",
+   "homepage": null,
+   "description": "Simple OTP app for managing Erlang VM system_monitor event messages",
+   "language": null,
+   "stars": 1,
+   "archived": false,
+   "created": null,
+   "pushed": null,
+   "org": "agner",
+   "years": {
+    "2011": 5
+   },
+   "first": 2011,
+   "last": 2011,
+   "total": 5
+  },
+  {
+   "name": "agner/emysql.agner",
+   "url": "https://github.com/agner/emysql.agner",
+   "homepage": null,
+   "description": "Erlang MySQL driver",
+   "language": null,
+   "stars": 1,
+   "archived": false,
+   "created": null,
+   "pushed": null,
+   "org": "agner",
+   "years": {
+    "2011": 5
+   },
+   "first": 2011,
+   "last": 2011,
+   "total": 5
+  },
+  {
+   "name": "agner/webmachine.agner",
+   "url": "https://github.com/agner/webmachine.agner",
+   "homepage": null,
+   "description": "A REST-based system for building web applications.",
+   "language": null,
+   "stars": 1,
+   "archived": false,
+   "created": null,
+   "pushed": null,
+   "org": "agner",
+   "years": {
+    "2011": 5
+   },
+   "first": 2011,
+   "last": 2011,
+   "total": 5
+  },
+  {
+   "name": "agner/gen_smtp.agner",
+   "url": "https://github.com/agner/gen_smtp.agner",
+   "homepage": null,
+   "description": "A generic SMTP server and client in Erlang that can be extended via callback modules",
+   "language": null,
+   "stars": 0,
+   "archived": false,
+   "created": null,
+   "pushed": null,
+   "org": "agner",
+   "years": {
+    "2011": 5
+   },
+   "first": 2011,
+   "last": 2011,
+   "total": 5
+  },
+  {
+   "name": "agner/iconv.agner",
+   "url": "https://github.com/agner/iconv.agner",
+   "homepage": null,
+   "description": "iconv driver for erlang",
+   "language": null,
+   "stars": 1,
+   "archived": false,
+   "created": null,
+   "pushed": null,
+   "org": "agner",
+   "years": {
+    "2011": 5
+   },
+   "first": 2011,
+   "last": 2011,
+   "total": 5
+  },
+  {
+   "name": "agner/scalaris.agner",
+   "url": "https://github.com/agner/scalaris.agner",
+   "homepage": null,
+   "description": "Scalaris is a scalable, transactional, distributed key-value store",
+   "language": null,
+   "stars": 1,
+   "archived": false,
+   "created": null,
+   "pushed": null,
+   "org": "agner",
+   "years": {
+    "2011": 5
+   },
+   "first": 2011,
+   "last": 2011,
+   "total": 5
+  },
+  {
+   "name": "agner/mysql.agner",
+   "url": "https://github.com/agner/mysql.agner",
+   "homepage": null,
+   "description": "Erlang MySQL Driver",
+   "language": null,
+   "stars": 1,
+   "archived": false,
+   "created": null,
+   "pushed": null,
+   "org": "agner",
+   "years": {
+    "2011": 5
+   },
+   "first": 2011,
+   "last": 2011,
+   "total": 5
+  },
+  {
+   "name": "agner/encurses.agner",
+   "url": "https://github.com/agner/encurses.agner",
+   "homepage": null,
+   "description": "A NIF-based ncurses library for Erlang",
+   "language": null,
+   "stars": 1,
+   "archived": false,
+   "created": null,
+   "pushed": null,
+   "org": "agner",
+   "years": {
+    "2011": 5
+   },
+   "first": 2011,
+   "last": 2011,
+   "total": 5
+  },
+  {
+   "name": "agner/cecho.agner",
+   "url": "https://github.com/agner/cecho.agner",
+   "homepage": null,
+   "description": "An ncurses library for Erlang",
+   "language": null,
+   "stars": 1,
+   "archived": false,
+   "created": null,
+   "pushed": null,
+   "org": "agner",
+   "years": {
+    "2011": 5
+   },
+   "first": 2011,
+   "last": 2011,
+   "total": 5
+  },
+  {
+   "name": "agner/erlmongo.agner",
+   "url": "https://github.com/agner/erlmongo.agner",
+   "homepage": null,
+   "description": "Record based Erlang driver for MongoDB with gridfs support",
+   "language": null,
+   "stars": 1,
+   "archived": false,
+   "created": null,
+   "pushed": null,
+   "org": "agner",
+   "years": {
+    "2011": 5
+   },
+   "first": 2011,
+   "last": 2011,
+   "total": 5
+  },
+  {
+   "name": "agner/protobuffs.agner",
+   "url": "https://github.com/agner/protobuffs.agner",
+   "homepage": null,
+   "description": "An implementation of Google's Protocol Buffers for Erlang",
+   "language": null,
+   "stars": 1,
+   "archived": false,
+   "created": null,
+   "pushed": null,
+   "org": "agner",
+   "years": {
+    "2011": 5
+   },
+   "first": 2011,
+   "last": 2011,
+   "total": 5
+  },
+  {
+   "name": "agner/riakc.agner",
+   "url": "https://github.com/agner/riakc.agner",
+   "homepage": null,
+   "description": "Erlang client for Riak",
+   "language": null,
+   "stars": 1,
+   "archived": false,
+   "created": null,
+   "pushed": null,
+   "org": "agner",
+   "years": {
+    "2011": 5
+   },
+   "first": 2011,
+   "last": 2011,
+   "total": 5
+  },
+  {
+   "name": "agner/simple_bridge.agner",
+   "url": "https://github.com/agner/simple_bridge.agner",
+   "homepage": null,
+   "description": "SimpleBridge provides a simple, standardized interface to Erlang HTTP Servers",
+   "language": null,
+   "stars": 1,
+   "archived": false,
+   "created": null,
+   "pushed": null,
+   "org": "agner",
+   "years": {
+    "2011": 5
+   },
+   "first": 2011,
+   "last": 2011,
+   "total": 5
+  },
+  {
+   "name": "agner/erlang_js.agner",
+   "url": "https://github.com/agner/erlang_js.agner",
+   "homepage": null,
+   "description": "A linked-in driver for Erlang to Mozilla's Spidermonkey Javascript runtime",
+   "language": null,
+   "stars": 1,
+   "archived": false,
+   "created": null,
+   "pushed": null,
+   "org": "agner",
+   "years": {
+    "2011": 5
+   },
+   "first": 2011,
+   "last": 2011,
+   "total": 5
+  },
+  {
+   "name": "agner/ibrowse.agner",
+   "url": "https://github.com/agner/ibrowse.agner",
+   "homepage": null,
+   "description": "Erlang HTTP client",
+   "language": null,
+   "stars": 1,
+   "archived": false,
+   "created": null,
+   "pushed": null,
+   "org": "agner",
+   "years": {
+    "2011": 5
+   },
+   "first": 2011,
+   "last": 2011,
+   "total": 5
+  },
+  {
+   "name": "agner/riak_kv.agner",
+   "url": "https://github.com/agner/riak_kv.agner",
+   "homepage": null,
+   "description": "Riak Key/Value Store",
+   "language": null,
+   "stars": 1,
+   "archived": false,
+   "created": null,
+   "pushed": null,
+   "org": "agner",
+   "years": {
+    "2011": 5
+   },
+   "first": 2011,
+   "last": 2011,
+   "total": 5
+  },
+  {
+   "name": "agner/neotoma.agner",
+   "url": "https://github.com/agner/neotoma.agner",
+   "homepage": null,
+   "description": "Erlang library and packrat parser-generator for parsing expression grammars",
+   "language": null,
+   "stars": 1,
+   "archived": false,
+   "created": null,
+   "pushed": null,
+   "org": "agner",
+   "years": {
+    "2011": 5
+   },
+   "first": 2011,
+   "last": 2011,
+   "total": 5
+  },
+  {
+   "name": "agner/abnfc.agner",
+   "url": "https://github.com/agner/abnfc.agner",
+   "homepage": null,
+   "description": "An ABNF parser generator for Erlang",
+   "language": null,
+   "stars": 1,
+   "archived": false,
+   "created": null,
+   "pushed": null,
+   "org": "agner",
+   "years": {
+    "2011": 5
+   },
+   "first": 2011,
+   "last": 2011,
+   "total": 5
+  },
+  {
+   "name": "agner/nprocreg.agner",
+   "url": "https://github.com/agner/nprocreg.agner",
+   "homepage": null,
+   "description": "Process Registry used by Nitrogen",
+   "language": null,
+   "stars": 1,
+   "archived": false,
+   "created": null,
+   "pushed": null,
+   "org": "agner",
+   "years": {
+    "2011": 5
+   },
+   "first": 2011,
+   "last": 2011,
+   "total": 5
+  },
+  {
+   "name": "agner/reddy.agner",
+   "url": "https://github.com/agner/reddy.agner",
+   "homepage": null,
+   "description": "attempt at writing a better redis client in Erlang",
+   "language": null,
+   "stars": 1,
+   "archived": false,
+   "created": null,
+   "pushed": null,
+   "org": "agner",
+   "years": {
+    "2011": 5
+   },
+   "first": 2011,
+   "last": 2011,
+   "total": 5
+  },
+  {
+   "name": "erlangpack/mimetypes",
+   "url": "https://github.com/erlangpack/mimetypes",
+   "homepage": null,
+   "description": "Erlang MIME types library",
+   "language": "Erlang",
+   "stars": 75,
+   "archived": false,
+   "created": null,
+   "pushed": null,
+   "org": "erlangpack",
+   "years": {
+    "2012": 13,
+    "2013": 6
+   },
+   "first": 2012,
+   "last": 2013,
+   "total": 19
+  },
+  {
+   "name": "genomu/genomu.github.com",
+   "url": "https://github.com/genomu/genomu.github.com",
+   "homepage": null,
+   "description": null,
+   "language": "JavaScript",
+   "stars": 0,
+   "archived": false,
+   "created": null,
+   "pushed": null,
+   "org": "genomu",
+   "years": {
+    "2012": 16,
+    "2013": 1
+   },
+   "first": 2012,
+   "last": 2013,
+   "total": 17
+  },
+  {
+   "name": "genomu/genomu",
+   "url": "https://github.com/genomu/genomu",
+   "homepage": null,
+   "description": "Genomu: A concurrency-oriented K/V database (JIRA @ http://genomu.atlassian.net)",
+   "language": "JavaScript",
+   "stars": 75,
+   "archived": false,
+   "created": null,
+   "pushed": null,
+   "org": "genomu",
+   "years": {
+    "2012": 1,
+    "2013": 3
+   },
+   "first": 2012,
+   "last": 2013,
+   "total": 4
+  },
+  {
+   "name": "spawngrid/exmig",
+   "url": "https://github.com/spawngrid/exmig",
+   "homepage": null,
+   "description": "Elixir migrations",
+   "language": "Elixir",
+   "stars": 8,
+   "archived": false,
+   "created": null,
+   "pushed": null,
+   "org": "spawngrid",
+   "years": {
+    "2013": 12,
+    "2014": 2
+   },
+   "first": 2013,
+   "last": 2014,
+   "total": 14
+  },
+  {
+   "name": "genomu/genomu-elixir",
+   "url": "https://github.com/genomu/genomu-elixir",
+   "homepage": null,
+   "description": "Genomu Elixir/Erlang client",
+   "language": "Elixir",
+   "stars": 2,
+   "archived": false,
+   "created": null,
+   "pushed": null,
+   "org": "genomu",
+   "years": {
+    "2013": 3
+   },
+   "first": 2013,
+   "last": 2013,
+   "total": 3
+  },
+  {
+   "name": "bitcoin-wallet-api/bitcoin-wallet-api.github.io",
+   "url": "https://github.com/bitcoin-wallet-api/bitcoin-wallet-api.github.io",
+   "homepage": null,
+   "description": null,
+   "language": "CSS",
+   "stars": 10,
+   "archived": false,
+   "created": null,
+   "pushed": null,
+   "org": "bitcoin-wallet-api",
+   "years": {
+    "2014": 19
+   },
+   "first": 2014,
+   "last": 2014,
+   "total": 19
+  },
+  {
+   "name": "gitchain/gitchain.github.io",
+   "url": "https://github.com/gitchain/gitchain.github.io",
+   "homepage": null,
+   "description": null,
+   "language": "HTML",
+   "stars": 1,
+   "archived": false,
+   "created": null,
+   "pushed": null,
+   "org": "gitchain",
+   "years": {
+    "2014": 16,
+    "2018": 2
+   },
+   "first": 2014,
+   "last": 2018,
+   "total": 18
+  },
+  {
+   "name": "bitcoin-wallet-api/demos",
+   "url": "https://github.com/bitcoin-wallet-api/demos",
+   "homepage": null,
+   "description": null,
+   "language": null,
+   "stars": 3,
+   "archived": false,
+   "created": null,
+   "pushed": null,
+   "org": "bitcoin-wallet-api",
+   "years": {
+    "2014": 11
+   },
+   "first": 2014,
+   "last": 2014,
+   "total": 11
+  },
+  {
+   "name": "bitcoin-wallet-api/bitcoin-core-chrome",
+   "url": "https://github.com/bitcoin-wallet-api/bitcoin-core-chrome",
+   "homepage": null,
+   "description": "Bitcoin Wallet API | Chrome Extension for Bitcoin Core",
+   "language": "JavaScript",
+   "stars": 14,
+   "archived": false,
+   "created": null,
+   "pushed": null,
+   "org": "bitcoin-wallet-api",
+   "years": {
+    "2014": 6
+   },
+   "first": 2014,
+   "last": 2014,
+   "total": 6
+  },
+  {
+   "name": "mostdoc/mostdoc",
+   "url": "https://github.com/mostdoc/mostdoc",
+   "homepage": null,
+   "description": "MostDoc is a modern, web-enabled, lightweight approach to literate programming",
+   "language": null,
+   "stars": 0,
+   "archived": false,
+   "created": null,
+   "pushed": null,
+   "org": "mostdoc",
+   "years": {
+    "2014": 5
+   },
+   "first": 2014,
+   "last": 2014,
+   "total": 5
+  },
+  {
+   "name": "trustatom-oss/trustatom-oss.github.io",
+   "url": "https://github.com/trustatom-oss/trustatom-oss.github.io",
+   "homepage": null,
+   "description": "Trustatom Opensource",
+   "language": "CSS",
+   "stars": 0,
+   "archived": false,
+   "created": null,
+   "pushed": null,
+   "org": "trustatom-oss",
+   "years": {
+    "2014": 5
+   },
+   "first": 2014,
+   "last": 2014,
+   "total": 5
+  },
+  {
+   "name": "mostdoc/mostdoc.github.io",
+   "url": "https://github.com/mostdoc/mostdoc.github.io",
+   "homepage": null,
+   "description": null,
+   "language": null,
+   "stars": 0,
+   "archived": false,
+   "created": null,
+   "pushed": null,
+   "org": "mostdoc",
+   "years": {
+    "2014": 4
+   },
+   "first": 2014,
+   "last": 2014,
+   "total": 4
+  },
+  {
+   "name": "trustatom-oss/elixir-fluent-client",
+   "url": "https://github.com/trustatom-oss/elixir-fluent-client",
+   "homepage": null,
+   "description": "fluentd client for Elixir",
+   "language": "Elixir",
+   "stars": 8,
+   "archived": false,
+   "created": null,
+   "pushed": null,
+   "org": "trustatom-oss",
+   "years": {
+    "2014": 2,
+    "2015": 2
+   },
+   "first": 2014,
+   "last": 2015,
+   "total": 4
+  },
+  {
+   "name": "ElixirWerkz/exlogger-splunk",
+   "url": "https://github.com/ElixirWerkz/exlogger-splunk",
+   "homepage": null,
+   "description": "ExLogger Splunk Backend",
+   "language": "Elixir",
+   "stars": 3,
+   "archived": false,
+   "created": null,
+   "pushed": null,
+   "org": "ElixirWerkz",
+   "years": {
+    "2014": 2
+   },
+   "first": 2014,
+   "last": 2014,
+   "total": 2
+  },
+  {
+   "name": "eventreducer/hlc",
+   "url": "https://github.com/eventreducer/hlc",
+   "homepage": null,
+   "description": "Hybrid Logical Clocks for Java",
+   "language": "Java",
+   "stars": 11,
+   "archived": false,
+   "created": null,
+   "pushed": null,
+   "org": "eventreducer",
+   "years": {
+    "2015": 1,
+    "2016": 3
+   },
+   "first": 2015,
+   "last": 2016,
+   "total": 4
+  },
+  {
+   "name": "unprotocols/gitbook-plugin-coss",
+   "url": "https://github.com/unprotocols/gitbook-plugin-coss",
+   "homepage": null,
+   "description": "COSS plugin for GitBook",
+   "language": "JavaScript",
+   "stars": 1,
+   "archived": false,
+   "created": null,
+   "pushed": null,
+   "org": "unprotocols",
+   "years": {
+    "2016": 8,
+    "2017": 8,
+    "2018": 1
+   },
+   "first": 2016,
+   "last": 2018,
+   "total": 17
+  },
+  {
+   "name": "eventreducer/eventreducer-redis",
+   "url": "https://github.com/eventreducer/eventreducer-redis",
+   "homepage": null,
+   "description": "Redis backend for EventReducer",
+   "language": "Java",
+   "stars": 1,
+   "archived": false,
+   "created": null,
+   "pushed": null,
+   "org": "eventreducer",
+   "years": {
+    "2016": 13
+   },
+   "first": 2016,
+   "last": 2016,
+   "total": 13
+  },
+  {
+   "name": "eventsourcing/presentation",
+   "url": "https://github.com/eventsourcing/presentation",
+   "homepage": null,
+   "description": null,
+   "language": "HTML",
+   "stars": 4,
+   "archived": false,
+   "created": null,
+   "pushed": null,
+   "org": "eventsourcing",
+   "years": {
+    "2016": 12
+   },
+   "first": 2016,
+   "last": 2016,
+   "total": 12
+  },
+  {
+   "name": "eventsourcing/eventsourcing-inc",
+   "url": "https://github.com/eventsourcing/eventsourcing-inc",
+   "homepage": null,
+   "description": "Non-profit organization documents",
+   "language": null,
+   "stars": 0,
+   "archived": false,
+   "created": null,
+   "pushed": null,
+   "org": "eventsourcing",
+   "years": {
+    "2016": 12
+   },
+   "first": 2016,
+   "last": 2016,
+   "total": 12
+  },
+  {
+   "name": "eventreducer/eventreducer-json",
+   "url": "https://github.com/eventreducer/eventreducer-json",
+   "homepage": null,
+   "description": null,
+   "language": "Java",
+   "stars": 0,
+   "archived": false,
+   "created": null,
+   "pushed": null,
+   "org": "eventreducer",
+   "years": {
+    "2016": 9
+   },
+   "first": 2016,
+   "last": 2016,
+   "total": 9
+  },
+  {
+   "name": "implementable/implementable.github.io",
+   "url": "https://github.com/implementable/implementable.github.io",
+   "homepage": null,
+   "description": null,
+   "language": "CSS",
+   "stars": 0,
+   "archived": false,
+   "created": null,
+   "pushed": null,
+   "org": "implementable",
+   "years": {
+    "2016": 7
+   },
+   "first": 2016,
+   "last": 2016,
+   "total": 7
+  },
+  {
+   "name": "unprotocols/unprotocols.github.io",
+   "url": "https://github.com/unprotocols/unprotocols.github.io",
+   "homepage": null,
+   "description": null,
+   "language": "CSS",
+   "stars": 0,
+   "archived": false,
+   "created": null,
+   "pushed": null,
+   "org": "unprotocols",
+   "years": {
+    "2016": 2
+   },
+   "first": 2016,
+   "last": 2016,
+   "total": 2
+  },
+  {
+   "name": "reactuate/forceraw-loader",
+   "url": "https://github.com/reactuate/forceraw-loader",
+   "homepage": null,
+   "description": "Webpack loader that loads files as strings without any pre-processing",
+   "language": "JavaScript",
+   "stars": 0,
+   "archived": false,
+   "created": null,
+   "pushed": null,
+   "org": "reactuate",
+   "years": {
+    "2016": 2
+   },
+   "first": 2016,
+   "last": 2016,
+   "total": 2
+  },
+  {
+   "name": "eventreducer/eventreducer.github.io",
+   "url": "https://github.com/eventreducer/eventreducer.github.io",
+   "homepage": null,
+   "description": null,
+   "language": "HTML",
+   "stars": 1,
+   "archived": false,
+   "created": null,
+   "pushed": null,
+   "org": "eventreducer",
+   "years": {
+    "2016": 2
+   },
+   "first": 2016,
+   "last": 2016,
+   "total": 2
+  },
+  {
+   "name": "eventsourcing/gitbook-plugin-es4j-doc",
+   "url": "https://github.com/eventsourcing/gitbook-plugin-es4j-doc",
+   "homepage": null,
+   "description": null,
+   "language": "JavaScript",
+   "stars": 0,
+   "archived": false,
+   "created": null,
+   "pushed": null,
+   "org": "eventsourcing",
+   "years": {
+    "2016": 2
+   },
+   "first": 2016,
+   "last": 2016,
+   "total": 2
+  },
+  {
+   "name": "reactuate/reactuate.github.io",
+   "url": "https://github.com/reactuate/reactuate.github.io",
+   "homepage": null,
+   "description": null,
+   "language": "JavaScript",
+   "stars": 0,
+   "archived": false,
+   "created": null,
+   "pushed": null,
+   "org": "reactuate",
+   "years": {
+    "2016": 2
+   },
+   "first": 2016,
+   "last": 2016,
+   "total": 2
+  },
+  {
+   "name": "unprotocols/coss-java",
+   "url": "https://github.com/unprotocols/coss-java",
+   "homepage": null,
+   "description": "COSS implementation for Java",
+   "language": "Java",
+   "stars": 2,
+   "archived": false,
+   "created": null,
+   "pushed": null,
+   "org": "unprotocols",
+   "years": {
+    "2016": 1
+   },
+   "first": 2016,
+   "last": 2016,
+   "total": 1
+  },
+  {
+   "name": "eventreducer/eventreducer-atomix",
+   "url": "https://github.com/eventreducer/eventreducer-atomix",
+   "homepage": null,
+   "description": null,
+   "language": "Java",
+   "stars": 0,
+   "archived": false,
+   "created": null,
+   "pushed": null,
+   "org": "eventreducer",
+   "years": {
+    "2016": 1
+   },
+   "first": 2016,
+   "last": 2016,
+   "total": 1
+  },
+  {
+   "name": "eventreducer/eventreducer-h2",
+   "url": "https://github.com/eventreducer/eventreducer-h2",
+   "homepage": null,
+   "description": null,
+   "language": "Java",
+   "stars": 0,
+   "archived": false,
+   "created": null,
+   "pushed": null,
+   "org": "eventreducer",
+   "years": {
+    "2016": 1
+   },
+   "first": 2016,
+   "last": 2016,
+   "total": 1
+  },
+  {
+   "name": "ViewDB/ViewDB",
+   "url": "https://github.com/ViewDB/ViewDB",
+   "homepage": null,
+   "description": "Fact ⇒ domain inference database",
+   "language": "Rust",
+   "stars": 23,
+   "archived": false,
+   "created": null,
+   "pushed": null,
+   "org": "ViewDB",
+   "years": {
+    "2017": 12
+   },
+   "first": 2017,
+   "last": 2017,
+   "total": 12
+  },
+  {
+   "name": "ropes-rs/rapt",
+   "url": "https://github.com/ropes-rs/rapt",
+   "homepage": null,
+   "description": "Runtime application instrumentation toolkit for Rust",
+   "language": "Rust",
+   "stars": 10,
+   "archived": false,
+   "created": null,
+   "pushed": null,
+   "org": "ropes-rs",
+   "years": {
+    "2017": 11
+   },
+   "first": 2017,
+   "last": 2017,
+   "total": 11
+  },
+  {
+   "name": "EtceteraLabs/nix-config",
+   "url": "https://github.com/EtceteraLabs/nix-config",
+   "homepage": null,
+   "description": null,
+   "language": "Nix",
+   "stars": 0,
+   "archived": false,
+   "created": null,
+   "pushed": null,
+   "org": "EtceteraLabs",
+   "years": {
+    "2017": 7,
+    "2018": 4
+   },
+   "first": 2017,
+   "last": 2018,
+   "total": 11
+  },
+  {
+   "name": "conmacro/conmacro",
+   "url": "https://github.com/conmacro/conmacro",
+   "homepage": null,
+   "description": "Construct Macro",
+   "language": "Rust",
+   "stars": 1,
+   "archived": false,
+   "created": null,
+   "pushed": null,
+   "org": "conmacro",
+   "years": {
+    "2017": 7
+   },
+   "first": 2017,
+   "last": 2017,
+   "total": 7
+  },
+  {
+   "name": "PumpkinDB/pumpkindb-java",
+   "url": "https://github.com/PumpkinDB/pumpkindb-java",
+   "homepage": null,
+   "description": "Java client for PumpkinDB",
+   "language": "Java",
+   "stars": 5,
+   "archived": false,
+   "created": null,
+   "pushed": null,
+   "org": "PumpkinDB",
+   "years": {
+    "2017": 5
+   },
+   "first": 2017,
+   "last": 2017,
+   "total": 5
+  },
+  {
+   "name": "PumpkinDB/rust-spdk",
+   "url": "https://github.com/PumpkinDB/rust-spdk",
+   "homepage": null,
+   "description": "Rust bindings for SPDK",
+   "language": "Rust",
+   "stars": 19,
+   "archived": false,
+   "created": null,
+   "pushed": null,
+   "org": "PumpkinDB",
+   "years": {
+    "2017": 3
+   },
+   "first": 2017,
+   "last": 2017,
+   "total": 3
+  },
+  {
+   "name": "EtceteraLabs/EtceteraLabsInc",
+   "url": "https://github.com/EtceteraLabs/EtceteraLabsInc",
+   "homepage": null,
+   "description": "Corporate documents",
+   "language": null,
+   "stars": 0,
+   "archived": false,
+   "created": null,
+   "pushed": null,
+   "org": "EtceteraLabs",
+   "years": {
+    "2017": 3
+   },
+   "first": 2017,
+   "last": 2017,
+   "total": 3
+  },
+  {
+   "name": "EtceteraLabs/EtceteraLabs",
+   "url": "https://github.com/EtceteraLabs/EtceteraLabs",
+   "homepage": null,
+   "description": null,
+   "language": null,
+   "stars": 0,
+   "archived": false,
+   "created": null,
+   "pushed": null,
+   "org": "EtceteraLabs",
+   "years": {
+    "2017": 2
+   },
+   "first": 2017,
+   "last": 2017,
+   "total": 2
+  },
+  {
+   "name": "svc-rs/svc",
+   "url": "https://github.com/svc-rs/svc",
+   "homepage": null,
+   "description": "Services framework for Rust",
+   "language": "Rust",
+   "stars": 0,
+   "archived": false,
+   "created": null,
+   "pushed": null,
+   "org": "svc-rs",
+   "years": {
+    "2017": 1
+   },
+   "first": 2017,
+   "last": 2017,
+   "total": 1
+  },
+  {
+   "name": "PumpkinDB/rfc",
+   "url": "https://github.com/PumpkinDB/rfc",
+   "homepage": null,
+   "description": "PumpkinDB RFCs",
+   "language": "CSS",
+   "stars": 0,
+   "archived": false,
+   "created": null,
+   "pushed": null,
+   "org": "PumpkinDB",
+   "years": {
+    "2017": 1
+   },
+   "first": 2017,
+   "last": 2017,
+   "total": 1
+  },
+  {
+   "name": "sit-fyi/sit-git-hook",
+   "url": "https://github.com/sit-fyi/sit-git-hook",
+   "homepage": null,
+   "description": null,
+   "language": "Shell",
+   "stars": 0,
+   "archived": false,
+   "created": null,
+   "pushed": null,
+   "org": "sit-fyi",
+   "years": {
+    "2018": 17
+   },
+   "first": 2018,
+   "last": 2018,
+   "total": 17
+  },
+  {
+   "name": "sit-fyi/sit-import",
+   "url": "https://github.com/sit-fyi/sit-import",
+   "homepage": null,
+   "description": "Imports data from external sources into SIT",
+   "language": "Rust",
+   "stars": 0,
+   "archived": false,
+   "created": null,
+   "pushed": null,
+   "org": "sit-fyi",
+   "years": {
+    "2018": 17
+   },
+   "first": 2018,
+   "last": 2018,
+   "total": 17
+  },
+  {
+   "name": "sit-fyi/artwork",
+   "url": "https://github.com/sit-fyi/artwork",
+   "homepage": null,
+   "description": "Artwork",
+   "language": "Makefile",
+   "stars": 1,
+   "archived": false,
+   "created": null,
+   "pushed": null,
+   "org": "sit-fyi",
+   "years": {
+    "2018": 8
+   },
+   "first": 2018,
+   "last": 2018,
+   "total": 8
+  },
+  {
+   "name": "sit-fyi/rfc",
+   "url": "https://github.com/sit-fyi/rfc",
+   "homepage": null,
+   "description": "SIT's Requests For Comments",
+   "language": null,
+   "stars": 0,
+   "archived": false,
+   "created": null,
+   "pushed": null,
+   "org": "sit-fyi",
+   "years": {
+    "2018": 6
+   },
+   "first": 2018,
+   "last": 2018,
+   "total": 6
+  },
+  {
+   "name": "sit-fyi/schemas",
+   "url": "https://github.com/sit-fyi/schemas",
+   "homepage": null,
+   "description": "Schemas",
+   "language": "JavaScript",
+   "stars": 0,
+   "archived": false,
+   "created": null,
+   "pushed": null,
+   "org": "sit-fyi",
+   "years": {
+    "2018": 5
+   },
+   "first": 2018,
+   "last": 2018,
+   "total": 5
+  },
+  {
+   "name": "sit-fyi/modules",
+   "url": "https://github.com/sit-fyi/modules",
+   "homepage": null,
+   "description": "Default module repository",
+   "language": null,
+   "stars": 0,
+   "archived": false,
+   "created": null,
+   "pushed": null,
+   "org": "sit-fyi",
+   "years": {
+    "2018": 1
+   },
+   "first": 2018,
+   "last": 2018,
+   "total": 1
+  },
+  {
+   "name": "wasm-rs/cargo-metadata",
+   "url": "https://github.com/wasm-rs/cargo-metadata",
+   "homepage": null,
+   "description": "How to indicate WASM support in Rust crates?",
+   "language": null,
+   "stars": 2,
+   "archived": false,
+   "created": null,
+   "pushed": null,
+   "org": "wasm-rs",
+   "years": {
+    "2021": 14
+   },
+   "first": 2021,
+   "last": 2021,
+   "total": 14
+  },
+  {
+   "name": "wasm-rs/shared-channel",
+   "url": "https://github.com/wasm-rs/shared-channel",
+   "homepage": null,
+   "description": "Shared Channel for WebAssembly",
+   "language": "Rust",
+   "stars": 42,
+   "archived": false,
+   "created": null,
+   "pushed": null,
+   "org": "wasm-rs",
+   "years": {
+    "2021": 7
+   },
+   "first": 2021,
+   "last": 2021,
+   "total": 7
+  },
+  {
+   "name": "gopkg-co/gopkg-cloudflare",
+   "url": "https://github.com/gopkg-co/gopkg-cloudflare",
+   "homepage": null,
+   "description": "Cloudflare setup",
+   "language": "JavaScript",
+   "stars": 1,
+   "archived": false,
+   "created": null,
+   "pushed": null,
+   "org": "gopkg-co",
+   "years": {
+    "2021": 5
+   },
+   "first": 2021,
+   "last": 2021,
+   "total": 5
+  },
+  {
+   "name": "gopkg-co/gopkg.cc",
+   "url": "https://github.com/gopkg-co/gopkg.cc",
+   "homepage": null,
+   "description": "Example",
+   "language": "HTML",
+   "stars": 0,
+   "archived": false,
+   "created": null,
+   "pushed": null,
+   "org": "gopkg-co",
+   "years": {
+    "2021": 1
+   },
+   "first": 2021,
+   "last": 2021,
+   "total": 1
+  },
+  {
+   "name": "omnigres/homebrew-omnigres",
+   "url": "https://github.com/omnigres/homebrew-omnigres",
+   "homepage": null,
+   "description": null,
+   "language": "Ruby",
+   "stars": 0,
+   "archived": false,
+   "created": null,
+   "pushed": null,
+   "org": "omnigres",
+   "years": {
+    "2023": 6
+   },
+   "first": 2023,
+   "last": 2023,
+   "total": 6
+  },
+  {
+   "name": "omnigres/.github",
+   "url": "https://github.com/omnigres/.github",
+   "homepage": null,
+   "description": null,
+   "language": null,
+   "stars": 1,
+   "archived": false,
+   "created": null,
+   "pushed": null,
+   "org": "omnigres",
+   "years": {
+    "2023": 2,
+    "2025": 3
+   },
+   "first": 2023,
+   "last": 2025,
+   "total": 5
+  },
+  {
+   "name": "omnigres-hiring/planstate-challenge",
+   "url": "https://github.com/omnigres-hiring/planstate-challenge",
+   "homepage": null,
+   "description": "PlanState Augmentation Challenge",
+   "language": "C",
+   "stars": 0,
+   "archived": false,
+   "created": null,
+   "pushed": null,
+   "org": "omnigres-hiring",
+   "years": {
+    "2024": 12
+   },
+   "first": 2024,
+   "last": 2024,
+   "total": 12
+  },
+  {
+   "name": "pgedc/book",
+   "url": "https://github.com/pgedc/book",
+   "homepage": null,
+   "description": "The Postgres Extensions Book",
+   "language": null,
+   "stars": 6,
+   "archived": false,
+   "created": null,
+   "pushed": null,
+   "org": "pgedc",
+   "years": {
+    "2024": 8
+   },
+   "first": 2024,
+   "last": 2024,
+   "total": 8
+  },
+  {
+   "name": "pgedc/.github",
+   "url": "https://github.com/pgedc/.github",
+   "homepage": null,
+   "description": null,
+   "language": null,
+   "stars": 0,
+   "archived": false,
+   "created": null,
+   "pushed": null,
+   "org": "pgedc",
+   "years": {
+    "2024": 6
+   },
+   "first": 2024,
+   "last": 2024,
+   "total": 6
+  },
+  {
+   "name": "omnigres/docs",
+   "url": "https://github.com/omnigres/docs",
+   "homepage": null,
+   "description": null,
+   "language": "Handlebars",
+   "stars": 1,
+   "archived": false,
+   "created": null,
+   "pushed": null,
+   "org": "omnigres",
+   "years": {
+    "2025": 7
+   },
+   "first": 2025,
+   "last": 2025,
+   "total": 7
+  },
+  {
+   "name": "omnigres/oomph",
+   "url": "https://github.com/omnigres/oomph",
+   "homepage": null,
+   "description": null,
+   "language": "C++",
+   "stars": 0,
+   "archived": false,
+   "created": null,
+   "pushed": null,
+   "org": "omnigres",
+   "years": {
+    "2025": 6
+   },
+   "first": 2025,
+   "last": 2025,
+   "total": 6
+  },
+  {
+   "name": "omnigres/codon-releases",
+   "url": "https://github.com/omnigres/codon-releases",
+   "homepage": null,
+   "description": null,
+   "language": null,
+   "stars": 1,
+   "archived": false,
+   "created": null,
+   "pushed": null,
+   "org": "omnigres",
+   "years": {
+    "2025": 4
+   },
+   "first": 2025,
+   "last": 2025,
+   "total": 4
+  },
+  {
+   "name": "omnigres/rfc",
+   "url": "https://github.com/omnigres/rfc",
+   "homepage": null,
+   "description": null,
+   "language": null,
+   "stars": 2,
+   "archived": false,
+   "created": null,
+   "pushed": null,
+   "org": "omnigres",
+   "years": {
+    "2025": 3
+   },
+   "first": 2025,
+   "last": 2025,
+   "total": 3
+  },
+  {
+   "name": "opencodereview-org/opencodereview",
+   "url": "https://github.com/opencodereview-org/opencodereview",
+   "homepage": null,
+   "description": "Open Code Review - A portable, tool-agnostic code review specification",
+   "language": "Python",
+   "stars": 2,
+   "archived": false,
+   "created": null,
+   "pushed": null,
+   "org": "opencodereview-org",
+   "years": {
+    "2026": 17
+   },
+   "first": 2026,
+   "last": 2026,
+   "total": 17
+  },
+  {
+   "name": "inferal-oss/web-network-inspector",
+   "url": "https://github.com/inferal-oss/web-network-inspector",
+   "homepage": null,
+   "description": "An extensible in-page network waterfall with bounded local capture, application events, custom toolbar controls, and popups.",
+   "language": "JavaScript",
+   "stars": 0,
+   "archived": false,
+   "created": null,
+   "pushed": null,
+   "org": "inferal-oss",
+   "years": {
+    "2026": 14
+   },
+   "first": 2026,
+   "last": 2026,
+   "total": 14
+  },
+  {
+   "name": "flyology-ada/flyology-crc",
+   "url": "https://github.com/flyology-ada/flyology-crc",
+   "homepage": null,
+   "description": null,
+   "language": "Ada",
+   "stars": 0,
+   "archived": false,
+   "created": null,
+   "pushed": null,
+   "org": "flyology-ada",
+   "years": {
+    "2026": 11
+   },
+   "first": 2026,
+   "last": 2026,
+   "total": 11
+  },
+  {
+   "name": "inferal-oss/clipspyx-colab",
+   "url": "https://github.com/inferal-oss/clipspyx-colab",
+   "homepage": null,
+   "description": "Interactive Colab notebooks for clipspyx — the Python DSL for CLIPS",
+   "language": "Jupyter Notebook",
+   "stars": 0,
+   "archived": false,
+   "created": null,
+   "pushed": null,
+   "org": "inferal-oss",
+   "years": {
+    "2026": 9
+   },
+   "first": 2026,
+   "last": 2026,
+   "total": 9
+  },
+  {
+   "name": "inferal-oss/openregard",
+   "url": "https://github.com/inferal-oss/openregard",
+   "homepage": null,
+   "description": "Configurable display preferences with a dependency-free core, accessible native widget, optional React binding, and runnable demo.",
+   "language": "TypeScript",
+   "stars": 0,
+   "archived": false,
+   "created": null,
+   "pushed": null,
+   "org": "inferal-oss",
+   "years": {
+    "2026": 9
+   },
+   "first": 2026,
+   "last": 2026,
+   "total": 9
+  },
+  {
+   "name": "inferal-oss/inferal-oss.github.io",
+   "url": "https://github.com/inferal-oss/inferal-oss.github.io",
+   "homepage": null,
+   "description": "Inferal Open Source: useful tools, built in the open.",
+   "language": "JavaScript",
+   "stars": 0,
+   "archived": false,
+   "created": null,
+   "pushed": null,
+   "org": "inferal-oss",
+   "years": {
+    "2026": 8
+   },
+   "first": 2026,
+   "last": 2026,
+   "total": 8
+  },
+  {
+   "name": "inferal-oss/agentic-plugins",
+   "url": "https://github.com/inferal-oss/agentic-plugins",
+   "homepage": null,
+   "description": "Agentic coding plugins for Claude Code and Codex CLI",
+   "language": "Python",
+   "stars": 0,
+   "archived": false,
+   "created": null,
+   "pushed": null,
+   "org": "inferal-oss",
+   "years": {
+    "2026": 7
+   },
+   "first": 2026,
+   "last": 2026,
+   "total": 7
+  },
+  {
+   "name": "inferal-oss/agent-session-migrator",
+   "url": "https://github.com/inferal-oss/agent-session-migrator",
+   "homepage": null,
+   "description": "A provider-based terminal UI for preparing and migrating agent sessions between development hosts.",
+   "language": "Go",
+   "stars": 0,
+   "archived": false,
+   "created": null,
+   "pushed": null,
+   "org": "inferal-oss",
+   "years": {
+    "2026": 5
+   },
+   "first": 2026,
+   "last": 2026,
+   "total": 5
+  },
+  {
+   "name": "inferaldata/pg_inferal_relay",
+   "url": "https://github.com/inferaldata/pg_inferal_relay",
+   "homepage": null,
+   "description": null,
+   "language": "PLpgSQL",
+   "stars": 2,
+   "archived": false,
+   "created": null,
+   "pushed": null,
+   "org": "inferaldata",
+   "years": {
+    "2026": 3
+   },
+   "first": 2026,
+   "last": 2026,
+   "total": 3
+  },
+  {
+   "name": "flyology-ada/flyology.org",
+   "url": "https://github.com/flyology-ada/flyology.org",
+   "homepage": null,
+   "description": "Generated public data for flyology.org",
+   "language": "JavaScript",
+   "stars": 0,
+   "archived": false,
+   "created": null,
+   "pushed": null,
+   "org": "flyology-ada",
+   "years": {
+    "2026": 2
+   },
+   "first": 2026,
+   "last": 2026,
+   "total": 2
   }
  ],
  "contributed": [
@@ -4466,20 +7059,6 @@
    "stars": 23,
    "language": "Erlang",
    "owner": "cchandler",
-   "years": {
-    "2009": 3
-   },
-   "first": 2009,
-   "last": 2009,
-   "total": 3
-  },
-  {
-   "name": "cohepub/mod_flash_crossdomain",
-   "url": "https://github.com/cohepub/mod_flash_crossdomain",
-   "description": "mod_flash_crossdomain plugin for ejabberd",
-   "stars": 4,
-   "language": "Erlang",
-   "owner": "cohepub",
    "years": {
     "2009": 3
    },
@@ -4596,105 +7175,6 @@
    "total": 34
   },
   {
-   "name": "agner/rebar.agner",
-   "url": "https://github.com/agner/rebar.agner",
-   "description": "A sophisticated build-tool for Erlang projects that follows OTP principles",
-   "stars": 1,
-   "language": null,
-   "owner": "agner",
-   "years": {
-    "2011": 14
-   },
-   "first": 2011,
-   "last": 2011,
-   "total": 14
-  },
-  {
-   "name": "agner/erlando.agner",
-   "url": "https://github.com/agner/erlando.agner",
-   "description": "Cuts and monads for Erlang",
-   "stars": 1,
-   "language": null,
-   "owner": "agner",
-   "years": {
-    "2011": 12
-   },
-   "first": 2011,
-   "last": 2011,
-   "total": 12
-  },
-  {
-   "name": "agner/agner.agner",
-   "url": "https://github.com/agner/agner.agner",
-   "description": "A Giant Nebula of Erlang Repositories",
-   "stars": 1,
-   "language": "Shell",
-   "owner": "agner",
-   "years": {
-    "2011": 9
-   },
-   "first": 2011,
-   "last": 2011,
-   "total": 9
-  },
-  {
-   "name": "agner/ezmq.agner.limbo",
-   "url": "https://github.com/agner/ezmq.agner.limbo",
-   "description": "NIF-based zeromq binding for Erlang",
-   "stars": 1,
-   "language": null,
-   "owner": "agner",
-   "years": {
-    "2011": 8
-   },
-   "first": 2011,
-   "last": 2011,
-   "total": 8
-  },
-  {
-   "name": "agner/zippers.agner",
-   "url": "https://github.com/agner/zippers.agner",
-   "description": "Zippers is a library containing basic zipper functional data structures",
-   "stars": 1,
-   "language": null,
-   "owner": "agner",
-   "years": {
-    "2011": 8
-   },
-   "first": 2011,
-   "last": 2011,
-   "total": 8
-  },
-  {
-   "name": "agner/yaws.agner",
-   "url": "https://github.com/agner/yaws.agner",
-   "description": "Yaws webserver",
-   "stars": 0,
-   "language": null,
-   "owner": "agner",
-   "years": {
-    "2011": 8
-   },
-   "first": 2011,
-   "last": 2011,
-   "total": 8
-  },
-  {
-   "name": "agner/elixir.agner",
-   "url": "https://github.com/agner/elixir.agner",
-   "description": "Elixir is a functional meta-programming aware language built on top of the Erlang VM. It is a dynamic language with flexible syntax with macros support that leverages Erlang's abilities to build concurrent, distributed, fault-tolerant applications with hot code upgrades",
-   "stars": 2,
-   "language": null,
-   "owner": "agner",
-   "years": {
-    "2011": 7,
-    "2012": 1
-   },
-   "first": 2011,
-   "last": 2012,
-   "total": 8
-  },
-  {
    "name": "chrismoos/hash-ring",
    "url": "https://github.com/chrismoos/hash-ring",
    "description": "C hash ring library",
@@ -4707,188 +7187,6 @@
    "first": 2011,
    "last": 2011,
    "total": 8
-  },
-  {
-   "name": "agner/statebox.agner",
-   "url": "https://github.com/agner/statebox.agner",
-   "description": "Erlang state \"monad\" with merge/conflict-resolution capabilities. Useful for Riak.",
-   "stars": 1,
-   "language": null,
-   "owner": "agner",
-   "years": {
-    "2011": 7
-   },
-   "first": 2011,
-   "last": 2011,
-   "total": 7
-  },
-  {
-   "name": "agner/timed_supervisor.agner",
-   "url": "https://github.com/agner/timed_supervisor.agner",
-   "description": "Allows to run an application on given days of week and hours of day",
-   "stars": 1,
-   "language": null,
-   "owner": "agner",
-   "years": {
-    "2011": 7
-   },
-   "first": 2011,
-   "last": 2011,
-   "total": 7
-  },
-  {
-   "name": "agner/efene.agner",
-   "url": "https://github.com/agner/efene.agner",
-   "description": "Programming language with C-like syntax that runs on the Erlang platform",
-   "stars": 1,
-   "language": "Shell",
-   "owner": "agner",
-   "years": {
-    "2011": 7
-   },
-   "first": 2011,
-   "last": 2011,
-   "total": 7
-  },
-  {
-   "name": "agner/jsx.agner",
-   "url": "https://github.com/agner/jsx.agner",
-   "description": "an evented, streaming json parser based in part on yajl",
-   "stars": 1,
-   "language": null,
-   "owner": "agner",
-   "years": {
-    "2011": 7
-   },
-   "first": 2011,
-   "last": 2011,
-   "total": 7
-  },
-  {
-   "name": "agner/erlzmq.agner",
-   "url": "https://github.com/agner/erlzmq.agner",
-   "description": "Erlang bindings for ZeroMQ messaging",
-   "stars": 1,
-   "language": "Shell",
-   "owner": "agner",
-   "years": {
-    "2011": 7
-   },
-   "first": 2011,
-   "last": 2011,
-   "total": 7
-  },
-  {
-   "name": "agner/entop.agner",
-   "url": "https://github.com/agner/entop.agner",
-   "description": "A top-like tool for monitoring an Erlang node",
-   "stars": 1,
-   "language": null,
-   "owner": "agner",
-   "years": {
-    "2011": 7
-   },
-   "first": 2011,
-   "last": 2011,
-   "total": 7
-  },
-  {
-   "name": "agner/epubnub.agner",
-   "url": "https://github.com/agner/epubnub.agner",
-   "description": "Erlang bindings for PubNub.com service",
-   "stars": 1,
-   "language": null,
-   "owner": "agner",
-   "years": {
-    "2011": 7
-   },
-   "first": 2011,
-   "last": 2011,
-   "total": 7
-  },
-  {
-   "name": "agner/mochijson.agner",
-   "url": "https://github.com/agner/mochijson.agner",
-   "description": "The json encoding modules from mochiweb",
-   "stars": 1,
-   "language": "Shell",
-   "owner": "agner",
-   "years": {
-    "2011": 7
-   },
-   "first": 2011,
-   "last": 2011,
-   "total": 7
-  },
-  {
-   "name": "agner/reloader.agner",
-   "url": "https://github.com/agner/reloader.agner",
-   "description": "Erlang module for automatically reloading modified modules during development",
-   "stars": 1,
-   "language": "Shell",
-   "owner": "agner",
-   "years": {
-    "2011": 7
-   },
-   "first": 2011,
-   "last": 2011,
-   "total": 7
-  },
-  {
-   "name": "agner/rabbitmq_server.agner",
-   "url": "https://github.com/agner/rabbitmq_server.agner",
-   "description": "RabbitMQ AMQP Server",
-   "stars": 1,
-   "language": null,
-   "owner": "agner",
-   "years": {
-    "2011": 7
-   },
-   "first": 2011,
-   "last": 2011,
-   "total": 7
-  },
-  {
-   "name": "agner/jiffy.agner",
-   "url": "https://github.com/agner/jiffy.agner",
-   "description": "JSON NIFs for Erlang",
-   "stars": 0,
-   "language": null,
-   "owner": "agner",
-   "years": {
-    "2011": 7
-   },
-   "first": 2011,
-   "last": 2011,
-   "total": 7
-  },
-  {
-   "name": "agner/nitrogen.agner",
-   "url": "https://github.com/agner/nitrogen.agner",
-   "description": "Nitrogen Web Framework for Erlang",
-   "stars": 1,
-   "language": null,
-   "owner": "agner",
-   "years": {
-    "2011": 7
-   },
-   "first": 2011,
-   "last": 2011,
-   "total": 7
-  },
-  {
-   "name": "spawngrid/quickrel",
-   "url": "https://github.com/spawngrid/quickrel",
-   "description": "A way to build a development environment style release in a fraction of time rebar/reltool take",
-   "stars": 5,
-   "language": "Erlang",
-   "owner": "spawngrid",
-   "years": {
-    "2011": 7
-   },
-   "first": 2011,
-   "last": 2011,
-   "total": 7
   },
   {
    "name": "basho/rebar",
@@ -4922,877 +7220,9 @@
    "total": 7
   },
   {
-   "name": "agner/chicagoboss.agner",
-   "url": "https://github.com/agner/chicagoboss.agner",
-   "description": "Rails-like web MVC, now featuring Comet",
-   "stars": 1,
-   "language": null,
-   "owner": "agner",
-   "years": {
-    "2011": 6
-   },
-   "first": 2011,
-   "last": 2011,
-   "total": 6
-  },
-  {
-   "name": "agner/jobs.agner",
-   "url": "https://github.com/agner/jobs.agner",
-   "description": "Job scheduler for load regulation",
-   "stars": 1,
-   "language": null,
-   "owner": "agner",
-   "years": {
-    "2011": 6
-   },
-   "first": 2011,
-   "last": 2011,
-   "total": 6
-  },
-  {
-   "name": "agner/serial.agner",
-   "url": "https://github.com/agner/serial.agner",
-   "description": "Erlang serial-port support",
-   "stars": 1,
-   "language": null,
-   "owner": "agner",
-   "years": {
-    "2011": 6
-   },
-   "first": 2011,
-   "last": 2011,
-   "total": 6
-  },
-  {
-   "name": "agner/cowboy.agner",
-   "url": "https://github.com/agner/cowboy.agner",
-   "description": "Small, fast, modular HTTP server",
-   "stars": 1,
-   "language": null,
-   "owner": "agner",
-   "years": {
-    "2011": 6
-   },
-   "first": 2011,
-   "last": 2011,
-   "total": 6
-  },
-  {
-   "name": "agner/ezk.agner",
-   "url": "https://github.com/agner/ezk.agner",
-   "description": "Erlang-Bindings for Zookeeper",
-   "stars": 1,
-   "language": null,
-   "owner": "agner",
-   "years": {
-    "2011": 6
-   },
-   "first": 2011,
-   "last": 2011,
-   "total": 6
-  },
-  {
-   "name": "agner/socketio.agner",
-   "url": "https://github.com/agner/socketio.agner",
-   "description": "Socket.IO server in Erlang",
-   "stars": 1,
-   "language": null,
-   "owner": "agner",
-   "years": {
-    "2011": 6
-   },
-   "first": 2011,
-   "last": 2011,
-   "total": 6
-  },
-  {
-   "name": "agner/convey.agner.limbo",
-   "url": "https://github.com/agner/convey.agner.limbo",
-   "description": "a high performance, highly concurrent tcp server implementation",
-   "stars": 1,
-   "language": null,
-   "owner": "agner",
-   "years": {
-    "2011": 6
-   },
-   "first": 2011,
-   "last": 2011,
-   "total": 6
-  },
-  {
-   "name": "agner/efps.agner",
-   "url": "https://github.com/agner/efps.agner",
-   "description": "Erlang/OTP Flash Policy Server",
-   "stars": 1,
-   "language": null,
-   "owner": "agner",
-   "years": {
-    "2011": 6
-   },
-   "first": 2011,
-   "last": 2011,
-   "total": 6
-  },
-  {
-   "name": "agner/uuid.agner",
-   "url": "https://github.com/agner/uuid.agner",
-   "description": "Erlang Native UUID (v1, v3, v4, & v5) Generation",
-   "stars": 1,
-   "language": null,
-   "owner": "agner",
-   "years": {
-    "2011": 6
-   },
-   "first": 2011,
-   "last": 2011,
-   "total": 6
-  },
-  {
-   "name": "agner/kvc.agner",
-   "url": "https://github.com/agner/kvc.agner",
-   "description": "Key Value Coding for Erlang data structures",
-   "stars": 1,
-   "language": null,
-   "owner": "agner",
-   "years": {
-    "2011": 6
-   },
-   "first": 2011,
-   "last": 2011,
-   "total": 6
-  },
-  {
-   "name": "agner/estring.agner",
-   "url": "https://github.com/agner/estring.agner",
-   "description": "string manipulation library for erlang",
-   "stars": 1,
-   "language": null,
-   "owner": "agner",
-   "years": {
-    "2011": 6
-   },
-   "first": 2011,
-   "last": 2011,
-   "total": 6
-  },
-  {
-   "name": "agner/ossp_uuid.agner",
-   "url": "https://github.com/agner/ossp_uuid.agner",
-   "description": "NIF-based ossp-uuid binding",
-   "stars": 1,
-   "language": null,
-   "owner": "agner",
-   "years": {
-    "2011": 6
-   },
-   "first": 2011,
-   "last": 2011,
-   "total": 6
-  },
-  {
-   "name": "agner/erlsha2.agner",
-   "url": "https://github.com/agner/erlsha2.agner",
-   "description": "SHA-224, SHA-256, SHA-384, SHA-512 implemented in Erlang NIFs",
-   "stars": 1,
-   "language": null,
-   "owner": "agner",
-   "years": {
-    "2011": 6
-   },
-   "first": 2011,
-   "last": 2011,
-   "total": 6
-  },
-  {
-   "name": "agner/rabbitmq_client.agner",
-   "url": "https://github.com/agner/rabbitmq_client.agner",
-   "description": "RabbitMQ Erlang AMQP client",
-   "stars": 1,
-   "language": null,
-   "owner": "agner",
-   "years": {
-    "2011": 6
-   },
-   "first": 2011,
-   "last": 2011,
-   "total": 6
-  },
-  {
-   "name": "agner/riak_search.agner",
-   "url": "https://github.com/agner/riak_search.agner",
-   "description": "Full-text search engine based on Riak",
-   "stars": 1,
-   "language": null,
-   "owner": "agner",
-   "years": {
-    "2011": 6
-   },
-   "first": 2011,
-   "last": 2011,
-   "total": 6
-  },
-  {
-   "name": "agner/erlv8.agner",
-   "url": "https://github.com/agner/erlv8.agner",
-   "description": "Erlang interface for V8",
-   "stars": 1,
-   "language": null,
-   "owner": "agner",
-   "years": {
-    "2011": 6
-   },
-   "first": 2011,
-   "last": 2011,
-   "total": 6
-  },
-  {
-   "name": "agner/erlcloud.agner",
-   "url": "https://github.com/agner/erlcloud.agner",
-   "description": "Cloud Computing library for erlang (Amazon EC2, S3, SQS, SimpleDB, Mechanical Turk)",
-   "stars": 1,
-   "language": null,
-   "owner": "agner",
-   "years": {
-    "2011": 6
-   },
-   "first": 2011,
-   "last": 2011,
-   "total": 6
-  },
-  {
-   "name": "agner/eredis.agner",
-   "url": "https://github.com/agner/eredis.agner",
-   "description": "Wooga redis client package",
-   "stars": 1,
-   "language": null,
-   "owner": "agner",
-   "years": {
-    "2011": 6
-   },
-   "first": 2011,
-   "last": 2011,
-   "total": 6
-  },
-  {
-   "name": "agner/folsom.agner",
-   "url": "https://github.com/agner/folsom.agner",
-   "description": "Expose Erlang Events and Metrics",
-   "stars": 1,
-   "language": null,
-   "owner": "agner",
-   "years": {
-    "2011": 6
-   },
-   "first": 2011,
-   "last": 2011,
-   "total": 6
-  },
-  {
-   "name": "agner/nicedecimal.agner",
-   "url": "https://github.com/agner/nicedecimal.agner",
-   "description": "nicedecimal package",
-   "stars": 1,
-   "language": null,
-   "owner": "agner",
-   "years": {
-    "2011": 6
-   },
-   "first": 2011,
-   "last": 2011,
-   "total": 6
-  },
-  {
-   "name": "agner/lager.agner",
-   "url": "https://github.com/agner/lager.agner",
-   "description": "Logging Framework for Erlang/OTP",
-   "stars": 1,
-   "language": null,
-   "owner": "agner",
-   "years": {
-    "2011": 6
-   },
-   "first": 2011,
-   "last": 2011,
-   "total": 6
-  },
-  {
-   "name": "agner/ddb.agner",
-   "url": "https://github.com/agner/ddb.agner",
-   "description": "Amazon DynamoDB API for Erlang",
-   "stars": 1,
-   "language": null,
-   "owner": "agner",
-   "years": {
-    "2011": 6
-   },
-   "first": 2011,
-   "last": 2011,
-   "total": 6
-  },
-  {
-   "name": "agner/seresye.agner",
-   "url": "https://github.com/agner/seresye.agner",
-   "description": null,
-   "stars": 1,
-   "language": null,
-   "owner": "agner",
-   "years": {
-    "2011": 6
-   },
-   "first": 2011,
-   "last": 2011,
-   "total": 6
-  },
-  {
-   "name": "agner/erlware_commons.agner",
-   "url": "https://github.com/agner/erlware_commons.agner",
-   "description": "Erlware Commons agner package",
-   "stars": 1,
-   "language": null,
-   "owner": "agner",
-   "years": {
-    "2011": 6
-   },
-   "first": 2011,
-   "last": 2011,
-   "total": 6
-  },
-  {
-   "name": "agner/erlastic_search.agner",
-   "url": "https://github.com/agner/erlastic_search.agner",
-   "description": "An Erlang app for communicating with Elastic Search's rest interface. ",
-   "stars": 1,
-   "language": null,
-   "owner": "agner",
-   "years": {
-    "2011": 6
-   },
-   "first": 2011,
-   "last": 2011,
-   "total": 6
-  },
-  {
-   "name": "agner/erlson.agner",
-   "url": "https://github.com/agner/erlson.agner",
-   "description": "Erlson package",
-   "stars": 1,
-   "language": null,
-   "owner": "agner",
-   "years": {
-    "2011": 6
-   },
-   "first": 2011,
-   "last": 2011,
-   "total": 6
-  },
-  {
-   "name": "agner/erlbrake.agner",
-   "url": "https://github.com/agner/erlbrake.agner",
-   "description": "Erlbrake agner package",
-   "stars": 1,
-   "language": null,
-   "owner": "agner",
-   "years": {
-    "2011": 6
-   },
-   "first": 2011,
-   "last": 2011,
-   "total": 6
-  },
-  {
-   "name": "agner/agner.template",
-   "url": "https://github.com/agner/agner.template",
-   "description": "Template spec repository, fork & rename it",
-   "stars": 0,
-   "language": null,
-   "owner": "agner",
-   "years": {
-    "2011": 6
-   },
-   "first": 2011,
-   "last": 2011,
-   "total": 6
-  },
-  {
-   "name": "agner/riak_pipe.agner",
-   "url": "https://github.com/agner/riak_pipe.agner",
-   "description": "Riak Pipelines",
-   "stars": 1,
-   "language": null,
-   "owner": "agner",
-   "years": {
-    "2011": 6
-   },
-   "first": 2011,
-   "last": 2011,
-   "total": 6
-  },
-  {
-   "name": "agner/stomp_client.agner",
-   "url": "https://github.com/agner/stomp_client.agner",
-   "description": "A stomp client written in Erlang",
-   "stars": 1,
-   "language": null,
-   "owner": "agner",
-   "years": {
-    "2011": 6
-   },
-   "first": 2011,
-   "last": 2011,
-   "total": 6
-  },
-  {
-   "name": "agner/procket.agner",
-   "url": "https://github.com/agner/procket.agner",
-   "description": "Erlang interface to low level socket operations",
-   "stars": 1,
-   "language": null,
-   "owner": "agner",
-   "years": {
-    "2011": 6
-   },
-   "first": 2011,
-   "last": 2011,
-   "total": 6
-  },
-  {
-   "name": "agner/lhttpc.agner",
-   "url": "https://github.com/agner/lhttpc.agner",
-   "description": "lhttpc is a lightweight HTTP/1.1 client implemented in Erlang",
-   "stars": 2,
-   "language": null,
-   "owner": "agner",
-   "years": {
-    "2011": 6
-   },
-   "first": 2011,
-   "last": 2011,
-   "total": 6
-  },
-  {
-   "name": "agner/gen_event_forwarder.agner",
-   "url": "https://github.com/agner/gen_event_forwarder.agner",
-   "description": "gen_event forwarder",
-   "stars": 1,
-   "language": null,
-   "owner": "agner",
-   "years": {
-    "2011": 6
-   },
-   "first": 2011,
-   "last": 2011,
-   "total": 6
-  },
-  {
-   "name": "agner/tsung.agner",
-   "url": "https://github.com/agner/tsung.agner",
-   "description": "Tsung is an open-source multi-protocol distributed load testing tool",
-   "stars": 1,
-   "language": "Shell",
-   "owner": "agner",
-   "years": {
-    "2011": 6
-   },
-   "first": 2011,
-   "last": 2011,
-   "total": 6
-  },
-  {
-   "name": "agner/riak_zab.agner",
-   "url": "https://github.com/agner/riak_zab.agner",
-   "description": "Pure Erlang implementation of Zab, the Zookeeper Atomic Broadcast protocol",
-   "stars": 1,
-   "language": null,
-   "owner": "agner",
-   "years": {
-    "2011": 6
-   },
-   "first": 2011,
-   "last": 2011,
-   "total": 6
-  },
-  {
-   "name": "agner/plain_fsm.agner",
-   "url": "https://github.com/agner/plain_fsm.agner",
-   "description": "A behaviour/support library for writing plain Erlang FSMs",
-   "stars": 1,
-   "language": null,
-   "owner": "agner",
-   "years": {
-    "2011": 6
-   },
-   "first": 2011,
-   "last": 2011,
-   "total": 6
-  },
-  {
-   "name": "agner/epgsql.agner",
-   "url": "https://github.com/agner/epgsql.agner",
-   "description": "Erlang PostgreSQL client library",
-   "stars": 1,
-   "language": null,
-   "owner": "agner",
-   "years": {
-    "2011": 5
-   },
-   "first": 2011,
-   "last": 2011,
-   "total": 5
-  },
-  {
-   "name": "agner/erldis.agner",
-   "url": "https://github.com/agner/erldis.agner",
-   "description": "redis erlang client library",
-   "stars": 1,
-   "language": null,
-   "owner": "agner",
-   "years": {
-    "2011": 5
-   },
-   "first": 2011,
-   "last": 2011,
-   "total": 5
-  },
-  {
-   "name": "agner/gen_fsm2.agner",
-   "url": "https://github.com/agner/gen_fsm2.agner",
-   "description": "Extended version of gen_fsm",
-   "stars": 1,
-   "language": null,
-   "owner": "agner",
-   "years": {
-    "2011": 5
-   },
-   "first": 2011,
-   "last": 2011,
-   "total": 5
-  },
-  {
-   "name": "agner/plists.agner",
-   "url": "https://github.com/agner/plists.agner",
-   "description": "An Erlang module for doing list operations in parallel",
-   "stars": 1,
-   "language": null,
-   "owner": "agner",
-   "years": {
-    "2011": 5
-   },
-   "first": 2011,
-   "last": 2011,
-   "total": 5
-  },
-  {
-   "name": "agner/gen_nb_server.agner",
-   "url": "https://github.com/agner/gen_nb_server.agner",
-   "description": "OTP behavior for writing non-blocking servers",
-   "stars": 1,
-   "language": null,
-   "owner": "agner",
-   "years": {
-    "2011": 5
-   },
-   "first": 2011,
-   "last": 2011,
-   "total": 5
-  },
-  {
-   "name": "agner/couchbeam.agner",
-   "url": "https://github.com/agner/couchbeam.agner",
-   "description": "Erlang Couchdb kit",
-   "stars": 1,
-   "language": null,
-   "owner": "agner",
-   "years": {
-    "2011": 5
-   },
-   "first": 2011,
-   "last": 2011,
-   "total": 5
-  },
-  {
-   "name": "agner/riak_sysmon.agner",
-   "url": "https://github.com/agner/riak_sysmon.agner",
-   "description": "Simple OTP app for managing Erlang VM system_monitor event messages",
-   "stars": 1,
-   "language": null,
-   "owner": "agner",
-   "years": {
-    "2011": 5
-   },
-   "first": 2011,
-   "last": 2011,
-   "total": 5
-  },
-  {
    "name": "agner/meck.agner",
    "url": "https://github.com/agner/meck.agner",
    "description": "A mocking library for Erlang",
-   "stars": 1,
-   "language": null,
-   "owner": "agner",
-   "years": {
-    "2011": 5
-   },
-   "first": 2011,
-   "last": 2011,
-   "total": 5
-  },
-  {
-   "name": "agner/emysql.agner",
-   "url": "https://github.com/agner/emysql.agner",
-   "description": "Erlang MySQL driver",
-   "stars": 1,
-   "language": null,
-   "owner": "agner",
-   "years": {
-    "2011": 5
-   },
-   "first": 2011,
-   "last": 2011,
-   "total": 5
-  },
-  {
-   "name": "agner/webmachine.agner",
-   "url": "https://github.com/agner/webmachine.agner",
-   "description": "A REST-based system for building web applications.",
-   "stars": 1,
-   "language": null,
-   "owner": "agner",
-   "years": {
-    "2011": 5
-   },
-   "first": 2011,
-   "last": 2011,
-   "total": 5
-  },
-  {
-   "name": "agner/gen_smtp.agner",
-   "url": "https://github.com/agner/gen_smtp.agner",
-   "description": "A generic SMTP server and client in Erlang that can be extended via callback modules",
-   "stars": 0,
-   "language": null,
-   "owner": "agner",
-   "years": {
-    "2011": 5
-   },
-   "first": 2011,
-   "last": 2011,
-   "total": 5
-  },
-  {
-   "name": "agner/iconv.agner",
-   "url": "https://github.com/agner/iconv.agner",
-   "description": "iconv driver for erlang",
-   "stars": 1,
-   "language": null,
-   "owner": "agner",
-   "years": {
-    "2011": 5
-   },
-   "first": 2011,
-   "last": 2011,
-   "total": 5
-  },
-  {
-   "name": "agner/scalaris.agner",
-   "url": "https://github.com/agner/scalaris.agner",
-   "description": "Scalaris is a scalable, transactional, distributed key-value store",
-   "stars": 1,
-   "language": null,
-   "owner": "agner",
-   "years": {
-    "2011": 5
-   },
-   "first": 2011,
-   "last": 2011,
-   "total": 5
-  },
-  {
-   "name": "agner/mysql.agner",
-   "url": "https://github.com/agner/mysql.agner",
-   "description": "Erlang MySQL Driver",
-   "stars": 1,
-   "language": null,
-   "owner": "agner",
-   "years": {
-    "2011": 5
-   },
-   "first": 2011,
-   "last": 2011,
-   "total": 5
-  },
-  {
-   "name": "agner/encurses.agner",
-   "url": "https://github.com/agner/encurses.agner",
-   "description": "A NIF-based ncurses library for Erlang",
-   "stars": 1,
-   "language": null,
-   "owner": "agner",
-   "years": {
-    "2011": 5
-   },
-   "first": 2011,
-   "last": 2011,
-   "total": 5
-  },
-  {
-   "name": "agner/cecho.agner",
-   "url": "https://github.com/agner/cecho.agner",
-   "description": "An ncurses library for Erlang",
-   "stars": 1,
-   "language": null,
-   "owner": "agner",
-   "years": {
-    "2011": 5
-   },
-   "first": 2011,
-   "last": 2011,
-   "total": 5
-  },
-  {
-   "name": "agner/erlmongo.agner",
-   "url": "https://github.com/agner/erlmongo.agner",
-   "description": "Record based Erlang driver for MongoDB with gridfs support",
-   "stars": 1,
-   "language": null,
-   "owner": "agner",
-   "years": {
-    "2011": 5
-   },
-   "first": 2011,
-   "last": 2011,
-   "total": 5
-  },
-  {
-   "name": "agner/protobuffs.agner",
-   "url": "https://github.com/agner/protobuffs.agner",
-   "description": "An implementation of Google's Protocol Buffers for Erlang",
-   "stars": 1,
-   "language": null,
-   "owner": "agner",
-   "years": {
-    "2011": 5
-   },
-   "first": 2011,
-   "last": 2011,
-   "total": 5
-  },
-  {
-   "name": "agner/riakc.agner",
-   "url": "https://github.com/agner/riakc.agner",
-   "description": "Erlang client for Riak",
-   "stars": 1,
-   "language": null,
-   "owner": "agner",
-   "years": {
-    "2011": 5
-   },
-   "first": 2011,
-   "last": 2011,
-   "total": 5
-  },
-  {
-   "name": "agner/simple_bridge.agner",
-   "url": "https://github.com/agner/simple_bridge.agner",
-   "description": "SimpleBridge provides a simple, standardized interface to Erlang HTTP Servers",
-   "stars": 1,
-   "language": null,
-   "owner": "agner",
-   "years": {
-    "2011": 5
-   },
-   "first": 2011,
-   "last": 2011,
-   "total": 5
-  },
-  {
-   "name": "agner/erlang_js.agner",
-   "url": "https://github.com/agner/erlang_js.agner",
-   "description": "A linked-in driver for Erlang to Mozilla's Spidermonkey Javascript runtime",
-   "stars": 1,
-   "language": null,
-   "owner": "agner",
-   "years": {
-    "2011": 5
-   },
-   "first": 2011,
-   "last": 2011,
-   "total": 5
-  },
-  {
-   "name": "agner/ibrowse.agner",
-   "url": "https://github.com/agner/ibrowse.agner",
-   "description": "Erlang HTTP client",
-   "stars": 1,
-   "language": null,
-   "owner": "agner",
-   "years": {
-    "2011": 5
-   },
-   "first": 2011,
-   "last": 2011,
-   "total": 5
-  },
-  {
-   "name": "agner/riak_kv.agner",
-   "url": "https://github.com/agner/riak_kv.agner",
-   "description": "Riak Key/Value Store",
-   "stars": 1,
-   "language": null,
-   "owner": "agner",
-   "years": {
-    "2011": 5
-   },
-   "first": 2011,
-   "last": 2011,
-   "total": 5
-  },
-  {
-   "name": "agner/neotoma.agner",
-   "url": "https://github.com/agner/neotoma.agner",
-   "description": "Erlang library and packrat parser-generator for parsing expression grammars",
-   "stars": 1,
-   "language": null,
-   "owner": "agner",
-   "years": {
-    "2011": 5
-   },
-   "first": 2011,
-   "last": 2011,
-   "total": 5
-  },
-  {
-   "name": "agner/abnfc.agner",
-   "url": "https://github.com/agner/abnfc.agner",
-   "description": "An ABNF parser generator for Erlang",
-   "stars": 1,
-   "language": null,
-   "owner": "agner",
-   "years": {
-    "2011": 5
-   },
-   "first": 2011,
-   "last": 2011,
-   "total": 5
-  },
-  {
-   "name": "agner/nprocreg.agner",
-   "url": "https://github.com/agner/nprocreg.agner",
-   "description": "Process Registry used by Nitrogen",
-   "stars": 1,
-   "language": null,
-   "owner": "agner",
-   "years": {
-    "2011": 5
-   },
-   "first": 2011,
-   "last": 2011,
-   "total": 5
-  },
-  {
-   "name": "agner/reddy.agner",
-   "url": "https://github.com/agner/reddy.agner",
-   "description": "attempt at writing a better redis client in Erlang",
    "stars": 1,
    "language": null,
    "owner": "agner",
@@ -6002,36 +7432,6 @@
    "total": 28
   },
   {
-   "name": "erlangpack/mimetypes",
-   "url": "https://github.com/erlangpack/mimetypes",
-   "description": "Erlang MIME types library",
-   "stars": 75,
-   "language": "Erlang",
-   "owner": "erlangpack",
-   "years": {
-    "2012": 13,
-    "2013": 6
-   },
-   "first": 2012,
-   "last": 2013,
-   "total": 19
-  },
-  {
-   "name": "genomu/genomu.github.com",
-   "url": "https://github.com/genomu/genomu.github.com",
-   "description": null,
-   "stars": 0,
-   "language": "JavaScript",
-   "owner": "genomu",
-   "years": {
-    "2012": 16,
-    "2013": 1
-   },
-   "first": 2012,
-   "last": 2013,
-   "total": 17
-  },
-  {
    "name": "joxa/joxa",
    "url": "https://github.com/joxa/joxa",
    "description": "A Modern Lisp for the Erlang VM",
@@ -6115,21 +7515,6 @@
    },
    "first": 2012,
    "last": 2012,
-   "total": 4
-  },
-  {
-   "name": "genomu/genomu",
-   "url": "https://github.com/genomu/genomu",
-   "description": "Genomu: A concurrency-oriented K/V database (JIRA @ http://genomu.atlassian.net)",
-   "stars": 75,
-   "language": "JavaScript",
-   "owner": "genomu",
-   "years": {
-    "2012": 1,
-    "2013": 3
-   },
-   "first": 2012,
-   "last": 2013,
    "total": 4
   },
   {
@@ -6330,21 +7715,6 @@
    "total": 1
   },
   {
-   "name": "spawngrid/exmig",
-   "url": "https://github.com/spawngrid/exmig",
-   "description": "Elixir migrations",
-   "stars": 8,
-   "language": "Elixir",
-   "owner": "spawngrid",
-   "years": {
-    "2013": 12,
-    "2014": 2
-   },
-   "first": 2013,
-   "last": 2014,
-   "total": 14
-  },
-  {
    "name": "meh/decimex",
    "url": "https://github.com/meh/decimex",
    "description": "erlang-decimal wrapper for Elixir",
@@ -6357,20 +7727,6 @@
    "first": 2013,
    "last": 2013,
    "total": 4
-  },
-  {
-   "name": "genomu/genomu-elixir",
-   "url": "https://github.com/genomu/genomu-elixir",
-   "description": "Genomu Elixir/Erlang client",
-   "stars": 2,
-   "language": "Elixir",
-   "owner": "genomu",
-   "years": {
-    "2013": 3
-   },
-   "first": 2013,
-   "last": 2013,
-   "total": 3
   },
   {
    "name": "talentdeficit/exjsx",
@@ -6499,20 +7855,6 @@
    "total": 1
   },
   {
-   "name": "bitcoin-wallet-api/bitcoin-wallet-api.github.io",
-   "url": "https://github.com/bitcoin-wallet-api/bitcoin-wallet-api.github.io",
-   "description": null,
-   "stars": 10,
-   "language": "CSS",
-   "owner": "bitcoin-wallet-api",
-   "years": {
-    "2014": 19
-   },
-   "first": 2014,
-   "last": 2014,
-   "total": 19
-  },
-  {
    "name": "bitcoin-wallet-api/spec",
    "url": "https://github.com/bitcoin-wallet-api/spec",
    "description": null,
@@ -6525,35 +7867,6 @@
    "first": 2014,
    "last": 2014,
    "total": 18
-  },
-  {
-   "name": "gitchain/gitchain.github.io",
-   "url": "https://github.com/gitchain/gitchain.github.io",
-   "description": null,
-   "stars": 1,
-   "language": "HTML",
-   "owner": "gitchain",
-   "years": {
-    "2014": 16,
-    "2018": 2
-   },
-   "first": 2014,
-   "last": 2018,
-   "total": 18
-  },
-  {
-   "name": "bitcoin-wallet-api/demos",
-   "url": "https://github.com/bitcoin-wallet-api/demos",
-   "description": null,
-   "stars": 3,
-   "language": null,
-   "owner": "bitcoin-wallet-api",
-   "years": {
-    "2014": 11
-   },
-   "first": 2014,
-   "last": 2014,
-   "total": 11
   },
   {
    "name": "elixir-ecto/ecto",
@@ -6569,48 +7882,6 @@
    "first": 2014,
    "last": 2015,
    "total": 11
-  },
-  {
-   "name": "bitcoin-wallet-api/bitcoin-core-chrome",
-   "url": "https://github.com/bitcoin-wallet-api/bitcoin-core-chrome",
-   "description": "Bitcoin Wallet API | Chrome Extension for Bitcoin Core",
-   "stars": 14,
-   "language": "JavaScript",
-   "owner": "bitcoin-wallet-api",
-   "years": {
-    "2014": 6
-   },
-   "first": 2014,
-   "last": 2014,
-   "total": 6
-  },
-  {
-   "name": "mostdoc/mostdoc",
-   "url": "https://github.com/mostdoc/mostdoc",
-   "description": "MostDoc is a modern, web-enabled, lightweight approach to literate programming",
-   "stars": 0,
-   "language": null,
-   "owner": "mostdoc",
-   "years": {
-    "2014": 5
-   },
-   "first": 2014,
-   "last": 2014,
-   "total": 5
-  },
-  {
-   "name": "trustatom-oss/trustatom-oss.github.io",
-   "url": "https://github.com/trustatom-oss/trustatom-oss.github.io",
-   "description": "Trustatom Opensource",
-   "stars": 0,
-   "language": "CSS",
-   "owner": "trustatom-oss",
-   "years": {
-    "2014": 5
-   },
-   "first": 2014,
-   "last": 2014,
-   "total": 5
   },
   {
    "name": "slogsdon/placid",
@@ -6655,49 +7926,6 @@
    "first": 2014,
    "last": 2015,
    "total": 5
-  },
-  {
-   "name": "mostdoc/mostdoc.github.io",
-   "url": "https://github.com/mostdoc/mostdoc.github.io",
-   "description": null,
-   "stars": 0,
-   "language": null,
-   "owner": "mostdoc",
-   "years": {
-    "2014": 4
-   },
-   "first": 2014,
-   "last": 2014,
-   "total": 4
-  },
-  {
-   "name": "trustatom-oss/elixir-fluent-client",
-   "url": "https://github.com/trustatom-oss/elixir-fluent-client",
-   "description": "fluentd client for Elixir",
-   "stars": 8,
-   "language": "Elixir",
-   "owner": "trustatom-oss",
-   "years": {
-    "2014": 2,
-    "2015": 2
-   },
-   "first": 2014,
-   "last": 2015,
-   "total": 4
-  },
-  {
-   "name": "ElixirWerkz/exlogger-splunk",
-   "url": "https://github.com/ElixirWerkz/exlogger-splunk",
-   "description": "ExLogger Splunk Backend",
-   "stars": 3,
-   "language": "Elixir",
-   "owner": "ElixirWerkz",
-   "years": {
-    "2014": 2
-   },
-   "first": 2014,
-   "last": 2014,
-   "total": 2
   },
   {
    "name": "hexpm/community",
@@ -6837,21 +8065,6 @@
    },
    "first": 2015,
    "last": 2015,
-   "total": 4
-  },
-  {
-   "name": "eventreducer/hlc",
-   "url": "https://github.com/eventreducer/hlc",
-   "description": "Hybrid Logical Clocks for Java",
-   "stars": 11,
-   "language": "Java",
-   "owner": "eventreducer",
-   "years": {
-    "2015": 1,
-    "2016": 3
-   },
-   "first": 2015,
-   "last": 2016,
    "total": 4
   },
   {
@@ -6995,78 +8208,6 @@
    "total": 17
   },
   {
-   "name": "unprotocols/gitbook-plugin-coss",
-   "url": "https://github.com/unprotocols/gitbook-plugin-coss",
-   "description": "COSS plugin for GitBook",
-   "stars": 1,
-   "language": "JavaScript",
-   "owner": "unprotocols",
-   "years": {
-    "2016": 8,
-    "2017": 8,
-    "2018": 1
-   },
-   "first": 2016,
-   "last": 2018,
-   "total": 17
-  },
-  {
-   "name": "eventreducer/eventreducer-redis",
-   "url": "https://github.com/eventreducer/eventreducer-redis",
-   "description": "Redis backend for EventReducer",
-   "stars": 1,
-   "language": "Java",
-   "owner": "eventreducer",
-   "years": {
-    "2016": 13
-   },
-   "first": 2016,
-   "last": 2016,
-   "total": 13
-  },
-  {
-   "name": "eventsourcing/presentation",
-   "url": "https://github.com/eventsourcing/presentation",
-   "description": null,
-   "stars": 4,
-   "language": "HTML",
-   "owner": "eventsourcing",
-   "years": {
-    "2016": 12
-   },
-   "first": 2016,
-   "last": 2016,
-   "total": 12
-  },
-  {
-   "name": "eventsourcing/eventsourcing-inc",
-   "url": "https://github.com/eventsourcing/eventsourcing-inc",
-   "description": "Non-profit organization documents",
-   "stars": 0,
-   "language": null,
-   "owner": "eventsourcing",
-   "years": {
-    "2016": 12
-   },
-   "first": 2016,
-   "last": 2016,
-   "total": 12
-  },
-  {
-   "name": "eventreducer/eventreducer-json",
-   "url": "https://github.com/eventreducer/eventreducer-json",
-   "description": null,
-   "stars": 0,
-   "language": "Java",
-   "owner": "eventreducer",
-   "years": {
-    "2016": 9
-   },
-   "first": 2016,
-   "last": 2016,
-   "total": 9
-  },
-  {
    "name": "lburgazzoli/gradle-karaf-plugin",
    "url": "https://github.com/lburgazzoli/gradle-karaf-plugin",
    "description": null,
@@ -7093,20 +8234,6 @@
    "first": 2016,
    "last": 2016,
    "total": 8
-  },
-  {
-   "name": "implementable/implementable.github.io",
-   "url": "https://github.com/implementable/implementable.github.io",
-   "description": null,
-   "stars": 0,
-   "language": "CSS",
-   "owner": "implementable",
-   "years": {
-    "2016": 7
-   },
-   "first": 2016,
-   "last": 2016,
-   "total": 7
   },
   {
    "name": "edlich/nosql-database.org",
@@ -7165,76 +8292,6 @@
    "total": 4
   },
   {
-   "name": "unprotocols/unprotocols.github.io",
-   "url": "https://github.com/unprotocols/unprotocols.github.io",
-   "description": null,
-   "stars": 0,
-   "language": "CSS",
-   "owner": "unprotocols",
-   "years": {
-    "2016": 2
-   },
-   "first": 2016,
-   "last": 2016,
-   "total": 2
-  },
-  {
-   "name": "reactuate/forceraw-loader",
-   "url": "https://github.com/reactuate/forceraw-loader",
-   "description": "Webpack loader that loads files as strings without any pre-processing",
-   "stars": 0,
-   "language": "JavaScript",
-   "owner": "reactuate",
-   "years": {
-    "2016": 2
-   },
-   "first": 2016,
-   "last": 2016,
-   "total": 2
-  },
-  {
-   "name": "eventreducer/eventreducer.github.io",
-   "url": "https://github.com/eventreducer/eventreducer.github.io",
-   "description": null,
-   "stars": 1,
-   "language": "HTML",
-   "owner": "eventreducer",
-   "years": {
-    "2016": 2
-   },
-   "first": 2016,
-   "last": 2016,
-   "total": 2
-  },
-  {
-   "name": "eventsourcing/gitbook-plugin-es4j-doc",
-   "url": "https://github.com/eventsourcing/gitbook-plugin-es4j-doc",
-   "description": null,
-   "stars": 0,
-   "language": "JavaScript",
-   "owner": "eventsourcing",
-   "years": {
-    "2016": 2
-   },
-   "first": 2016,
-   "last": 2016,
-   "total": 2
-  },
-  {
-   "name": "reactuate/reactuate.github.io",
-   "url": "https://github.com/reactuate/reactuate.github.io",
-   "description": null,
-   "stars": 0,
-   "language": "JavaScript",
-   "owner": "reactuate",
-   "years": {
-    "2016": 2
-   },
-   "first": 2016,
-   "last": 2016,
-   "total": 2
-  },
-  {
    "name": "xgrommx/awesome-redux",
    "url": "https://github.com/xgrommx/awesome-redux",
    "description": "Awesome list of Redux examples and middlewares",
@@ -7291,48 +8348,6 @@
    "total": 2
   },
   {
-   "name": "unprotocols/coss-java",
-   "url": "https://github.com/unprotocols/coss-java",
-   "description": "COSS implementation for Java",
-   "stars": 2,
-   "language": "Java",
-   "owner": "unprotocols",
-   "years": {
-    "2016": 1
-   },
-   "first": 2016,
-   "last": 2016,
-   "total": 1
-  },
-  {
-   "name": "eventreducer/eventreducer-atomix",
-   "url": "https://github.com/eventreducer/eventreducer-atomix",
-   "description": null,
-   "stars": 0,
-   "language": "Java",
-   "owner": "eventreducer",
-   "years": {
-    "2016": 1
-   },
-   "first": 2016,
-   "last": 2016,
-   "total": 1
-  },
-  {
-   "name": "eventreducer/eventreducer-h2",
-   "url": "https://github.com/eventreducer/eventreducer-h2",
-   "description": null,
-   "stars": 0,
-   "language": "Java",
-   "owner": "eventreducer",
-   "years": {
-    "2016": 1
-   },
-   "first": 2016,
-   "last": 2016,
-   "total": 1
-  },
-  {
    "name": "apache/felix",
    "url": "https://github.com/apache/felix",
    "description": "Mirror of Apache Felix",
@@ -7361,49 +8376,6 @@
    "total": 1
   },
   {
-   "name": "ViewDB/ViewDB",
-   "url": "https://github.com/ViewDB/ViewDB",
-   "description": "Fact ⇒ domain inference database",
-   "stars": 23,
-   "language": "Rust",
-   "owner": "ViewDB",
-   "years": {
-    "2017": 12
-   },
-   "first": 2017,
-   "last": 2017,
-   "total": 12
-  },
-  {
-   "name": "ropes-rs/rapt",
-   "url": "https://github.com/ropes-rs/rapt",
-   "description": "Runtime application instrumentation toolkit for Rust",
-   "stars": 10,
-   "language": "Rust",
-   "owner": "ropes-rs",
-   "years": {
-    "2017": 11
-   },
-   "first": 2017,
-   "last": 2017,
-   "total": 11
-  },
-  {
-   "name": "EtceteraLabs/nix-config",
-   "url": "https://github.com/EtceteraLabs/nix-config",
-   "description": null,
-   "stars": 0,
-   "language": "Nix",
-   "owner": "EtceteraLabs",
-   "years": {
-    "2017": 7,
-    "2018": 4
-   },
-   "first": 2017,
-   "last": 2018,
-   "total": 11
-  },
-  {
    "name": "openethereum/parity-ethereum",
    "url": "https://github.com/openethereum/parity-ethereum",
    "description": "The fast, light, and robust client for Ethereum-like networks.",
@@ -7417,76 +8389,6 @@
    "first": 2017,
    "last": 2018,
    "total": 8
-  },
-  {
-   "name": "conmacro/conmacro",
-   "url": "https://github.com/conmacro/conmacro",
-   "description": "Construct Macro",
-   "stars": 1,
-   "language": "Rust",
-   "owner": "conmacro",
-   "years": {
-    "2017": 7
-   },
-   "first": 2017,
-   "last": 2017,
-   "total": 7
-  },
-  {
-   "name": "PumpkinDB/pumpkindb-java",
-   "url": "https://github.com/PumpkinDB/pumpkindb-java",
-   "description": "Java client for PumpkinDB",
-   "stars": 5,
-   "language": "Java",
-   "owner": "PumpkinDB",
-   "years": {
-    "2017": 5
-   },
-   "first": 2017,
-   "last": 2017,
-   "total": 5
-  },
-  {
-   "name": "PumpkinDB/rust-spdk",
-   "url": "https://github.com/PumpkinDB/rust-spdk",
-   "description": "Rust bindings for SPDK",
-   "stars": 19,
-   "language": "Rust",
-   "owner": "PumpkinDB",
-   "years": {
-    "2017": 3
-   },
-   "first": 2017,
-   "last": 2017,
-   "total": 3
-  },
-  {
-   "name": "EtceteraLabs/EtceteraLabsInc",
-   "url": "https://github.com/EtceteraLabs/EtceteraLabsInc",
-   "description": "Corporate documents",
-   "stars": 0,
-   "language": null,
-   "owner": "EtceteraLabs",
-   "years": {
-    "2017": 3
-   },
-   "first": 2017,
-   "last": 2017,
-   "total": 3
-  },
-  {
-   "name": "EtceteraLabs/EtceteraLabs",
-   "url": "https://github.com/EtceteraLabs/EtceteraLabs",
-   "description": null,
-   "stars": 0,
-   "language": null,
-   "owner": "EtceteraLabs",
-   "years": {
-    "2017": 2
-   },
-   "first": 2017,
-   "last": 2017,
-   "total": 2
   },
   {
    "name": "githwxi/ATS-Postiats",
@@ -7573,34 +8475,6 @@
    "total": 2
   },
   {
-   "name": "svc-rs/svc",
-   "url": "https://github.com/svc-rs/svc",
-   "description": "Services framework for Rust",
-   "stars": 0,
-   "language": "Rust",
-   "owner": "svc-rs",
-   "years": {
-    "2017": 1
-   },
-   "first": 2017,
-   "last": 2017,
-   "total": 1
-  },
-  {
-   "name": "PumpkinDB/rfc",
-   "url": "https://github.com/PumpkinDB/rfc",
-   "description": "PumpkinDB RFCs",
-   "stars": 0,
-   "language": "CSS",
-   "owner": "PumpkinDB",
-   "years": {
-    "2017": 1
-   },
-   "first": 2017,
-   "last": 2017,
-   "total": 1
-  },
-  {
    "name": "ethereum/EIPs",
    "url": "https://github.com/ethereum/EIPs",
    "description": "The Ethereum Improvement Proposal repository",
@@ -7655,76 +8529,6 @@
    "first": 2018,
    "last": 2018,
    "total": 97
-  },
-  {
-   "name": "sit-fyi/sit-git-hook",
-   "url": "https://github.com/sit-fyi/sit-git-hook",
-   "description": null,
-   "stars": 0,
-   "language": "Shell",
-   "owner": "sit-fyi",
-   "years": {
-    "2018": 17
-   },
-   "first": 2018,
-   "last": 2018,
-   "total": 17
-  },
-  {
-   "name": "sit-fyi/sit-import",
-   "url": "https://github.com/sit-fyi/sit-import",
-   "description": "Imports data from external sources into SIT",
-   "stars": 0,
-   "language": "Rust",
-   "owner": "sit-fyi",
-   "years": {
-    "2018": 17
-   },
-   "first": 2018,
-   "last": 2018,
-   "total": 17
-  },
-  {
-   "name": "sit-fyi/artwork",
-   "url": "https://github.com/sit-fyi/artwork",
-   "description": "Artwork",
-   "stars": 1,
-   "language": "Makefile",
-   "owner": "sit-fyi",
-   "years": {
-    "2018": 8
-   },
-   "first": 2018,
-   "last": 2018,
-   "total": 8
-  },
-  {
-   "name": "sit-fyi/rfc",
-   "url": "https://github.com/sit-fyi/rfc",
-   "description": "SIT's Requests For Comments",
-   "stars": 0,
-   "language": null,
-   "owner": "sit-fyi",
-   "years": {
-    "2018": 6
-   },
-   "first": 2018,
-   "last": 2018,
-   "total": 6
-  },
-  {
-   "name": "sit-fyi/schemas",
-   "url": "https://github.com/sit-fyi/schemas",
-   "description": "Schemas",
-   "stars": 0,
-   "language": "JavaScript",
-   "owner": "sit-fyi",
-   "years": {
-    "2018": 5
-   },
-   "first": 2018,
-   "last": 2018,
-   "total": 5
   },
   {
    "name": "jmespath/jmespath.rs",
@@ -7896,20 +8700,6 @@
    "first": 2018,
    "last": 2018,
    "total": 2
-  },
-  {
-   "name": "sit-fyi/modules",
-   "url": "https://github.com/sit-fyi/modules",
-   "description": "Default module repository",
-   "stars": 0,
-   "language": null,
-   "owner": "sit-fyi",
-   "years": {
-    "2018": 1
-   },
-   "first": 2018,
-   "last": 2018,
-   "total": 1
   },
   {
    "name": "sit-fyi/sit-cargo-deps",
@@ -8095,34 +8885,6 @@
    "total": 88
   },
   {
-   "name": "wasm-rs/cargo-metadata",
-   "url": "https://github.com/wasm-rs/cargo-metadata",
-   "description": "How to indicate WASM support in Rust crates?",
-   "stars": 2,
-   "language": null,
-   "owner": "wasm-rs",
-   "years": {
-    "2021": 14
-   },
-   "first": 2021,
-   "last": 2021,
-   "total": 14
-  },
-  {
-   "name": "wasm-rs/shared-channel",
-   "url": "https://github.com/wasm-rs/shared-channel",
-   "description": "Shared Channel for WebAssembly",
-   "stars": 42,
-   "language": "Rust",
-   "owner": "wasm-rs",
-   "years": {
-    "2021": 7
-   },
-   "first": 2021,
-   "last": 2021,
-   "total": 7
-  },
-  {
    "name": "hotwired/turbo-rails",
    "url": "https://github.com/hotwired/turbo-rails",
    "description": "Use Turbo in your Ruby on Rails app",
@@ -8136,20 +8898,6 @@
    "first": 2021,
    "last": 2022,
    "total": 7
-  },
-  {
-   "name": "gopkg-co/gopkg-cloudflare",
-   "url": "https://github.com/gopkg-co/gopkg-cloudflare",
-   "description": "Cloudflare setup",
-   "stars": 1,
-   "language": "JavaScript",
-   "owner": "gopkg-co",
-   "years": {
-    "2021": 5
-   },
-   "first": 2021,
-   "last": 2021,
-   "total": 5
   },
   {
    "name": "Logflare/logflare_erl",
@@ -8304,20 +9052,6 @@
    "first": 2021,
    "last": 2021,
    "total": 2
-  },
-  {
-   "name": "gopkg-co/gopkg.cc",
-   "url": "https://github.com/gopkg-co/gopkg.cc",
-   "description": "Example",
-   "stars": 0,
-   "language": "HTML",
-   "owner": "gopkg-co",
-   "years": {
-    "2021": 1
-   },
-   "first": 2021,
-   "last": 2021,
-   "total": 1
   },
   {
    "name": "PoiScript/strong-xml",
@@ -8713,20 +9447,6 @@
    "total": 9
   },
   {
-   "name": "omnigres/homebrew-omnigres",
-   "url": "https://github.com/omnigres/homebrew-omnigres",
-   "description": null,
-   "stars": 0,
-   "language": "Ruby",
-   "owner": "omnigres",
-   "years": {
-    "2023": 6
-   },
-   "first": 2023,
-   "last": 2023,
-   "total": 6
-  },
-  {
    "name": "h2o/h2o",
    "url": "https://github.com/h2o/h2o",
    "description": "H2O - the optimized HTTP/1, HTTP/2, HTTP/3 server",
@@ -8752,21 +9472,6 @@
    },
    "first": 2023,
    "last": 2023,
-   "total": 5
-  },
-  {
-   "name": "omnigres/.github",
-   "url": "https://github.com/omnigres/.github",
-   "description": null,
-   "stars": 1,
-   "language": null,
-   "owner": "omnigres",
-   "years": {
-    "2023": 2,
-    "2025": 3
-   },
-   "first": 2023,
-   "last": 2025,
    "total": 5
   },
   {
@@ -8911,48 +9616,6 @@
    "total": 39
   },
   {
-   "name": "omnigres-hiring/planstate-challenge",
-   "url": "https://github.com/omnigres-hiring/planstate-challenge",
-   "description": "PlanState Augmentation Challenge",
-   "stars": 0,
-   "language": "C",
-   "owner": "omnigres-hiring",
-   "years": {
-    "2024": 12
-   },
-   "first": 2024,
-   "last": 2024,
-   "total": 12
-  },
-  {
-   "name": "pgedc/book",
-   "url": "https://github.com/pgedc/book",
-   "description": "The Postgres Extensions Book",
-   "stars": 6,
-   "language": null,
-   "owner": "pgedc",
-   "years": {
-    "2024": 8
-   },
-   "first": 2024,
-   "last": 2024,
-   "total": 8
-  },
-  {
-   "name": "pgedc/.github",
-   "url": "https://github.com/pgedc/.github",
-   "description": null,
-   "stars": 0,
-   "language": null,
-   "owner": "pgedc",
-   "years": {
-    "2024": 6
-   },
-   "first": 2024,
-   "last": 2024,
-   "total": 6
-  },
-  {
    "name": "NpgsqlRest/pg_function_load_tests",
    "url": "https://github.com/NpgsqlRest/pg_function_load_tests",
    "description": "Performance testing that compares load tests of various web frameworks serving a PostgreSQL function through REST APIs,",
@@ -9080,68 +9743,12 @@
    "total": 89
   },
   {
-   "name": "omnigres/docs",
-   "url": "https://github.com/omnigres/docs",
-   "description": null,
-   "stars": 1,
-   "language": "Handlebars",
-   "owner": "omnigres",
-   "years": {
-    "2025": 7
-   },
-   "first": 2025,
-   "last": 2025,
-   "total": 7
-  },
-  {
-   "name": "omnigres/oomph",
-   "url": "https://github.com/omnigres/oomph",
-   "description": null,
-   "stars": 0,
-   "language": "C++",
-   "owner": "omnigres",
-   "years": {
-    "2025": 6
-   },
-   "first": 2025,
-   "last": 2025,
-   "total": 6
-  },
-  {
-   "name": "omnigres/codon-releases",
-   "url": "https://github.com/omnigres/codon-releases",
-   "description": null,
-   "stars": 1,
-   "language": null,
-   "owner": "omnigres",
-   "years": {
-    "2025": 4
-   },
-   "first": 2025,
-   "last": 2025,
-   "total": 4
-  },
-  {
    "name": "ashvardanian/ForkUnion",
    "url": "https://github.com/ashvardanian/ForkUnion",
    "description": "Low-latency NUMA-aware fork-join thread-pool with zero allocations, syscalls, CAS, or false-sharing on the hot path for C++, C, Rust, Zig & Mojo 🍴",
    "stars": 385,
    "language": "C++",
    "owner": "ashvardanian",
-   "years": {
-    "2025": 3
-   },
-   "first": 2025,
-   "last": 2025,
-   "total": 3
-  },
-  {
-   "name": "omnigres/rfc",
-   "url": "https://github.com/omnigres/rfc",
-   "description": null,
-   "stars": 2,
-   "language": null,
-   "owner": "omnigres",
    "years": {
     "2025": 3
    },
@@ -9234,6 +9841,20 @@
    "total": 35
   },
   {
+   "name": "alire-project/alire-index",
+   "url": "https://github.com/alire-project/alire-index",
+   "description": "Community index for the Alire project",
+   "stars": 70,
+   "language": null,
+   "owner": "alire-project",
+   "years": {
+    "2026": 23
+   },
+   "first": 2026,
+   "last": 2026,
+   "total": 23
+  },
+  {
    "name": "tidesdb/tidesdb-rs",
    "url": "https://github.com/tidesdb/tidesdb-rs",
    "description": "Official Rust binding for TidesDB",
@@ -9246,62 +9867,6 @@
    "first": 2026,
    "last": 2026,
    "total": 21
-  },
-  {
-   "name": "flyology-ada/alire-index",
-   "url": "https://github.com/flyology-ada/alire-index",
-   "description": "Community index for the Alire project",
-   "stars": 0,
-   "language": "Python",
-   "owner": "flyology-ada",
-   "years": {
-    "2026": 20
-   },
-   "first": 2026,
-   "last": 2026,
-   "total": 20
-  },
-  {
-   "name": "opencodereview-org/opencodereview",
-   "url": "https://github.com/opencodereview-org/opencodereview",
-   "description": "Open Code Review - A portable, tool-agnostic code review specification",
-   "stars": 2,
-   "language": "Python",
-   "owner": "opencodereview-org",
-   "years": {
-    "2026": 17
-   },
-   "first": 2026,
-   "last": 2026,
-   "total": 17
-  },
-  {
-   "name": "inferal-oss/web-network-inspector",
-   "url": "https://github.com/inferal-oss/web-network-inspector",
-   "description": "An extensible in-page network waterfall with bounded local capture, application events, custom toolbar controls, and popups.",
-   "stars": 0,
-   "language": "JavaScript",
-   "owner": "inferal-oss",
-   "years": {
-    "2026": 14
-   },
-   "first": 2026,
-   "last": 2026,
-   "total": 14
-  },
-  {
-   "name": "flyology-ada/flyology-crc",
-   "url": "https://github.com/flyology-ada/flyology-crc",
-   "description": null,
-   "stars": 0,
-   "language": "Ada",
-   "owner": "flyology-ada",
-   "years": {
-    "2026": 11
-   },
-   "first": 2026,
-   "last": 2026,
-   "total": 11
   },
   {
    "name": "KNowledgeOnWebScale/ldes-client",
@@ -9318,68 +9883,12 @@
    "total": 10
   },
   {
-   "name": "inferal-oss/clipspyx-colab",
-   "url": "https://github.com/inferal-oss/clipspyx-colab",
-   "description": "Interactive Colab notebooks for clipspyx — the Python DSL for CLIPS",
-   "stars": 0,
-   "language": "Jupyter Notebook",
-   "owner": "inferal-oss",
-   "years": {
-    "2026": 9
-   },
-   "first": 2026,
-   "last": 2026,
-   "total": 9
-  },
-  {
-   "name": "inferal-oss/openregard",
-   "url": "https://github.com/inferal-oss/openregard",
-   "description": "Configurable display preferences with a dependency-free core, accessible native widget, optional React binding, and runnable demo.",
-   "stars": 0,
-   "language": "TypeScript",
-   "owner": "inferal-oss",
-   "years": {
-    "2026": 9
-   },
-   "first": 2026,
-   "last": 2026,
-   "total": 9
-  },
-  {
-   "name": "inferal-oss/inferal-oss.github.io",
-   "url": "https://github.com/inferal-oss/inferal-oss.github.io",
-   "description": "Inferal Open Source: useful tools, built in the open.",
-   "stars": 0,
-   "language": "JavaScript",
-   "owner": "inferal-oss",
-   "years": {
-    "2026": 8
-   },
-   "first": 2026,
-   "last": 2026,
-   "total": 8
-  },
-  {
-   "name": "inferal-oss/agentic-plugins",
-   "url": "https://github.com/inferal-oss/agentic-plugins",
-   "description": "Agentic coding plugins for Claude Code and Codex CLI",
-   "stars": 0,
-   "language": "Python",
-   "owner": "inferal-oss",
-   "years": {
-    "2026": 7
-   },
-   "first": 2026,
-   "last": 2026,
-   "total": 7
-  },
-  {
-   "name": "inferal-oss/agent-session-migrator",
-   "url": "https://github.com/inferal-oss/agent-session-migrator",
-   "description": "A provider-based terminal UI for preparing and migrating agent sessions between development hosts.",
-   "stars": 0,
-   "language": "Go",
-   "owner": "inferal-oss",
+   "name": "alire-project/alire",
+   "url": "https://github.com/alire-project/alire",
+   "description": "Command-line tool from the Alire project and supporting library",
+   "stars": 419,
+   "language": "Ada",
+   "owner": "alire-project",
    "years": {
     "2026": 5
    },
@@ -9428,62 +9937,6 @@
    "first": 2026,
    "last": 2026,
    "total": 4
-  },
-  {
-   "name": "alire-project/alire",
-   "url": "https://github.com/alire-project/alire",
-   "description": "Command-line tool from the Alire project and supporting library",
-   "stars": 419,
-   "language": "Ada",
-   "owner": "alire-project",
-   "years": {
-    "2026": 4
-   },
-   "first": 2026,
-   "last": 2026,
-   "total": 4
-  },
-  {
-   "name": "inferaldata/pg_inferal_relay",
-   "url": "https://github.com/inferaldata/pg_inferal_relay",
-   "description": null,
-   "stars": 2,
-   "language": "PLpgSQL",
-   "owner": "inferaldata",
-   "years": {
-    "2026": 3
-   },
-   "first": 2026,
-   "last": 2026,
-   "total": 3
-  },
-  {
-   "name": "alire-project/alire-index",
-   "url": "https://github.com/alire-project/alire-index",
-   "description": "Community index for the Alire project",
-   "stars": 70,
-   "language": null,
-   "owner": "alire-project",
-   "years": {
-    "2026": 3
-   },
-   "first": 2026,
-   "last": 2026,
-   "total": 3
-  },
-  {
-   "name": "flyology-ada/flyology.org",
-   "url": "https://github.com/flyology-ada/flyology.org",
-   "description": "Generated public data for flyology.org",
-   "stars": 0,
-   "language": "JavaScript",
-   "owner": "flyology-ada",
-   "years": {
-    "2026": 2
-   },
-   "first": 2026,
-   "last": 2026,
-   "total": 2
   },
   {
    "name": "unum-cloud/USearch",
@@ -9590,20 +10043,6 @@
    "stars": 878,
    "language": null,
    "owner": "ohenley",
-   "years": {
-    "2026": 1
-   },
-   "first": 2026,
-   "last": 2026,
-   "total": 1
-  },
-  {
-   "name": "flyology-ada/alire",
-   "url": "https://github.com/flyology-ada/alire",
-   "description": "Command-line tool from the Alire project and supporting library",
-   "stars": 0,
-   "language": "Ada",
-   "owner": "flyology-ada",
    "years": {
     "2026": 1
    },
