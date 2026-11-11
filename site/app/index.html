@@ -1324,7 +1324,7 @@ const atlas=(function(){
     cx.beginPath(); cx.arc(ox,oy,pr,0,TAU); cx.fillStyle=rgba(SIG,1); cx.fill();
     cx.strokeStyle=rgba(SIG,.6); cx.lineWidth=1; cx.beginPath(); cx.moveTo(ox-14,oy); cx.lineTo(ox-5,oy); cx.moveTo(ox+5,oy); cx.lineTo(ox+14,oy); cx.moveTo(ox,oy-14); cx.lineTo(ox,oy-5); cx.moveTo(ox,oy+5); cx.lineTo(ox,oy+14); cx.stroke();
     cx.font=`10px ${F_MONO}`; cx.fillStyle=rgba(SIG,.9); cx.textAlign='center'; cx.textBaseline='top'; cx.fillText('NOW',ox,oy+16);
-    if(k>.9){ cx.fillStyle=rgba(BONE,.5); cx.fillText('2026 · 11 · 11',ox,oy+28); } cx.textAlign='left';
+    if(k>.9){ cx.fillStyle=rgba(BONE,.5); cx.fillText(fmt(HOMES[0].tz,{year:'numeric',month:'2-digit',day:'2-digit'}).format(new Date()).replaceAll('-',' · '),ox,oy+28); } cx.textAlign='left';
   }
   function arcText(text,cxx,cyy,radius,centerAngle,font,spacing,color){
     cx.save(); cx.font=font; cx.fillStyle=color; cx.textBaseline='middle'; cx.textAlign='center';
@@ -1340,7 +1340,8 @@ const atlas=(function(){
       cx.beginPath(); cx.moveTo(ox+rIn*Math.cos(a),oy+rIn*Math.sin(a)); cx.lineTo(ox+(rIn+h)*Math.cos(a),oy+(rIn+h)*Math.sin(a)); cx.strokeStyle=rgba(SIG,al); cx.lineWidth=Math.max(.6,step*rIn*.7); cx.stroke(); }
     cx.beginPath(); cx.arc(ox,oy,rIn,0,TAU); cx.strokeStyle=rgba(BONE,.3); cx.lineWidth=1; cx.stroke();
     for(let i=0;i<n;i++){ if(C[i][0].slice(8)!=='01') continue; const a=-Math.PI/2+(i-n)*step; cx.beginPath(); cx.moveTo(ox+(rIn-4)*Math.cos(a),oy+(rIn-4)*Math.sin(a)); cx.lineTo(ox+rIn*Math.cos(a),oy+rIn*Math.sin(a)); cx.strokeStyle=rgba(BONE,.55); cx.stroke();
-      if(k>1.5){ const m='JFMAMJJASOND'[+C[i][0].slice(5,7)-1]; cx.font=`9px ${F_MONO}`; cx.fillStyle=rgba(BONE,.55); cx.textAlign='center'; cx.textBaseline='middle'; cx.fillText(m,ox+(rIn-11)*Math.cos(a),oy+(rIn-11)*Math.sin(a)); cx.textAlign='left'; } }
+      /* the month's short name, set inside the ring halfway into its month (a lone J or M read as noise); only once the ring is wide enough to keep clear of the date under NOW */
+      if(rIn-17>=68){ const m=['Jan','Feb','Mar','Apr','May','Jun','Jul','Aug','Sep','Oct','Nov','Dec'][+C[i][0].slice(5,7)-1], am=a+15*step, rl=rIn-17; cx.font=`9px ${F_MONO}`; cx.fillStyle=rgba(BONE,.55); cx.textAlign='center'; cx.textBaseline='middle'; cx.fillText(m,ox+rl*Math.cos(am),oy+rl*Math.sin(am)); cx.textAlign='left'; } }
     cx.beginPath(); cx.moveTo(ox,oy-(rIn+hMax+6)); cx.lineTo(ox-3,oy-(rIn+hMax+12)); cx.lineTo(ox+3,oy-(rIn+hMax+12)); cx.closePath(); cx.fillStyle=rgba(SIG,1); cx.fill();
     contribRing={rIn,rOut:rIn+hMax,n};
   }
