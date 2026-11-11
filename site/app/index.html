@@ -1076,7 +1076,7 @@ $('#w-notes .sub').textContent = NOTES.length ? `/ thinking in public · ${NOTES
 (function essays(){ const by=(a,b)=>a.d<b.d?1:-1; const sel=POSTS.filter(p=>p.listed&&p.featured).sort(by), rest=POSTS.filter(p=>p.listed&&!p.featured).sort(by);
   const item=p=>`<li id="jp-${p.id}"><a href="${p.h}"><span class="t">${esc(p.t)}</span><p class="x">${esc(p.x)}</p><span class="d">${p.d}${p.sample?'<i>opens in the reader</i>':''}</span></a></li>`;
   const small=p=>`<li id="jp-${p.id}"><a href="${p.h}">${esc(p.t)}</a><span class="d">${p.d}</span></li>`;
-  $('#essays').innerHTML=(sel.length?`<li class="grp"><h3>Selected</h3></li>`:'')+sel.map(item).join('')+(rest.length?`<li class="grp"><h3>All writing</h3><ul class="more">${rest.map(small).join('')}</ul></li>`:'');
+  $('#essays').innerHTML=(sel.length?`<li class="grp"><h3>Selected</h3></li>`:'')+sel.map(item).join('')+(rest.length?`<li class="grp"><h3>All posts</h3><ul class="more">${rest.map(small).join('')}</ul></li>`:'');
   $('#w-essays .sub').textContent=`/ ${POSTS.filter(p=>p.listed).length} posts · ${sel.length} selected`; })();
 /* the shelf comes only from the build (window.SHELF via /data/shelf.js); undefined → empty */
 const SHELF = (Array.isArray(window.SHELF)?window.SHELF:[]).map(x=>({id:String(x.id||x.title||'').replace(/[^\w.-]/g,'-'), t:x.title||'', b:x.body||'', since:x.since||null, tags:x.tags||[], atlas:x.atlas!==false, sector:(x.atlas&&typeof x.atlas==='object'&&x.atlas.sector)||'writing', f:(x.atlas&&typeof x.atlas==='object'&&x.atlas.f!=null)?x.atlas.f:null, url:x.url||null}));
