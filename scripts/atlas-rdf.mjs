@@ -87,6 +87,23 @@ const KIND = {
   writing: { classes: ["yr:Essay", "schema:BlogPosting"], role: "yr:wrote", title: "Writing" },
   idea: { classes: ["yr:Idea"], role: "yr:shelved", title: "Ideas" },
   oss: { classes: ["yr:Repository", "schema:SoftwareSourceCode"], role: "yr:contributedTo", title: "Open source (curated)" },
+  talk: { classes: ["yr:Talk", "schema:Event"], role: "yr:presented", title: "Talks" },
+};
+// A talk's recording: a YouTube video (optionally a cut of a longer stream, by offsets) or a page elsewhere.
+const recording = (v) => {
+  if (!v) return null;
+  if (v.yt) {
+    const q = [v.start != null && `start=${v.start}`, v.end != null && `end=${v.end}`].filter(Boolean).join("&");
+    return bnode([
+      ["a", "schema:VideoObject"],
+      ["schema:url", iri(`https://www.youtube.com/watch?v=${v.yt}${v.start ? `&t=${v.start}s` : ""}`)],
+      ["schema:embedUrl", iri(`https://www.youtube-nocookie.com/embed/${v.yt}${q ? `?${q}` : ""}`)],
+      ...(v.start != null ? [["yr:startOffset", int(v.start)]] : []),
+      ...(v.end != null ? [["yr:endOffset", int(v.end)]] : []),
+      ...(v.dur != null ? [["yr:seconds", int(v.dur)]] : []),
+    ]);
+  }
+  return v.href ? bnode([["a", "schema:VideoObject"], ["schema:url", iri(v.href)], ...(v.host ? [["yr:host", str(v.host)]] : [])]) : null;
 };
 const SITE = "https://yrashk.com";
 const absolute = (u) => (u && u.startsWith("/") ? SITE + u : u);
@@ -127,6 +144,7 @@ if (atlas) {
     ["yr:wrote", byKind("writing")],
     ["yr:shelved", byKind("idea")],
     ["yr:contributedTo", byKind("oss")],
+    ["yr:presented", byKind("talk")],
   ]);
 
   comment("── Places ──");
@@ -171,7 +189,13 @@ if (atlas) {
         ["yr:weight", b.weight != null && int(b.weight)],
         ["yr:role", b.role && str(b.role)],
         ["yr:status", b.status && str(b.status)],
-        ["schema:datePublished", b.date && date(b.date)],
+        ["schema:datePublished", b.kind !== "talk" && b.date && date(b.date)],
+        ["schema:startDate", b.kind === "talk" && b.date && date(b.date)],
+        ["schema:superEvent", b.event && bnode([["a", "schema:Event"], ["schema:name", str(b.event)], ...(b.venue ? [["schema:location", str(b.venue)]] : [])])],
+        ["yr:format", b.format && str(b.format)],
+        ["yr:alsoAt", (b.also ?? []).map(str)],
+        ["schema:recordedIn", recording(b.video)],
+        ["yr:slides", b.slides && iri(b.slides)],
         ["yr:listed", b.kind === "writing" ? (b.listed ? "true" : "false") : null],
         ["schema:keywords", (b.tags ?? []).map(str)],
         ["schema:location", b.place && placeNode(b.place)],

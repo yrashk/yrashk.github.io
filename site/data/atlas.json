@@ -817,6 +817,399 @@
    ],
    "f": 0.5,
    "year": 2023.25
+  },
+  {
+   "id": "talk-cppgres",
+   "kind": "talk",
+   "name": "Cppgres: One less reason to hate C++",
+   "sector": "data",
+   "start": 2025,
+   "end": 2025,
+   "approx": false,
+   "weight": 1,
+   "year": 2025.36,
+   "date": "2025-05-12",
+   "event": "Postgres Extensions Day 2025",
+   "venue": "Montréal",
+   "line": "Writing Postgres extensions in C++20 with a header-only library — and why the old reasons to avoid C++ no longer hold.",
+   "video": {
+    "yt": "cucQOOAahNY",
+    "start": 26283,
+    "end": 28187,
+    "cut": true
+   },
+   "url": "https://www.youtube.com/watch?v=cucQOOAahNY&t=26283s",
+   "related": [
+    "pgext"
+   ]
+  },
+  {
+   "id": "talk-ext-upgrades",
+   "kind": "talk",
+   "name": "Extension Upgrades",
+   "sector": "data",
+   "start": 2025,
+   "end": 2025,
+   "approx": false,
+   "weight": 1,
+   "year": 2025.36,
+   "date": "2025-05-12",
+   "event": "Postgres Extensions Day 2025",
+   "venue": "Montréal",
+   "line": "Install paths, upgrade paths, and versioning everything — including the shared library — so pg_upgrade keeps working.",
+   "video": {
+    "yt": "cucQOOAahNY",
+    "start": 8752,
+    "end": 10165,
+    "cut": true
+   },
+   "url": "https://www.youtube.com/watch?v=cucQOOAahNY&t=8752s",
+   "related": [
+    "pgext"
+   ]
+  },
+  {
+   "id": "talk-pgpm",
+   "kind": "talk",
+   "name": "Postgres.pm: Packaging Manager Magic",
+   "sector": "data",
+   "start": 2025,
+   "end": 2025,
+   "approx": false,
+   "weight": 1,
+   "year": 2025.21,
+   "date": "2025-03-19",
+   "event": "Postgres Conference 2025",
+   "venue": "Orlando",
+   "line": "GitHub URL in, package out: building and packaging Postgres extensions automatically.",
+   "url": "https://postgresconf.org/conferences/postgresconf_global_2025/program/proposals/postgres-pm-build-better",
+   "related": [
+    "omnigres"
+   ]
+  },
+  {
+   "id": "talk-immutability",
+   "kind": "talk",
+   "name": "How immutability challenges extension packaging and distribution",
+   "sector": "data",
+   "start": 2026,
+   "end": 2026,
+   "approx": false,
+   "weight": 1,
+   "year": 2026.38,
+   "date": "2026-05-19",
+   "event": "PGConf.dev 2026",
+   "format": "panel",
+   "line": "An open discussion with Alastair Turner, David E. Wheeler and Floor Drees on extensions in image-based Postgres deployments.",
+   "url": "https://2026.pgconf.dev/session/618"
+  },
+  {
+   "id": "talk-unusual-types",
+   "kind": "talk",
+   "name": "Unusual Useful Types for Postgres",
+   "sector": "data",
+   "start": 2024,
+   "end": 2024,
+   "approx": false,
+   "weight": 1,
+   "year": 2024.68,
+   "date": "2024-09-07",
+   "event": "Percona University Istanbul 2024",
+   "venue": "Istanbul",
+   "line": "Identity types for JOIN safety, variants, and other uses of the Postgres type system.",
+   "url": "https://percona.university/percona-university-istanbul-open-source-databases-meetup-2024/",
+   "related": [
+    "omnigres"
+   ]
+  },
+  {
+   "id": "talk-pushing-boundaries",
+   "kind": "talk",
+   "name": "Pushing boundaries with extensions, for extensions",
+   "sector": "data",
+   "start": 2024,
+   "end": 2024,
+   "approx": false,
+   "weight": 1,
+   "year": 2024.41,
+   "date": "2024-05-29",
+   "event": "PGConf.dev 2024",
+   "venue": "Vancouver",
+   "also": [
+    "Postgres Conference 2024",
+    "PGIBZ 2024"
+   ],
+   "line": "The Postgres API surface, versioning, and provisioning: the limits of the extension system and how to work around them today.",
+   "url": "https://www.pgevents.ca/events/pgconfdev2024/sessions/session/14-pushing-boundaries-with-extensions-for-extensions/",
+   "related": [
+    "omnigres"
+   ]
+  },
+  {
+   "id": "talk-buildable",
+   "kind": "talk",
+   "name": "Universally Buildable Extensions: Dev to Prod",
+   "sector": "data",
+   "start": 2024,
+   "end": 2024,
+   "approx": false,
+   "weight": 1,
+   "year": 2024.33,
+   "date": "2024-05-01",
+   "event": "Extension Ecosystem Mini-Summit 5",
+   "venue": "online",
+   "line": "Describing Postgres extensions so they build anywhere, from development to production.",
+   "video": {
+    "yt": "R5ijx8IJyaM"
+   },
+   "slides": "https://justatheory.com/shared/extension-ecosystem-summit/omni-universally-buildable-extensions.pdf",
+   "url": "https://www.youtube.com/watch?v=R5ijx8IJyaM",
+   "related": [
+    "omnigres"
+   ]
+  },
+  {
+   "id": "talk-postgres-can-do-what",
+   "kind": "talk",
+   "name": "Omnigres: Postgres can do WHAT?",
+   "sector": "data",
+   "start": 2024,
+   "end": 2024,
+   "approx": false,
+   "weight": 1,
+   "year": 2024.29,
+   "event": "Postgres Conference 2024",
+   "venue": "San Jose",
+   "line": "Postgres as a platform for data-intensive applications: a constellation of extensions.",
+   "url": "https://postgresconf.org/conferences/2024/program/proposals/omnigres-postgres-can-do-what",
+   "related": [
+    "omnigres"
+   ]
+  },
+  {
+   "id": "talk-lazy-es",
+   "kind": "talk",
+   "name": "Lazy event sourcing: Living in the now",
+   "sector": "data",
+   "start": 2016,
+   "end": 2016,
+   "approx": false,
+   "weight": 1,
+   "year": 2016.87,
+   "date": "2016-11-15",
+   "event": "O'Reilly Software Architecture Conference",
+   "venue": "San Francisco",
+   "line": "Designing event-sourced systems that defer deciding what the state of the world should include until the very end.",
+   "video": {
+    "href": "https://www.oreilly.com/library/view/oreilly-software-architecture/9781491976142/video289771.html",
+    "host": "O'Reilly"
+   },
+   "url": "https://www.oreilly.com/library/view/oreilly-software-architecture/9781491976142/video289771.html"
+  },
+  {
+   "id": "talk-bitcoin-elixir",
+   "kind": "talk",
+   "name": "Bitcoin & Elixir: Living the Cutting Edge",
+   "sector": "companies",
+   "start": 2014,
+   "end": 2014,
+   "approx": false,
+   "weight": 1,
+   "year": 2014.18,
+   "event": "Erlang Factory SF Bay Area 2014",
+   "venue": "San Francisco",
+   "line": "Building a Bitcoin exchange service in Elixir, from the Bex.io trenches.",
+   "video": {
+    "yt": "ySkC4vxBfko",
+    "dur": 2905
+   },
+   "url": "https://www.youtube.com/watch?v=ySkC4vxBfko",
+   "related": [
+    "bexio",
+    "elixir"
+   ]
+  },
+  {
+   "id": "talk-meta-is-mega",
+   "kind": "talk",
+   "name": "Meta is Mega",
+   "sector": "machines",
+   "start": 2013,
+   "end": 2013,
+   "approx": false,
+   "weight": 1,
+   "year": 2013.89,
+   "date": "2013-11-23",
+   "event": "Toronto Erlang Factory Lite 2013",
+   "venue": "Toronto",
+   "line": "Elixir with Erlang to build useful tools quickly — Hypnotoad, a server orchestration tool, as the example.",
+   "url": "https://www.erlang-factory.com/conference/Toronto2013/speakers/YuriiRashkovskii",
+   "related": [
+    "elixir"
+   ]
+  },
+  {
+   "id": "talk-erlang-dc-meta",
+   "kind": "talk",
+   "name": "Erlang metaprogramming with Elixir",
+   "sector": "machines",
+   "start": 2013,
+   "end": 2013,
+   "approx": false,
+   "weight": 1,
+   "year": 2013.9,
+   "event": "Erlang DC 2013",
+   "venue": "Washington, DC",
+   "line": "Elixir as a meta-compiler for Erlang that stays close to Erlang itself.",
+   "video": {
+    "yt": "m32CGvzixrQ",
+    "dur": 3470
+   },
+   "url": "https://www.youtube.com/watch?v=m32CGvzixrQ",
+   "related": [
+    "elixir"
+   ]
+  },
+  {
+   "id": "talk-euc-meta",
+   "kind": "talk",
+   "name": "Meta-Programming with Elixir",
+   "sector": "machines",
+   "start": 2013,
+   "end": 2013,
+   "approx": false,
+   "weight": 1,
+   "year": 2013.45,
+   "event": "Erlang User Conference 2013",
+   "venue": "Stockholm",
+   "line": "Programming Erlang more productively through Elixir macros — and the pitfalls to avoid.",
+   "video": {
+    "yt": "a3eJoM5FFiQ",
+    "dur": 2390
+   },
+   "url": "https://www.youtube.com/watch?v=a3eJoM5FFiQ",
+   "related": [
+    "elixir"
+   ]
+  },
+  {
+   "id": "talk-genomu",
+   "kind": "talk",
+   "name": "Genomu: A Concurrency-Oriented Database",
+   "sector": "machines",
+   "start": 2013,
+   "end": 2013,
+   "approx": false,
+   "weight": 1,
+   "year": 2013.22,
+   "date": "2013-03-22",
+   "event": "Erlang Factory SF Bay Area 2013",
+   "venue": "San Francisco",
+   "line": "A database in Elixir on Riak Core: event sourcing, a redis-like API, and conflict resolution by log merging.",
+   "video": {
+    "yt": "ujaoprIKY9M",
+    "dur": 2528
+   },
+   "url": "https://www.youtube.com/watch?v=ujaoprIKY9M",
+   "related": [
+    "elixir"
+   ]
+  },
+  {
+   "id": "talk-vancouver-meta",
+   "kind": "talk",
+   "name": "Erlang metaprogramming with Elixir",
+   "sector": "machines",
+   "start": 2012,
+   "end": 2012,
+   "approx": false,
+   "weight": 1,
+   "year": 2012.57,
+   "date": "2012-07-28",
+   "event": "Vancouver Erlang Factory Lite 2012",
+   "venue": "Vancouver",
+   "line": "Erlang can have many faces: Elixir as a way to write less boilerplate.",
+   "video": {
+    "yt": "qCtoqwQ7x5M",
+    "dur": 1769
+   },
+   "url": "https://www.youtube.com/watch?v=qCtoqwQ7x5M",
+   "related": [
+    "elixir"
+   ]
+  },
+  {
+   "id": "talk-parse-transforms",
+   "kind": "talk",
+   "name": "Fear Not, or a Brief Introduction to Parse Transformations",
+   "sector": "machines",
+   "start": 2012,
+   "end": 2012,
+   "approx": false,
+   "weight": 1,
+   "year": 2012.22,
+   "event": "Erlang Factory SF Bay Area 2012",
+   "venue": "San Francisco",
+   "line": "Parse transformations in Erlang, without the fear.",
+   "video": {
+    "yt": "FJErAhBIYUA",
+    "dur": 1194
+   },
+   "url": "https://www.youtube.com/watch?v=FJErAhBIYUA",
+   "related": [
+    "spawngrid"
+   ]
+  },
+  {
+   "id": "talk-erlang-web",
+   "kind": "talk",
+   "name": "Building Web Applications in the Erlang Era",
+   "sector": "machines",
+   "start": 2011,
+   "end": 2011,
+   "approx": false,
+   "weight": 1,
+   "year": 2011.45,
+   "event": "Erlang Factory London 2011",
+   "venue": "London",
+   "line": "Thick clients, Socket.IO, session-oriented development and fault-tolerant session management in Erlang.",
+   "url": "https://www.erlang-factory.com/conference/London2011/speakers/YuriiRashkovskii"
+  },
+  {
+   "id": "talk-beamjs",
+   "kind": "talk",
+   "name": "Beam.js: Erlang Meets JavaScript",
+   "sector": "machines",
+   "start": 2011,
+   "end": 2011,
+   "approx": false,
+   "weight": 1,
+   "year": 2011.22,
+   "event": "Erlang Factory SF Bay Area 2011",
+   "venue": "San Francisco",
+   "line": "A JavaScript platform built on erlv8, with bi-directional integration with Erlang.",
+   "video": {
+    "href": "https://www.infoq.com/presentations/Beamjs-Erlang-Meets-JavaScript/",
+    "host": "InfoQ",
+    "dur": 1801
+   },
+   "url": "https://www.infoq.com/presentations/Beamjs-Erlang-Meets-JavaScript/"
+  },
+  {
+   "id": "talk-parallel-testing",
+   "kind": "talk",
+   "name": "Highly parallel testing in Erlang",
+   "sector": "machines",
+   "start": 2010,
+   "end": 2010,
+   "approx": false,
+   "weight": 1,
+   "year": 2010.48,
+   "date": "2010-06-24",
+   "event": "Vancouver Erlang Meetup",
+   "venue": "Vancouver",
+   "line": "Parallel integration testing with epitest.",
+   "url": "https://github.com/kenpratt/vancouver_erlang"
   }
  ]
 }

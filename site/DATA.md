@@ -29,7 +29,7 @@ RDF script may regenerate `atlas.js` from `atlas.json`).
   "bodies": [
     {
       "id": "strata",                 // stable, url-safe; used by #focus=<id>, `locate <id>`, RDF IRIs
-      "kind": "project",              // life | company | project | writing | idea | oss
+      "kind": "project",              // life | company | project | writing | idea | oss | talk
       "name": "Strata",
       "sector": "machines",           // a sectors[].id
       "start": 2026, "end": null,     // years; end null = ongoing; single-moment things use start only
@@ -89,6 +89,15 @@ Base IRI `https://yrashk.com/atlas/` (bodies are `<https://yrashk.com/atlas/stra
   `yr:continuedAs` (IRI of the body this one continued as — e.g. `:omnigres yr:continuedAs :inferal`; the Atlas draws it as a curved arrow in the company layer).
 - Role links from the person: `:yrashk yr:founded <company>`, `yr:built <project>`, `yr:wrote <essay>`,
   `yr:authored <repo>`, `yr:contributedTo <repo>`, `yr:lived <life-event>`.
+- Talks (`kind: "talk"`): `yr:Talk` (also `schema:Event`); `:yrashk yr:presented <talk>`. Fields in atlas.json:
+  `date` (`schema:startDate`, when known; else `start` + a fractional `year`), `event` and `venue`
+  (`schema:superEvent [ a schema:Event ; schema:name ; schema:location ]`), `format` (e.g. `"panel"`, `yr:format`),
+  `also` (other events it was given at, `yr:alsoAt`), `slides` (`yr:slides`), and `video`, the recording:
+  `{yt, start?, end?, dur?, cut?}` for YouTube — `start`/`end` in seconds cut one talk out of a longer stream — or
+  `{href, host}` for a page elsewhere (`schema:recordedIn [ a schema:VideoObject ; schema:url ; schema:embedUrl ;
+  yr:startOffset ; yr:endOffset ]`). No `video` means no public recording; `url` then points at the talk's page.
+  The Talks window (writing workspace) draws them as a timeline; the floating player (`/player.js`, also on every
+  reader page) plays them and resumes across page loads from `sessionStorage["yr-player"]`.
 - Repos: IRI `:repo/<owner>/<name>`; `schema:codeRepository` (GitHub URL), `schema:programmingLanguage`,
   `yr:stars`, `yr:organization` (owner login), and one activity node per active year:
   `<repo> yr:activity [ yr:year "2012"^^xsd:gYear ; yr:contributions 188 ]`.

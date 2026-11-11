@@ -263,6 +263,37 @@ kbd{font:500 10.5px/1 var(--mono);color:var(--bone-2);background:var(--panel-3);
 .ess li.flash{background:var(--signal-dim);margin:0 -8px;padding-left:8px;padding-right:8px;border-radius:4px}
 .ess .d a{color:var(--bone-3)}
 
+/* talks: a vertical timeline */
+.tl{list-style:none;margin:0;padding:0 0 8px;position:relative}
+.tl::before{content:"";position:absolute;left:58px;top:6px;bottom:10px;width:1px;background:var(--line-2)}
+.tl li{position:relative;display:grid;grid-template-columns:48px 1fr;gap:0 21px;padding:0 0 18px}
+.tl li.y{padding:6px 0 12px}
+.tl li.y b{font:500 11px/1 var(--mono);letter-spacing:.08em;color:var(--bone-2);text-align:right;padding-top:2px}
+.tl li.y::after{content:"";position:absolute;left:54px;top:5px;width:9px;height:9px;border-radius:50%;background:var(--panel);border:1px solid var(--bone-3)}
+.tl .when{font:400 10.5px/1.6 var(--mono);color:var(--bone-4);text-align:right;padding-top:3px;white-space:nowrap}
+.tl .dot{position:absolute;left:55px;top:7px;width:7px;height:7px;border-radius:50%;background:var(--bone-3);box-shadow:0 0 0 3px var(--panel)}
+.tl li.none .dot{background:var(--panel);border:1px solid var(--bone-4);width:7px;height:7px}
+.tl .tt{all:unset;cursor:pointer;display:block;font:400 19px/1.22 var(--serif);color:var(--bone);text-wrap:pretty}
+.tl a.tt{cursor:pointer}
+.tl .tt:hover{color:var(--signal-2)}
+.tl .tt:focus-visible{outline:1px solid var(--signal);outline-offset:2px;border-radius:2px}
+.tl li.none .tt{color:var(--bone-2)}
+.tl .ev{font-size:13px;color:var(--bone-3);margin-top:3px}
+.tl .ln{font-size:13.5px;color:var(--bone-2);margin:5px 0 0;max-width:58ch;text-wrap:pretty}
+.tl .mt{display:flex;flex-wrap:wrap;gap:6px 12px;margin-top:7px;font:400 10.5px/1.5 var(--mono);color:var(--bone-4)}
+.tl .mt .rec{color:var(--bone-2)}
+.tl .mt .rec.play{color:var(--signal)}
+.tl .mt button,.tl .mt a{all:unset;cursor:pointer;color:var(--bone-3)}
+.tl .mt button:hover,.tl .mt a:hover{color:var(--signal-2)}
+.tl li.on .dot{background:var(--signal);box-shadow:0 0 0 3px var(--panel),0 0 10px var(--signal-glow)}
+.tl li.on.playing .dot{animation:tl-pulse 1.6s infinite}
+@keyframes tl-pulse{50%{box-shadow:0 0 0 3px var(--panel),0 0 2px var(--signal-glow)}}
+.tl li.on .tt{color:var(--signal-2)}
+.tl li.flash{background:var(--signal-dim);border-radius:5px}
+.tl-sum{font:400 11px/1.5 var(--mono);color:var(--bone-4);margin:0 0 16px 69px}
+.tl-sum b{color:var(--bone-2);font-weight:500}
+@media (prefers-reduced-motion:reduce){.tl li.on.playing .dot{animation:none}}
+
 /* notes */
 .notes{list-style:none;margin:0;padding:0}
 .notes li{display:grid;grid-template-columns:40px 1fr;gap:12px;padding:12px 0;border-top:1px solid var(--line)}
@@ -666,6 +697,13 @@ table.ps tr:hover td{background:var(--panel-2);cursor:pointer}
     <div class="win-b"><ul class="ess" id="essays"></ul></div>
   </section>
 
+  <!-- talks -->
+  <section class="win" id="w-talks" data-app="talks" tabindex="-1" aria-label="Talks">
+    <header class="win-h"><span class="idx">06</span><span class="ttl">talks</span><span class="sub" id="talks-sub">/ conference talks</span>
+      <div class="ctl"><button data-act="max" aria-label="Maximize">⤢</button><button class="x" data-act="close" aria-label="Close">×</button></div></header>
+    <div class="win-b"><p class="tl-sum" id="talks-sum"></p><ol class="tl" id="talks"></ol></div>
+  </section>
+
   <!-- notes -->
   <section class="win" id="w-notes" data-app="notes" tabindex="-1" aria-label="Notes">
     <header class="win-h"><span class="idx">08</span><span class="ttl">notes</span><span class="sub">/ thinking in public</span>
@@ -774,6 +812,7 @@ table.ps tr:hover td{background:var(--panel-2);cursor:pointer}
 <script src="../data/contrib.js"></script>
 <script src="../data/atlas.js"></script>
 <script src="../data/github.js"></script>
+<script src="player.js"></script>
 <script>
 /* ═══════════════════════════ data (from the content dossier; curated) ═══════════════════════════ */
 const AT = window.ATLAS || {person:{},places:[],sectors:[],bodies:[]};
@@ -796,6 +835,7 @@ const APPS = [
   {id:'projects', ws:2, ic:'wk', label:'work'},
   {id:'track',    ws:2, ic:'07', label:'track record'},
   {id:'essays',   ws:3, ic:'es', label:'writing'},
+  {id:'talks',    ws:3, ic:'tk', label:'talks', alias:'videos talks conference player'},
   {id:'notes',    ws:3, ic:'nt', label:'notes'},
   {id:'ideas',    ws:3, ic:'sh', label:'shelf'},
   {id:'console',  ws:4, ic:'❯_', label:'console', lab:true},
@@ -827,7 +867,7 @@ function syncWsHash(){ if(applyingHash) return; const changed=syncedWs!==null&&s
 const emptyApp=id=>(id==='notes'&&!(Array.isArray(window.NOTES)&&window.NOTES.length))||(id==='ideas'&&!(Array.isArray(window.SHELF)&&window.SHELF.length));
 const defaultState = ()=>({ws:1, open:Object.fromEntries(APPS.map(a=>[a.id,emptyApp(a.id)?0:a.ws])), max:null, focus:'atlas', mfocus:'atlas', project:'inferal', desk:false});
 let S = defaultState();
-try{ const saved=JSON.parse(sessionStorage.getItem('yos5-state')); if(saved && saved.open) S={...defaultState(),...saved}; }catch(e){}
+try{ const saved=JSON.parse(sessionStorage.getItem('yos5-state')); if(saved && saved.open){ const d=defaultState(); S={...d,...saved,open:{...d.open,...saved.open}}; } }catch(e){}
 let ctx = 0;
 const save = ()=>{ try{ sessionStorage.setItem('yos5-state', JSON.stringify(S)); }catch(e){} };
 const win = id=>$('#w-'+id);
@@ -969,6 +1009,8 @@ function renderDock(){
 
 /* generic openers */
 document.addEventListener('click',e=>{
+  const st=e.target.closest('[data-show-talk]'); if(st){ showTalk(st.dataset.showTalk); return; }
+  const tk=e.target.closest('[data-talk]'); if(tk){ e.preventDefault(); playTalk(tk.dataset.talk); return; }
   const p=e.target.closest('[data-open-project]'); if(p){ selectProject(p.dataset.openProject); focus('projects'); return; }
   const a=e.target.closest('[data-open-app]'); if(a){ focus(a.dataset.openApp); return; }
   const l=e.target.closest('[data-locate]'); if(l){ locateInAtlas(l.dataset.locate); return; }
@@ -1041,6 +1083,34 @@ const SHELF = (Array.isArray(window.SHELF)?window.SHELF:[]).map(x=>({id:String(x
 $('#shelf').innerHTML = SHELF.length ? SHELF.map(x=>`<li><b>${x.url?`<a href="${esc(x.url)}" style="color:inherit;text-decoration:none">${esc(x.t)}</a>`:esc(x.t)}</b><span>${esc(x.b)}${x.since?` <em class="d" style="font-style:normal">· since ${esc(String(x.since))}</em>`:''}</span></li>`).join('') : `<li class="empty"><b>Nothing on the shelf yet.</b><span>Ideas not built yet will sit here.</span></li>`;
 $('#shelf-sub').textContent = SHELF.length ? `/ ideas · not built yet · ${SHELF.length}` : '/ ideas · not built yet';
 $('#track').innerHTML=VENTURES.map(v=>`<li><span class="y ${v.hot?'hot':''}">${v.y}</span><div>${v.url?`<a href="${v.url}"><b>${esc(v.name)}</b></a>`:`<b>${esc(v.name)}</b>`}<span>${esc(v.ds)}</span></div></li>`).join('');
+/* talks: atlas.json bodies of kind "talk", newest first, on a vertical timeline; recordings play in the floating player */
+const TALKS = AT.bodies.filter(b=>b.kind==='talk').map(b=>({...b, y:b.year||b.start})).sort((a,b)=>b.y-a.y);
+const MON=['Jan','Feb','Mar','Apr','May','Jun','Jul','Aug','Sep','Oct','Nov','Dec'];
+const clockS=s=>{ s=Math.max(0,Math.round(s||0)); const h=Math.floor(s/3600), m=Math.floor(s%3600/60), x=s%60; return (h?h+':'+String(m).padStart(2,'0'):m)+':'+String(x).padStart(2,'0'); };
+const talkLen=t=>{ const v=t.video||{}; return v.end&&v.start!=null ? v.end-v.start : v.dur||null; };
+function playTalk(id){ const t=TALKS.find(x=>x.id===id); if(!t) return; if(window.YRPlayer) YRPlayer.open(t); else if(t.url) window.open(t.url,'_blank','noopener'); }
+guard('talks',function talks(){
+  const L=$('#talks'); let yr=null; const out=[];
+  TALKS.forEach(t=>{
+    const y=Math.floor(t.y); if(y!==yr){ yr=y; out.push(`<li class="y" aria-hidden="true"><b>${y}</b><span></span></li>`); }
+    const v=t.video||null, yt=v&&v.yt, len=talkLen(t);
+    const when=t.date ? `${MON[+t.date.slice(5,7)-1]} ${+t.date.slice(8,10)}` : '';
+    const title = yt ? `<button class="tt" data-talk="${t.id}" aria-label="Play: ${esc(t.name)}">${esc(t.name)}</button>`
+      : `<a class="tt" href="${esc(t.url)}" target="_blank" rel="noopener">${esc(t.name)}</a>`;
+    const rec = yt ? `<span class="rec play">▶ ${len?clockS(len):'video'}${v.cut?` · from the stream at ${clockS(v.start)}`:''}</span>`
+      : v&&v.href ? `<span class="rec">↗ ${esc(v.host||'video')}${len?' · '+clockS(len):''}</span>` : `<span>no recording</span>`;
+    const extra=[t.format?`<span>${esc(t.format)}</span>`:'', t.also&&t.also.length?`<span>also at ${esc(t.also.join(', '))}</span>`:'', t.slides?`<a href="${esc(t.slides)}" target="_blank" rel="noopener">slides ↗</a>`:'', !yt&&v&&v.href?'':(yt?`<a href="${esc(t.url)}" target="_blank" rel="noopener" title="Open on YouTube">youtube ↗</a>`:''), `<button data-locate="${t.id}" title="Locate in the Atlas">◎ atlas</button>`].join('');
+    out.push(`<li id="tk-${t.id}" class="${yt?'':(v?'ext':'none')}"><span class="when">${when}</span><span class="dot" aria-hidden="true"></span><div>${title}<div class="ev">${esc(t.event||'')}${t.venue?' · '+esc(t.venue):''}</div>${t.line?`<p class="ln">${esc(t.line)}</p>`:''}<div class="mt">${rec}${extra}</div></div></li>`);
+  });
+  L.innerHTML=out.join('');
+  const rec=TALKS.filter(t=>t.video&&t.video.yt).length, span=`${Math.floor(TALKS.at(-1).y)}–${Math.floor(TALKS[0].y)}`;
+  $('#talks-sum').innerHTML=`<b>${TALKS.length}</b> talks · <b>${rec}</b> play here · ${span}`;
+  $('#talks-sub').textContent=`/ ${TALKS.length} talks · ${rec} recorded`;
+  const mark=(id,state)=>{ $$('#talks li.on').forEach(li=>li.classList.remove('on','playing')); if(id&&state!=='closed'){ const li=$('#tk-'+id); if(li){ li.classList.add('on'); li.classList.toggle('playing',state==='playing'); } } };
+  addEventListener('yr-player',e=>mark(e.detail.id,e.detail.state));
+  if(window.YRPlayer&&YRPlayer.current()) mark(YRPlayer.current(),YRPlayer.state());
+});
+function showTalk(id){ focus('talks'); const li=$('#tk-'+id); if(!li) return; li.scrollIntoView({block:'center'}); li.classList.add('flash'); setTimeout(()=>li.classList.remove('flash'),1600); }
 function showEssay(id){ focus('essays'); const li=$('#jp-'+id); if(!li) return; li.scrollIntoView({block:'center'}); li.classList.add('flash'); setTimeout(()=>li.classList.remove('flash'),1600); }
 
 /* ═══════════════════════════ lab: query console (mounts ./sparql.js when it exists) ═══════════════════════════ */
@@ -1135,7 +1205,7 @@ BODIES.forEach(b=>{ const s=secById[b.sector]; b.ang=(s.a0+(s.a1-s.a0)*b.f)*D2R;
   b.r = b.kind==='idea' ? R_IDEAS+(b.id.length%3)*10 : (b.now ? R0 : rOf(b.y));
   b.label=b.short||b.name; b.prio = b.kind==='repo' ? b.score*.9 : (b.kind==='post'?.5 : (b.kind==='idea'?.7 : b.size+1));
   const p=PROJECTS.find(x=>x.id===b.id); if(p) b.proj=p; });
-const CATS=[['life','Life'],['company','Companies'],['project','Projects'],['authored','Authored'],['contributed','Contributed'],['writing','Writing'],['idea','Ideas'],['ring','Contribution ring']];
+const CATS=[['life','Life'],['company','Companies'],['project','Projects'],['authored','Authored'],['contributed','Contributed'],['writing','Writing'],['talk','Talks'],['idea','Ideas'],['ring','Contribution ring']];
 const epochStr=b=>{ if(b.now) return 'now'; if(b.kind==='idea') return b.since?`on the shelf since ${b.since}`:'uncharted'; if(b.post) return b.post.d; if(b.from!=null&&b.kind!=='repo') return `${b.start} – ${b.to==null?'now':b.end}`; if(b.kind==='repo') return b.start===b.end?String(b.start):`${b.start} – ${b.end}`; return (b.approx?'c. ':'')+Math.floor(b.y!=null?b.y:b.start); };
 const phiStr=b=>(((b.ang/D2R)%360+360)%360).toFixed(1)+'°';
 
@@ -1217,6 +1287,7 @@ const atlas=(function(){
       cx.globalAlpha=isHot?Math.max(base,.9):base; let hitR=10;
       if(b.kind==='idea'){ cx.beginPath(); cx.arc(x,y,5.5,0,TAU); cx.setLineDash([2,2.5]); cx.strokeStyle=isHot?rgba(SIG,1):rgba(BONE,.55); cx.lineWidth=1; cx.stroke(); cx.setLineDash([]);
         cx.beginPath(); cx.arc(ox,oy,b.r*k,b.ang+theta-.16,b.ang+theta+.16); cx.setLineDash([1,4]); cx.strokeStyle=rgba(BONE,.26); cx.stroke(); cx.setLineDash([]); }
+      else if(b.kind==='talk'){ const s=isHot?5:3.6, rec=b.src.video&&b.src.video.yt; cx.beginPath(); cx.moveTo(x-s*.8,y-s); cx.lineTo(x+s,y); cx.lineTo(x-s*.8,y+s); cx.closePath(); if(rec){ cx.fillStyle=isHot?rgba(SIG,1):rgba(BONE,.85); cx.fill(); } else { cx.strokeStyle=isHot?rgba(SIG,1):rgba(BONE,.7); cx.lineWidth=1; cx.stroke(); } hitR=9; }
       else if(b.kind==='post'){ cx.beginPath(); cx.arc(x,y,isHot?3.4:2.4,0,TAU); cx.strokeStyle=isHot?rgba(SIG,1):rgba(BONE,.75); cx.lineWidth=1; cx.stroke(); if(isHot){ cx.beginPath(); cx.arc(x,y,1,0,TAU); cx.fillStyle=rgba(SIG,1); cx.fill(); } hitR=9; }
       else if(b.kind==='repo'){ const rad=1.2+2.8*b.score+(isHot?1.2:0); cx.beginPath(); cx.arc(x,y,rad,0,TAU);
         if(b.cat==='authored'){ cx.fillStyle=isHot?rgba(SIG,1):rgba(BONE,.9); cx.fill(); } else { cx.strokeStyle=isHot?rgba(SIG,1):rgba(BONE,.85); cx.lineWidth=.9; cx.stroke(); }
@@ -1230,7 +1301,7 @@ const atlas=(function(){
       hits.push({x,y,r:hitR,b}); cx.globalAlpha=1;
       let show=false,size=13;
       if(b.kind==='repo'){ const k0=k0of(b); show=isHot||(rv>.55&&k>k0*2&&b.score>.25)||(b.score>.68&&k>.42); size=11.5; }
-      else if(b.kind==='post'){ show=k>1.9||isHot; size=12; } else if(b.kind==='idea'){ show=k>.9||isHot; size=12.5; } else if(b.kind==='life'){ show=k>.55||isHot||b.id==='born'; size=12.5; } else if(b.size===0){ show=k>1.25||isHot; size=12; } else if(b.size===1){ show=k>.62||isHot; size=13; } else if(b.size===2){ show=k>.36||isHot; size=14.5; } else { show=true; size=17; }
+      else if(b.kind==='post'){ show=k>1.9||isHot; size=12; } else if(b.kind==='talk'){ show=k>1.6||isHot; size=12; } else if(b.kind==='idea'){ show=k>.9||isHot; size=12.5; } else if(b.kind==='life'){ show=k>.55||isHot||b.id==='born'; size=12.5; } else if(b.size===0){ show=k>1.25||isHot; size=12; } else if(b.size===1){ show=k>.62||isHot; size=13; } else if(b.size===2){ show=k>.36||isHot; size=14.5; } else { show=true; size=17; }
       if(wall && b.size<2 && !isHot && b.kind!=='life') show=false; if(b.id==='born') show=false; /* the 1981 ring is labelled */
       if(!show) return; cx.globalAlpha=dimmed?.35:(b.kind==='repo'?Math.min(1,rv*(.4+.6*b.score)+.15):1);
       cx.font=lf(size); const tw=cx.measureText(b.label).width; const off=(b.size===3?12:(b.size===2?9:7));
@@ -1344,7 +1415,7 @@ const atlas=(function(){
 
   /* inspector (a drawer inside the tile) */
   const ORDER=BODIES.filter(b=>b.kind!=='post'&&b.kind!=='idea'&&b.kind!=='repo'&&b.size>=1).concat(BODIES.filter(b=>b.kind==='post'));
-  const KIND={company:'Company',project:'Project',oss:'Open source',idea:'Idea, on the shelf',post:'Essay',life:'Life',repo:'Repository',signal:'Activity'};
+  const KIND={company:'Company',project:'Project',oss:'Open source',talk:'Talk',idea:'Idea, on the shelf',post:'Essay',life:'Life',repo:'Repository',signal:'Activity'};
   function openBody(id,opts={}){
     const b=byId[id]; if(!b) return; resize(); openId=id; touch(); kick();
     const s=secById[b.sector]; const p=b.proj;
@@ -1359,7 +1430,11 @@ const atlas=(function(){
     if(b.gh) html+=`<div class="coord"><span>github <b>${b.gh.total.toLocaleString('en-US')}</b> contributions</span><span><b>${b.gh.first===b.gh.last?b.gh.first:b.gh.first+' – '+b.gh.last}</b></span>${b.gh.stars?`<span><b>${b.gh.stars.toLocaleString('en-US')}</b> ★</span>`:''}<span>${b.gh.n} repo${b.gh.n>1?'s':''}${b.gh.langs.length?' · '+esc(b.gh.langs.join(', ')):''}</span></div>`;
     if(b.kind==='life'&&b.src.place){ const pl=(AT.places||[]).find(x=>x.id===b.src.place); if(pl) html+=`<div class="coord"><span>${esc(pl.name)}</span>${pl.lat!=null?`<span><b>${Math.abs(pl.lat).toFixed(2)}°${pl.lat<0?'S':'N'} ${Math.abs(pl.lon).toFixed(2)}°${pl.lon<0?'W':'E'}</b></span>`:''}</div>`; }
     const acts=[];
-    if(b.post) acts.push(`<a class="btn primary" href="${esc(b.url)}">Read →</a>`); else if(b.url) acts.push(`<a class="btn primary" href="${esc(b.url)}">Visit ↗</a>`);
+    if(b.kind==='talk'){ const v=b.src.video||{}; const len=talkLen(b.src); html=html.replace('</h2>',`</h2><p class="pos">${esc(b.src.event||'')}${b.src.venue?' · '+esc(b.src.venue):''}${b.src.date?' · '+esc(b.src.date):''}</p>`);
+      html+=`<div class="coord"><span>${v.yt?'recorded':v.href?'recorded · '+esc(v.host||''):'no recording'}</span>${len?`<span><b>${clockS(len)}</b></span>`:''}${v.cut?`<span>stream cut at <b>${clockS(v.start)}</b></span>`:''}${b.src.format?`<span>${esc(b.src.format)}</span>`:''}</div>`;
+      acts.push(v.yt?`<button class="btn primary" data-talk="${b.id}">Play ▶</button>`:`<a class="btn primary" href="${esc(b.url)}" target="_blank" rel="noopener">${v.href?'Watch on '+esc(v.host||'the web'):'Talk page'} ↗</a>`);
+      acts.push(`<button class="btn quiet" data-show-talk="${b.id}">In Talks</button>`); }
+    else if(b.post) acts.push(`<a class="btn primary" href="${esc(b.url)}">Read →</a>`); else if(b.url) acts.push(`<a class="btn primary" href="${esc(b.url)}">Visit ↗</a>`);
     if(p) acts.push(`<button class="btn" data-open-project="${p.id}">Open in Work</button>`);
     if(b.kind==='company'||b.id==='pgext'||b.id==='omnigres') acts.push(`<button class="btn quiet" data-open-app="track">Track record</button>`);
     if(b.post&&b.post.listed) acts.push(`<button class="btn quiet" data-journal="${b.id}">In Writing</button>`);

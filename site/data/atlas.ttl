@@ -21,7 +21,8 @@
     yr:founded                 :inferal, :hackerintro, :trustatom, :bexio, :spawngrid, :issuesdone, :omnigres ;
     yr:built                   :pgext, :strata, :libycxx, :flyology, :shutters, :uplpgsql ;
     yr:wrote                   :p-canoe, :p-c4, :p-rust, :p-http, :p-pgext25, :p-d3x, :p-regr, :p-lim, :p-sum, :p-plrust, :p-game ;
-    yr:contributedTo           :abtop, :elixir, :pumpkindb, :erlzmq2, :pgrx, :wasmrs .
+    yr:contributedTo           :abtop, :elixir, :pumpkindb, :erlzmq2, :pgrx, :wasmrs ;
+    yr:presented               :talk-cppgres, :talk-ext-upgrades, :talk-pgpm, :talk-immutability, :talk-unusual-types, :talk-pushing-boundaries, :talk-buildable, :talk-postgres-can-do-what, :talk-lazy-es, :talk-bitcoin-elixir, :talk-meta-is-mega, :talk-erlang-dc-meta, :talk-euc-meta, :talk-genomu, :talk-vancouver-meta, :talk-parse-transforms, :talk-erlang-web, :talk-beamjs, :talk-parallel-testing .
 
 # ── Places ──
 
@@ -519,6 +520,257 @@
     yr:end                     "2021"^^xsd:gYear ;
     yr:weight                  1 ;
     yr:repo                    <https://yrashk.com/atlas/repo/wasm-rs/async-executor>, <https://yrashk.com/atlas/repo/wasm-rs/wasm-rs.github.io>, <https://yrashk.com/atlas/repo/wasm-rs/dbg>, <https://yrashk.com/atlas/repo/wasm-rs/cargo-metadata>, <https://yrashk.com/atlas/repo/wasm-rs/shared-channel> .
+
+# ── Talks ──
+
+:talk-cppgres
+    a                          yr:Talk, schema:Event ;
+    schema:name                "Cppgres: One less reason to hate C++" ;
+    schema:url                 <https://www.youtube.com/watch?v=cucQOOAahNY&t=26283s> ;
+    schema:description         "Writing Postgres extensions in C++20 with a header-only library — and why the old reasons to avoid C++ no longer hold." ;
+    yr:sector                  <https://yrashk.com/atlas/sector/data> ;
+    yr:start                   "2025"^^xsd:gYear ;
+    yr:end                     "2025"^^xsd:gYear ;
+    yr:weight                  1 ;
+    schema:startDate           "2025-05-12"^^xsd:date ;
+    schema:superEvent          [ a schema:Event ; schema:name "Postgres Extensions Day 2025" ; schema:location "Montréal" ] ;
+    schema:recordedIn          [ a schema:VideoObject ; schema:url <https://www.youtube.com/watch?v=cucQOOAahNY&t=26283s> ; schema:embedUrl <https://www.youtube-nocookie.com/embed/cucQOOAahNY?start=26283&end=28187> ; yr:startOffset 26283 ; yr:endOffset 28187 ] ;
+    yr:related                 :pgext .
+
+:talk-ext-upgrades
+    a                          yr:Talk, schema:Event ;
+    schema:name                "Extension Upgrades" ;
+    schema:url                 <https://www.youtube.com/watch?v=cucQOOAahNY&t=8752s> ;
+    schema:description         "Install paths, upgrade paths, and versioning everything — including the shared library — so pg_upgrade keeps working." ;
+    yr:sector                  <https://yrashk.com/atlas/sector/data> ;
+    yr:start                   "2025"^^xsd:gYear ;
+    yr:end                     "2025"^^xsd:gYear ;
+    yr:weight                  1 ;
+    schema:startDate           "2025-05-12"^^xsd:date ;
+    schema:superEvent          [ a schema:Event ; schema:name "Postgres Extensions Day 2025" ; schema:location "Montréal" ] ;
+    schema:recordedIn          [ a schema:VideoObject ; schema:url <https://www.youtube.com/watch?v=cucQOOAahNY&t=8752s> ; schema:embedUrl <https://www.youtube-nocookie.com/embed/cucQOOAahNY?start=8752&end=10165> ; yr:startOffset 8752 ; yr:endOffset 10165 ] ;
+    yr:related                 :pgext .
+
+:talk-pgpm
+    a                          yr:Talk, schema:Event ;
+    schema:name                "Postgres.pm: Packaging Manager Magic" ;
+    schema:url                 <https://postgresconf.org/conferences/postgresconf_global_2025/program/proposals/postgres-pm-build-better> ;
+    schema:description         "GitHub URL in, package out: building and packaging Postgres extensions automatically." ;
+    yr:sector                  <https://yrashk.com/atlas/sector/data> ;
+    yr:start                   "2025"^^xsd:gYear ;
+    yr:end                     "2025"^^xsd:gYear ;
+    yr:weight                  1 ;
+    schema:startDate           "2025-03-19"^^xsd:date ;
+    schema:superEvent          [ a schema:Event ; schema:name "Postgres Conference 2025" ; schema:location "Orlando" ] ;
+    yr:related                 :omnigres .
+
+:talk-immutability
+    a                          yr:Talk, schema:Event ;
+    schema:name                "How immutability challenges extension packaging and distribution" ;
+    schema:url                 <https://2026.pgconf.dev/session/618> ;
+    schema:description         "An open discussion with Alastair Turner, David E. Wheeler and Floor Drees on extensions in image-based Postgres deployments." ;
+    yr:sector                  <https://yrashk.com/atlas/sector/data> ;
+    yr:start                   "2026"^^xsd:gYear ;
+    yr:end                     "2026"^^xsd:gYear ;
+    yr:weight                  1 ;
+    schema:startDate           "2026-05-19"^^xsd:date ;
+    schema:superEvent          [ a schema:Event ; schema:name "PGConf.dev 2026" ] ;
+    yr:format                  "panel" .
+
+:talk-unusual-types
+    a                          yr:Talk, schema:Event ;
+    schema:name                "Unusual Useful Types for Postgres" ;
+    schema:url                 <https://percona.university/percona-university-istanbul-open-source-databases-meetup-2024/> ;
+    schema:description         "Identity types for JOIN safety, variants, and other uses of the Postgres type system." ;
+    yr:sector                  <https://yrashk.com/atlas/sector/data> ;
+    yr:start                   "2024"^^xsd:gYear ;
+    yr:end                     "2024"^^xsd:gYear ;
+    yr:weight                  1 ;
+    schema:startDate           "2024-09-07"^^xsd:date ;
+    schema:superEvent          [ a schema:Event ; schema:name "Percona University Istanbul 2024" ; schema:location "Istanbul" ] ;
+    yr:related                 :omnigres .
+
+:talk-pushing-boundaries
+    a                          yr:Talk, schema:Event ;
+    schema:name                "Pushing boundaries with extensions, for extensions" ;
+    schema:url                 <https://www.pgevents.ca/events/pgconfdev2024/sessions/session/14-pushing-boundaries-with-extensions-for-extensions/> ;
+    schema:description         "The Postgres API surface, versioning, and provisioning: the limits of the extension system and how to work around them today." ;
+    yr:sector                  <https://yrashk.com/atlas/sector/data> ;
+    yr:start                   "2024"^^xsd:gYear ;
+    yr:end                     "2024"^^xsd:gYear ;
+    yr:weight                  1 ;
+    schema:startDate           "2024-05-29"^^xsd:date ;
+    schema:superEvent          [ a schema:Event ; schema:name "PGConf.dev 2024" ; schema:location "Vancouver" ] ;
+    yr:alsoAt                  "Postgres Conference 2024", "PGIBZ 2024" ;
+    yr:related                 :omnigres .
+
+:talk-buildable
+    a                          yr:Talk, schema:Event ;
+    schema:name                "Universally Buildable Extensions: Dev to Prod" ;
+    schema:url                 <https://www.youtube.com/watch?v=R5ijx8IJyaM> ;
+    schema:description         "Describing Postgres extensions so they build anywhere, from development to production." ;
+    yr:sector                  <https://yrashk.com/atlas/sector/data> ;
+    yr:start                   "2024"^^xsd:gYear ;
+    yr:end                     "2024"^^xsd:gYear ;
+    yr:weight                  1 ;
+    schema:startDate           "2024-05-01"^^xsd:date ;
+    schema:superEvent          [ a schema:Event ; schema:name "Extension Ecosystem Mini-Summit 5" ; schema:location "online" ] ;
+    schema:recordedIn          [ a schema:VideoObject ; schema:url <https://www.youtube.com/watch?v=R5ijx8IJyaM> ; schema:embedUrl <https://www.youtube-nocookie.com/embed/R5ijx8IJyaM> ] ;
+    yr:slides                  <https://justatheory.com/shared/extension-ecosystem-summit/omni-universally-buildable-extensions.pdf> ;
+    yr:related                 :omnigres .
+
+:talk-postgres-can-do-what
+    a                          yr:Talk, schema:Event ;
+    schema:name                "Omnigres: Postgres can do WHAT?" ;
+    schema:url                 <https://postgresconf.org/conferences/2024/program/proposals/omnigres-postgres-can-do-what> ;
+    schema:description         "Postgres as a platform for data-intensive applications: a constellation of extensions." ;
+    yr:sector                  <https://yrashk.com/atlas/sector/data> ;
+    yr:start                   "2024"^^xsd:gYear ;
+    yr:end                     "2024"^^xsd:gYear ;
+    yr:weight                  1 ;
+    schema:superEvent          [ a schema:Event ; schema:name "Postgres Conference 2024" ; schema:location "San Jose" ] ;
+    yr:related                 :omnigres .
+
+:talk-lazy-es
+    a                          yr:Talk, schema:Event ;
+    schema:name                "Lazy event sourcing: Living in the now" ;
+    schema:url                 <https://www.oreilly.com/library/view/oreilly-software-architecture/9781491976142/video289771.html> ;
+    schema:description         "Designing event-sourced systems that defer deciding what the state of the world should include until the very end." ;
+    yr:sector                  <https://yrashk.com/atlas/sector/data> ;
+    yr:start                   "2016"^^xsd:gYear ;
+    yr:end                     "2016"^^xsd:gYear ;
+    yr:weight                  1 ;
+    schema:startDate           "2016-11-15"^^xsd:date ;
+    schema:superEvent          [ a schema:Event ; schema:name "O'Reilly Software Architecture Conference" ; schema:location "San Francisco" ] ;
+    schema:recordedIn          [ a schema:VideoObject ; schema:url <https://www.oreilly.com/library/view/oreilly-software-architecture/9781491976142/video289771.html> ; yr:host "O'Reilly" ] .
+
+:talk-bitcoin-elixir
+    a                          yr:Talk, schema:Event ;
+    schema:name                "Bitcoin & Elixir: Living the Cutting Edge" ;
+    schema:url                 <https://www.youtube.com/watch?v=ySkC4vxBfko> ;
+    schema:description         "Building a Bitcoin exchange service in Elixir, from the Bex.io trenches." ;
+    yr:sector                  <https://yrashk.com/atlas/sector/companies> ;
+    yr:start                   "2014"^^xsd:gYear ;
+    yr:end                     "2014"^^xsd:gYear ;
+    yr:weight                  1 ;
+    schema:superEvent          [ a schema:Event ; schema:name "Erlang Factory SF Bay Area 2014" ; schema:location "San Francisco" ] ;
+    schema:recordedIn          [ a schema:VideoObject ; schema:url <https://www.youtube.com/watch?v=ySkC4vxBfko> ; schema:embedUrl <https://www.youtube-nocookie.com/embed/ySkC4vxBfko> ; yr:seconds 2905 ] ;
+    yr:related                 :bexio, :elixir .
+
+:talk-meta-is-mega
+    a                          yr:Talk, schema:Event ;
+    schema:name                "Meta is Mega" ;
+    schema:url                 <https://www.erlang-factory.com/conference/Toronto2013/speakers/YuriiRashkovskii> ;
+    schema:description         "Elixir with Erlang to build useful tools quickly — Hypnotoad, a server orchestration tool, as the example." ;
+    yr:sector                  <https://yrashk.com/atlas/sector/machines> ;
+    yr:start                   "2013"^^xsd:gYear ;
+    yr:end                     "2013"^^xsd:gYear ;
+    yr:weight                  1 ;
+    schema:startDate           "2013-11-23"^^xsd:date ;
+    schema:superEvent          [ a schema:Event ; schema:name "Toronto Erlang Factory Lite 2013" ; schema:location "Toronto" ] ;
+    yr:related                 :elixir .
+
+:talk-erlang-dc-meta
+    a                          yr:Talk, schema:Event ;
+    schema:name                "Erlang metaprogramming with Elixir" ;
+    schema:url                 <https://www.youtube.com/watch?v=m32CGvzixrQ> ;
+    schema:description         "Elixir as a meta-compiler for Erlang that stays close to Erlang itself." ;
+    yr:sector                  <https://yrashk.com/atlas/sector/machines> ;
+    yr:start                   "2013"^^xsd:gYear ;
+    yr:end                     "2013"^^xsd:gYear ;
+    yr:weight                  1 ;
+    schema:superEvent          [ a schema:Event ; schema:name "Erlang DC 2013" ; schema:location "Washington, DC" ] ;
+    schema:recordedIn          [ a schema:VideoObject ; schema:url <https://www.youtube.com/watch?v=m32CGvzixrQ> ; schema:embedUrl <https://www.youtube-nocookie.com/embed/m32CGvzixrQ> ; yr:seconds 3470 ] ;
+    yr:related                 :elixir .
+
+:talk-euc-meta
+    a                          yr:Talk, schema:Event ;
+    schema:name                "Meta-Programming with Elixir" ;
+    schema:url                 <https://www.youtube.com/watch?v=a3eJoM5FFiQ> ;
+    schema:description         "Programming Erlang more productively through Elixir macros — and the pitfalls to avoid." ;
+    yr:sector                  <https://yrashk.com/atlas/sector/machines> ;
+    yr:start                   "2013"^^xsd:gYear ;
+    yr:end                     "2013"^^xsd:gYear ;
+    yr:weight                  1 ;
+    schema:superEvent          [ a schema:Event ; schema:name "Erlang User Conference 2013" ; schema:location "Stockholm" ] ;
+    schema:recordedIn          [ a schema:VideoObject ; schema:url <https://www.youtube.com/watch?v=a3eJoM5FFiQ> ; schema:embedUrl <https://www.youtube-nocookie.com/embed/a3eJoM5FFiQ> ; yr:seconds 2390 ] ;
+    yr:related                 :elixir .
+
+:talk-genomu
+    a                          yr:Talk, schema:Event ;
+    schema:name                "Genomu: A Concurrency-Oriented Database" ;
+    schema:url                 <https://www.youtube.com/watch?v=ujaoprIKY9M> ;
+    schema:description         "A database in Elixir on Riak Core: event sourcing, a redis-like API, and conflict resolution by log merging." ;
+    yr:sector                  <https://yrashk.com/atlas/sector/machines> ;
+    yr:start                   "2013"^^xsd:gYear ;
+    yr:end                     "2013"^^xsd:gYear ;
+    yr:weight                  1 ;
+    schema:startDate           "2013-03-22"^^xsd:date ;
+    schema:superEvent          [ a schema:Event ; schema:name "Erlang Factory SF Bay Area 2013" ; schema:location "San Francisco" ] ;
+    schema:recordedIn          [ a schema:VideoObject ; schema:url <https://www.youtube.com/watch?v=ujaoprIKY9M> ; schema:embedUrl <https://www.youtube-nocookie.com/embed/ujaoprIKY9M> ; yr:seconds 2528 ] ;
+    yr:related                 :elixir .
+
+:talk-vancouver-meta
+    a                          yr:Talk, schema:Event ;
+    schema:name                "Erlang metaprogramming with Elixir" ;
+    schema:url                 <https://www.youtube.com/watch?v=qCtoqwQ7x5M> ;
+    schema:description         "Erlang can have many faces: Elixir as a way to write less boilerplate." ;
+    yr:sector                  <https://yrashk.com/atlas/sector/machines> ;
+    yr:start                   "2012"^^xsd:gYear ;
+    yr:end                     "2012"^^xsd:gYear ;
+    yr:weight                  1 ;
+    schema:startDate           "2012-07-28"^^xsd:date ;
+    schema:superEvent          [ a schema:Event ; schema:name "Vancouver Erlang Factory Lite 2012" ; schema:location "Vancouver" ] ;
+    schema:recordedIn          [ a schema:VideoObject ; schema:url <https://www.youtube.com/watch?v=qCtoqwQ7x5M> ; schema:embedUrl <https://www.youtube-nocookie.com/embed/qCtoqwQ7x5M> ; yr:seconds 1769 ] ;
+    yr:related                 :elixir .
+
+:talk-parse-transforms
+    a                          yr:Talk, schema:Event ;
+    schema:name                "Fear Not, or a Brief Introduction to Parse Transformations" ;
+    schema:url                 <https://www.youtube.com/watch?v=FJErAhBIYUA> ;
+    schema:description         "Parse transformations in Erlang, without the fear." ;
+    yr:sector                  <https://yrashk.com/atlas/sector/machines> ;
+    yr:start                   "2012"^^xsd:gYear ;
+    yr:end                     "2012"^^xsd:gYear ;
+    yr:weight                  1 ;
+    schema:superEvent          [ a schema:Event ; schema:name "Erlang Factory SF Bay Area 2012" ; schema:location "San Francisco" ] ;
+    schema:recordedIn          [ a schema:VideoObject ; schema:url <https://www.youtube.com/watch?v=FJErAhBIYUA> ; schema:embedUrl <https://www.youtube-nocookie.com/embed/FJErAhBIYUA> ; yr:seconds 1194 ] ;
+    yr:related                 :spawngrid .
+
+:talk-erlang-web
+    a                          yr:Talk, schema:Event ;
+    schema:name                "Building Web Applications in the Erlang Era" ;
+    schema:url                 <https://www.erlang-factory.com/conference/London2011/speakers/YuriiRashkovskii> ;
+    schema:description         "Thick clients, Socket.IO, session-oriented development and fault-tolerant session management in Erlang." ;
+    yr:sector                  <https://yrashk.com/atlas/sector/machines> ;
+    yr:start                   "2011"^^xsd:gYear ;
+    yr:end                     "2011"^^xsd:gYear ;
+    yr:weight                  1 ;
+    schema:superEvent          [ a schema:Event ; schema:name "Erlang Factory London 2011" ; schema:location "London" ] .
+
+:talk-beamjs
+    a                          yr:Talk, schema:Event ;
+    schema:name                "Beam.js: Erlang Meets JavaScript" ;
+    schema:url                 <https://www.infoq.com/presentations/Beamjs-Erlang-Meets-JavaScript/> ;
+    schema:description         "A JavaScript platform built on erlv8, with bi-directional integration with Erlang." ;
+    yr:sector                  <https://yrashk.com/atlas/sector/machines> ;
+    yr:start                   "2011"^^xsd:gYear ;
+    yr:end                     "2011"^^xsd:gYear ;
+    yr:weight                  1 ;
+    schema:superEvent          [ a schema:Event ; schema:name "Erlang Factory SF Bay Area 2011" ; schema:location "San Francisco" ] ;
+    schema:recordedIn          [ a schema:VideoObject ; schema:url <https://www.infoq.com/presentations/Beamjs-Erlang-Meets-JavaScript/> ; yr:host "InfoQ" ] .
+
+:talk-parallel-testing
+    a                          yr:Talk, schema:Event ;
+    schema:name                "Highly parallel testing in Erlang" ;
+    schema:url                 <https://github.com/kenpratt/vancouver_erlang> ;
+    schema:description         "Parallel integration testing with epitest." ;
+    yr:sector                  <https://yrashk.com/atlas/sector/machines> ;
+    yr:start                   "2010"^^xsd:gYear ;
+    yr:end                     "2010"^^xsd:gYear ;
+    yr:weight                  1 ;
+    schema:startDate           "2010-06-24"^^xsd:date ;
+    schema:superEvent          [ a schema:Event ; schema:name "Vancouver Erlang Meetup" ; schema:location "Vancouver" ] .
 
 # ── GitHub (2026-11-11): 310 authored, 212 contributed ──
 

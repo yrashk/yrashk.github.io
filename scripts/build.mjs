@@ -461,7 +461,7 @@ ${PREPAINT}
 }
 
 // 8. cache-busting. GitHub Pages serves with a 10-minute cache, so after a deploy a browser could pair
-// a new page with stale data. Every quoted reference to a data/vendor file (and to sparql.js) gets
+// a new page with stale data. Every quoted reference to a data/vendor file (and to sparql.js, player.js) gets
 // ?v=<content hash>. Leaves first, then sparql.js (whose hash covers its rewritten references), then pages.
 {
   const walk = (dir) => (existsSync(dir) ? readdirSync(dir, { withFileTypes: true }).flatMap((e) => (e.isDirectory() ? walk(join(dir, e.name)) : [join(dir, e.name)])) : []);
@@ -477,6 +477,8 @@ ${PREPAINT}
     writeFileSync(sparql, stamp(readFileSync(sparql, "utf8"), leaves));
     leaves.push(["sparql.js", hash(sparql)]);
   }
+  const player = join(DIST, "player.js"); // the floating talk player, on the shell and every reader page
+  if (existsSync(player)) leaves.push(["player.js", hash(player)]);
   for (const page of walk(DIST).filter((f) => f.endsWith(".html"))) writeFileSync(page, stamp(readFileSync(page, "utf8"), leaves));
 }
 
