@@ -290,7 +290,7 @@ details.adm:not([open]) summary:hover .t{color:var(--bone)}
 
 <header id="bar" role="banner">
   <a class="brand" href="/" aria-label="Home"><span class="bands" aria-hidden="true"><i></i><i></i><i></i><i></i></span>{{siteTitle}}</a>
-  <nav class="crumb" aria-label="Breadcrumb"><a href="/#ws=3&app=essays">writing</a><span aria-hidden="true">/</span><span class="cur">{{dateSlash}}</span></nav>
+  <nav class="crumb" aria-label="Breadcrumb"><a href="/#ws=words&app=essays">words</a><span aria-hidden="true">/</span><span class="cur">{{dateSlash}}</span></nav>
   <div class="cores" aria-hidden="true" title="reading progress"><i></i><i></i><i></i><i></i><i></i><i></i><i></i><i></i><span>read <b id="pct">0%</b></span></div>
   <div class="clock" aria-live="off"><b id="clock">--:--</b> <span id="zone" style="color:var(--bone-4)">Redwood City · Comox</span></div>
   <span class="ua" title="Stands with Ukraine" role="img" aria-label="Stands with Ukraine">🇺🇦</span>
@@ -302,8 +302,8 @@ details.adm:not([open]) summary:hover .t{color:var(--bone)}
 
 <main id="reader">
   <section class="win" aria-label="Reader">
-    <header class="win-h"><span class="idx">07</span><span class="ttl">writing</span><span class="sub">/ reader · {{permalink}}</span>
-      <div class="ctl"><a href="/#ws=3&app=essays">← writing</a><a class="x" href="/" aria-label="Close reader and return to the desktop">×</a></div></header>
+    <header class="win-h"><span class="idx">07</span><span class="ttl">words</span><span class="sub">/ reader · {{permalink}}</span>
+      <div class="ctl"><a href="/#ws=words&app=essays">← words</a><a class="x" href="/" aria-label="Close reader and return to the desktop">×</a></div></header>
     <div class="win-b" id="scroller">
       <div class="page">
         <aside class="rail" aria-label="Article information">
@@ -348,7 +348,7 @@ details.adm:not([open]) summary:hover .t{color:var(--bone)}
         </aside>
 
         <article id="article" aria-labelledby="title">
-          <p class="eyebrow">writing <span>·</span> {{eyebrowMid}} <span>·</span> <time datetime="{{date}}">{{dateLong}}</time></p>
+          <p class="eyebrow">words <span>·</span> {{eyebrowMid}} <span>·</span> <time datetime="{{date}}">{{dateLong}}</time></p>
           <h1 id="title">{{title}}</h1>
           {{{standfirst}}}
           <div class="meta"><span>by <b>{{author}}</b></span><span><time datetime="{{date}}">{{date}}</time></span><span>{{minutes}} min read</span><span>{{{tagsInline}}}</span></div>

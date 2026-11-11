@@ -582,7 +582,7 @@ table.ps tr:hover td{background:var(--panel-2);cursor:pointer}
   <nav class="ws" aria-label="Workspaces">
     <button data-ws="1" aria-current="true"><span class="n">1</span>now</button>
     <button data-ws="2"><span class="n">2</span>work</button>
-    <button data-ws="3"><span class="n">3</span>writing</button>
+    <button data-ws="3"><span class="n">3</span>words</button>
     <button data-ws="4" class="lab"><span class="n">4</span>lab</button>
   </nav>
   <div class="cores" aria-hidden="true" title="core cells — they pulse on context switches"><i></i><i></i><i></i><i></i><i></i><i></i><i></i><i></i></div>
@@ -641,7 +641,7 @@ table.ps tr:hover td{background:var(--panel-2);cursor:pointer}
         </div>
         <div class="facets">
           <div><h3>Founder</h3><p>Built a few companies since 2007; now <button data-open-project="inferal">Inferal</button>. Learned a lot – some things change and some never do. <button data-open-app="track">Track record</button></p></div>
-          <div><h3>Writer</h3><p>Essays on how people and systems actually work — <a href="/blog/2014/04/21/team-uncommunication/">Team Uncommunication</a>, <a href="/blog/2017/09/04/solving-problems-one-commit-at-a-time/">one commit at a time</a>. <button data-open-app="essays">Writing</button></p></div>
+          <div><h3>Writer</h3><p>Essays on how people and systems actually work — <a href="/blog/2014/04/21/team-uncommunication/">Team Uncommunication</a>, <a href="/blog/2017/09/04/solving-problems-one-commit-at-a-time/">one commit at a time</a>. <button data-open-app="essays">Words</button></p></div>
           <div><h3>Branding</h3><p>Naming is one of the hardest and most fascinating pastimes. I am proud of some names I found – even though my taste has changed over time. <button data-open-app="projects">Work</button></p></div>
           <div><h3>Builder</h3><p>Relentlessly experimenting at work. Recent open source: <button data-open-project="strata">Strata</button>, an ISA where memory is explicit I/O; <button data-open-project="libycxx">libycxx</button>, a C++26 standard library; <button data-open-project="flyology">Flyology</button> for Ada. <button data-open-app="projects">Work</button></p></div>
         </div>
@@ -691,8 +691,8 @@ table.ps tr:hover td{background:var(--panel-2);cursor:pointer}
   </section>
 
   <!-- writing -->
-  <section class="win" id="w-essays" data-app="essays" tabindex="-1" aria-label="Writing">
-    <header class="win-h"><span class="idx">07</span><span class="ttl">writing</span><span class="sub">/ essays &amp; posts</span>
+  <section class="win" id="w-essays" data-app="essays" tabindex="-1" aria-label="Words">
+    <header class="win-h"><span class="idx">07</span><span class="ttl">words</span><span class="sub">/ essays &amp; posts</span>
       <div class="ctl"><button data-act="max" aria-label="Maximize">⤢</button><button class="x" data-act="close" aria-label="Close">×</button></div></header>
     <div class="win-b"><ul class="ess" id="essays"></ul></div>
   </section>
@@ -792,7 +792,7 @@ table.ps tr:hover td{background:var(--panel-2);cursor:pointer}
     <div class="in"><span class="ps">?</span><span style="color:var(--bone);font-weight:500">Keyboard</span><span style="margin-left:auto"><kbd>esc</kbd></span></div>
     <div class="help-b">
       <h3>Workspaces</h3>
-      <div><span>now · work · writing · lab</span><span class="keys"><kbd>1</kbd><kbd>2</kbd><kbd>3</kbd><kbd>4</kbd></span></div>
+      <div><span>now · work · words · lab</span><span class="keys"><kbd>1</kbd><kbd>2</kbd><kbd>3</kbd><kbd>4</kbd></span></div>
       <div><span>Open anything</span><span class="keys"><kbd>⌘K</kbd><kbd>Ctrl K</kbd></span></div>
       <div><span>Show the desktop (the Atlas, full-bleed)</span><span class="keys"><kbd>d</kbd></span></div>
       <h3>Windows</h3>
@@ -834,7 +834,7 @@ const APPS = [
   {id:'terminal', ws:1, ic:'❯_', label:'terminal'},
   {id:'projects', ws:2, ic:'wk', label:'work'},
   {id:'track',    ws:2, ic:'07', label:'track record'},
-  {id:'essays',   ws:3, ic:'es', label:'writing'},
+  {id:'essays',   ws:3, ic:'es', label:'words', alias:'writing essays posts'},
   {id:'talks',    ws:3, ic:'tk', label:'talks', alias:'videos talks conference player'},
   {id:'notes',    ws:3, ic:'nt', label:'notes'},
   {id:'ideas',    ws:3, ic:'sh', label:'shelf'},
@@ -844,7 +844,7 @@ const APPS = [
   {id:'procs',    ws:0, ic:'ps', label:'procs', lab:true},
   {id:'strata',   ws:0, ic:'st', label:'strata', lab:true},
 ];
-const WS_LABEL = {1:'now',2:'work',3:'writing',4:'lab'};
+const WS_LABEL = {1:'now',2:'work',3:'words',4:'lab'};
 const LAB = {query:[1,8,1,13], console:[8,13,1,7], signal:[8,13,7,13]};
 
 /* ═══════════════════════════ helpers ═══════════════════════════ */
@@ -855,7 +855,7 @@ const reduced = matchMedia('(prefers-reduced-motion: reduce)').matches;
 const mobileQ = matchMedia('(max-width: 760px)');
 const params = new URLSearchParams(location.search);
 const hashP = ()=>new URLSearchParams(location.hash.replace(/^#/,''));
-const WS_BY_NAME={now:1,work:2,writing:3,lab:4}, WS_NAME={1:'now',2:'work',3:'writing',4:'lab'};
+const WS_BY_NAME={now:1,work:2,words:3,writing:3,lab:4}, WS_NAME={1:'now',2:'work',3:'words',4:'lab'}; /* #ws=writing and #ws=3 are aliases, normalised to words */
 const parseWs=v=>{ if(v==null||v==='') return null; const n=WS_BY_NAME[String(v).toLowerCase()]||(+v>=1&&+v<=4?+v:null); return n; };
 let applyingHash=false, syncedWs=null;
 function writeHash(h,push){ const str=h.toString().replace(/%2C/g,',').replace(/%2F/g,'/'); const url=location.pathname+location.search+(str?'#'+str:''); if(url===location.pathname+location.search+location.hash) return; (push?history.pushState:history.replaceState).call(history,null,'',url); }
@@ -1205,7 +1205,7 @@ BODIES.forEach(b=>{ const s=secById[b.sector]; b.ang=(s.a0+(s.a1-s.a0)*b.f)*D2R;
   b.r = b.kind==='idea' ? R_IDEAS+(b.id.length%3)*10 : (b.now ? R0 : rOf(b.y));
   b.label=b.short||b.name; b.prio = b.kind==='repo' ? b.score*.9 : (b.kind==='post'?.5 : (b.kind==='idea'?.7 : b.size+1));
   const p=PROJECTS.find(x=>x.id===b.id); if(p) b.proj=p; });
-const CATS=[['life','Life'],['company','Companies'],['project','Projects'],['authored','Authored'],['contributed','Contributed'],['writing','Writing'],['talk','Talks'],['idea','Ideas'],['ring','Contribution ring']];
+const CATS=[['life','Life'],['company','Companies'],['project','Projects'],['authored','Authored'],['contributed','Contributed'],['writing','Words'],['talk','Talks'],['idea','Ideas'],['ring','Contribution ring']];
 const epochStr=b=>{ if(b.now) return 'now'; if(b.kind==='idea') return b.since?`on the shelf since ${b.since}`:'uncharted'; if(b.post) return b.post.d; if(b.from!=null&&b.kind!=='repo') return `${b.start} – ${b.to==null?'now':b.end}`; if(b.kind==='repo') return b.start===b.end?String(b.start):`${b.start} – ${b.end}`; return (b.approx?'c. ':'')+Math.floor(b.y!=null?b.y:b.start); };
 const phiStr=b=>(((b.ang/D2R)%360+360)%360).toFixed(1)+'°';
 
@@ -1438,7 +1438,7 @@ const atlas=(function(){
     else if(b.post) acts.push(`<a class="btn primary" href="${esc(b.url)}">Read →</a>`); else if(b.url) acts.push(`<a class="btn primary" href="${esc(b.url)}">Visit ↗</a>`);
     if(p) acts.push(`<button class="btn" data-open-project="${p.id}">Open in Work</button>`);
     if(b.kind==='company'||b.id==='pgext'||b.id==='omnigres') acts.push(`<button class="btn quiet" data-open-app="track">Track record</button>`);
-    if(b.post&&b.post.listed) acts.push(`<button class="btn quiet" data-journal="${b.id}">In Writing</button>`);
+    if(b.post&&b.post.listed) acts.push(`<button class="btn quiet" data-journal="${b.id}">In Words</button>`);
     if(b.kind==='idea') acts.push(`<button class="btn quiet" data-open-app="ideas">On the shelf</button>`);
     if(b.about&&byId[b.about]) acts.push(`<button class="btn quiet" data-abody="${b.about}">Orbits ${esc(byId[b.about].label)}</button>`);
     (b.related||[]).filter(id=>byId[id]&&id!==b.about).forEach(id=>acts.push(`<button class="btn quiet" data-abody="${id}">${esc(byId[id].label)}</button>`));
@@ -1514,7 +1514,7 @@ window.atlas={setVisible:k=>atlas.setVisibleKinds(k), highlight:ids=>atlas.highl
 
 /* ═══════════════════════════ terminals: ysh on ws1, console in the lab (shared commands) ═══════════════════════════ */
 let cur=null;
-/* ── a small virtual filesystem over the data: /work /track /writing /notes /shelf /atlas /apps /lab + files about, now ── */
+/* ── a small virtual filesystem over the data: /work /track /words (alias /writing) /notes /shelf /atlas /apps /lab + files about, now ── */
 const slugOf=u=>{ const m=String(u||'').match(/\/([^\/]+)\/?$/); return m?m[1]:String(u||''); };
 function buildFS(){
   const D=(name,children,rich)=>({name,dir:true,children,rich});
@@ -1528,7 +1528,7 @@ function buildFS(){
   const apps=APPS.map(a=>F(a.id,{cat:()=>print(`${esc(a.label)} · ${S.open[a.id]?'workspace '+S.open[a.id]+' · '+WS_LABEL[S.open[a.id]]:'closed'}`),open:()=>{ focus(a.id); print(`focused <span class="ok">${esc(a.label)}</span>`); }}));
   const lab=APPS.filter(a=>a.lab).map(a=>F(a.label,{cat:()=>print(`${esc(a.label)} · lab`),open:()=>{ focus(a.id); print(`focused <span class="ok">${esc(a.label)}</span>`); }}));
   return D('',[
-    D('work',work,()=>CMDS.ls(['work'])), D('track',track,()=>CMDS.ls(['track'])), D('writing',writing,()=>CMDS.ls(['writing'])),
+    D('work',work,()=>CMDS.ls(['work'])), D('track',track,()=>CMDS.ls(['track'])), D('words',writing,()=>CMDS.ls(['words'])),
     D('notes',notes,()=>CMDS.ls(['notes'])), D('shelf',shelf,()=>CMDS.ls(['shelf'])), D('atlas',atlasD,()=>CMDS.atlas(['ls'])),
     D('apps',apps,()=>CMDS.ls(['apps'])), D('lab',lab),
     F('about',{cat:()=>catName('about')}), F('now',{cat:()=>catName('now')}),
@@ -1538,6 +1538,7 @@ let FS=null; const fs=()=>FS||(FS=buildFS());
 const pathStr=segs=>'~'+(segs.length?'/'+segs.join('/'):'');
 function resolvePath(raw,from){ raw=(raw==null?'':String(raw)).trim(); let segs=raw.startsWith('/')||raw.startsWith('~')?[]:[...from]; const parts=raw.replace(/^~/,'').split('/').filter(Boolean);
   for(const p of parts){ if(p==='.') continue; if(p==='..'){ segs.pop(); continue; } segs.push(p); }
+  if(segs.length&&segs[0].toLowerCase()==='writing') segs[0]='words'; /* alias */
   let node=fs(); const out=[]; for(const sgm of segs){ if(!node.dir) return null; const n=node.children.find(c=>c.name.toLowerCase()===sgm.toLowerCase()); if(!n) return null; node=n; out.push(n.name); }
   return {node,segs:out}; }
 function setCwd(T,segs){ T.prev=T.cwd; T.cwd=segs; const el=T.out.closest('.term').querySelector('.cwd'); if(el) el.textContent=pathStr(segs); }
@@ -1559,7 +1560,7 @@ const CMDS={
       if(r.node.rich&&!(a[0]||'').includes('/')&&r.segs.length===1&&r.node.children.length){ w=r.segs[0]; } else return print(r.node.children.length?r.node.children.map(c=>esc(c.name)+(c.dir?'/':'')).join('   '):'<span class="dim">(empty)</span>'); }
     if(w==='work'||w==='projects') return print(GROUPS.map(([g,label])=>{ const ps=PROJECTS.filter(p=>p.group===g); return ps.length?`<span class="dim">${esc(label.toLowerCase())}/</span>\n`+ps.map(p=>`  <span class="col">${esc(p.id)}</span>${esc(p.pos)}${p.voice?` <span class="dim">— ${esc(p.voice)}</span>`:''}`).join('\n'):''; }).filter(Boolean).join('\n'));
     if(w==='track'||w==='archive/companies') return print(VENTURES.map(v=>`<span class="dim">${v.y}</span>  <span class="col">${esc(v.id)}</span>${esc(v.name)} <span class="dim">— ${esc(v.ds)}</span>`).join('\n'));
-    if(w==='writing'||w==='essays') return print(POSTS.filter(p=>p.listed).sort((a,b)=>a.d<b.d?1:-1).map(p=>`<span class="dim">${p.d}</span>  <a href="${p.h}">${esc(p.t)}</a>${p.featured?' <span class="hi">·</span>':''}`).join('\n'));
+    if(w==='words'||w==='writing'||w==='essays') return print(POSTS.filter(p=>p.listed).sort((a,b)=>a.d<b.d?1:-1).map(p=>`<span class="dim">${p.d}</span>  <a href="${p.h}">${esc(p.t)}</a>${p.featured?' <span class="hi">·</span>':''}`).join('\n'));
     if(w==='archive'||w==='posts'||w==='blog'){ const u=POSTS.filter(p=>!p.listed); return print(u.length?`<span class="dim">unlisted, still resolving at their URLs</span>\n`+u.map(p=>`<span class="dim">${p.d}</span>  <a href="${p.h}">${esc(p.t)}</a>`).join('\n'):'<span class="dim">nothing is unlisted — every post is in writing/</span>'); }
     if(w==='ideas'||w==='shelf') return print(SHELF.length?SHELF.map(x=>`${esc(x.t)} <span class="dim">${esc(x.b)}</span>`).join('\n'):'<span class="dim">nothing on the shelf yet</span>');
     if(w==='notes') return print(NOTES.length?NOTES.map(n=>`<span class="dim">${esc(n.id)}</span>  ${esc(n.t)}`).join('\n'):'<span class="dim">no notes yet</span>');
@@ -1571,9 +1572,9 @@ const CMDS={
     return catName(w); },
 
   open:(a)=>{ const w=(a[0]||'').toLowerCase(); const web=a.includes('-w');
-    if(w&&!web){ const r=resolvePath(a[0],cur.cwd); if(r&&!r.node.dir&&r.node.open) return r.node.open(); if(r&&r.node.dir&&r.segs.length===1){ const app={work:'projects',track:'track',writing:'essays',notes:'notes',shelf:'ideas',atlas:'atlas',lab:'console'}[r.segs[0]]; if(app){ focus(app); return print(`focused <span class="ok">${esc(APPS.find(x=>x.id===app).label)}</span>`); } } }
+    if(w&&!web){ const r=resolvePath(a[0],cur.cwd); if(r&&!r.node.dir&&r.node.open) return r.node.open(); if(r&&r.node.dir&&r.segs.length===1){ const app={work:'projects',track:'track',words:'essays',writing:'essays',notes:'notes',shelf:'ideas',atlas:'atlas',lab:'console'}[r.segs[0]]; if(app){ focus(app); return print(`focused <span class="ok">${esc(APPS.find(x=>x.id===app).label)}</span>`); } } }
     if(w==='lab'){ switchWs(4); return print('workspace 4 · lab'); }
-    if(!w) return print('open: what? try <span class="hi">open strata</span> or <span class="hi">open writing</span>','err');
+    if(!w) return print('open: what? try <span class="hi">open strata</span> or <span class="hi">open words</span>','err');
     const app=APPS.find(x=>x.id===w||x.label.toLowerCase()===w); if(app){ focus(app.id); return print(`focused <span class="ok">${app.label}</span>`); }
     const p=PROJECTS.find(p=>p.id===w||p.name.toLowerCase()===w); if(!p) return print(`open: ${esc(w)}: not found`,'err');
     if(web){ window.open(p.url,'_blank','noopener'); return print(`opening ${esc(p.url)}`); }
@@ -1618,7 +1619,7 @@ const CMDS={
   echo:(a)=>print(esc(a.join(' '))),
   exit:()=>{ print('no exit from here. closing the window instead.','dim'); setTimeout(()=>closeWin('terminal'),400); },
 };
-CMDS['?']=CMDS.help; CMDS.man=CMDS.help; CMDS.log=()=>CMDS.ls(['writing']); CMDS.neofetch=CMDS.sys;
+CMDS['?']=CMDS.help; CMDS.man=CMDS.help; CMDS.log=()=>CMDS.ls(['words']); CMDS.neofetch=CMDS.sys;
 function run(line){ line=line.trim(); if(!line) return; print(esc(line),'in'); const h=cur.hist; if(h[h.length-1]!==line) h.push(line); cur.hi=h.length;
   const [c,...a]=line.split(/\s+/); const f=CMDS[c.toLowerCase()]; if(f) f(a); else print(`command not found: ${esc(c)} — try <span class="hi">help</span>`,'err'); }
 const COMP={ls:['archive'],cat:['about','now',...PROJECTS.map(p=>p.id),...VENTURES.map(v=>v.id)],open:[...APPS.map(a=>a.id),...PROJECTS.map(p=>p.id)],locate:BODIES.filter(b=>b.kind!=='repo'||b.score>.5).map(b=>b.id),atlas:['home','ls','drift'],theme:['paper','dark'],show:[...CATS.map(c=>c[0]),'all'],prs:[...PROJECTS.map(p=>p.id),'omnigres','elixir','pumpkindb','pgrx'],gh:['stats','peak','month','day','top','clear'],ws:['1','2','3','4'],git:['log']};
@@ -1653,13 +1654,13 @@ function lItems(q){
   APPS.forEach(a=>items.push({g:'windows',ic:a.ic,b:a.label,s:S.open[a.id]?`workspace ${S.open[a.id]} · ${WS_LABEL[S.open[a.id]]}`:(a.lab?'lab':'closed — reopen here'),rt:S.open[a.id]?'focus':'open',k:a.id+' '+a.label+(a.lab?' lab':'')+(a.alias?' '+a.alias:''),f:()=>focus(a.id,{kbd:true})}));
   [1,2,3,4].forEach(n=>items.push({g:'workspaces',ic:String(n),b:WS_LABEL[n],s:openIn(n).map(id=>APPS.find(a=>a.id===id).label).join(' · ')||'empty',rt:'switch',k:'workspace ws '+n+' '+WS_LABEL[n],f:()=>switchWs(n)}));
   GROUPS.forEach(([g,label])=>PROJECTS.filter(p=>p.group===g).forEach(p=>items.push({g:'work · '+label.toLowerCase(),ic:'▸',b:p.name,s:p.pos,rt:'open',k:p.id+' '+p.name+' '+p.pos+' '+p.voice+' '+g,f:()=>{selectProject(p.id);focus('projects',{kbd:true});}})));
-  POSTS.forEach(p=>items.push({g:'writing',ic:p.d.slice(2,4),b:p.t,s:p.d+(p.featured?' · selected':''),rt:'read',k:p.t+' '+p.tg.join(' ')+(p.listed?'':' archive unlisted'),f:()=>{location.href=p.h;},listed:p.listed,featured:p.featured}));
+  POSTS.forEach(p=>items.push({g:'words',ic:p.d.slice(2,4),b:p.t,s:p.d+(p.featured?' · selected':''),rt:'read',k:p.t+' '+p.tg.join(' ')+(p.listed?'':' archive unlisted'),f:()=>{location.href=p.h;},listed:p.listed,featured:p.featured}));
   BODIES.filter(b=>b.kind!=='post').forEach(b=>items.push({g:'atlas',ic:'◎',b:b.name,s:`${epochStr(b)} · ${secById[b.sector].name}`,rt:'locate',k:'atlas locate '+b.id+' '+b.name+' '+b.kind+' '+secById[b.sector].name,f:()=>locateInAtlas(b.id),atlas:true}));
   items.push({g:'system',ic:'d',b:'Show the desktop',s:'the Atlas, full-bleed',rt:'toggle',k:'desktop wallpaper show',f:()=>toggleDesk()});
   items.push({g:'system',ic:'?',b:'Keyboard',s:'',rt:'sheet',k:'help keyboard keys shortcuts',f:()=>openHelp()});
   items.push({g:'system',ic:'↺',b:'Reset layout',s:'every window back where it belongs',rt:'session',k:'reset layout restore default',f:()=>{S=defaultState(); layout(); pulse();}});
   items.push({g:'system',ic:'🇺🇦',b:'Stands with Ukraine',s:'',rt:'',k:'ukraine',f:()=>{}});
-  if(!q) return items.filter(i=>!i.atlas && (i.g!=='writing'||i.featured));
+  if(!q) return items.filter(i=>!i.atlas && (i.g!=='words'||i.featured));
   const score=i=>{ const k=i.k.toLowerCase(); if(k.includes(q)) return 2+(i.b.toLowerCase().startsWith(q)?2:0); let j=0; for(const ch of k){ if(ch===q[j]) j++; if(j===q.length) return 1; } return 0; };
   return items.map(i=>[score(i),i]).filter(x=>x[0]>0).sort((a,b)=>b[0]-a[0]).map(x=>x[1]);
 }

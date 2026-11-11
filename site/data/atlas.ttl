@@ -81,7 +81,7 @@
 
 <https://yrashk.com/atlas/sector/writing>
     a                          yr:Sector ;
-    rdfs:label                 "Writing & ideas" ;
+    rdfs:label                 "Words & ideas" ;
     yr:order                   4 .
 
 <https://yrashk.com/atlas/sector/life>
