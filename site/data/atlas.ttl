@@ -19,9 +19,9 @@
     yr:currentLocation         :comox ;
     yr:lived                   :born, :first-job, :moved-to-canada, :ghjoin, :lived-in-bangkok, :sf ;
     yr:founded                 :inferal, :hackerintro, :trustatom, :bexio, :spawngrid, :issuesdone, :omnigres ;
-    yr:built                   :pgext, :strata, :libycxx, :flyology, :shutters, :abtop, :uplpgsql ;
+    yr:built                   :pgext, :strata, :libycxx, :flyology, :shutters, :uplpgsql ;
     yr:wrote                   :p-canoe, :p-c4, :p-rust, :p-http, :p-pgext25, :p-d3x, :p-regr, :p-lim, :p-sum, :p-plrust, :p-game ;
-    yr:contributedTo           :elixir, :pumpkindb, :erlzmq2, :pgrx, :wasmrs .
+    yr:contributedTo           :abtop, :elixir, :pumpkindb, :erlzmq2, :pgrx, :wasmrs .
 
 # ── Places ──
 
@@ -297,16 +297,6 @@
     yr:role                    "author" ;
     yr:status                  "private · invite-only" .
 
-:abtop
-    a                          yr:Project, schema:CreativeWork ;
-    schema:name                "abtop" ;
-    schema:url                 <https://github.com/yrashk/abtop> ;
-    schema:description         "Like htop, but for AI coding agents." ;
-    schema:abstract            "Monitors Claude Code and Codex CLI sessions: tokens, context window, rate limits." ;
-    yr:sector                  <https://yrashk.com/atlas/sector/machines> ;
-    yr:start                   "2026"^^xsd:gYear ;
-    yr:weight                  2 .
-
 :uplpgsql
     a                          yr:Project, schema:CreativeWork ;
     schema:name                "uplpgsql" ;
@@ -463,6 +453,17 @@
     yr:related                 :omnigres .
 
 # ── Open source (curated) ──
+
+:abtop
+    a                          yr:Repository, schema:SoftwareSourceCode ;
+    schema:name                "abtop" ;
+    schema:url                 <https://github.com/graykode/abtop> ;
+    schema:description         "A contribution to abtop, an htop for AI coding agents: a light-terminal readability fix." ;
+    yr:sector                  <https://yrashk.com/atlas/sector/machines> ;
+    yr:start                   "2026"^^xsd:gYear ;
+    yr:end                     "2026"^^xsd:gYear ;
+    yr:weight                  1 ;
+    yr:repo                    <https://yrashk.com/atlas/repo/graykode/abtop> .
 
 :elixir
     a                          yr:Repository, schema:SoftwareSourceCode ;
@@ -4599,6 +4600,7 @@
     yr:organization            "graykode" ;
     yr:start                   "2026"^^xsd:gYear ;
     yr:end                     "2026"^^xsd:gYear ;
+    yr:body                    :abtop ;
     yr:activity                [ yr:year "2026"^^xsd:gYear ; yr:contributions 2 ] .
 
 <https://yrashk.com/atlas/repo/Guts/mkdocs-rss-plugin>

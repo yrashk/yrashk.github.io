@@ -703,7 +703,7 @@ table.ps tr:hover td{background:var(--panel-2);cursor:pointer}
 
   <!-- lab: procs -->
   <section class="win" id="w-procs" data-app="procs" tabindex="-1" aria-label="Processes">
-    <header class="win-h"><span class="idx">12</span><span class="ttl">procs</span><span class="sub">/ ps -ef · in the spirit of abtop</span>
+    <header class="win-h"><span class="idx">12</span><span class="ttl">procs</span><span class="sub">/ ps -ef</span>
       <div class="ctl"><button data-act="max" aria-label="Maximize">⤢</button><button class="x" data-act="close" aria-label="Close">×</button></div></header>
     <div class="win-b tight"><table class="ps" id="procs"></table></div>
   </section>
@@ -1053,7 +1053,6 @@ guard('query',()=>{ const el=$('#qc');
 (function procs(){
   const rows=[...PROJECTS.map((p,i)=>({pid:1000+i*7,st:/active/.test(p.status)?'R':'S',host:(p.url||'').replace(/^https?:\/\//,''),nm:p.id,cmd:p.pos,id:p.id})),
     {pid:2001,st:'R',host:'github.com/yrashk/uplpgsql',nm:'uplpgsql',cmd:'JIT-compiled PL/pgSQL · wip',id:'uplpgsql'},
-    {pid:2002,st:'R',host:'github.com/yrashk/abtop',nm:'abtop',cmd:'like htop, but for AI coding agents',id:'abtop'},
     {pid:2003,st:'S',host:'github.com/omnigres/omnigres',nm:'omnigres',cmd:'Postgres as a Platform · ~1.6k ★',id:'omnigres'},
     {pid:1,st:'R',host:'localhost',nm:'strata/wm',cmd:'tiled window server · 8 cores · 0 interrupts',id:'strata'}];
   const row=r=>`<tr data-locate="${r.id}" title="locate in the atlas"><td class="pid">${r.pid}</td><td class="st ${r.st}">${r.st}</td><td class="nm">${esc(r.nm)}</td><td>${esc(r.host)}</td><td>${esc(r.cmd)}</td></tr>`;

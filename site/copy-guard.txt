@@ -23,3 +23,5 @@ occasional machine   # lede trimmed: "building companies and software"
 /\bCTX \d{4}\b/   # the top-bar context-switch counter was dropped (terminal `sys` may still report ctx)
 domains are for sale   # Track record candor line was dropped
 Open source along the way
+in the spirit of abtop   # procs subtitle dropped
+github.com/yrashk/abtop   # abtop is graykode's; he only contributed

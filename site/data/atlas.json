@@ -432,17 +432,19 @@
   },
   {
    "id": "abtop",
-   "kind": "project",
+   "kind": "oss",
    "name": "abtop",
    "sector": "machines",
    "start": 2026,
-   "end": null,
+   "end": 2026,
    "approx": false,
-   "weight": 2,
-   "url": "https://github.com/yrashk/abtop",
-   "line": "Like htop, but for AI coding agents.",
-   "f": 0.95,
-   "desc": "Monitors Claude Code and Codex CLI sessions: tokens, context window, rate limits."
+   "weight": 1,
+   "url": "https://github.com/graykode/abtop",
+   "line": "A contribution to abtop, an htop for AI coding agents: a light-terminal readability fix.",
+   "github": [
+    "graykode/abtop"
+   ],
+   "f": 0.95
   },
   {
    "id": "uplpgsql",

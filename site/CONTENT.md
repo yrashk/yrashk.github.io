@@ -28,7 +28,6 @@ Photo: `data/yrashk.jpeg` (square headshot on a magenta/pink wall — the old br
 | **libycxx** | https://libycxx.org | An independent C++26 standard library. | v0.1.0. Freestanding core + hosted lib, `import std;`. 2,824 spec-derived tests + 17,098 external libc++/libstdc++ tests run unmodified; 19 real-world projects built against it. "There is no list of tolerated failures." Implemented by AI agents directed by the author. |
 | **Flyology** | https://flyology.org | Systems foundations for Ada. | Name from Ada Lovelace's planned book *Flyology*: "A study of flight, revisited." Two task lanes (native + lightweight). Libraries: HTTP, Postgres, QUIC, JSON, RDF, SIMD, TUI, NUMA, Cachelines, Allocators. |
 | **Shutters** | https://shutte.rs | "A quiet place for your photographs." | A private, invite-only photo archive built for his family and now ready for friends. (Don't mention EXIF or themes/views.) |
-| **abtop** | github.com/yrashk/abtop | Like htop, but for AI coding agents. | Monitors Claude Code & Codex CLI sessions, tokens, context window, rate limits. |
 | **uplpgsql** | github.com/yrashk/uplpgsql | WIP JIT-compiled PL/pgSQL. | |
 | **pgext.day** | https://pgext.day | Postgres Extensions Day. | Organized; first edition Montreal, May 12 2025. |
 
@@ -40,7 +39,7 @@ Photo: `data/yrashk.jpeg` (square headshot on a magenta/pink wall — the old br
 - **Bex.io** (2013–2014) — Bitcoin exchange as a service.
 - **Spawngrid** (2011–2013, continued as **Bex.io**) — "A cloud for complex Erlang systems. Also built Test.io, a property testing solution, and ultimately became Bex.io" (verbatim).
 - **Issues Done** (2007–2008) — web-based Getting Things Done app.
-- Open source past: early **Elixir** contributor; **erlzmq2** (ZeroMQ for Erlang); conceived **graphql-java-annotations**; **wasm.rs**; Ruby on Rails & Turbo Rails contributions; **pgrx**, **pg_graphql**, Supabase **wrappers**, **libfyaml**; two small **Postgres** patches; git-paravendor.
+- Open source past: early **Elixir** contributor; **erlzmq2** (ZeroMQ for Erlang); conceived **graphql-java-annotations**; **wasm.rs**; Ruby on Rails & Turbo Rails contributions; **pgrx**, **pg_graphql**, Supabase **wrappers**, **libfyaml**; two small **Postgres** patches; a fix to graykode's **abtop** (contributed, not authored — never present it as his project); git-paravendor.
 - Ideas shelf: "Spicy" (a better C that is still 100% C), ParaOS (an application operating system), shell-scripting language compiled to Bash/Dockerfile, in-memory Postgres access method, libcrun VM shim, hands-free writing.
 
 ## Signal (real data)
