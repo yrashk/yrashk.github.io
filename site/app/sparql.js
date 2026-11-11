@@ -363,8 +363,9 @@ const CSS = `
   /* syntax colours: the OS may define --code-*; else per-theme defaults below */
   --qc-str:var(--code-string,#c9b88a);--qc-iri:var(--code-iri,#8fb7c7);--qc-pn:var(--code-name,#9fc6a3);--qc-fn:var(--code-function,#d7a6e5);--qc-num:var(--code-number,#e6c07b);
   --qsel:color-mix(in oklab,var(--qsig) 30%,transparent);--qsigline:color-mix(in oklab,var(--qsig) 40%,transparent);--qgrid:color-mix(in oklab,var(--qbone) 5%,transparent);
-  display:grid;grid-template-rows:auto auto minmax(0,1fr) auto;height:100%;min-height:0;background:var(--qpanel);color:var(--qbone);font:13px/1.45 var(--qsans);-webkit-font-smoothing:antialiased}
+  display:grid;grid-template-rows:auto auto minmax(0,1fr) auto;grid-template-columns:minmax(0,1fr);height:100%;min-height:0;min-width:0;max-width:100%;overflow:hidden;contain:inline-size;background:var(--qpanel);color:var(--qbone);font:13px/1.45 var(--qsans);-webkit-font-smoothing:antialiased}
 :root[data-theme="paper"] .qc,.qc[data-theme="paper"]{--qc-str:var(--code-string,#8a6d1f);--qc-iri:var(--code-iri,#1f6b8a);--qc-pn:var(--code-name,#2f7a3d);--qc-fn:var(--code-function,#7a3f8f);--qc-num:var(--code-number,#9a5b00)}
+/* contain:inline-size — long editor lines and the status line never widen the host window. */
 .qc *,.qc *::before,.qc *::after{box-sizing:border-box}
 .qc :where(button){font:inherit;color:inherit;background:none;border:0;padding:0;cursor:pointer}
 .qc button:focus-visible,.qc textarea:focus-visible,.qc [tabindex]:focus-visible{outline:2px solid var(--qsig);outline-offset:-2px;border-radius:3px}
@@ -382,8 +383,8 @@ const CSS = `
 .qc-run:hover{filter:brightness(1.08)}
 .qc-run kbd{font:500 9.5px/1 var(--qmono);color:var(--qon-signal);opacity:.7;border:1px solid currentColor;border-radius:3px;padding:2px 3px 1px}
 /* editor */
-.qc-ed{display:grid;grid-template-rows:auto auto;border-bottom:1px solid var(--qline);background:var(--qpanel)}
-.qc-edh{display:flex;align-items:flex-start;gap:10px;padding:0 10px 0 0;border-bottom:1px dashed var(--qline)}
+.qc-ed{display:grid;grid-template-rows:auto auto;grid-template-columns:minmax(0,1fr);min-width:0;border-bottom:1px solid var(--qline);background:var(--qpanel)}
+.qc-edh{display:flex;align-items:flex-start;gap:10px;padding:0 10px 0 0;border-bottom:1px dashed var(--qline);min-width:0}
 .qc-edh .qc-pfx{flex:1;min-width:0;border-bottom:0}
 .qc-tg{display:inline-flex;align-items:center;gap:5px;height:24px;font:500 10.5px/1 var(--qmono);letter-spacing:.08em;text-transform:uppercase;color:var(--qbone4);cursor:pointer;user-select:none;white-space:nowrap}
 .qc-tg:hover{color:var(--qbone2)}
@@ -400,6 +401,7 @@ const CSS = `
 .qc-pfx pre{display:none;margin:0;font:inherit;color:var(--qbone4);white-space:pre}
 .qc-pfx.open pre{display:block}
 .qc-pfx.open .sum{display:none}
+.qc-pfx .sum{min-width:0;overflow:hidden;text-overflow:ellipsis;white-space:nowrap}
 .qc-pfx .sum b{color:var(--qbone3);font-weight:500}
 .qc-code{position:relative;display:grid;grid-template-columns:auto 1fr;max-height:min(46vh,380px);overflow:auto;font:12.5px/1.6 var(--qmono);tab-size:2}
 .qc-gut{padding:8px 0 10px;text-align:right;color:var(--qbone4);user-select:none;background:var(--qpanel);position:sticky;left:0;z-index:2;border-right:1px solid var(--qline)}
@@ -414,7 +416,8 @@ const CSS = `
 .qc-code .c{color:var(--qbone4);font-style:italic}.qc-code .s{color:var(--qc-str)}.qc-code .i{color:var(--qc-iri)}.qc-code .v{color:var(--qsig2)}.qc-code .p{color:var(--qc-pn)}
 .qc-code .k{color:var(--qbone);font-weight:500;letter-spacing:0;text-transform:none;font-size:inherit;font-family:inherit}.qc-code .f{color:var(--qc-fn)}.qc-code .n{color:var(--qc-num)}.qc-code .b{color:var(--qbone3)}.qc-code .u{color:var(--qbone4)}.qc-code .o{color:var(--qbone3)}
 /* CodeMirror editor (lazy; the textarea above is the fallback) */
-.qc-code.cm{display:block;overflow:visible;max-height:none}
+.qc-code.cm{display:block;overflow:visible;max-height:none;min-width:0}
+.qc-code .cm-editor{min-width:0;max-width:100%}
 .qc-code .cm-editor{max-height:min(46vh,380px);font:12.5px/1.6 var(--qmono);color:var(--qbone2);background:transparent}
 .qc-code .cm-editor.cm-focused{outline:none}
 .qc-code .cm-scroller{font-family:inherit;line-height:inherit;overflow:auto}
@@ -466,7 +469,7 @@ const CSS = `
 .qc .qc-code .cm-completionIcon-function{color:var(--qc-fn)}
 .qc .qc-code .cm-tooltip.cm-completionInfo{display:none}
 /* results */
-.qc-res{display:grid;grid-template-rows:auto minmax(0,1fr);min-height:0;position:relative}
+.qc-res{display:grid;grid-template-rows:auto minmax(0,1fr);grid-template-columns:minmax(0,1fr);min-height:0;min-width:0;position:relative}
 .qc-res.stale .qc-view{opacity:.5;transition:opacity .25s}
 .qc-res.stale::after{content:"stale";position:absolute;right:10px;top:34px;font:500 9.5px/1 var(--qmono);letter-spacing:.1em;text-transform:uppercase;color:var(--qsig2);background:var(--qsigdim);border:1px solid var(--qsigline);border-radius:3px;padding:3px 6px;pointer-events:none;z-index:2}
 .qc-tabs{display:flex;align-items:center;gap:2px;padding:4px 8px;border-bottom:1px solid var(--qline);background:var(--qpanel)}
@@ -556,6 +559,9 @@ const CSS = `
 .qc-schema p{grid-column:1/-1;margin:0;color:var(--qbone3);font:italic 13px/1.5 var(--qserif)}
 /* status */
 .qc-status{display:flex;align-items:center;gap:14px;padding:5px 10px;border-top:1px solid var(--qline);font:11px/1.3 var(--qmono);color:var(--qbone4);min-width:0;white-space:nowrap;overflow:hidden}
+.qc-status .st-load{min-width:0;overflow:hidden;text-overflow:ellipsis;flex:0 1 auto}
+.qc-status .st-res{flex:none}
+.qc-status .sp{flex:1 1 0;min-width:6px}
 .qc-status b{color:var(--qbone3);font-weight:500;font-variant-numeric:tabular-nums}
 .qc-status .err{color:var(--qsig);overflow:hidden;text-overflow:ellipsis}
 .qc-status .sp{flex:1}
@@ -1220,6 +1226,7 @@ export async function mountQueryConsole(element, options = {}) {
       return p ? runPreset(p.id, opts.view) : run(q, { view: opts.view });
     },
     editor,
+    graph,
     contributions: contribReady,
     get termIndex() {
       return termIndex;
@@ -2228,21 +2235,55 @@ function makeGraph({ root, on, store, labelOf, bodies, authored, atlasId, locate
     const r = canvas.getBoundingClientRect();
     return [e.clientX - r.left, e.clientY - r.top];
   };
+  // Pointers: one finger drags a node or pans; two fingers pinch (zoom around the midpoint) and pan.
+  // `touch-action: none` on the canvas keeps the browser from taking the gesture for page zoom/scroll.
   let clickTimer = 0;
+  const pts = new Map(); // pointerId → [sx, sy]
+  let pinch = null; // { d0, k0, wx, wy } — the world point under the initial midpoint stays put
+  const clampK = (k) => Math.max(0.1, Math.min(5, k));
+  const startPan = (sx, sy) => (panning = { sx, sy, cx: cam.x, cy: cam.y });
   on(canvas, "pointerdown", (e) => {
-    if (e.button !== 0) return;
+    if (e.button !== 0 && e.pointerType === "mouse") return;
     canvas.setPointerCapture(e.pointerId);
     const [sx, sy] = pos(e);
+    pts.set(e.pointerId, [sx, sy]);
+    if (pts.size === 2) {
+      // Second finger: whatever the first was doing becomes a pinch; it will not end as a tap.
+      if (dragging) {
+        dragging.n.fixed = false;
+        dragging = null;
+      }
+      panning = null;
+      moved = true;
+      const [a, b] = [...pts.values()];
+      const [wx, wy] = toWorld((a[0] + b[0]) / 2, (a[1] + b[1]) / 2);
+      pinch = { d0: Math.max(1, Math.hypot(a[0] - b[0], a[1] - b[1])), k0: cam.k, wx, wy };
+      tip.hidden = true;
+      return;
+    }
+    if (pts.size > 2) return;
     const n = nodeAt(sx, sy);
     moved = false;
     if (n) {
       dragging = { n, dx: 0, dy: 0 };
       n.fixed = true;
-    } else panning = { sx, sy, cx: cam.x, cy: cam.y };
+    } else startPan(sx, sy);
     canvas.classList.add("drag");
   });
   on(canvas, "pointermove", (e) => {
     const [sx, sy] = pos(e);
+    if (pts.has(e.pointerId)) pts.set(e.pointerId, [sx, sy]);
+    if (pinch && pts.size >= 2) {
+      const [a, b] = [...pts.values()];
+      const d = Math.max(1, Math.hypot(a[0] - b[0], a[1] - b[1]));
+      const mx = (a[0] + b[0]) / 2, my = (a[1] + b[1]) / 2;
+      cam.k = clampK((pinch.k0 * d) / pinch.d0);
+      // Zoom around the pinch and follow it: the world point grabbed at the start stays under the midpoint.
+      cam.x = pinch.wx - (mx - W / 2) / cam.k;
+      cam.y = pinch.wy - (my - H / 2) / cam.k;
+      draw();
+      return;
+    }
     if (dragging) {
       const [wx, wy] = toWorld(sx, sy);
       if (Math.hypot(wx - dragging.n.x, wy - dragging.n.y) > 0.5) moved = true;
@@ -2259,6 +2300,7 @@ function makeGraph({ root, on, store, labelOf, bodies, authored, atlasId, locate
       draw();
       return;
     }
+    if (e.pointerType !== "mouse") return; // no hover on touch
     const n = nodeAt(sx, sy);
     const ed = n ? null : edgeAt(sx, sy);
     if (n !== hover || ed !== hoverEdge) {
@@ -2281,13 +2323,25 @@ function makeGraph({ root, on, store, labelOf, bodies, authored, atlasId, locate
     } else tip.hidden = true;
   });
   const up = (e) => {
+    pts.delete(e.pointerId);
+    if (pinch) {
+      // Pinch over: a finger left behind continues as a plain pan from where it is; never a tap.
+      if (pts.size < 2) {
+        pinch = null;
+        const rest = [...pts.values()][0];
+        if (rest) startPan(rest[0], rest[1]);
+        else canvas.classList.remove("drag");
+      }
+      return;
+    }
+    if (pts.size) return;
     canvas.classList.remove("drag");
     if (dragging) {
       const n = dragging.n;
       dragging = null;
       n.fixed = false;
       if (!moved) {
-        // Click: select; a second click within 300 ms is a double-click (locate).
+        // Tap/click: select; a second one within 300 ms is a double-tap (locate).
         if (clickTimer && focus === n) {
           clearTimeout(clickTimer);
           clickTimer = 0;
@@ -2315,6 +2369,9 @@ function makeGraph({ root, on, store, labelOf, bodies, authored, atlasId, locate
   };
   on(canvas, "pointerup", up);
   on(canvas, "pointercancel", up);
+  on(canvas, "lostpointercapture", (e) => {
+    if (pts.has(e.pointerId)) up(e);
+  });
   on(canvas, "pointerleave", () => {
     tip.hidden = true;
     if (hover || hoverEdge) {
@@ -2322,12 +2379,13 @@ function makeGraph({ root, on, store, labelOf, bodies, authored, atlasId, locate
       draw();
     }
   });
+  // Wheel zooms; a trackpad pinch arrives as wheel + ctrlKey with small deltas, so it gets a larger gain.
   on(canvas, "wheel", (e) => {
     e.preventDefault();
     const [sx, sy] = pos(e);
     const [wx, wy] = toWorld(sx, sy);
-    const f = Math.exp(-e.deltaY * (e.deltaMode === 1 ? 0.05 : 0.0022));
-    cam.k = Math.max(0.1, Math.min(5, cam.k * f));
+    const gain = e.deltaMode === 1 ? 0.05 : e.ctrlKey ? 0.012 : 0.0022;
+    cam.k = clampK(cam.k * Math.exp(-e.deltaY * gain));
     cam.x = wx - (sx - W / 2) / cam.k;
     cam.y = wy - (sy - H / 2) / cam.k;
     draw();
@@ -2371,6 +2429,9 @@ function makeGraph({ root, on, store, labelOf, bodies, authored, atlasId, locate
     resize,
     fit,
     focus: () => (focus?.kind === "iri" ? focus.term.value : null),
+    /** For tests: the camera (scale and centre) and node count. */
+    camera: () => ({ k: cam.k, x: cam.x, y: cam.y, nodes: nodes.length, w: W, h: H }),
+    nodeScreenPositions: () => nodes.map((n) => { const [x, y] = toScreen(n.x, n.y); return { x, y, kind: n.kind, label: n.label, iri: n.kind === "iri" ? n.term.value : null }; }),
     dispose() {
       if (raf) cancelAnimationFrame(raf);
     },
