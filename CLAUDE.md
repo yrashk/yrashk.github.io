@@ -49,7 +49,7 @@ npm run strava:update  # import the newest ~/Downloads/export_*.zip from Strava,
 `build` writes: `/index.html` (the shell, with `../data/` → `/data/`, `index.html` → `/`, and
 `/data/posts.js` + `/data/notes.js` script tags injected after the data scripts), every post at
 its permalink, `/data/*`, `/feed.xml`, `/feed_rss_created.xml`, `/feed_rss_updated.xml` (listed
-posts, full content), `/sitemap.xml`, `/robots.txt`, `/CNAME`, `/404.html`, and redirect stubs for
+posts, full content), `/rss/<Tag>.xml` per tag (Planet PostgreSQL reads `/rss/Postgres.xml`; `check` requires it), `/sitemap.xml`, `/robots.txt`, `/CNAME`, `/404.html`, and redirect stubs for
 retired MkDocs pages (`/blog/`, `/blog/category/*`, `/opensource/`, `/startups/`, `/call/`,
 `/awesome/`, `/postgres/` → the desktop). It never writes under `/strata/` (another repository
 serves that path).

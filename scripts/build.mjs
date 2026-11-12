@@ -447,6 +447,11 @@ const byUpdated = listed.slice().sort((a, b) => ((b.updated ?? b.date) < (a.upda
 write("feed.xml", rss(byCreated, "/feed.xml", SITE_TITLE, (p) => p.date));
 write("feed_rss_created.xml", rss(byCreated, "/feed_rss_created.xml", `${SITE_TITLE} — new posts`, (p) => p.date));
 write("feed_rss_updated.xml", rss(byUpdated, "/feed_rss_updated.xml", `${SITE_TITLE} — updated posts`, (p) => p.updated ?? p.date));
+// Per-tag feeds at /rss/<Tag>.xml, as the MkDocs rss plugin (category_feeds) published them. Aggregators
+// subscribe to these: Planet PostgreSQL reads /rss/Postgres.xml. The tag is the file name, exactly as written.
+const byTag = new Map();
+for (const p of byCreated) for (const t of p.tags) (byTag.get(t) ?? byTag.set(t, []).get(t)).push(p);
+for (const [tag, ps] of byTag) write(`rss/${tag}.xml`, rss(ps, `/rss/${encodeURI(tag)}.xml`, `${SITE_TITLE} — ${tag}`, (p) => p.date));
 write("sitemap.xml", `<?xml version="1.0" encoding="UTF-8"?>\n<urlset xmlns="http://www.w3.org/1999/sitemaps/0.9">\n  <url><loc>${ORIGIN}/</loc></url>\n${listed.map((p) => `  <url><loc>${ORIGIN}${p.permalink}</loc><lastmod>${p.updated ?? p.date}</lastmod></url>`).join("\n")}\n</urlset>\n`);
 
 // 7. redirect stubs for retired pages (they honour the site theme too: site/DATA.md "Theme contract")

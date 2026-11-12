@@ -36,7 +36,7 @@ const RETIRED = [
   "/awesome/", "/blog/", "/blog/motd/", "/blog/page/2/",
   ...["postgres", "omnigres", "d3x", "tips", "types", "rust", "docker", "containers", "contest", "performance", "c", "git", "c4", "practices", "teamwork"].map((c) => `/blog/category/${c}/`),
 ];
-const FILES = ["/index.html", "/404.html", "/CNAME", "/robots.txt", "/sitemap.xml", "/feed.xml", "/feed_rss_created.xml", "/feed_rss_updated.xml",
+const FILES = ["/index.html", "/404.html", "/CNAME", "/robots.txt", "/sitemap.xml", "/feed.xml", "/feed_rss_created.xml", "/feed_rss_updated.xml", "/rss/Postgres.xml",
   "/data/posts.js", "/data/notes.js", "/data/shelf.js", "/data/atlas.json", "/data/atlas.js", "/data/atlas.ttl", "/data/github.js", "/data/github-detail.json", "/data/contrib.js",
   "/data/strava.js", "/data/strava.ttl", "/data/strava-tracks.json",
   "/blog/posts/canoe.png", "/blog/posts/problem_solution.png"];
