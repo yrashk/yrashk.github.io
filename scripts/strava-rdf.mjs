@@ -66,7 +66,11 @@ if (empty) {
 const privFile = ".strava-private.json";
 const priv = existsSync(privFile) ? JSON.parse(readFileSync(privFile, "utf8")) : {};
 const TRIM = priv.trim ?? 1000;
-const ZONES = priv.zones ?? [];
+const ZONES = [...(priv.zones ?? [])];
+// Places where activities often start or end (home, work, family) become private zones on their own:
+// any ~250 m cell holding the start or end of AUTO_MIN activities hides AUTO_RADIUS around it.
+const AUTO_MIN = priv.autoZones?.min ?? 3;
+const AUTO_RADIUS = priv.autoZones?.radius ?? 600;
 const EXCLUDE = new Set((priv.exclude ?? []).map(String));
 
 // ── the export: a directory, or a zip unpacked to a temporary one ────────────
@@ -117,7 +121,7 @@ const C = {
   moving: cols("Moving Time")[0],
   elapsed: cols("Elapsed Time"),
   elev: cols("Elevation Gain")[0],
-  vis: header.findIndex((h) => /visib/i.test(h)),
+  vis: header.findIndex((h) => /^(activity )?visibility$/i.test(h.trim())), // not "Weather Visibility" (metres)
 };
 for (const k of ["id", "date", "type"]) if (C[k] === undefined) { console.error(`strava-rdf: activities.csv has no "${k}" column`); process.exit(1); }
 
@@ -311,10 +315,47 @@ for (const r of records) {
     moving: Math.round(num(r[C.moving]) ?? num(r[C.elapsed[0]]) ?? 0),
     elapsed: Math.round(num(r[C.elapsed[0]]) ?? 0),
     elev: Math.round(num(r[C.elev]) ?? 0),
-    segs: pts ? sanitize(pts).map((s) => simplify(s)) : [],
+    pts: pts && pts.length > 1 ? pts : null,
   });
 }
 if (tmp) rmSync(tmp, { recursive: true, force: true });
+
+// Automatic private zones from start/end hotspots (never written anywhere).
+const hotspots = [];
+{
+  const cells = new Map();
+  const cell = ([la, lo]) => `${Math.round(la / 0.00225)}:${Math.round(lo / (0.00225 / Math.max(0.2, Math.cos(rad(la)))))}`;
+  for (const a of acts) {
+    if (!a.pts) continue;
+    const ends = [a.pts[0], a.pts[a.pts.length - 1]];
+    if (cell(ends[0]) === cell(ends[1])) ends.pop(); // a loop counts once
+    for (const pt of ends) {
+      const k = cell(pt), c = cells.get(k) ?? { n: 0, la: 0, lo: 0 };
+      c.n++; c.la += pt[0]; c.lo += pt[1];
+      cells.set(k, c);
+    }
+  }
+  let auto = 0;
+  // Each zone is moved up to 300 m and sized 1–1.5× at random, so the hole a zone leaves in the routes is
+  // not centred on the place it hides (a re-import shuffles them again).
+  for (const c of cells.values()) {
+    if (c.n < AUTO_MIN) continue;
+    const la = c.la / c.n, lo = c.lo / c.n, d = Math.random() * 300;
+    hotspots.push([la, lo]);
+    const t = Math.random() * 2 * Math.PI;
+    ZONES.push({ lat: la + (d * Math.sin(t)) / 110540, lon: lo + (d * Math.cos(t)) / (111320 * Math.cos(rad(la))), radius: AUTO_RADIUS * (1 + Math.random() / 2) + d });
+    auto++;
+  }
+  if (auto) console.log(`strava-rdf: ${auto} automatic private zone(s) around frequent start/end points (radius ${AUTO_RADIUS}–${AUTO_RADIUS * 1.5 + 300} m, off-centre)`);
+}
+for (const a of acts) { a.segs = a.pts ? sanitize(a.pts).map((s) => simplify(s)) : []; delete a.pts; }
+// Self-check: how close does any published point come to a hotspot it was meant to hide?
+if (hotspots.length) {
+  let min = Infinity;
+  for (const a of acts) for (const sg of a.segs) for (const pt of sg) for (const h of hotspots) { const d = meters(pt, h); if (d < min) min = d; }
+  console.log(`strava-rdf: closest published point to a hidden start/end hotspot: ${isFinite(min) ? Math.round(min) + " m" : "none"}`);
+  if (min < AUTO_RADIUS) { console.error("strava-rdf: a route comes inside a private zone; refusing to write"); process.exit(1); }
+}
 acts.sort((a, b) => a.when - b.when);
 
 // Time zone: the nearest Atlas place within 300 km of the start, else the last one seen.

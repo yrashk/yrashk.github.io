@@ -1547,9 +1547,17 @@ export async function mountQueryConsole(element, options = {}) {
       for (const r of out) {
         let best = null, bd = Infinity;
         for (const p of places.values()) { const d = Math.hypot(p.x - r.x, p.y - r.y); if (d < bd) { bd = d; best = p; } }
-        r.name = best && bd < r.tol * 2 ? best.name.split(",")[0] : `${latOf(r.y).toFixed(1)}°, ${(r.x * 360 - 180).toFixed(1)}°`;
+        const la = latOf(r.y), lo = r.x * 360 - 180;
+        r.name = best && bd < (r.tol * 40) / 150 ? best.name.split(",")[0] : `${Math.abs(la).toFixed(1)}°${la < 0 ? "S" : "N"} ${Math.abs(lo).toFixed(1)}°${lo < 0 ? "W" : "E"}`;
       }
-      return out.sort((a, b) => b.items.length - a.items.length);
+      // regions named after the same place are one region
+      const byName = new Map();
+      for (const r of out.sort((a, b) => b.items.length - a.items.length)) {
+        const m = byName.get(r.name);
+        if (m) m.items.push(...r.items);
+        else byName.set(r.name, r);
+      }
+      return [...byName.values()].sort((a, b) => b.items.length - a.items.length);
     }
     function fitTo(segsList, pts) {
       let x0 = Infinity, y0 = Infinity, x1 = -Infinity, y1 = -Infinity;
@@ -1568,15 +1576,23 @@ export async function mountQueryConsole(element, options = {}) {
       regions = lit.length ? regionsOf(lit) : hp.length ? [] : regionsOf([...(tracks || [])]);
       region = Math.min(region, Math.max(0, regions.length - 1));
       clu.hidden = regions.length < 2;
-      clu.innerHTML = regions.length < 2 ? "" : regions.map((r, i) => `<button data-r="${i}" aria-pressed="${i === region}">${esc(r.name)} · ${fmtN(r.items.length)}</button>`).join("");
+      chips();
       if (regions.length) fitTo(regions[region].items, []);
       else fitTo([], hp.length ? hp : [...places.values()]);
+    }
+    // the six busiest regions get a chip; "more" steps through the rest, one region per click
+    const TOP = 6;
+    function chips() {
+      if (regions.length < 2) { clu.innerHTML = ""; return; }
+      const rest = regions.length - TOP, past = region >= TOP;
+      clu.innerHTML = regions.slice(0, TOP).map((r, i) => `<button data-r="${i}" aria-pressed="${i === region}">${esc(r.name)} · ${fmtN(r.items.length)}</button>`).join("") +
+        (rest > 0 ? `<button data-r="more" aria-pressed="${past}" title="${fmtN(rest)} more regions">${past ? `${esc(regions[region].name)} · ${fmtN(regions[region].items.length)} · ${region - TOP + 1}/${rest} →` : `+${fmtN(rest)} more →`}</button>` : "");
     }
     on(clu, "click", (e) => {
       const b = e.target.closest("[data-r]");
       if (!b) return;
-      region = Number(b.dataset.r);
-      for (const x of clu.children) x.setAttribute("aria-pressed", x === b);
+      region = b.dataset.r === "more" ? (region >= TOP && region < regions.length - 1 ? region + 1 : TOP) : Number(b.dataset.r);
+      chips();
       fitTo(regions[region].items, []);
       draw();
     });
