@@ -460,7 +460,7 @@ const CSS = `
   /* syntax colours: the OS may define --code-*; else per-theme defaults below */
   --qc-str:var(--code-string,#c9b88a);--qc-iri:var(--code-iri,#8fb7c7);--qc-pn:var(--code-name,#9fc6a3);--qc-fn:var(--code-function,#d7a6e5);--qc-num:var(--code-number,#e6c07b);
   --qsel:color-mix(in oklab,var(--qsig) 30%,transparent);--qsigline:color-mix(in oklab,var(--qsig) 40%,transparent);--qgrid:color-mix(in oklab,var(--qbone) 5%,transparent);
-  display:grid;grid-template-rows:auto auto minmax(0,1fr) auto;grid-template-columns:minmax(0,1fr);height:100%;min-height:0;min-width:0;max-width:100%;overflow:hidden;contain:inline-size;background:var(--qpanel);color:var(--qbone);font:13px/1.45 var(--qsans);-webkit-font-smoothing:antialiased}
+  position:relative;display:grid;grid-template-rows:auto auto minmax(0,1fr) auto;grid-template-columns:minmax(0,1fr);height:100%;min-height:0;min-width:0;max-width:100%;overflow:hidden;contain:inline-size;background:var(--qpanel);color:var(--qbone);font:13px/1.45 var(--qsans);-webkit-font-smoothing:antialiased}
 :root[data-theme="paper"] .qc,.qc[data-theme="paper"]{--qc-str:var(--code-string,#8a6d1f);--qc-iri:var(--code-iri,#1f6b8a);--qc-pn:var(--code-name,#2f7a3d);--qc-fn:var(--code-function,#7a3f8f);--qc-num:var(--code-number,#9a5b00)}
 /* contain:inline-size — long editor lines and the status line never widen the host window. */
 .qc *,.qc *::before,.qc *::after{box-sizing:border-box}
@@ -470,11 +470,30 @@ const CSS = `
 .qc .mono{font-family:var(--qmono)}
 /* toolbar */
 .qc-bar{display:flex;align-items:center;gap:6px;padding:6px 8px;border-bottom:1px solid var(--qline);min-width:0;overflow:hidden}
-.qc-presets{display:flex;gap:3px;overflow-x:auto;scrollbar-width:none;min-width:0;flex:1}
+.qc-presets{display:flex;gap:4px;overflow-x:auto;scrollbar-width:none;min-width:0;flex:1;scroll-behavior:smooth}
+.qc-presets.more-r{-webkit-mask-image:linear-gradient(90deg,#000 calc(100% - 44px),transparent);mask-image:linear-gradient(90deg,#000 calc(100% - 44px),transparent)}
+.qc-presets.more-l{-webkit-mask-image:linear-gradient(90deg,transparent,#000 44px);mask-image:linear-gradient(90deg,transparent,#000 44px)}
+.qc-presets.more-l.more-r{-webkit-mask-image:linear-gradient(90deg,transparent,#000 44px,#000 calc(100% - 44px),transparent);mask-image:linear-gradient(90deg,transparent,#000 44px,#000 calc(100% - 44px),transparent)}
+.qc-qmenu{flex:none;display:inline-flex;align-items:center;gap:6px;height:26px;padding:0 9px;border:1px solid var(--qline2);border-radius:5px;background:var(--qpanel2);font:500 11px/1 var(--qmono);color:var(--qbone2);white-space:nowrap}
+.qc-qmenu:hover,.qc-qmenu[aria-expanded="true"]{color:var(--qbone);border-color:var(--qsigline)}
+.qc-qmenu b{color:var(--qsig2);font-weight:600}
+.qc-qmenu .ic{color:var(--qbone3)}
+.qc-qmenu .car{color:var(--qbone4);font-size:9px}
+.qc-qpop{position:absolute;z-index:20;left:8px;top:40px;width:min(440px,calc(100% - 16px));max-height:min(70%,520px);overflow:auto;background:var(--qpanel3);border:1px solid var(--qline2);border-radius:7px;box-shadow:0 12px 32px rgba(0,0,0,.35);padding:6px}
+.qc-qpop[hidden]{display:none}
+.qc-qpop h4{margin:8px 8px 4px;font:500 9.5px/1 var(--qmono);letter-spacing:.12em;text-transform:uppercase;color:var(--qbone4)}
+.qc-qpop button{display:block;width:100%;text-align:left;padding:7px 9px;border-radius:5px;border:1px solid transparent}
+.qc-qpop button:hover,.qc-qpop button:focus-visible{background:var(--qpanel2);outline:none;border-color:var(--qline2)}
+.qc-qpop button[aria-current="true"]{border-color:var(--qsigline);background:var(--qsigdim)}
+.qc-qpop button b{display:block;font:500 12px/1.3 var(--qmono);color:var(--qbone)}
+.qc-qpop button span{display:block;font:italic 13.5px/1.35 var(--qserif);color:var(--qbone3);margin-top:2px}
+.qc-sem{color:inherit;text-decoration:none;display:inline-flex;align-items:center;gap:4px}
+.qc-sem:hover{color:var(--qbone2);text-decoration:underline;text-underline-offset:2px}
+.qc-sem .inf{height:.82em;width:auto;flex:none}
 .qc-presets::-webkit-scrollbar{display:none}
 .qc-presets .sep{flex:none;width:1px;height:14px;background:var(--qline2);margin:5px 4px}
-.qc-presets button{flex:none;height:24px;padding:0 9px;border:1px solid transparent;border-radius:5px;font:500 11px/1 var(--qmono);letter-spacing:.04em;color:var(--qbone3);white-space:nowrap}
-.qc-presets button:hover{color:var(--qbone);background:var(--qpanel2)}
+.qc-presets button{flex:none;height:24px;padding:0 9px;border:1px solid var(--qline);border-radius:5px;font:500 11px/1 var(--qmono);letter-spacing:.04em;color:var(--qbone3);white-space:nowrap}
+.qc-presets button:hover{color:var(--qbone);background:var(--qpanel2);border-color:var(--qline2)}
 .qc-presets button[aria-pressed="true"]{color:var(--qsig2);border-color:var(--qsigline);background:var(--qsigdim)}
 .qc-run{flex:none;display:inline-flex;align-items:center;gap:7px;height:26px;padding:0 10px 0 11px;border-radius:5px;background:var(--qsig);color:var(--qon-signal);font:600 12px/1 var(--qsans)}
 .qc-run:hover{filter:brightness(1.08)}
@@ -725,9 +744,11 @@ export async function mountQueryConsole(element, options = {}) {
   element.innerHTML = `
     <style>${CSS}</style>
     <div class="qc-bar">
+      <button class="qc-qmenu" aria-haspopup="true" aria-expanded="false" title="All preset queries"><span class="ic" aria-hidden="true">☰</span><b></b> queries<span class="car" aria-hidden="true">▾</span></button>
       <div class="qc-presets" role="tablist" aria-label="Preset queries"></div>
       <button class="qc-run" title="Run (⌘↩ / Ctrl+Enter)">run <kbd>⌘↩</kbd></button>
     </div>
+    <div class="qc-qpop" role="menu" aria-label="Preset queries" hidden></div>
     <div class="qc-ed">
       <div class="qc-edh">
         <div class="qc-pfx" role="button" tabindex="0" aria-expanded="false" title="Prefixes declared for every query"><span class="tri">▶</span><span class="sum"><b>${PREFIXES.length} prefixes</b> declared · ${PREFIXES.map(([p]) => p + ":").join(" ")}</span><pre>${esc(PREFIX_BLOCK)}</pre></div>
@@ -812,7 +833,7 @@ export async function mountQueryConsole(element, options = {}) {
     const tail = extras
       .map((x) => (x.state === "loaded" ? ` (+ ${x.name}, <b>${fmtMs(x.ms)}</b>)` : x.state === "loading" ? ` <span class="hint">+ ${x.name}…</span>` : x.state === "failed" ? ` <span title="${x.name}.ttl did not load">· ${x.name} unavailable</span>` : ""))
       .join("");
-    status.load.innerHTML = `<b>${fmtN(store.tripleCount())}</b> triples · WAT engine · loaded in <b>${fmtMs(loadMs)}</b>${tail}`;
+    status.load.innerHTML = `<b>${fmtN(store.tripleCount())}</b> triples · <a class="qc-sem" href="https://semblance.dev" target="_blank" rel="noopener" title="Semblance, by Inferal: RDF and SPARQL in hand-written WebAssembly"><svg class="inf" viewBox="0 0 348.45 415.12" aria-hidden="true"><path fill="#0070f3" fill-rule="evenodd" d="M2.44,399.9c-5.45,5.86-1.16,15.22,6.97,15.22h126.55c3.88,0,7.6-1.5,10.33-4.16l197.28-191.95c2.98-2.9,4.6-6.63,4.84-10.43.29-4.47-1.33-9.04-4.84-12.46L146.29,4.16C143.55,1.5,139.83,0,135.96,0H9.4C1.27,0-3.01,9.35,2.44,15.22l193.06,184.2c2.4,2.58,3.46,5.91,3.18,9.15-.22,2.57-1.28,5.08-3.18,7.13L2.44,399.9Z"/></svg>Semblance WAT engine</a> · loaded in <b>${fmtMs(loadMs)}</b>${tail}`;
   };
   showLoad();
   let chain = Promise.resolve();
@@ -989,8 +1010,45 @@ export async function mountQueryConsole(element, options = {}) {
     const b = e.target.closest("[data-preset]");
     if (b) runPreset(b.dataset.preset);
   });
+  // the menu: every preset, grouped, with its blurb; the count says how many there are
+  const qmenu = $(".qc-qmenu"), qpop = $(".qc-qpop");
+  qmenu.querySelector("b").textContent = presets.length;
+  const GROUP_TITLE = { contributions: "Contributions · pull requests, issues", activities: "Activities · Strava" };
+  {
+    let html = "", g = undefined;
+    for (const p of presets) {
+      const grp = p.group || "atlas";
+      if (grp !== g) { html += `<h4>${esc(GROUP_TITLE[grp] || "The Atlas")}</h4>`; g = grp; }
+      html += `<button role="menuitem" data-preset="${p.id}"><b>${esc(p.label)}</b><span>${esc(p.blurb)}</span></button>`;
+    }
+    qpop.innerHTML = html;
+  }
+  const togglePop = (open = qpop.hidden) => {
+    qpop.hidden = !open;
+    qmenu.setAttribute("aria-expanded", open);
+    if (open) (qpop.querySelector('[aria-current="true"]') || qpop.querySelector("button"))?.focus();
+  };
+  on(qmenu, "click", () => togglePop());
+  on(qpop, "click", (e) => { const b = e.target.closest("[data-preset]"); if (b) { togglePop(false); runPreset(b.dataset.preset); } });
+  on(qpop, "keydown", (e) => {
+    const items = [...qpop.querySelectorAll("button")], i = items.indexOf(document.activeElement);
+    if (e.key === "Escape") { e.preventDefault(); togglePop(false); qmenu.focus(); }
+    else if (e.key === "ArrowDown" || e.key === "ArrowUp") { e.preventDefault(); items[(i + (e.key === "ArrowDown" ? 1 : -1) + items.length) % items.length]?.focus(); }
+    e.stopPropagation();
+  });
+  on(document, "pointerdown", (e) => { if (!qpop.hidden && !qpop.contains(e.target) && !qmenu.contains(e.target)) togglePop(false); });
+  // fades at the edges say the row scrolls
+  const fades = () => {
+    const { scrollLeft: l, scrollWidth: w, clientWidth: c } = presetBar;
+    presetBar.classList.toggle("more-l", l > 2);
+    presetBar.classList.toggle("more-r", l + c < w - 2);
+  };
+  on(presetBar, "scroll", fades, { passive: true });
+  on(presetBar, "wheel", (e) => { if (Math.abs(e.deltaY) > Math.abs(e.deltaX) && presetBar.scrollWidth > presetBar.clientWidth) { e.preventDefault(); presetBar.scrollLeft += e.deltaY; } }, { passive: false });
+  new ResizeObserver(fades).observe(presetBar);
   on($(".qc-run"), "click", () => run(editor.value, { fromEditor: true }));
   function markPreset(id) {
+    for (const b of qpop.querySelectorAll("button")) b.setAttribute("aria-current", b.dataset.preset === id);
     for (const b of presetBar.querySelectorAll("button")) b.setAttribute("aria-pressed", b.dataset.preset === id);
     if (id) presetBar.querySelector(`[data-preset="${id}"]`)?.scrollIntoView({ block: "nearest", inline: "nearest" });
   }
@@ -1765,7 +1823,9 @@ export async function mountQueryConsole(element, options = {}) {
     stateTimer = setTimeout(() => {
       const p = PRESETS.find((x) => x.id === currentPreset);
       const same = p && p.query.trim() === last.text.trim();
-      onState({ q: same ? p.id : null, sparql: same ? null : last.text, view: view === "table" || view === "inspect" ? null : view });
+      const v = view === "table" || view === "inspect" ? null : view;
+      if (same && p === PRESETS[0] && !v) return onState({ q: null, sparql: null, view: null }); // the default: a clean URL
+      onState({ q: same ? p.id : null, sparql: same ? null : last.text, view: v });
     }, 250);
   }
   const VIEWS = ["table", "graph", "chart", "map", "schema"];
