@@ -1117,7 +1117,7 @@ function showEssay(id){ focus('essays'); const li=$('#jp-'+id); if(!li) return; 
 /* ═══════════════════════════ lab: query console (mounts ./sparql.js when it exists) ═══════════════════════════ */
 let QAPI=null;
 guard('query',()=>{ const el=$('#qc');
-  import('./sparql.js').then(m=>m.mountQueryConsole(el,{turtleUrl:'../data/atlas.ttl',engineUrl:'../data/rdf/',...(window.STRAVA?{}:{stravaUrl:null}),onLocate:id=>locateInAtlas(id),onHighlight:ids=>{ if(S.focus==='query'||S.ws===4) atlas.highlight(ids); }})).then(api=>{ QAPI=api; })
+  import('./sparql.js').then(m=>m.mountQueryConsole(el,{turtleUrl:'../data/atlas.ttl',engineUrl:'../data/rdf/',...(window.STRAVA?{}:{stravaUrl:null}),initial:qState(),onState:writeQState,onLocate:id=>locateInAtlas(id),onHighlight:ids=>{ if(S.focus==='query'||S.ws===4) atlas.highlight(ids); }})).then(api=>{ QAPI=api; })
     .catch(e=>{ el.innerHTML=`<div class="qc-wait"><b>query engine not built yet</b><span>sparql.js mounts here once the RDF side lands: SPARQL over ../data/atlas.ttl, results flying the Atlas. Meanwhile the terminal knows <code>atlas ls</code>, <code>locate</code> and <code>gh</code>.</span><small>${esc(String(e&&e.message||e))}</small></div>`; }); });
 
 /* ═══════════════════════════ lab: procs (projects as processes) ═══════════════════════════ */
@@ -1720,10 +1720,16 @@ function applyHash(initial){
   if(h.get('term')){ focus('terminal'); setTimeout(()=>TERM.run(h.get('term')),0); }
   if(h.has('k')){ openLauncher(); if(h.get('k')!=='1'){ lin.value=h.get('k'); lRender(); } }
   if(h.has('help')) openHelp();
+  if(initial&&!w&&(h.get('q')||h.get('sparql'))){ if(!S.open.query) S.open.query=4; S.ws=S.open.query; S.focus='query'; S.mfocus='query'; layout(); } /* a shared query opens the lab */
   applyingHash=false; syncedWs=S.ws; if(w&&WS_NAME[w]&&h.get('ws')!==(w===1?null:WS_NAME[w])) setHashParam('ws', w===1?null:WS_NAME[w], false); /* normalise #ws=3 → #ws=writing */
 }
 guard('start',()=>applyHash(true));
-function onHash(){ const h=hashP(); const w=parseWs(h.get('ws'))||1; if(w!==S.ws){ applyingHash=true; S.ws=w; S.max=null; S.desk=false; const vis=openIn(w); S.focus=vis.includes(S.focus)?S.focus:vis[0]||null; layout(); pulse(); applyingHash=false; syncedWs=S.ws; }
+/* the query console's preset or text and view live in the URL too (#ws=lab&q=longest-rides&view=map, or &sparql=…) */
+function qState(){ const h=hashP(); return {q:h.get('q'), sparql:h.get('sparql'), view:h.get('view')}; }
+function writeQState(st){ if(applyingHash) return; const h=hashP(); for(const k of ['q','sparql','view']){ if(st[k]) h.set(k,st[k]); else h.delete(k); } writeHash(h,false); lastQKey=JSON.stringify(qState()); }
+let lastQKey=JSON.stringify(qState());
+function onHash(){ const h=hashP();
+  const qk=JSON.stringify(qState()); if(qk!==lastQKey){ lastQKey=qk; if(QAPI&&(h.get('q')||h.get('sparql'))) QAPI.setState(qState()); } const w=parseWs(h.get('ws'))||1; if(w!==S.ws){ applyingHash=true; S.ws=w; S.max=null; S.desk=false; const vis=openIn(w); S.focus=vis.includes(S.focus)?S.focus:vis[0]||null; layout(); pulse(); applyingHash=false; syncedWs=S.ws; }
   if(h.has('ws')&&h.get('ws')!==(w===1?null:WS_NAME[w])) setHashParam('ws', w===1?null:WS_NAME[w], false); /* #ws=2 → #ws=work */
   const f=h.get('focus'); if(f&&byId[f]&&f!==atlas.openId) locateInAtlas(f); else if(!f&&atlas.openId){ atlas.close(); }
   if(h.has('show')) atlas.setVisibleKinds(h.get('show').split(',')); }

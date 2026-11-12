@@ -5,7 +5,9 @@
 //   api.run("SELECT …") / api.run("companies");   api.dispose();
 // Options: turtleUrl, engineUrl, contributionsUrl (default: contributions.ttl next to the Turtle; null
 // skips it), stravaUrl (default: strava.ttl next to the Turtle; null skips it and hides the Strava
-// presets), tracksUrl (default: strava-tracks.json beside it, for the Map view), onLocate, onHighlight, hash (read/write #q=&view=&node=; harness only), codemirror
+// presets), tracksUrl (default: strava-tracks.json beside it, for the Map view), tiles (map background;
+// null for none), initial ({q, sparql, view}: what to show first) and onState (called with the same shape
+// whenever the query or view changes, so a host can keep it in its URL), onLocate, onHighlight, hash (read/write #q=&view=&node=; harness only), codemirror
 // (false forces the plain textarea editor). The editor is CodeMirror 6 from ./vendor/codemirror.js,
 // lazily imported, with optional Vim keys; the textarea editor is the fallback when it cannot load.
 //
@@ -688,6 +690,10 @@ const CSS = `
 .qc-ch .hit{fill:transparent}
 .qc-ch .hit.on{fill:var(--qpanel2);fill-opacity:.55}
 .qc-map{background:var(--qpanel)}
+.qc-map .qc-gnote{bottom:22px}
+.qc-map .qc-gnote:not(:empty),.qc-mattr:not(:empty){background:color-mix(in oklab,var(--qpanel) 80%,transparent);padding:2px 6px;border-radius:3px;left:6px}
+.qc-mattr{position:absolute;left:10px;bottom:6px;font:9.5px/1 var(--qmono);color:var(--qbone4);white-space:nowrap;overflow:hidden;max-width:calc(100% - 60px);text-overflow:ellipsis}
+.qc-mattr a{color:inherit}
 .qc-mclu{position:absolute;left:8px;top:8px;right:8px;display:flex;flex-wrap:wrap;gap:3px}
 .qc-mclu[hidden]{display:none}
 .qc-mclu button{height:22px;padding:0 8px;border:1px solid var(--qline);border-radius:4px;background:var(--qpanel);font:11px/1 var(--qmono);color:var(--qbone3)}
@@ -703,6 +709,13 @@ export async function mountQueryConsole(element, options = {}) {
   const stravaUrl = options.stravaUrl === undefined ? new URL("strava.ttl", new URL(turtleUrl, document.baseURI)).href : options.stravaUrl;
   const presets = PRESETS.filter((p) => p.needs !== "strava" || stravaUrl);
   // strava-tracks.json (privacy-trimmed routes) is read the first time the Map view opens.
+  // Map background: OpenStreetMap's standard raster tiles (no key; attribution shown; light use per the
+  // OSM tile policy), toned per theme on the canvas. `tiles: null` draws routes on the bare panel.
+  const tiles = options.tiles === undefined
+    ? { url: "https://tile.openstreetmap.org/{z}/{x}/{y}.png", maxZoom: 19,
+        dark: "invert(1) hue-rotate(180deg) saturate(0.35) brightness(0.8) contrast(0.85)", paper: "saturate(0.45) sepia(0.12) contrast(0.95)",
+        attribution: '© <a href="https://www.openstreetmap.org/copyright">OpenStreetMap</a> contributors' }
+    : options.tiles;
   const tracksUrl = options.tracksUrl === undefined ? (stravaUrl ? new URL("strava-tracks.json", new URL(turtleUrl, document.baseURI)).href : null) : options.tracksUrl;
   const ac = new AbortController();
   const sig = ac.signal;
@@ -738,7 +751,7 @@ export async function mountQueryConsole(element, options = {}) {
       <div class="qc-view" data-view="table"></div>
       <div class="qc-view" data-view="graph" hidden><div class="qc-g"><canvas></canvas><div class="qc-crumbs"></div><div class="qc-gtip" hidden></div><div class="qc-gsel" hidden></div><div class="qc-gnote"></div><div class="qc-gctl"><button data-g="in" title="Zoom in">+</button><button data-g="out" title="Zoom out">−</button><button data-g="fit" title="Fit">⌂</button></div></div></div>
       <div class="qc-view" data-view="chart" hidden></div>
-      <div class="qc-view" data-view="map" hidden><div class="qc-g qc-map"><canvas></canvas><div class="qc-mclu" hidden></div><div class="qc-gtip" hidden></div><div class="qc-gnote"></div><div class="qc-gctl"><button data-g="in" title="Zoom in">+</button><button data-g="out" title="Zoom out">−</button><button data-g="fit" title="Fit">⌂</button></div></div></div>
+      <div class="qc-view" data-view="map" hidden><div class="qc-g qc-map"><canvas></canvas><div class="qc-mclu" hidden></div><div class="qc-mattr"></div><div class="qc-gtip" hidden></div><div class="qc-gnote"></div><div class="qc-gctl"><button data-g="in" title="Zoom in">+</button><button data-g="out" title="Zoom out">−</button><button data-g="fit" title="Fit">⌂</button></div></div></div>
       <div class="qc-view" data-view="schema" hidden></div>
       <div class="qc-view" data-view="inspect" hidden></div>
     </div>
@@ -988,6 +1001,7 @@ export async function mountQueryConsole(element, options = {}) {
     view = v;
     for (const [k, el] of Object.entries(views)) el.hidden = k !== v;
     for (const [k, b] of Object.entries(tabs)) b.setAttribute("aria-selected", k === v);
+    emitState();
     if (v === "inspect") tabs.inspect.hidden = false;
     if (v === "graph") graph.resize(true);
     if (v === "schema" && !schemaBuilt) buildSchema();
@@ -1056,6 +1070,7 @@ export async function mountQueryConsole(element, options = {}) {
     map.setResult(result);
     highlightAtlas(result);
     if (!quiet) showView(wantView || (view === "inspect" || view === "schema" ? "table" : view));
+    emitState();
     return result;
   }
   function runPreset(id, v) {
@@ -1478,12 +1493,49 @@ export async function mountQueryConsole(element, options = {}) {
   // ── map view: routes and places from a result ────────────────────────────────
   // Activities in the result (…/atlas/strava/<day>-<n>) draw their privacy-trimmed routes from
   // strava-tracks.json (loaded the first time the map opens); every other route stays as a faint
-  // trace for context. Places with schema:geo draw as dots. No tiles: nothing leaves the site.
+  // trace for context. Places with schema:geo draw as dots, over OpenStreetMap tiles styled for the
+// theme (see `tiles`); the tile server sees which area a visitor looks at, nothing else.
   const map = (() => {
     const box = views.map.querySelector(".qc-g");
     const cv = box.querySelector("canvas"), tip = box.querySelector(".qc-gtip"), note = box.querySelector(".qc-gnote"), clu = box.querySelector(".qc-mclu");
     const cx = cv.getContext("2d");
     const STRAVA = BASE + "strava/";
+    box.querySelector(".qc-mattr").innerHTML = tiles?.attribution || "";
+    // raster tiles, cached per URL; a tile that is still loading shows its loaded parent, scaled up
+    const tileCache = new Map();
+    const tileUrl = (z, x, y) => tiles.url.replace("{z}", z).replace("{x}", x).replace("{y}", y);
+    function tile(z, x, y) {
+      if (!tiles) return null;
+      const url = tileUrl(z, x, y);
+      let t = tileCache.get(url);
+      if (!t) {
+        t = new Image();
+        t.onload = () => draw();
+        t.src = url;
+        tileCache.set(url, t);
+        if (tileCache.size > 600) tileCache.delete(tileCache.keys().next().value);
+      }
+      return t.complete && t.naturalWidth ? t : null;
+    }
+    function drawTiles() {
+      if (!tiles) return;
+      const z = Math.max(0, Math.min(tiles.maxZoom ?? 19, Math.round(Math.log2((V.s * Math.min(2, dpr)) / 256)))), n = 2 ** z, size = V.s / n;
+      const x0 = Math.floor((-V.ox / V.s) * n), x1 = Math.floor(((W - V.ox) / V.s) * n);
+      const y0 = Math.max(0, Math.floor((-V.oy / V.s) * n)), y1 = Math.min(n - 1, Math.floor(((H - V.oy) / V.s) * n));
+      if ((x1 - x0 + 1) * (y1 - y0 + 1) > 160) return;
+      cx.filter = (document.documentElement.dataset.theme === "paper" ? tiles.paper : tiles.dark) || "none";
+      for (let ty = y0; ty <= y1; ty++)
+        for (let tx = x0; tx <= x1; tx++) {
+          const wx = ((tx % n) + n) % n, X = V.ox + tx * size, Y = V.oy + ty * size;
+          const img = tile(z, wx, ty);
+          if (img) { cx.drawImage(img, X, Y, size + 0.5, size + 0.5); continue; }
+          for (let up = 1; up <= 4 && z - up >= 0; up++) { // fall back to a loaded ancestor
+            const k = 2 ** up, p = tileCache.get(tileUrl(z - up, wx >> up, ty >> up));
+            if (p?.complete && p.naturalWidth) { const sw = p.naturalWidth / k; cx.drawImage(p, (wx % k) * sw, (ty % k) * sw, sw, sw, X, Y, size + 0.5, size + 0.5); break; }
+          }
+        }
+      cx.filter = "none";
+    }
     let tracks = null, loading = null, places = null;
     let hi = new Set(), hiPlaces = new Set(), needFit = true;
     let V = { s: 1, ox: 0, oy: 0 }, W = 0, H = 0, dpr = 1, pal = {}, raf = 0;
@@ -1618,6 +1670,7 @@ export async function mountQueryConsole(element, options = {}) {
       raf = requestAnimationFrame(() => {
         cx.setTransform(dpr, 0, 0, dpr, 0, 0);
         cx.clearRect(0, 0, W, H);
+        drawTiles();
         cx.lineJoin = cx.lineCap = "round";
         if (tracks?.size) {
           cx.globalAlpha = hi.size ? 0.35 : 0.6;
@@ -1703,6 +1756,27 @@ export async function mountQueryConsole(element, options = {}) {
     return { setResult, show, resize };
   })();
 
+  // ── state for a host's URL: {q: preset id} when the editor holds a preset unchanged, else {sparql: text} ──
+  const onState = options.onState || null;
+  let stateTimer = 0;
+  function emitState() {
+    if (!onState || !last || last.error) return;
+    clearTimeout(stateTimer);
+    stateTimer = setTimeout(() => {
+      const p = PRESETS.find((x) => x.id === currentPreset);
+      const same = p && p.query.trim() === last.text.trim();
+      onState({ q: same ? p.id : null, sparql: same ? null : last.text, view: view === "table" || view === "inspect" ? null : view });
+    }, 250);
+  }
+  const VIEWS = ["table", "graph", "chart", "map", "schema"];
+  function applyState(st) {
+    if (!st) return false;
+    const v = VIEWS.includes(st.view) ? st.view : undefined;
+    if (st.sparql) { run(st.sparql, { view: v === "schema" ? "table" : v }); if (v === "schema") showView(v); return true; }
+    if (st.q && PRESETS.some((x) => x.id === st.q)) { runPreset(st.q, v === "schema" ? undefined : v); if (v === "schema") showView(v); return true; }
+    return false;
+  }
+
   // ── hash state (harness / deep links): #q=<preset>&view=graph&node=<iri> ──
   function writeHash() {
     const p = new URLSearchParams();
@@ -1730,7 +1804,7 @@ export async function mountQueryConsole(element, options = {}) {
   if (hash) {
     readHash();
     on(window, "hashchange", readHash);
-  } else runPreset(PRESETS[0].id);
+  } else if (!applyState(options.initial)) runPreset(PRESETS[0].id);
 
   // ── size changes ───────────────────────────────────────────────────────────
   const ro = new ResizeObserver(() => {
@@ -1753,6 +1827,8 @@ export async function mountQueryConsole(element, options = {}) {
     graph,
     contributions: contribReady,
     strava: extra.strava.ready,
+    /** Show {q, sparql, view} (as passed to onState): a preset, or a query text, in a view. */
+    setState: applyState,
     get termIndex() {
       return termIndex;
     },

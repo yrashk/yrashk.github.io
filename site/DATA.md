@@ -176,7 +176,8 @@ as bars: a `year`/`hour`/`month` column (or a date) is an ordered x axis with ga
 non-numeric column becomes horizontal bars, largest first; a second non-numeric column stacks series (eight
 hues in fixed order by name, the rest folded into "other"; palette validated for both themes); each numeric
 column is a measure chip. Map draws the routes of the activities in a result (bright) over every other
-route (faint), plus Atlas places with `schema:geo`; no map tiles, nothing leaves the site; routes far apart
+route (faint), plus Atlas places with `schema:geo`, over OpenStreetMap's standard raster tiles (toned per theme with a
+canvas filter, attribution shown, light use per the OSM tile policy; `tiles: null` turns them off); routes far apart
 are grouped into regions (chips, busiest first). A preset may name its default `view`.
 
 ## Theme contract (site-wide)
