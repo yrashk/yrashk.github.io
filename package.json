@@ -12,7 +12,9 @@
     "serve": "node scripts/serve.mjs",
     "check": "node scripts/check.mjs",
     "strava": "node scripts/strava-rdf.mjs",
-    "strava:update": "node scripts/strava-rdf.mjs && npm run build && npm run check"
+    "strava:update": "node scripts/strava-rdf.mjs && npm run build && npm run check",
+    "strava:seal": "node scripts/strava-seal.mjs seal",
+    "strava:unseal": "node scripts/strava-seal.mjs unseal"
   },
   "dependencies": {
     "markdown-it": "^14.1.0",

@@ -4,6 +4,7 @@
 //   node scripts/strava-rdf.mjs [export.zip | export-dir] [dataDir]   (default dataDir: site/data)
 //   npm run strava           (no path: the newest ~/Downloads/export_*.zip)
 //   npm run strava:update    (that, then build and check; commit and push the three data files after)
+//   npm run strava:seal / strava:unseal   (.strava-private.json ⇄ strava-private.sealed.json, by password)
 //   node scripts/strava-rdf.mjs --empty [dataDir]                     (no-data placeholders)
 //
 // The export comes from Strava → Settings → My Account → Download or Delete Your Account →
@@ -79,10 +80,14 @@ const priv = existsSync(privFile) ? JSON.parse(readFileSync(privFile, "utf8")) :
 // The zones' random offsets come from a secret seed kept in the private file, so a re-import places
 // them exactly as before: fresh randomness each time would let old and new versions (all public in
 // git history) be overlaid to narrow down what they hide.
+if (!existsSync(privFile) && existsSync("strava-private.sealed.json")) {
+  console.error(`strava-rdf: ${privFile} is missing but strava-private.sealed.json is here: run \`npm run strava:unseal\` first (a new seed would move every private zone)`);
+  process.exit(1);
+}
 if (!priv.seed) {
   priv.seed = randomBytes(16).toString("hex");
   writeFileSync(privFile, JSON.stringify(priv, null, 2) + "\n");
-  console.log(`strava-rdf: created ${privFile} with a private seed (gitignored; keep it)`);
+  console.log(`strava-rdf: created ${privFile} with a private seed (gitignored); keep it: \`npm run strava:seal\` stores it encrypted in git`);
 }
 const seeded = (key) => { const h = createHash("sha256").update(priv.seed + key).digest(); return [0, 4, 8].map((i) => h.readUInt32LE(i) / 2 ** 32); };
 const TRIM = priv.trim ?? 1000;

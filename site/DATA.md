@@ -122,7 +122,10 @@ Made by `scripts/strava-rdf.mjs` from a Strava bulk export (Settings → My Acco
 Delete Your Account → Request Your Archive): `npm run strava` picks the newest `~/Downloads/export_*.zip`
 (or pass a path: `npm run strava -- path/to/export.zip`); `npm run strava:update` also builds and checks.
 Zone offsets come from a secret `seed` in `.strava-private.json` (created on first run; keep it), so a
-re-import of the same export reproduces the same routes, and versions in git history cannot be overlaid. Only
+re-import of the same export reproduces the same routes, and versions in git history cannot be overlaid.
+`npm run strava:seal` encrypts `.strava-private.json` with a password (AES-256-GCM, scrypt) into the committed
+`strava-private.sealed.json`; `npm run strava:unseal` restores it on another machine. The importer refuses to
+run (and mint a new seed) when the sealed file exists but the private file does not. Only
 `activities.csv` and `activities/*` (GPX, TCX, FIT, gzipped or not) are read. The zip is never
 committed; the three outputs are, and CI does not regenerate them. `--empty` writes the no-data
 placeholders (`window.STRAVA = null`, which hides the Strava presets).
