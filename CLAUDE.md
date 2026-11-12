@@ -84,6 +84,8 @@ excerpt: "One or two sentences; used in lists, feeds and meta description."
 # updated: 2024-01-01  # drives feed_rss_updated.xml
 # standfirst: "A deck shown under the title (default: the excerpt, unless it repeats the opening)."
 # series: Omnigres     # rail label (default: the Atlas body the post orbits)
+# original: https://medium.com/@yrashk/…   # where an imported post first ran; shown as "first published on <venue>"
+# originalVenue: Medium                     # (default: the original's hostname). The canonical URL stays on yrashk.com.
 ---
 ```
 

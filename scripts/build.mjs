@@ -254,6 +254,7 @@ async function loadPost(file) {
     file, title: String(data.title), date: String(data.date), updated: data.updated ? String(data.updated) : null,
     permalink: data.permalink, tags, excerpt, standfirst, listed: data.listed !== false, html, headings, words,
     minutes: Math.max(1, Math.round(words / 220)), atlas: atlasBody, series: data.series ?? null,
+    original: data.original ? { url: String(data.original), venue: String(data.originalVenue ?? new URL(String(data.original)).hostname) } : null,
   };
 }
 
@@ -331,6 +332,7 @@ function renderPost(post, prev, next, template) {
     date: post.date, dateLong: longDate(post.date), dateSlash: `${y} / ${m} / ${d}`, dateDots: `${y} · ${m} · ${d}`,
     updatedRow: post.updated ? `<dt>updated</dt><dd><time datetime="${post.updated}">${post.updated}</time></dd>` : "",
     seriesRow: series ? `<dt>series</dt><dd>${esc(series)}</dd>` : "",
+    originalMeta: post.original ? `<span class="orig">first published on <a href="${esc(post.original.url)}" rel="noopener">${esc(post.original.venue)}</a></span>` : "",
     eyebrowMid, minutes: post.minutes, words: post.words.toLocaleString("en-US"),
     tagsRail: post.tags.map((t) => `<a href="/#k=${encodeURIComponent(t.toLowerCase())}">${esc(t.toLowerCase())}</a>`).join(""),
     tagsInline: post.tags.map((t) => `#${esc(t.toLowerCase())}`).join(" · "),

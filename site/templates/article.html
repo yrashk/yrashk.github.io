@@ -140,6 +140,8 @@ h1{font:600 clamp(30px,3.4vw,44px)/1.1 var(--sans);letter-spacing:-.022em;margin
 .meta{display:flex;flex-wrap:wrap;gap:8px 18px;font:400 12px/1 var(--mono);letter-spacing:.04em;color:var(--bone-3);padding:14px 0;border-top:1px solid var(--line);border-bottom:1px solid var(--line);margin-bottom:36px}
 .meta b{color:var(--bone-2);font-weight:500}
 .meta time{color:var(--bone)}
+.meta .orig a{color:var(--bone-2);text-decoration:underline;text-decoration-color:var(--line);text-underline-offset:3px}
+.meta .orig a:hover{color:var(--signal);text-decoration-color:currentColor}
 .prose>p{margin:0 0 1.25em;color:var(--bone);text-wrap:pretty}
 .prose p{text-wrap:pretty}
 .prose h2{font:600 clamp(22px,2.1vw,27px)/1.25 var(--sans);letter-spacing:-.015em;margin:2.2em 0 .7em;scroll-margin-top:24px;color:var(--bone)}
@@ -351,7 +353,7 @@ details.adm:not([open]) summary:hover .t{color:var(--bone)}
           <p class="eyebrow">words <span>·</span> {{eyebrowMid}} <span>·</span> <time datetime="{{date}}">{{dateLong}}</time></p>
           <h1 id="title">{{title}}</h1>
           {{{standfirst}}}
-          <div class="meta"><span>by <b>{{author}}</b></span><span><time datetime="{{date}}">{{date}}</time></span><span>{{minutes}} min read</span><span>{{{tagsInline}}}</span></div>
+          <div class="meta"><span>by <b>{{author}}</b></span><span><time datetime="{{date}}">{{date}}</time></span><span>{{minutes}} min read</span>{{{originalMeta}}}<span>{{{tagsInline}}}</span></div>
 
           <div class="prose" id="prose">
 {{{content}}}

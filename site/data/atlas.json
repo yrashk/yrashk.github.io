@@ -967,6 +967,316 @@
    "year": 2023.25
   },
   {
+   "id": "p-couchdb",
+   "kind": "writing",
+   "name": "What Is Missing in CouchDB Approach",
+   "sector": "data",
+   "start": 2007,
+   "end": null,
+   "approx": false,
+   "weight": 1,
+   "url": "/blog/2007/11/22/what-is-missing-in-couchdb-approach/",
+   "line": "From the archive: an object’s slot should be an object too.",
+   "date": "2007-11-22",
+   "listed": true,
+   "featured": false,
+   "tags": [
+    "databases",
+    "CouchDB"
+   ],
+   "f": 0.34,
+   "related": [
+    "pumpkindb"
+   ],
+   "year": 2007.89
+  },
+  {
+   "id": "p-docdb-fud",
+   "kind": "writing",
+   "name": "Top 10 Reasons to Avoid Document Databases FUD",
+   "sector": "data",
+   "start": 2008,
+   "end": null,
+   "approx": false,
+   "weight": 1,
+   "url": "/blog/2008/04/26/top-10-reasons-to-avoid-document-databases-fud/",
+   "line": "From the archive: a point-by-point answer to the case against document databases, from the StrokeDB days.",
+   "date": "2008-04-26",
+   "listed": true,
+   "featured": false,
+   "tags": [
+    "databases",
+    "StrokeDB"
+   ],
+   "f": 0.5,
+   "related": [
+    "pumpkindb"
+   ],
+   "year": 2008.32
+  },
+  {
+   "id": "p-no-database",
+   "kind": "writing",
+   "name": "We Don’t Need a “Database”",
+   "sector": "data",
+   "start": 2008,
+   "end": null,
+   "approx": false,
+   "weight": 1,
+   "url": "/blog/2008/05/16/we-dont-need-a-database/",
+   "line": "From the archive: “Your application itself IS a smart database.”",
+   "date": "2008-05-16",
+   "listed": true,
+   "featured": false,
+   "tags": [
+    "databases",
+    "StrokeDB"
+   ],
+   "f": 0.66,
+   "related": [
+    "pumpkindb"
+   ],
+   "year": 2008.37
+  },
+  {
+   "id": "p-save",
+   "kind": "writing",
+   "name": "Is “Save” Obsolete?",
+   "sector": "data",
+   "start": 2008,
+   "end": null,
+   "approx": false,
+   "weight": 1,
+   "url": "/blog/2008/07/13/is-save-obsolete/",
+   "line": "From the archive: persist every change, and record business operations instead of saves.",
+   "date": "2008-07-13",
+   "listed": true,
+   "featured": false,
+   "tags": [
+    "databases",
+    "StrokeDB"
+   ],
+   "f": 0.82,
+   "related": [
+    "pumpkindb"
+   ],
+   "year": 2008.53
+  },
+  {
+   "id": "p-team-play",
+   "kind": "writing",
+   "name": "The Team Play Myth",
+   "sector": "writing",
+   "start": 2014,
+   "end": null,
+   "approx": false,
+   "weight": 1,
+   "url": "/blog/2014/09/07/the-team-play-myth/",
+   "line": "The sequel to Team Uncommunication: one person per small project, and every teammate an educator.",
+   "date": "2014-09-07",
+   "listed": true,
+   "featured": false,
+   "tags": [
+    "practices",
+    "teamwork"
+   ],
+   "f": 0.55,
+   "related": [
+    "p-canoe"
+   ],
+   "year": 2014.68
+  },
+  {
+   "id": "p-lazy-es",
+   "kind": "writing",
+   "name": "Lazy Event Sourcing",
+   "sector": "data",
+   "start": 2016,
+   "end": null,
+   "approx": false,
+   "weight": 1,
+   "url": "/blog/2016/04/13/lazy-event-sourcing/",
+   "line": "Query the events when you need the data, instead of predicting the future in a state database.",
+   "date": "2016-04-13",
+   "listed": true,
+   "featured": false,
+   "tags": [
+    "event sourcing",
+    "databases"
+   ],
+   "f": 0.3,
+   "related": [
+    "pumpkindb"
+   ],
+   "year": 2016.28
+  },
+  {
+   "id": "p-no-user",
+   "kind": "writing",
+   "name": "There Is No “User”",
+   "sector": "data",
+   "start": 2016,
+   "end": null,
+   "approx": false,
+   "weight": 1,
+   "url": "/blog/2016/09/26/there-is-no-user/",
+   "line": "Record what happened — someone signed in with LinkedIn — and decide what that was later.",
+   "date": "2016-09-26",
+   "listed": true,
+   "featured": false,
+   "tags": [
+    "event sourcing",
+    "databases"
+   ],
+   "f": 0.46,
+   "related": [
+    "pumpkindb"
+   ],
+   "year": 2016.74
+  },
+  {
+   "id": "p-pumpkins",
+   "kind": "writing",
+   "name": "Your Functional Programs Are Imperative Pumpkins",
+   "sector": "data",
+   "start": 2016,
+   "end": null,
+   "approx": false,
+   "weight": 1,
+   "url": "/blog/2016/10/30/your-functional-programs-are-imperative-pumpkins/",
+   "line": "Immutable code on a mutable database is still an imperative system. It doesn’t have to be.",
+   "date": "2016-10-30",
+   "listed": true,
+   "featured": false,
+   "tags": [
+    "event sourcing",
+    "databases",
+    "functional programming"
+   ],
+   "f": 0.72,
+   "related": [
+    "pumpkindb"
+   ],
+   "year": 2016.83
+  },
+  {
+   "id": "p-abstractions",
+   "kind": "writing",
+   "name": "Removing Obscuring Abstractions",
+   "sector": "data",
+   "start": 2017,
+   "end": null,
+   "approx": false,
+   "weight": 1,
+   "url": "/blog/2017/06/09/removing-obscuring-abstractions/",
+   "line": "Down to a B+ tree key/value store with no overwrites, to see what storing and finding data really costs.",
+   "date": "2017-06-09",
+   "listed": true,
+   "featured": false,
+   "tags": [
+    "PumpkinDB",
+    "databases"
+   ],
+   "f": 0.86,
+   "related": [
+    "pumpkindb"
+   ],
+   "year": 2017.44
+  },
+  {
+   "id": "p-covers",
+   "kind": "writing",
+   "name": "Under the Covers of Code",
+   "sector": "data",
+   "start": 2018,
+   "end": null,
+   "approx": false,
+   "weight": 1,
+   "url": "/blog/2018/01/31/under-the-covers-of-code/",
+   "line": "Code says what, not why. Problem/Solution commits, and SIT, an issue tracker that lives in the repository.",
+   "date": "2018-01-31",
+   "listed": true,
+   "featured": false,
+   "tags": [
+    "Git",
+    "practices"
+   ],
+   "f": 0.48,
+   "related": [
+    "p-c4"
+   ],
+   "year": 2018.08
+  },
+  {
+   "id": "p-dear-oss",
+   "kind": "writing",
+   "name": "Dear Open Source Projects…",
+   "sector": "writing",
+   "start": 2018,
+   "end": null,
+   "approx": false,
+   "weight": 1,
+   "url": "/blog/2018/03/15/dear-open-source-projects/",
+   "line": "On choosing open, durable places for a community to talk.",
+   "date": "2018-03-15",
+   "listed": true,
+   "featured": false,
+   "tags": [
+    "open source"
+   ],
+   "f": 0.7,
+   "year": 2018.2
+  },
+  {
+   "id": "p-3x",
+   "kind": "writing",
+   "name": "Repeating Yourself Thrice Doesn’t Turn You Into a 3x Developer",
+   "sector": "data",
+   "start": 2023,
+   "end": null,
+   "approx": false,
+   "weight": 1,
+   "url": "/blog/2023/07/30/repeating-yourself-thrice-doesnt-turn-you-into-a-3x-developer/",
+   "line": "Three tiers, three times the work. Written with Ophir Lojkine.",
+   "date": "2023-07-30",
+   "listed": true,
+   "featured": false,
+   "tags": [
+    "Omnigres",
+    "Postgres",
+    "architecture"
+   ],
+   "f": 0.86,
+   "related": [
+    "omnigres"
+   ],
+   "year": 2023.58
+  },
+  {
+   "id": "p-firing",
+   "kind": "writing",
+   "name": "Firing Developers Won’t Make Software Cheaper",
+   "sector": "writing",
+   "start": 2025,
+   "end": null,
+   "approx": false,
+   "weight": 1,
+   "url": "/blog/2025/06/21/firing-developers-wont-make-software-cheaper/",
+   "line": "Reduce the need for software instead of hiding its complexity.",
+   "date": "2025-06-21",
+   "listed": true,
+   "featured": false,
+   "tags": [
+    "AI",
+    "software"
+   ],
+   "f": 0.4,
+   "related": [
+    "inferal"
+   ],
+   "year": 2025.47
+  },
+  {
    "id": "talk-cppgres",
    "kind": "talk",
    "name": "Cppgres: One less reason to hate C++",

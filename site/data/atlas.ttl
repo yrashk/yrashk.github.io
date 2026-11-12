@@ -21,7 +21,7 @@
     yr:founded                 :inferal, :hackerintro, :trustatom, :bexio, :spawngrid, :issuesdone, :omnigres ;
     yr:workedAt                :hexagon, :ditto ;
     yr:built                   :pgext, :strata, :libycxx, :flyology, :shutters, :uplpgsql ;
-    yr:wrote                   :p-canoe, :p-c4, :p-rust, :p-http, :p-pgext25, :p-d3x, :p-regr, :p-lim, :p-sum, :p-plrust, :p-game ;
+    yr:wrote                   :p-canoe, :p-c4, :p-rust, :p-http, :p-pgext25, :p-d3x, :p-regr, :p-lim, :p-sum, :p-plrust, :p-game, :p-couchdb, :p-docdb-fud, :p-no-database, :p-save, :p-team-play, :p-lazy-es, :p-no-user, :p-pumpkins, :p-abstractions, :p-covers, :p-dear-oss, :p-3x, :p-firing ;
     yr:authored                :ocamlspread, :common-xml, :cl-dtype, :encline ;
     yr:contributedTo           :abtop, :elixir, :pumpkindb, :erlzmq2, :pgrx, :wasmrs, :cplusplus, :eas, :camomile, :etiquette, :portableaserve ;
     yr:presented               :talk-cppgres, :talk-ext-upgrades, :talk-pgpm, :talk-immutability, :talk-unusual-types, :talk-pushing-boundaries, :talk-buildable, :talk-postgres-can-do-what, :talk-lazy-es, :talk-bitcoin-elixir, :talk-meta-is-mega, :talk-erlang-dc-meta, :talk-euc-meta, :talk-genomu, :talk-vancouver-meta, :talk-parse-transforms, :talk-erlang-web, :talk-beamjs, :talk-parallel-testing .
@@ -474,6 +474,174 @@
     yr:listed                  true ;
     schema:keywords            "Postgres", "Omnigres", "contest" ;
     yr:related                 :omnigres .
+
+:p-couchdb
+    a                          yr:Essay, schema:BlogPosting ;
+    schema:name                "What Is Missing in CouchDB Approach" ;
+    schema:url                 <https://yrashk.com/blog/2007/11/22/what-is-missing-in-couchdb-approach/> ;
+    schema:description         "From the archive: an object’s slot should be an object too." ;
+    yr:sector                  <https://yrashk.com/atlas/sector/data> ;
+    yr:start                   "2007"^^xsd:gYear ;
+    yr:weight                  1 ;
+    schema:datePublished       "2007-11-22"^^xsd:date ;
+    yr:listed                  true ;
+    schema:keywords            "databases", "CouchDB" ;
+    yr:related                 :pumpkindb .
+
+:p-docdb-fud
+    a                          yr:Essay, schema:BlogPosting ;
+    schema:name                "Top 10 Reasons to Avoid Document Databases FUD" ;
+    schema:url                 <https://yrashk.com/blog/2008/04/26/top-10-reasons-to-avoid-document-databases-fud/> ;
+    schema:description         "From the archive: a point-by-point answer to the case against document databases, from the StrokeDB days." ;
+    yr:sector                  <https://yrashk.com/atlas/sector/data> ;
+    yr:start                   "2008"^^xsd:gYear ;
+    yr:weight                  1 ;
+    schema:datePublished       "2008-04-26"^^xsd:date ;
+    yr:listed                  true ;
+    schema:keywords            "databases", "StrokeDB" ;
+    yr:related                 :pumpkindb .
+
+:p-no-database
+    a                          yr:Essay, schema:BlogPosting ;
+    schema:name                "We Don’t Need a “Database”" ;
+    schema:url                 <https://yrashk.com/blog/2008/05/16/we-dont-need-a-database/> ;
+    schema:description         "From the archive: “Your application itself IS a smart database.”" ;
+    yr:sector                  <https://yrashk.com/atlas/sector/data> ;
+    yr:start                   "2008"^^xsd:gYear ;
+    yr:weight                  1 ;
+    schema:datePublished       "2008-05-16"^^xsd:date ;
+    yr:listed                  true ;
+    schema:keywords            "databases", "StrokeDB" ;
+    yr:related                 :pumpkindb .
+
+:p-save
+    a                          yr:Essay, schema:BlogPosting ;
+    schema:name                "Is “Save” Obsolete?" ;
+    schema:url                 <https://yrashk.com/blog/2008/07/13/is-save-obsolete/> ;
+    schema:description         "From the archive: persist every change, and record business operations instead of saves." ;
+    yr:sector                  <https://yrashk.com/atlas/sector/data> ;
+    yr:start                   "2008"^^xsd:gYear ;
+    yr:weight                  1 ;
+    schema:datePublished       "2008-07-13"^^xsd:date ;
+    yr:listed                  true ;
+    schema:keywords            "databases", "StrokeDB" ;
+    yr:related                 :pumpkindb .
+
+:p-team-play
+    a                          yr:Essay, schema:BlogPosting ;
+    schema:name                "The Team Play Myth" ;
+    schema:url                 <https://yrashk.com/blog/2014/09/07/the-team-play-myth/> ;
+    schema:description         "The sequel to Team Uncommunication: one person per small project, and every teammate an educator." ;
+    yr:sector                  <https://yrashk.com/atlas/sector/writing> ;
+    yr:start                   "2014"^^xsd:gYear ;
+    yr:weight                  1 ;
+    schema:datePublished       "2014-09-07"^^xsd:date ;
+    yr:listed                  true ;
+    schema:keywords            "practices", "teamwork" ;
+    yr:related                 :p-canoe .
+
+:p-lazy-es
+    a                          yr:Essay, schema:BlogPosting ;
+    schema:name                "Lazy Event Sourcing" ;
+    schema:url                 <https://yrashk.com/blog/2016/04/13/lazy-event-sourcing/> ;
+    schema:description         "Query the events when you need the data, instead of predicting the future in a state database." ;
+    yr:sector                  <https://yrashk.com/atlas/sector/data> ;
+    yr:start                   "2016"^^xsd:gYear ;
+    yr:weight                  1 ;
+    schema:datePublished       "2016-04-13"^^xsd:date ;
+    yr:listed                  true ;
+    schema:keywords            "event sourcing", "databases" ;
+    yr:related                 :pumpkindb .
+
+:p-no-user
+    a                          yr:Essay, schema:BlogPosting ;
+    schema:name                "There Is No “User”" ;
+    schema:url                 <https://yrashk.com/blog/2016/09/26/there-is-no-user/> ;
+    schema:description         "Record what happened — someone signed in with LinkedIn — and decide what that was later." ;
+    yr:sector                  <https://yrashk.com/atlas/sector/data> ;
+    yr:start                   "2016"^^xsd:gYear ;
+    yr:weight                  1 ;
+    schema:datePublished       "2016-09-26"^^xsd:date ;
+    yr:listed                  true ;
+    schema:keywords            "event sourcing", "databases" ;
+    yr:related                 :pumpkindb .
+
+:p-pumpkins
+    a                          yr:Essay, schema:BlogPosting ;
+    schema:name                "Your Functional Programs Are Imperative Pumpkins" ;
+    schema:url                 <https://yrashk.com/blog/2016/10/30/your-functional-programs-are-imperative-pumpkins/> ;
+    schema:description         "Immutable code on a mutable database is still an imperative system. It doesn’t have to be." ;
+    yr:sector                  <https://yrashk.com/atlas/sector/data> ;
+    yr:start                   "2016"^^xsd:gYear ;
+    yr:weight                  1 ;
+    schema:datePublished       "2016-10-30"^^xsd:date ;
+    yr:listed                  true ;
+    schema:keywords            "event sourcing", "databases", "functional programming" ;
+    yr:related                 :pumpkindb .
+
+:p-abstractions
+    a                          yr:Essay, schema:BlogPosting ;
+    schema:name                "Removing Obscuring Abstractions" ;
+    schema:url                 <https://yrashk.com/blog/2017/06/09/removing-obscuring-abstractions/> ;
+    schema:description         "Down to a B+ tree key/value store with no overwrites, to see what storing and finding data really costs." ;
+    yr:sector                  <https://yrashk.com/atlas/sector/data> ;
+    yr:start                   "2017"^^xsd:gYear ;
+    yr:weight                  1 ;
+    schema:datePublished       "2017-06-09"^^xsd:date ;
+    yr:listed                  true ;
+    schema:keywords            "PumpkinDB", "databases" ;
+    yr:related                 :pumpkindb .
+
+:p-covers
+    a                          yr:Essay, schema:BlogPosting ;
+    schema:name                "Under the Covers of Code" ;
+    schema:url                 <https://yrashk.com/blog/2018/01/31/under-the-covers-of-code/> ;
+    schema:description         "Code says what, not why. Problem/Solution commits, and SIT, an issue tracker that lives in the repository." ;
+    yr:sector                  <https://yrashk.com/atlas/sector/data> ;
+    yr:start                   "2018"^^xsd:gYear ;
+    yr:weight                  1 ;
+    schema:datePublished       "2018-01-31"^^xsd:date ;
+    yr:listed                  true ;
+    schema:keywords            "Git", "practices" ;
+    yr:related                 :p-c4 .
+
+:p-dear-oss
+    a                          yr:Essay, schema:BlogPosting ;
+    schema:name                "Dear Open Source Projects…" ;
+    schema:url                 <https://yrashk.com/blog/2018/03/15/dear-open-source-projects/> ;
+    schema:description         "On choosing open, durable places for a community to talk." ;
+    yr:sector                  <https://yrashk.com/atlas/sector/writing> ;
+    yr:start                   "2018"^^xsd:gYear ;
+    yr:weight                  1 ;
+    schema:datePublished       "2018-03-15"^^xsd:date ;
+    yr:listed                  true ;
+    schema:keywords            "open source" .
+
+:p-3x
+    a                          yr:Essay, schema:BlogPosting ;
+    schema:name                "Repeating Yourself Thrice Doesn’t Turn You Into a 3x Developer" ;
+    schema:url                 <https://yrashk.com/blog/2023/07/30/repeating-yourself-thrice-doesnt-turn-you-into-a-3x-developer/> ;
+    schema:description         "Three tiers, three times the work. Written with Ophir Lojkine." ;
+    yr:sector                  <https://yrashk.com/atlas/sector/data> ;
+    yr:start                   "2023"^^xsd:gYear ;
+    yr:weight                  1 ;
+    schema:datePublished       "2023-07-30"^^xsd:date ;
+    yr:listed                  true ;
+    schema:keywords            "Omnigres", "Postgres", "architecture" ;
+    yr:related                 :omnigres .
+
+:p-firing
+    a                          yr:Essay, schema:BlogPosting ;
+    schema:name                "Firing Developers Won’t Make Software Cheaper" ;
+    schema:url                 <https://yrashk.com/blog/2025/06/21/firing-developers-wont-make-software-cheaper/> ;
+    schema:description         "Reduce the need for software instead of hiding its complexity." ;
+    yr:sector                  <https://yrashk.com/atlas/sector/writing> ;
+    yr:start                   "2025"^^xsd:gYear ;
+    yr:weight                  1 ;
+    schema:datePublished       "2025-06-21"^^xsd:date ;
+    yr:listed                  true ;
+    schema:keywords            "AI", "software" ;
+    yr:related                 :inferal .
 
 # ── Open source (curated) ──
 
