@@ -335,7 +335,7 @@ ORDER BY ?hour`,
     label: "Home and away",
     blurb: "Activities by Atlas place (within 60 km), and everywhere else.",
     query: `# Where the activities happen: the nearest Atlas place within 60 km, else "elsewhere".
-SELECT ?where (COUNT(?a) AS ?activities) (ROUND(SUM(?m) / 1000) AS ?km) (MIN(?day) AS ?first) (MAX(?day) AS ?last) WHERE {
+SELECT ?where (SAMPLE(?place) AS ?atlasPlace) (COUNT(?a) AS ?activities) (ROUND(SUM(?m) / 1000) AS ?km) (MIN(?day) AS ?first) (MAX(?day) AS ?last) WHERE {
   ?a a yr:Activity ; yr:distance ?m ; schema:startDate ?day .
   OPTIONAL { ?a schema:location ?place . ?place schema:name ?name }
   BIND(COALESCE(?name, "elsewhere") AS ?where)
@@ -762,7 +762,7 @@ export async function mountQueryConsole(element, options = {}) {
         <button data-view="table" role="tab" aria-selected="true">Table</button>
         <button data-view="graph" role="tab">Graph</button>
         <button data-view="chart" role="tab">Chart</button>
-        <button data-view="map" role="tab">Map</button>
+        <button data-view="map" role="tab" hidden>Map</button>
         <button data-view="schema" role="tab">Vocabulary</button>
         <button data-view="inspect" role="tab" hidden>Inspect</button>
         <span class="sp"></span>
@@ -1127,7 +1127,7 @@ export async function mountQueryConsole(element, options = {}) {
     chart.setResult(result);
     map.setResult(result);
     highlightAtlas(result);
-    if (!quiet) showView(wantView || (view === "inspect" || view === "schema" ? "table" : view));
+    if (!quiet) { const v = wantView || (view === "inspect" || view === "schema" ? "table" : view); showView(v === "map" && tabs.map.hidden ? "table" : v); }
     emitState();
     return result;
   }
@@ -1417,7 +1417,12 @@ export async function mountQueryConsole(element, options = {}) {
       const measures = vars.map((_, c) => c).filter((c) => numeric[c] && c !== x);
       if (!measures.length) return null;
       const dated = rows.every((r) => !r[x] || /#(date|dateTime|gYear)$/.test(r[x].datatype || ""));
-      return { vars, rows, x, ordered: numeric[x] || dated, intX: numeric[x], series: cats.find((c) => c !== x) ?? -1, measures };
+      // a second text column stacks the bars, unless it only restates x (one value per x: nothing to stack)
+      const series = cats.filter((c) => c !== x).find((c) => {
+        const seen = new Map();
+        return rows.some((r) => { const k = r[x]?.value, v = r[c]?.value; if (!seen.has(k)) { seen.set(k, v); return false; } return seen.get(k) !== v; });
+      }) ?? -1;
+      return { vars, rows, x, ordered: numeric[x] || dated, intX: numeric[x], series, measures };
     }
     function setResult(r) {
       res = r;
@@ -1595,7 +1600,7 @@ export async function mountQueryConsole(element, options = {}) {
       cx.filter = "none";
     }
     let tracks = null, loading = null, places = null;
-    let hi = new Set(), hiPlaces = new Set(), needFit = true;
+    let hi = new Set(), hiPlaces = new Set(), pts = [], needFit = true;
     let V = { s: 1, ox: 0, oy: 0 }, W = 0, H = 0, dpr = 1, pal = {}, raf = 0;
     const mx = (lon) => (lon + 180) / 360;
     const my = (lat) => { const r = (Math.max(-85, Math.min(85, lat)) * Math.PI) / 180; return (1 - Math.log(Math.tan(r) + 1 / Math.cos(r)) / Math.PI) / 2; };
@@ -1607,7 +1612,7 @@ export async function mountQueryConsole(element, options = {}) {
       while (i < str.length) { la += next(); lo += next(); out.push(mx(lo / 1e5), my(la / 1e5)); }
       return Float64Array.from(out);
     }
-    function load() {
+    function loadPlaces() {
       if (!places) {
         places = new Map();
         try {
@@ -1615,6 +1620,9 @@ export async function mountQueryConsole(element, options = {}) {
           for (const row of r.rows) places.set(row[0].value, { name: row[1]?.value || shortIri(row[0].value), x: mx(Number(row[3].value)), y: my(Number(row[2].value)) });
         } catch (e) { console.warn("query console: places for the map:", e); }
       }
+    }
+    function load() {
+      loadPlaces();
       if (!tracksUrl) return Promise.resolve();
       return (loading ??= fetch(tracksUrl)
         .then((r) => (r.ok ? r.json() : { tracks: [] }))
@@ -1626,10 +1634,30 @@ export async function mountQueryConsole(element, options = {}) {
       if (r.type === "select") for (const row of r.rows) for (const t of row) t?.termType === "NamedNode" && iris.add(t.value);
       else if (r.type !== "ask") for (const q of r.quads) for (const t of [q.subject, q.object]) t.termType === "NamedNode" && iris.add(t.value);
       hi = new Set([...iris].filter((i) => i.startsWith(STRAVA)));
-      hiPlaces = new Set([...iris].filter((i) => !i.startsWith(STRAVA)));
+      loadPlaces();
+      hiPlaces = new Set([...iris].filter((i) => !i.startsWith(STRAVA) && places.has(i)));
+      // plain coordinates in the result: a lat/latitude and a lon/lng/longitude column, labelled by the first text column
+      pts = [];
+      if (r.type === "select") {
+        const la = r.vars.findIndex((v) => /^(lat|latitude)$/i.test(v)), lo = r.vars.findIndex((v) => /^(lon|lng|long|longitude)$/i.test(v));
+        const lab = r.vars.findIndex((_, c) => c !== la && c !== lo && r.rows.some((row) => row[c]?.termType === "Literal" && !isNumeric(row[c])));
+        if (la >= 0 && lo >= 0)
+          for (const row of r.rows) {
+            const y = Number(row[la]?.value), x = Number(row[lo]?.value);
+            if (Number.isFinite(x) && Number.isFinite(y) && Math.abs(y) <= 90 && Math.abs(x) <= 180) pts.push({ name: lab >= 0 ? labelOf(row[lab]) : `${y}, ${x}`, x: mx(x), y: my(y) });
+          }
+      }
       needFit = true;
       region = 0;
-      if (view === "map") show();
+      refreshTab();
+      if (view === "map" && !tabs.map.hidden) show();
+    }
+    // The Map tab is there only when the result has something with a location: an activity with a route
+    // (any activity until the routes have loaded) or a place with schema:geo.
+    function refreshTab() {
+      const routes = tracks ? [...hi].some((i) => tracks.has(i)) : hi.size > 0 && !!tracksUrl;
+      tabs.map.hidden = !(routes || hiPlaces.size || pts.length);
+      if (tabs.map.hidden && view === "map") showView("table");
     }
     function readPal() {
       const cs = getComputedStyle(element);
@@ -1682,7 +1710,7 @@ export async function mountQueryConsole(element, options = {}) {
     }
     function fit() {
       const lit = [...hi].filter((i) => tracks?.has(i)).map((i) => [i, tracks.get(i)]);
-      const hp = [...hiPlaces].map((i) => places.get(i)).filter(Boolean);
+      const hp = [...[...hiPlaces].map((i) => places.get(i)).filter(Boolean), ...pts];
       regions = lit.length ? regionsOf(lit) : hp.length ? [] : regionsOf([...(tracks || [])]);
       region = Math.min(region, Math.max(0, regions.length - 1));
       clu.hidden = regions.length < 2;
@@ -1712,6 +1740,8 @@ export async function mountQueryConsole(element, options = {}) {
       if (sig.aborted) return;
       const r = box.getBoundingClientRect();
       if (r.width !== W || r.height !== H) { W = r.width; H = r.height; cv.width = Math.max(1, W * dpr); cv.height = Math.max(1, H * dpr); }
+      refreshTab();
+      if (tabs.map.hidden) return;
       if (needFit) { fit(); needFit = false; }
       const n = [...hi].filter((i) => tracks?.has(i)).length;
       note.textContent = !tracksUrl ? "places from the Atlas" : n ? `${fmtN(n)} route${n === 1 ? "" : "s"} from the result · each loses its first and last kilometre` : hi.size ? "these activities have no route (indoor, or trimmed away)" : `${fmtN(tracks?.size || 0)} routes, faint · query activities to light them up`;
@@ -1756,6 +1786,14 @@ export async function mountQueryConsole(element, options = {}) {
           cx.fillStyle = on ? pal.hot : pal.mid; cx.fill();
           cx.lineWidth = 2; cx.strokeStyle = pal.panel; cx.stroke();
           cx.fillStyle = on ? pal.text : pal.mid;
+          if (free(X + 8, Y, cx.measureText(p.name).width)) cx.fillText(p.name, X + 8, Y + 4);
+        }
+        for (const p of pts) {
+          const X = p.x * V.s + V.ox, Y = p.y * V.s + V.oy;
+          if (X < -40 || Y < -20 || X > W + 40 || Y > H + 20) continue;
+          cx.beginPath(); cx.arc(X, Y, 5, 0, Math.PI * 2);
+          cx.fillStyle = pal.hot; cx.fill(); cx.lineWidth = 2; cx.strokeStyle = pal.panel; cx.stroke();
+          cx.fillStyle = pal.text;
           if (free(X + 8, Y, cx.measureText(p.name).width)) cx.fillText(p.name, X + 8, Y + 4);
         }
         // scale bar: a round distance about 90 px long at the centre latitude
