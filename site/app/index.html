@@ -155,7 +155,13 @@ kbd{font:500 10.5px/1 var(--mono);color:var(--bone-2);background:var(--panel-3);
 .now{display:flex;flex-direction:column;gap:0;min-height:100%}
 #w-about .win-b{container-type:inline-size;container-name:now}
 .now .hero{display:grid;grid-template-columns:minmax(140px,min(40%,250px)) minmax(0,1fr);gap:0 22px;align-items:stretch;margin-bottom:18px}
-@container now (max-width:440px){ .now .hero{grid-template-columns:1fr;gap:14px 0} .now .photo{width:112px;aspect-ratio:760/1066;align-self:start;min-height:0} .now .photo img{position:static} .now h1{max-width:none} }
+/* narrow (a phone): the portrait sits beside the name instead of alone on its own row, and the headline
+   runs the full width under both, so no column of empty space opens up beside the photo */
+@container now (max-width:440px){ #w-about .now .hero{grid-template-columns:76px minmax(0,1fr);gap:16px 14px;align-items:center}
+  #w-about .now .hero>div{display:contents} #w-about .now .photo{grid-column:1;grid-row:1;width:76px;height:76px;aspect-ratio:auto;align-self:center;min-height:0}
+  #w-about .now .photo img{position:static;height:100%;object-position:50% 14%} #w-about .now .eyebrow{grid-column:2;grid-row:1;margin:0}
+  #w-about .now .eyebrow b{font-size:17px;margin-bottom:3px} #w-about .now h1{grid-column:1 / -1;max-width:none}
+  #w-about .thesis{grid-template-columns:1fr} #w-about .thesis .mark{grid-row:auto;margin-bottom:6px} }
 /* the portrait fills exactly the height of the name + headline block: the image is out of flow so it cannot stretch the row */
 .now .photo{position:relative;margin:0;border-radius:6px;overflow:hidden;border:1px solid var(--line-2);background:var(--panel-2);min-height:150px;align-self:stretch}
 .now .photo img{position:absolute;inset:0;width:100%;height:100%;object-fit:cover;object-position:50% 18%;display:block}
