@@ -19,9 +19,11 @@
     yr:currentLocation         :comox ;
     yr:lived                   :born, :first-job, :moved-to-canada, :ghjoin, :lived-in-bangkok, :sf ;
     yr:founded                 :inferal, :hackerintro, :trustatom, :bexio, :spawngrid, :issuesdone, :omnigres ;
+    yr:workedAt                :hexagon, :ditto ;
     yr:built                   :pgext, :strata, :libycxx, :flyology, :shutters, :uplpgsql ;
     yr:wrote                   :p-canoe, :p-c4, :p-rust, :p-http, :p-pgext25, :p-d3x, :p-regr, :p-lim, :p-sum, :p-plrust, :p-game ;
-    yr:contributedTo           :abtop, :elixir, :pumpkindb, :erlzmq2, :pgrx, :wasmrs ;
+    yr:authored                :ocamlspread, :common-xml, :cl-dtype, :encline ;
+    yr:contributedTo           :abtop, :elixir, :pumpkindb, :erlzmq2, :pgrx, :wasmrs, :cplusplus, :eas, :camomile, :etiquette, :portableaserve ;
     yr:presented               :talk-cppgres, :talk-ext-upgrades, :talk-pgpm, :talk-immutability, :talk-unusual-types, :talk-pushing-boundaries, :talk-buildable, :talk-postgres-can-do-what, :talk-lazy-es, :talk-bitcoin-elixir, :talk-meta-is-mega, :talk-erlang-dc-meta, :talk-euc-meta, :talk-genomu, :talk-vancouver-meta, :talk-parse-transforms, :talk-erlang-web, :talk-beamjs, :talk-parallel-testing .
 
 # ── Places ──
@@ -214,6 +216,26 @@
     yr:end                     "2008"^^xsd:gYear ;
     yr:weight                  3 ;
     yr:role                    "founder" .
+
+:hexagon
+    a                          yr:Company, schema:Organization ;
+    schema:name                "Hexagon.cc (IsoHunt)" ;
+    schema:description         "Worked at Hexagon.cc (IsoHunt), 2008–2013." ;
+    yr:sector                  <https://yrashk.com/atlas/sector/companies> ;
+    yr:start                   "2008"^^xsd:gYear ;
+    yr:end                     "2013"^^xsd:gYear ;
+    yr:weight                  2 ;
+    yr:role                    "employee" .
+
+:ditto
+    a                          yr:Company, schema:Organization ;
+    schema:name                "Ditto" ;
+    schema:description         "Worked at Ditto, 2018–2019." ;
+    yr:sector                  <https://yrashk.com/atlas/sector/companies> ;
+    yr:start                   "2018"^^xsd:gYear ;
+    yr:end                     "2019"^^xsd:gYear ;
+    yr:weight                  2 ;
+    yr:role                    "employee" .
 
 :omnigres
     a                          yr:Company, schema:Organization ;
@@ -520,6 +542,105 @@
     yr:end                     "2021"^^xsd:gYear ;
     yr:weight                  1 ;
     yr:repo                    <https://yrashk.com/atlas/repo/wasm-rs/async-executor>, <https://yrashk.com/atlas/repo/wasm-rs/wasm-rs.github.io>, <https://yrashk.com/atlas/repo/wasm-rs/dbg>, <https://yrashk.com/atlas/repo/wasm-rs/cargo-metadata>, <https://yrashk.com/atlas/repo/wasm-rs/shared-channel> .
+
+:cplusplus
+    a                          yr:Repository, schema:SoftwareSourceCode ;
+    schema:name                "GNU Common C++" ;
+    schema:url                 <https://sourceforge.net/p/cplusplus/> ;
+    schema:description         "A member of GNU Common C++, portable C++ class libraries, on SourceForge." ;
+    yr:sector                  <https://yrashk.com/atlas/sector/machines> ;
+    yr:start                   "2000"^^xsd:gYear ;
+    yr:end                     "2000"^^xsd:gYear ;
+    yr:approximate             true ;
+    yr:weight                  1 .
+
+:eas
+    a                          yr:Repository, schema:SoftwareSourceCode ;
+    schema:name                "E/AS" ;
+    schema:url                 <https://sourceforge.net/p/eas-dev/> ;
+    schema:description         "E/AS, an open-source business automation system; one of its developers." ;
+    yr:sector                  <https://yrashk.com/atlas/sector/machines> ;
+    yr:start                   "2001"^^xsd:gYear ;
+    yr:end                     "2004"^^xsd:gYear ;
+    yr:approximate             true ;
+    yr:weight                  2 .
+
+:camomile
+    a                          yr:Repository, schema:SoftwareSourceCode ;
+    schema:name                "Camomile" ;
+    schema:url                 <https://sourceforge.net/p/camomile/> ;
+    schema:description         "Camomile, the Unicode library for OCaml; one of its developers." ;
+    yr:sector                  <https://yrashk.com/atlas/sector/machines> ;
+    yr:start                   "2002"^^xsd:gYear ;
+    yr:end                     "2002"^^xsd:gYear ;
+    yr:approximate             true ;
+    yr:weight                  1 .
+
+:ocamlspread
+    a                          yr:Repository, schema:SoftwareSourceCode ;
+    schema:name                "OcamlSpread" ;
+    schema:url                 <https://sourceforge.net/p/ocamlspread/> ;
+    schema:description         "OCaml bindings for the Spread group-communication toolkit. Released 0.0.1 in September 2002." ;
+    yr:sector                  <https://yrashk.com/atlas/sector/machines> ;
+    yr:start                   "2002"^^xsd:gYear ;
+    yr:end                     "2002"^^xsd:gYear ;
+    yr:weight                  1 ;
+    yr:role                    "author" .
+
+:common-xml
+    a                          yr:Repository, schema:SoftwareSourceCode ;
+    schema:name                "COMMON-XML" ;
+    schema:url                 <https://sourceforge.net/p/common-xml/> ;
+    schema:description         "A full-featured XML library for Common Lisp." ;
+    yr:sector                  <https://yrashk.com/atlas/sector/machines> ;
+    yr:start                   "2003"^^xsd:gYear ;
+    yr:end                     "2003"^^xsd:gYear ;
+    yr:weight                  1 ;
+    yr:role                    "author" .
+
+:cl-dtype
+    a                          yr:Repository, schema:SoftwareSourceCode ;
+    schema:name                "CL-DTYPE" ;
+    schema:url                 <https://www.cliki.net/CL-DTYPE> ;
+    schema:description         "DType, the MIT Media Lab wire format, in Common Lisp; with help from Victor Sovetov." ;
+    yr:sector                  <https://yrashk.com/atlas/sector/machines> ;
+    yr:start                   "2003"^^xsd:gYear ;
+    yr:end                     "2003"^^xsd:gYear ;
+    yr:weight                  1 ;
+    yr:role                    "author" .
+
+:etiquette
+    a                          yr:Repository, schema:SoftwareSourceCode ;
+    schema:name                "Etiquette" ;
+    schema:url                 <https://sourceforge.net/p/etiquette/> ;
+    schema:description         "Etiquette, Eugene Zaikonnikov's Common Lisp framework for building network protocols; one of its developers." ;
+    yr:sector                  <https://yrashk.com/atlas/sector/machines> ;
+    yr:start                   "2003"^^xsd:gYear ;
+    yr:end                     "2003"^^xsd:gYear ;
+    yr:weight                  1 .
+
+:portableaserve
+    a                          yr:Repository, schema:SoftwareSourceCode ;
+    schema:name                "Portable AllegroServe" ;
+    schema:url                 <https://sourceforge.net/p/portableaserve/> ;
+    schema:description         "Portable AllegroServe, a Common Lisp web server that runs across Lisps and systems; one of its developers." ;
+    yr:sector                  <https://yrashk.com/atlas/sector/machines> ;
+    yr:start                   "2003"^^xsd:gYear ;
+    yr:end                     "2003"^^xsd:gYear ;
+    yr:approximate             true ;
+    yr:weight                  1 .
+
+:encline
+    a                          yr:Repository, schema:SoftwareSourceCode ;
+    schema:name                "Encline" ;
+    schema:url                 <https://www.cliki.net/Encline> ;
+    schema:description         "A Common Lisp engine for enterprise software: frame database, workflow, group communication, transactions, failure recovery." ;
+    schema:abstract            "Came with EnclineTest (etest), its unit-test framework, in 2004." ;
+    yr:sector                  <https://yrashk.com/atlas/sector/machines> ;
+    yr:start                   "2004"^^xsd:gYear ;
+    yr:end                     "2004"^^xsd:gYear ;
+    yr:weight                  2 ;
+    yr:role                    "author" .
 
 # ── Talks ──
 

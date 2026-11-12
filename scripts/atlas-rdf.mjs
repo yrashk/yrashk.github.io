@@ -127,7 +127,7 @@ const repoNode = (fullName) => `<${PREFIXES[""]}repo/${fullName}>`;
 if (atlas) {
   const P = atlas.person;
   const bodies = atlas.bodies ?? [];
-  const byKind = (k) => bodies.filter((b) => b.kind === k).map((b) => node(b.id));
+  const byKind = (k, only = () => true) => bodies.filter((b) => b.kind === k && only(b)).map((b) => node(b.id));
   comment(`── ${P.name} ──`);
   blank();
   subject(node(P.id), [
@@ -139,11 +139,13 @@ if (atlas) {
     ["schema:homeLocation", (P.homes ?? []).map(placeNode)],
     ["yr:currentLocation", (P.homes ?? []).includes(P.here) && placeNode(P.here)], // where he is now (person.here)
     ["yr:lived", byKind("life")],
-    ["yr:founded", byKind("company")],
+    ["yr:founded", byKind("company", (b) => !b.role || b.role === "founder")],
+    ["yr:workedAt", byKind("company", (b) => b.role && b.role !== "founder")],
     ["yr:built", byKind("project")],
     ["yr:wrote", byKind("writing")],
     ["yr:shelved", byKind("idea")],
-    ["yr:contributedTo", byKind("oss")],
+    ["yr:authored", byKind("oss", (b) => b.role === "author")], // pre-GitHub work he wrote
+    ["yr:contributedTo", byKind("oss", (b) => b.role !== "author")],
     ["yr:presented", byKind("talk")],
   ]);
 

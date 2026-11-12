@@ -87,8 +87,10 @@ Base IRI `https://yrashk.com/atlas/` (bodies are `<https://yrashk.com/atlas/stra
   (IRI `:sector/<id>`, with `rdfs:label`), `yr:start` / `yr:end` (`xsd:gYear`), `yr:approximate true`,
   `yr:weight`, `schema:datePublished` (writing), `yr:listed`, `yr:featured`, `yr:related`, `schema:location`,
   `yr:continuedAs` (IRI of the body this one continued as — e.g. `:omnigres yr:continuedAs :inferal`; the Atlas draws it as a curved arrow in the company layer).
-- Role links from the person: `:yrashk yr:founded <company>`, `yr:built <project>`, `yr:wrote <essay>`,
-  `yr:authored <repo>`, `yr:contributedTo <repo>`, `yr:lived <life-event>`.
+- Role links from the person: `:yrashk yr:founded <company>` (or `yr:workedAt` when the company's `role` is not
+  `"founder"`, e.g. `"employee"`), `yr:built <project>`, `yr:wrote <essay>`, `yr:authored <repo>`,
+  `yr:contributedTo <repo>`, `yr:lived <life-event>`. A curated `oss` body with `role: "author"` (pre-GitHub work
+  he wrote, e.g. on SourceForge or CLiki) is `yr:authored` and drawn filled; other `oss` bodies are `yr:contributedTo`.
 - Talks (`kind: "talk"`): `yr:Talk` (also `schema:Event`); `:yrashk yr:presented <talk>`. Fields in atlas.json:
   `date` (`schema:startDate`, when known; else `start` + a fractional `year`), `event` and `venue`
   (`schema:superEvent [ a schema:Event ; schema:name ; schema:location ]`), `format` (e.g. `"panel"`, `yr:format`),

@@ -1184,7 +1184,7 @@ AT.bodies.forEach(b=>{
   if(b.githubOrgs&&b.githubOrgs.length){ o.repos=REPOS.filter(r=>b.githubOrgs.includes(repoKey(r).split('/')[0])); }
   if((b.github&&b.github.length)||o.repos){ o.repos=[...(o.repos||[]),...(b.github||[]).map(k=>repoByKey[k]).filter(Boolean)]; (b.github||[]).forEach(k=>taken.add(k));
     if(o.repos.length){ o.gh={total:o.repos.reduce((a,r)=>a+(r.total||0),0), stars:Math.max(...o.repos.map(r=>r.stars||0)), first:Math.min(...o.repos.map(r=>r.first)), last:Math.max(...o.repos.map(r=>r.last)), n:o.repos.length, langs:[...new Set(o.repos.map(r=>r.language).filter(Boolean))].slice(0,3)}; if(kind==='oss'){ o.start=o.gh.first; o.end=o.gh.last; o.approx=false; } } }
-  o.cat = kind==='oss' ? ((o.repos&&o.repos[0]&&o.repos[0].cat)||'contributed') : (kind==='post'?'writing':kind);
+  o.cat = kind==='oss' ? ((o.repos&&o.repos[0]&&o.repos[0].cat)||(b.role==='author'?'authored':'contributed')) : (kind==='post'?'writing':kind);
   if(kind==='post'){ const P=POSTS.find(p=>p.id===b.id); if(!P) return; o.post=P; o.y=P.y; o.about=P.about; }
   else if(kind==='idea'){ }
   else if(kind==='life'){ if(o.end!=null&&o.end>o.start){ o.from=o.start; o.to=o.end; o.y=(o.start+o.end)/2; } else { o.y=b.start; o.moment=true; } }
