@@ -119,7 +119,10 @@ Kept apart so `atlas.ttl` stays small; the console loads it second, in the backg
 ### Strava activities (`data/strava.ttl`, `strava.js`, `strava-tracks.json`)
 
 Made by `scripts/strava-rdf.mjs` from a Strava bulk export (Settings → My Account → Download or
-Delete Your Account → Request Your Archive): `npm run strava -- ~/Downloads/export_123.zip`. Only
+Delete Your Account → Request Your Archive): `npm run strava` picks the newest `~/Downloads/export_*.zip`
+(or pass a path: `npm run strava -- path/to/export.zip`); `npm run strava:update` also builds and checks.
+Zone offsets come from a secret `seed` in `.strava-private.json` (created on first run; keep it), so a
+re-import of the same export reproduces the same routes, and versions in git history cannot be overlaid. Only
 `activities.csv` and `activities/*` (GPX, TCX, FIT, gzipped or not) are read. The zip is never
 committed; the three outputs are, and CI does not regenerate them. `--empty` writes the no-data
 placeholders (`window.STRAVA = null`, which hides the Strava presets).

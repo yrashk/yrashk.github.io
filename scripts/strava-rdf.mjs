@@ -1,7 +1,9 @@
 #!/usr/bin/env node
 // Turns a Strava bulk export into the site's activity data and its RDF.
 //
-//   node scripts/strava-rdf.mjs <export.zip | export-dir> [dataDir]   (default dataDir: site/data)
+//   node scripts/strava-rdf.mjs [export.zip | export-dir] [dataDir]   (default dataDir: site/data)
+//   npm run strava           (no path: the newest ~/Downloads/export_*.zip)
+//   npm run strava:update    (that, then build and check; commit and push the three data files after)
 //   node scripts/strava-rdf.mjs --empty [dataDir]                     (no-data placeholders)
 //
 // The export comes from Strava → Settings → My Account → Download or Delete Your Account →
@@ -29,16 +31,25 @@
 
 import { execFileSync } from "node:child_process";
 import { existsSync, mkdtempSync, readdirSync, readFileSync, rmSync, statSync, writeFileSync } from "node:fs";
-import { tmpdir } from "node:os";
+import { homedir, tmpdir } from "node:os";
 import { join } from "node:path";
 import { gunzipSync } from "node:zlib";
+import { createHash, randomBytes } from "node:crypto";
 
 const args = process.argv.slice(2);
 const empty = args[0] === "--empty";
-const source = empty ? null : args[0];
+// No path given: the newest Strava export in ~/Downloads (Strava names them export_<athlete id>.zip).
+function newestExport() {
+  const dl = join(homedir(), "Downloads");
+  if (!existsSync(dl)) return null;
+  const zips = readdirSync(dl).filter((f) => /^export_\d+.*\.zip$/.test(f)).map((f) => join(dl, f));
+  return zips.sort((a, b) => statSync(b).mtimeMs - statSync(a).mtimeMs)[0] ?? null;
+}
+const source = empty ? null : args[0] || newestExport();
+if (!empty && !args[0] && source) console.log(`strava-rdf: using ${source}`);
 const dataDir = (empty ? args[1] : args[1]) || "site/data";
 if (!empty && !source) {
-  console.error("usage: node scripts/strava-rdf.mjs <export.zip | export-dir> [dataDir]\n       node scripts/strava-rdf.mjs --empty [dataDir]");
+  console.error("strava-rdf: no export given and none in ~/Downloads\nusage: node scripts/strava-rdf.mjs [export.zip | export-dir] [dataDir]\n       node scripts/strava-rdf.mjs --empty [dataDir]");
   process.exit(2);
 }
 
@@ -65,6 +76,15 @@ if (empty) {
 // ── private settings (gitignored) ────────────────────────────────────────────
 const privFile = ".strava-private.json";
 const priv = existsSync(privFile) ? JSON.parse(readFileSync(privFile, "utf8")) : {};
+// The zones' random offsets come from a secret seed kept in the private file, so a re-import places
+// them exactly as before: fresh randomness each time would let old and new versions (all public in
+// git history) be overlaid to narrow down what they hide.
+if (!priv.seed) {
+  priv.seed = randomBytes(16).toString("hex");
+  writeFileSync(privFile, JSON.stringify(priv, null, 2) + "\n");
+  console.log(`strava-rdf: created ${privFile} with a private seed (gitignored; keep it)`);
+}
+const seeded = (key) => { const h = createHash("sha256").update(priv.seed + key).digest(); return [0, 4, 8].map((i) => h.readUInt32LE(i) / 2 ** 32); };
 const TRIM = priv.trim ?? 1000;
 const ZONES = [...(priv.zones ?? [])];
 // Places where activities often start or end (home, work, family) become private zones on their own:
@@ -336,14 +356,15 @@ const hotspots = [];
     }
   }
   let auto = 0;
-  // Each zone is moved up to 300 m and sized 1–1.5× at random, so the hole a zone leaves in the routes is
-  // not centred on the place it hides (a re-import shuffles them again).
-  for (const c of cells.values()) {
+  // Each zone is moved up to 300 m and sized 1–1.5× (seeded, so stable across re-imports), so the hole a
+  // zone leaves in the routes is not centred on the place it hides.
+  for (const [key, c] of cells) {
     if (c.n < AUTO_MIN) continue;
-    const la = c.la / c.n, lo = c.lo / c.n, d = Math.random() * 300;
+    const [u1, u2, u3] = seeded(key);
+    const la = c.la / c.n, lo = c.lo / c.n, d = u1 * 300;
     hotspots.push([la, lo]);
-    const t = Math.random() * 2 * Math.PI;
-    ZONES.push({ lat: la + (d * Math.sin(t)) / 110540, lon: lo + (d * Math.cos(t)) / (111320 * Math.cos(rad(la))), radius: AUTO_RADIUS * (1 + Math.random() / 2) + d });
+    const t = u2 * 2 * Math.PI;
+    ZONES.push({ lat: la + (d * Math.sin(t)) / 110540, lon: lo + (d * Math.cos(t)) / (111320 * Math.cos(rad(la))), radius: AUTO_RADIUS * (1 + u3 / 2) + d });
     auto++;
   }
   if (auto) console.log(`strava-rdf: ${auto} automatic private zone(s) around frequent start/end points (radius ${AUTO_RADIUS}–${AUTO_RADIUS * 1.5 + 300} m, off-centre)`);

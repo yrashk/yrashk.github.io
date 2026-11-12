@@ -43,7 +43,7 @@ npm run build          # node scripts/build.mjs → dist/   (deterministic; ~0.3
 npm run check          # must pass before anything ships; CI runs it
 npm run serve          # http://localhost:8080/ (node scripts/serve.mjs [port] [dir])
 npm run data           # refresh GitHub data + regenerate atlas.ttl (needs GITHUB_TOKEN or `gh auth`)
-npm run strava -- <export.zip>   # import a Strava bulk export (see site/DATA.md, "Strava activities")
+npm run strava:update  # import the newest ~/Downloads/export_*.zip from Strava, build, check (site/DATA.md)
 ```
 
 `build` writes: `/index.html` (the shell, with `../data/` → `/data/`, `index.html` → `/`, and
