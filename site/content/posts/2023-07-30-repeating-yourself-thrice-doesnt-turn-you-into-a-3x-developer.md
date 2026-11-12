@@ -4,7 +4,6 @@ date: 2023-07-30
 permalink: /blog/2023/07/30/repeating-yourself-thrice-doesnt-turn-you-into-a-3x-developer/
 tags:
   - Omnigres
-  - Postgres
   - architecture
 excerpt: "Three is a magic number. This is the number of things we can keep in our minds without losing focus. So, logically, a three-tier software architecture (database, backend and frontend) is a great model."
 original: https://yrashk.medium.com/repeating-yourself-thrice-doesnt-turn-you-into-a-3x-developer-a778495229c0
