@@ -1881,7 +1881,7 @@ export async function mountQueryConsole(element, options = {}) {
     on(cv, "pointerup", up);
     on(cv, "pointercancel", up);
     on(cv, "pointerleave", () => (tip.hidden = true));
-    on(cv, "wheel", (e) => { e.preventDefault(); const [X, Y] = local(e); zoomAt(Math.exp(-e.deltaY * (e.deltaMode ? 0.05 : 0.0015)), X, Y); }, { passive: false });
+    on(cv, "wheel", (e) => { e.preventDefault(); const [X, Y] = local(e); zoomAt(wheelZoom(e, 0.0015), X, Y); }, { passive: false });
     on(cv, "dblclick", (e) => { const [X, Y] = local(e); zoomAt(2, X, Y); });
     on(box.querySelector(".qc-gctl"), "click", (e) => {
       const b = e.target.closest("[data-g]");
@@ -2476,6 +2476,18 @@ function textareaEditor(host, cb) {
     layout: render,
     destroy() {},
   };
+}
+
+// Wheel → zoom factor. A trackpad sends many small pixel deltas and a pinch arrives as wheel + ctrlKey
+// (scaled by `gain`, pinch harder); a mouse wheel sends one event per notch, and Chrome on macOS reports
+// a notch as ~4 px (multiples of 4.000244140625), so notches and line-mode deltas get a fixed step each.
+const NOTCH = 4.000244140625;
+function wheelZoom(e, gain) {
+  const d = e.deltaY;
+  if (!d) return 1;
+  if (e.deltaMode === 1) return 1.2 ** (-d / 3);
+  if (!e.ctrlKey && d % NOTCH === 0) return 1.2 ** (-d / NOTCH);
+  return Math.exp(-d * (e.ctrlKey ? gain * 5.5 : gain));
 }
 
 // ── force-directed graph on a canvas ──────────────────────────────────────────
@@ -3118,13 +3130,12 @@ function makeGraph({ root, on, store, labelOf, bodies, authored, atlasId, locate
       draw();
     }
   });
-  // Wheel zooms; a trackpad pinch arrives as wheel + ctrlKey with small deltas, so it gets a larger gain.
+  // Wheel zooms (wheelZoom tells mouse notches from trackpad deltas).
   on(canvas, "wheel", (e) => {
     e.preventDefault();
     const [sx, sy] = pos(e);
     const [wx, wy] = toWorld(sx, sy);
-    const gain = e.deltaMode === 1 ? 0.05 : e.ctrlKey ? 0.012 : 0.0022;
-    cam.k = clampK(cam.k * Math.exp(-e.deltaY * gain));
+    cam.k = clampK(cam.k * wheelZoom(e, 0.0022));
     cam.x = wx - (sx - W / 2) / cam.k;
     cam.y = wy - (sy - H / 2) / cam.k;
     draw();
