@@ -29,6 +29,7 @@ scripts/
   check.mjs       link checker + required URLs + copy guard over dist/
   serve.mjs       tiny static server for dist/ (Pages semantics: dirs → index.html, misses → 404)
   dev.mjs         build + serve + rebuild on any change under site/ or build.mjs, pages live-reload
+  dev-client.js   injected by dev.mjs: posts morph changed blocks in place, other pages reload
   github-data.mjs GitHub activity → site/data/github.*, contrib.js, github-detail.json
   atlas-rdf.mjs   atlas.json + github.json → site/data/atlas.ttl (and atlas.js)
   strava-rdf.mjs  a Strava bulk export → site/data/strava.js, strava-tracks.json, strava.ttl (privacy-trimmed)
@@ -43,7 +44,7 @@ npm ci                 # once (Node 20+)
 npm run build          # node scripts/build.mjs → dist/   (deterministic; ~0.3 s)
 npm run check          # must pass before anything ships; CI runs it
 npm run serve          # http://localhost:8080/ (node scripts/serve.mjs [port] [dir])
-npm run dev            # same URL, rebuilds on save and reloads open pages (node scripts/dev.mjs [port])
+npm run dev            # same URL, rebuilds on save; posts update in place, other pages reload (scripts/dev.mjs [port])
 npm run data           # refresh GitHub data + regenerate atlas.ttl (needs GITHUB_TOKEN or `gh auth`)
 npm run strava:update  # import the newest ~/Downloads/export_*.zip from Strava, build, check (site/DATA.md)
 ```

@@ -1,21 +1,23 @@
 #!/usr/bin/env node
 // Local authoring loop: builds dist/, serves it like scripts/serve.mjs, and rebuilds whenever
 // anything under site/ (posts, notes, templates, the shell, data, static) or the generator changes.
-// Open pages reload themselves after each successful build.
+// After each successful build, open reader pages morph the changed blocks in place (scripts/dev-client.js);
+// other pages reload, keeping their scroll position.
 //
 //   node scripts/dev.mjs [port]                 (default: 8080)
 //
-// Dependency-free; Node 20+. Dev only: the reload script is injected at serve time, never into dist/.
+// Dependency-free; Node 20+. Dev only: the client script is injected at serve time, never into dist/.
 
 import { createServer } from "node:http";
 import { spawn } from "node:child_process";
-import { watch } from "node:fs";
+import { readFileSync, watch } from "node:fs";
 import { serveFile } from "./serve.mjs";
 
 const port = Number(process.argv[2] || process.env.PORT || 8080);
 const WATCH = ["site", "scripts/build.mjs"];
 const IGNORE = /(^|[/\\])\.|~$|\.swp$|\.tmp$/; // dotfiles, editor backups and atomic-save temporaries
-const RELOAD = `<script>new EventSource("/__dev/events").addEventListener("reload", () => location.reload());</script>`;
+const CLIENT = new URL("./dev-client.js", import.meta.url);
+const RELOAD = `<script src="/__dev/client.js"></script>`;
 
 const clients = new Set();
 let building = false, again = false, timer;
@@ -55,6 +57,10 @@ createServer((req, res) => {
     clients.add(res);
     req.on("close", () => clients.delete(res));
     return;
+  }
+  if (req.url === "/__dev/client.js") {
+    res.writeHead(200, { "content-type": "text/javascript; charset=utf-8", "cache-control": "no-store" });
+    return res.end(readFileSync(CLIENT));
   }
   serveFile(req, res, "dist", (html) => html.includes("</body>") ? html.replace(/<\/body>(?![\s\S]*<\/body>)/, RELOAD + "</body>") : html + RELOAD);
 }).listen(port, () => console.log(`dev: http://localhost:${port}/  (watching ${WATCH.join(", ")})`));
