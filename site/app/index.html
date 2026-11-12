@@ -1021,6 +1021,7 @@ function renderDock(){
 
 /* generic openers */
 document.addEventListener('click',e=>{
+  const ps=e.target.closest('[data-play-stream]'); if(ps){ e.preventDefault(); playStream(ps.dataset.playStream, ps.dataset.at!=null?+ps.dataset.at:undefined); return; }
   const st=e.target.closest('[data-show-talk]'); if(st){ showTalk(st.dataset.showTalk); return; }
   const tk=e.target.closest('[data-talk]'); if(tk){ e.preventDefault(); playTalk(tk.dataset.talk); return; }
   const p=e.target.closest('[data-open-project]'); if(p){ selectProject(p.dataset.openProject); focus('projects'); return; }
@@ -1100,7 +1101,10 @@ const TALKS = AT.bodies.filter(b=>b.kind==='talk').map(b=>({...b, y:b.year||b.st
 const MON=['Jan','Feb','Mar','Apr','May','Jun','Jul','Aug','Sep','Oct','Nov','Dec'];
 const clockS=s=>{ s=Math.max(0,Math.round(s||0)); const h=Math.floor(s/3600), m=Math.floor(s%3600/60), x=s%60; return (h?h+':'+String(m).padStart(2,'0'):m)+':'+String(x).padStart(2,'0'); };
 const talkLen=t=>{ const v=t.video||{}; return v.end&&v.start!=null ? v.end-v.start : v.dur||null; };
-function playTalk(id){ const t=TALKS.find(x=>x.id===id); if(!t) return; if(window.YRPlayer) YRPlayer.open(t); else if(t.url) window.open(t.url,'_blank','noopener'); }
+/* a whole event stream (a body's video with chapters) plays as one more "talk"; a talk cut from it can switch to it */
+function streamTalk(id){ const b=AT.bodies.find(x=>x.id===id), v=b&&b.video; if(!v||!v.yt) return null; return {id:id+'-stream', name:v.title||b.name, event:`the whole day · ${(v.chapters||[]).length} talks`, venue:v.venue, date:v.date, url:`https://www.youtube.com/watch?v=${v.yt}`, video:v}; }
+function playStream(id,at){ const t=streamTalk(id); if(!t) return; if(window.YRPlayer) YRPlayer.open(t,at!=null?{at}:{}); else window.open(t.url,'_blank','noopener'); }
+function playTalk(id){ const t=TALKS.find(x=>x.id===id); if(!t) return; const full=t.video&&t.video.stream?streamTalk(t.video.stream):null; const tt=full?{...t,video:{...t.video,full}}:t; if(window.YRPlayer) YRPlayer.open(tt); else if(t.url) window.open(t.url,'_blank','noopener'); }
 guard('talks',function talks(){
   const L=$('#talks'); let yr=null; const out=[];
   TALKS.forEach(t=>{
@@ -1111,7 +1115,7 @@ guard('talks',function talks(){
       : `<a class="tt" href="${esc(t.url)}" target="_blank" rel="noopener">${esc(t.name)}</a>`;
     const rec = yt ? `<span class="rec play">▶ ${len?clockS(len):'video'}${v.cut?` · from the stream at ${clockS(v.start)}`:''}</span>`
       : v&&v.href ? `<span class="rec">↗ ${esc(v.host||'video')}${len?' · '+clockS(len):''}</span>` : `<span>no recording</span>`;
-    const extra=[t.format?`<span>${esc(t.format)}</span>`:'', t.also&&t.also.length?`<span>also at ${esc(t.also.join(', '))}</span>`:'', t.slides?`<a href="${esc(t.slides)}" target="_blank" rel="noopener">slides ↗</a>`:'', !yt&&v&&v.href?'':(yt?`<a href="${esc(t.url)}" target="_blank" rel="noopener" title="Open on YouTube">youtube ↗</a>`:''), `<button data-locate="${t.id}" title="Locate in the Atlas">◎ atlas</button>`].join('');
+    const extra=[t.format?`<span>${esc(t.format)}</span>`:'', t.also&&t.also.length?`<span>also at ${esc(t.also.join(', '))}</span>`:'', t.slides?`<a href="${esc(t.slides)}" target="_blank" rel="noopener">slides ↗</a>`:'', yt&&v.stream?`<button data-play-stream="${esc(v.stream)}" data-at="${v.start}" title="The whole event, from this talk on">whole day ▶</button>`:'', !yt&&v&&v.href?'':(yt?`<a href="${esc(t.url)}" target="_blank" rel="noopener" title="Open on YouTube">youtube ↗</a>`:''), `<button data-locate="${t.id}" title="Locate in the Atlas">◎ atlas</button>`].join('');
     out.push(`<li id="tk-${t.id}" class="${yt?'':(v?'ext':'none')}"><span class="when">${when}</span><span class="dot" aria-hidden="true"></span><div>${title}<div class="ev">${esc(t.event||'')}${t.venue?' · '+esc(t.venue):''}</div>${t.line?`<p class="ln">${esc(t.line)}</p>`:''}<div class="mt">${rec}${extra}</div></div></li>`);
   });
   L.innerHTML=out.join('');
@@ -1449,6 +1453,8 @@ const atlas=(function(){
       html+=`<div class="coord"><span>${v.yt?'recorded':v.href?'recorded · '+esc(v.host||''):'no recording'}</span>${len?`<span><b>${clockS(len)}</b></span>`:''}${v.cut?`<span>stream cut at <b>${clockS(v.start)}</b></span>`:''}${b.src.format?`<span>${esc(b.src.format)}</span>`:''}</div>`;
       acts.push(v.yt?`<button class="btn primary" data-talk="${b.id}">Play ▶</button>`:`<a class="btn primary" href="${esc(b.url)}" target="_blank" rel="noopener">${v.href?'Watch on '+esc(v.host||'the web'):'Talk page'} ↗</a>`);
       acts.push(`<button class="btn quiet" data-show-talk="${b.id}">In Talks</button>`); }
+    else if(b.src&&b.src.video&&b.src.video.yt){ acts.push(`<button class="btn primary" data-play-stream="${b.id}">Watch the day ▶</button>`); if(b.url) acts.push(`<a class="btn" href="${esc(b.url)}">Visit ↗</a>`);
+      html+=`<div class="coord"><span>recorded</span><span><b>${(b.src.video.chapters||[]).length}</b> talks</span><span>${esc(b.src.video.date||'')}</span></div>`; }
     else if(b.post) acts.push(`<a class="btn primary" href="${esc(b.url)}">Read →</a>`); else if(b.url) acts.push(`<a class="btn primary" href="${esc(b.url)}">Visit ↗</a>`);
     if(p) acts.push(`<button class="btn" data-open-project="${p.id}">Open in Work</button>`);
     if(b.kind==='company'||b.id==='pgext'||b.id==='omnigres') acts.push(`<button class="btn quiet" data-open-app="track">Track record</button>`);

@@ -10,7 +10,10 @@
  *
  * Video goes through the YouTube IFrame API with YouTube's own controls off; the controls are ours. A talk cut
  * out of a longer stream (video.start / video.end, in seconds) plays as if it were its own video: the scrubber,
- * the clock and "ended" all live inside the cut. When the API can't load or the video refuses to embed, the
+ * the clock and "ended" all live inside the cut; video.full (the whole stream, as a talk) adds "watch the whole
+ * day", which switches to it at the same moment. A whole stream may carry video.chapters [{t, title, speaker}]:
+ * ticks on the scrubber, the current chapter under the title, previous/next and a list to jump from;
+ * video.from is where it starts playing the first time. When the API can't load or the video refuses to embed, the
  * player says so and offers the YouTube link at the current time; talks recorded elsewhere (InfoQ, O'Reilly)
  * never reach the player, their entries link straight out.
  */
@@ -19,6 +22,7 @@
   const KEY = "yr-player";
   const MODES = ["full", "mini", "big"];
   const $ = (s, r = document) => r.querySelector(s);
+  const $$ = (s, r = document) => [...r.querySelectorAll(s)];
   const esc = (s) => String(s ?? "").replace(/[&<>"]/g, (c) => ({ "&": "&amp;", "<": "&lt;", ">": "&gt;", '"': "&quot;" })[c]);
   const clock = (s) => {
     s = Math.max(0, Math.floor(s || 0));
@@ -67,6 +71,21 @@
 #yrp .yp-seek:focus-visible{outline:1px solid var(--p-sig);outline-offset:2px;border-radius:3px}
 #yrp .yp-cut{font:400 10px var(--p-mono);color:var(--p-ink3);padding:0 12px;letter-spacing:.04em}
 #yrp .yp-cut i{font-style:normal;color:var(--p-sig)}
+#yrp .yp-cut button{min-width:0;height:auto;padding:0 2px;font:400 10px var(--p-mono);color:var(--p-sig);text-decoration:underline;text-underline-offset:2px}
+#yrp .yp-ch{font:400 11px/1.45 var(--p-mono);color:var(--p-ink2);margin-top:4px;min-height:1.45em}
+#yrp .yp-ch i{font-style:normal;color:var(--p-sig)}
+#yrp .yp-ch:empty{display:none}
+#yrp .yp-tick{position:absolute;top:4px;width:1px;height:8px;background:var(--p-ink3);pointer-events:none}
+#yrp .yp-chs{list-style:none;margin:0;padding:4px 6px 8px;max-height:min(40vh,320px);overflow:auto;border-top:1px solid var(--p-line)}
+#yrp .yp-chs li button{all:unset;cursor:pointer;display:grid;grid-template-columns:62px 1fr;gap:8px;width:100%;box-sizing:border-box;padding:6px 6px;border-radius:5px;font:400 12.5px/1.35 var(--sans,system-ui,sans-serif);color:var(--p-ink2);height:auto}
+#yrp .yp-chs li button:hover{background:var(--p-bg2);color:var(--p-ink)}
+#yrp .yp-chs li button:focus-visible{outline:1px solid var(--p-sig)}
+#yrp .yp-chs li time{font:400 11px var(--p-mono);color:var(--p-ink3);padding-top:1px;font-variant-numeric:tabular-nums}
+#yrp .yp-chs li small{display:block;font:400 11px var(--p-mono);color:var(--p-ink3);margin-top:1px}
+#yrp .yp-chs li.on button{color:var(--p-ink)}
+#yrp .yp-chs li.on time{color:var(--p-sig)}
+#yrp:not([data-chapters]) [data-a="prevch"],#yrp:not([data-chapters]) [data-a="nextch"],#yrp:not([data-chapters]) [data-a="chlist"]{display:none}
+#yrp[data-mode="mini"] .yp-chs,#yrp[data-mode="mini"] .yp-ch,#yrp[data-mode="mini"] [data-a="prevch"],#yrp[data-mode="mini"] [data-a="nextch"],#yrp[data-mode="mini"] [data-a="chlist"]{display:none}
 /* mini: a strip that keeps playing — a small live picture, the title, the clock */
 #yrp[data-mode="mini"]{width:min(400px,calc(100vw - 24px))}
 #yrp[data-mode="mini"] .yp-h{display:none}
@@ -106,7 +125,7 @@
   };
   const emit = (state) => dispatchEvent(new CustomEvent("yr-player", { detail: { id: st && st.talk.id, state } }));
   const seg = () => {
-    const v = st.talk.video, s = v.start || 0;
+    const v = st.talk.video, s = v.chapters ? 0 : v.start || 0;
     const d = yt && ready && yt.getDuration ? yt.getDuration() : 0;
     const e = v.end || (v.dur ? s + v.dur : d);
     return { s, e, len: Math.max(0, e - s) };
@@ -144,19 +163,23 @@
 <div class="yp-body">
   <div class="yp-scr"><div class="yp-yt"></div><div class="yp-shield" data-a="toggle" aria-hidden="true"><span class="yp-big-play">▶</span></div>
     <div class="yp-msg"><b>This recording won't play here.</b><span class="yp-why"></span><a class="yp-out" target="_blank" rel="noopener">Watch on YouTube ↗</a></div></div>
-  <div class="yp-meta"><p class="yp-t"></p><div class="yp-e"></div></div>
+  <div class="yp-meta"><p class="yp-t"></p><div class="yp-e"></div><div class="yp-ch" aria-live="polite"></div></div>
   <div class="yp-seek" role="slider" tabindex="0" aria-label="Seek"><span class="yp-fill"></span><span class="yp-knob"></span></div>
   <div class="yp-cut"></div>
   <div class="yp-bar">
     <button data-a="toggle" aria-label="Play">▶</button>
     <button data-a="back" title="Back 10 s" aria-label="Back 10 seconds">−10</button>
     <button data-a="fwd" title="Forward 10 s" aria-label="Forward 10 seconds">+10</button>
+    <button data-a="prevch" title="Previous talk" aria-label="Previous chapter">|◂</button>
+    <button data-a="nextch" title="Next talk" aria-label="Next chapter">▸|</button>
     <span class="yp-tm">0:00</span><span class="yp-sp"></span>
+    <button data-a="chlist" title="All talks in this video" aria-label="Chapters" aria-expanded="false">≡</button>
     <button data-a="rate" title="Playback speed" aria-label="Playback speed">1×</button>
     <button data-a="mute" title="Mute" aria-label="Mute">♪</button>
     <button data-a="expand" title="Expand" aria-label="Expand player">⤢</button>
     <button data-a="close" class="yp-mini-x" title="Close" aria-label="Close player">×</button>
   </div>
+  <ol class="yp-chs" hidden></ol>
   <div class="yp-line"><i></i></div>
 </div>`;
     document.body.appendChild(el);
@@ -178,6 +201,10 @@
     else if (a === "close") close();
     else if (a === "yt") window.open(watchUrl(st.talk.video, now()), "_blank", "noopener");
     else if (a === "rate") { const R = [1, 1.25, 1.5, 1.75, 2]; rate = R[(R.indexOf(rate) + 1) % R.length]; if (ready) yt.setPlaybackRate(rate); b.textContent = rate + "×"; }
+    else if (a === "prevch" || a === "nextch") { const C = st.talk.video.chapters || [], i = chapterAt(now()); const j = a === "nextch" ? i + 1 : (i >= 0 && now() - C[i].t > 5 ? i : i - 1); if (C[Math.max(0, j)] && j < C.length) jump(C[Math.max(0, j)].t); }
+    else if (a === "chlist") { const L = $(".yp-chs", el); L.hidden = !L.hidden; b.setAttribute("aria-expanded", String(!L.hidden)); if (!L.hidden) { const on = $(".yp-chs li.on", el); if (on) on.scrollIntoView({ block: "nearest" }); } }
+    else if (a === "chapter") jump(+b.dataset.t);
+    else if (a === "day") { const f = st.talk.video.full; if (f) open(f, { at: now(), mode: st.mode, pos: st.pos }); }
     else if (a === "mute") { if (!ready) return; if (yt.isMuted()) { yt.unMute(); b.textContent = "♪"; b.style.opacity = ""; } else { yt.mute(); b.textContent = "♪"; b.style.opacity = ".4"; } }
   }
   function onKey(e) {
@@ -223,6 +250,7 @@
   function setMode(m) {
     if (!st || !MODES.includes(m)) return;
     st.mode = m; el.dataset.mode = m;
+    if (el.dataset.ev != null) $(".yp-meta .yp-e", el).textContent = el.dataset.ev; lastCh = -2; // the strip shows the chapter, the full player the event
     $('[data-a="big"]', el).textContent = m === "big" ? "⤡" : "⤢";
     $('[data-a="big"]', el).title = m === "big" ? "Restore (f)" : "Enlarge (f)";
     if (m === "big") requestAnimationFrame(centre);
@@ -240,6 +268,20 @@
     if (st) { st.playing = s === "playing"; persist(); }
     emit(s);
   }
+  /* chapters: which one holds time t, and the line under the title */
+  function chapterAt(t) { const C = (st && st.talk.video.chapters) || []; let i = -1; C.forEach((c, k) => { if (c.t <= t + 0.5) i = k; }); return i; }
+  function jump(t) { seekTo(t); if (ready && el.dataset.state !== "playing") yt.playVideo(); }
+  let lastCh = -2, ticked = false;
+  function chapters(cur) {
+    const C = st.talk.video.chapters; if (!C) return;
+    const g = seg();
+    if (!ticked && g.len) { ticked = true; $(".yp-seek", el).insertAdjacentHTML("afterbegin", C.map((c) => `<span class="yp-tick" style="left:${((c.t - g.s) / g.len) * 100}%"></span>`).join("")); }
+    const i = chapterAt(cur); if (i === lastCh) return; lastCh = i;
+    const c = C[i];
+    $(".yp-ch", el).innerHTML = c ? `<i>${i + 1}/${C.length}</i> ${c.speaker ? esc(c.speaker) + " — " : ""}${esc(c.title)}` : `${C.length} talks · the first at ${clock(C[0].t)}`;
+    $$(".yp-chs li", el).forEach((li, k) => li.classList.toggle("on", k === i));
+    if (st.mode === "mini" && c) $(".yp-meta .yp-e", el).textContent = (c.speaker ? c.speaker + " — " : "") + c.title;
+  }
   function paint(t) {
     if (!st) return;
     const g = seg(); const cur = t != null ? t : now();
@@ -248,6 +290,7 @@
     $(".yp-line i", el).style.width = f * 100 + "%";
     $(".yp-tm", el).textContent = `${clock(cur - g.s)} / ${g.len ? clock(g.len) : "–:––"}`;
     $(".yp-seek", el).setAttribute("aria-valuetext", `${clock(cur - g.s)} of ${clock(g.len)}`);
+    chapters(cur);
   }
   function loop() {
     clearInterval(timer);
@@ -288,12 +331,20 @@
     if (!v || !v.yt) { const href = (v && v.href) || (talk && talk.url); if (href) window.open(href, "_blank", "noopener"); return; }
     if (st && st.talk.id === talk.id && el) { if (st.mode === "mini" && !o.mode) setMode("full"); if (ready && el.dataset.state !== "playing") toggle(); return; }
     teardown(false);
-    st = { talk: { id: talk.id, name: talk.name, event: talk.event, venue: talk.venue, date: talk.date, start: talk.start, video: v }, at: o.at != null ? o.at : v.start || 0, mode: o.mode || "full", playing: true, pos: o.pos || null };
+    st = { talk: { id: talk.id, name: talk.name, event: talk.event, venue: talk.venue, date: talk.date, start: talk.start, video: v }, at: o.at != null ? o.at : v.start || v.from || 0, mode: o.mode || "full", playing: true, pos: o.pos || null };
     if (!el) build();
     el.hidden = false;
     $(".yp-meta .yp-t", el).textContent = talk.name;
-    $(".yp-meta .yp-e", el).textContent = [talk.event, talk.venue && talk.venue !== "online" ? talk.venue : null, talk.date || talk.start].filter(Boolean).join(" · ");
-    $(".yp-cut", el).innerHTML = v.start || v.end ? `cut from the event stream · <i>${clock(v.start || 0)}</i> – <i>${v.end ? clock(v.end) : "end"}</i>` : "";
+    el.dataset.ev = [talk.event, talk.venue && talk.venue !== "online" ? talk.venue : null, talk.date || talk.start].filter(Boolean).join(" · ");
+    $(".yp-meta .yp-e", el).textContent = el.dataset.ev;
+    $(".yp-cut", el).innerHTML = !v.chapters && (v.start || v.end) ? `cut from the event stream · <i>${clock(v.start || 0)}</i> – <i>${v.end ? clock(v.end) : "end"}</i>${v.full ? ` · <button data-a="day" title="Keep watching: the whole stream, from this moment">watch the whole day</button>` : ""}` : "";
+    /* chapters: reset the ticks and the list for this video */
+    ticked = false; lastCh = -2; $$(".yp-tick", el).forEach((t) => t.remove());
+    const C = v.chapters || [];
+    if (C.length) el.dataset.chapters = ""; else delete el.dataset.chapters;
+    const L = $(".yp-chs", el); L.hidden = true; $('[data-a="chlist"]', el).setAttribute("aria-expanded", "false");
+    L.innerHTML = C.map((c) => `<li><button data-a="chapter" data-t="${c.t}"><time>${clock(c.t)}</time><span>${esc(c.title)}${c.speaker ? `<small>${esc(c.speaker)}</small>` : ""}</span></button></li>`).join("");
+    $(".yp-ch", el).textContent = "";
     setMode(st.mode); setState("loading"); paint(st.at);
     mount(o.autoplay !== false);
   }

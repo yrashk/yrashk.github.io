@@ -101,6 +101,18 @@ const recording = (v) => {
       ...(v.start != null ? [["yr:startOffset", int(v.start)]] : []),
       ...(v.end != null ? [["yr:endOffset", int(v.end)]] : []),
       ...(v.dur != null ? [["yr:seconds", int(v.dur)]] : []),
+      ...(v.title ? [["schema:name", str(v.title)]] : []),
+      // a whole event stream: one schema:Clip per talk, at its offset into the video
+      ...(v.chapters ?? []).map((c) => [
+        "schema:hasPart",
+        bnode([
+          ["a", "schema:Clip"],
+          ["schema:name", str(c.title)],
+          ["schema:startOffset", int(c.t)],
+          ...(c.speaker ? [["yr:speaker", str(c.speaker)]] : []),
+          ...(c.talk ? [["yr:talk", node(c.talk)]] : []),
+        ]),
+      ]),
     ]);
   }
   return v.href ? bnode([["a", "schema:VideoObject"], ["schema:url", iri(v.href)], ...(v.host ? [["yr:host", str(v.host)]] : [])]) : null;

@@ -304,7 +304,93 @@
    "quote": null,
    "role": "organizer",
    "f": 0.78,
-   "desc": "Organised the first edition in Montreal, May 12, 2025, hosted by the Postgres Extension Developers Coalition."
+   "desc": "Organised the first edition in Montreal, May 12, 2025, hosted by the Postgres Extension Developers Coalition.",
+   "video": {
+    "yt": "cucQOOAahNY",
+    "from": 949,
+    "title": "Postgres Extensions Day 2025",
+    "date": "2025-05-12",
+    "venue": "Montréal",
+    "chapters": [
+     {
+      "t": 949,
+      "speaker": "Yurii Rashkovskii",
+      "title": "Welcome"
+     },
+     {
+      "t": 1065,
+      "speaker": "Hannu Krosing",
+      "title": "From pl/v8 to pl/<any>: towards easier extension development"
+     },
+     {
+      "t": 2847,
+      "speaker": "Andrey Borodin",
+      "title": "Upgrade as an extension"
+     },
+     {
+      "t": 4693,
+      "speaker": "Paul Jungwirth",
+      "title": "Inlining Postgres Functions, Now and Then"
+     },
+     {
+      "t": 6520,
+      "speaker": "Alvaro Hernandez",
+      "title": "Postgres à la carte: dynamic container images with your choice of extensions"
+     },
+     {
+      "t": 8752,
+      "speaker": "Yurii Rashkovskii",
+      "title": "Extension Upgrades",
+      "talk": "talk-ext-upgrades"
+     },
+     {
+      "t": 10165,
+      "speaker": "Phil Eaton",
+      "title": "Working with MemoryContexts and debugging memory leaks in Postgres"
+     },
+     {
+      "t": 11707,
+      "speaker": "Sweta Vooda",
+      "title": "Postgres as a Control Plane: Challenges in Offloading Compute via Extensions"
+     },
+     {
+      "t": 17423,
+      "speaker": "Ruohang Feng",
+      "title": "The Missing Postgres Extension Repo and Package Manager"
+     },
+     {
+      "t": 18944,
+      "speaker": "David Wheeler",
+      "title": "How to automatically release your extensions on PGXN"
+     },
+     {
+      "t": 20936,
+      "speaker": "Cary Huang",
+      "title": "Extending PostgreSQL with Java: Overcoming Development Challenges in Bridging Java and C Application"
+     },
+     {
+      "t": 22733,
+      "speaker": "Cheng Chen",
+      "title": "Rethinking OLAP Architecture: The Journey to pg_mooncake v0.2"
+     },
+     {
+      "t": 24373,
+      "speaker": "Florents Tselai",
+      "title": "Spat: Hijacking Shared Memory for a Redis-Like Experience in PostgreSQL"
+     },
+     {
+      "t": 26283,
+      "speaker": "Yurii Rashkovskii",
+      "title": "Cppgres: One less reason to hate C++",
+      "talk": "talk-cppgres"
+     },
+     {
+      "t": 28187,
+      "speaker": "Alastair Turner",
+      "title": "Extensibility - new options and a wish list"
+     }
+    ]
+   }
   },
   {
    "id": "omnigres",
@@ -1294,7 +1380,8 @@
     "yt": "cucQOOAahNY",
     "start": 26283,
     "end": 28187,
-    "cut": true
+    "cut": true,
+    "stream": "pgext"
    },
    "url": "https://www.youtube.com/watch?v=cucQOOAahNY&t=26283s",
    "related": [
@@ -1319,7 +1406,8 @@
     "yt": "cucQOOAahNY",
     "start": 8752,
     "end": 10165,
-    "cut": true
+    "cut": true,
+    "stream": "pgext"
    },
    "url": "https://www.youtube.com/watch?v=cucQOOAahNY&t=8752s",
    "related": [

@@ -98,6 +98,11 @@ Base IRI `https://yrashk.com/atlas/` (bodies are `<https://yrashk.com/atlas/stra
   `{yt, start?, end?, dur?, cut?}` for YouTube — `start`/`end` in seconds cut one talk out of a longer stream — or
   `{href, host}` for a page elsewhere (`schema:recordedIn [ a schema:VideoObject ; schema:url ; schema:embedUrl ;
   yr:startOffset ; yr:endOffset ]`). No `video` means no public recording; `url` then points at the talk's page.
+  A whole event stream lives on its event's body (e.g. `pgext`) as `video: {yt, from, title, date, venue, chapters:
+  [{t, speaker, title, talk?}]}`: `from` is where it starts, each chapter is a talk at `t` seconds (`talk` names the
+  talk body when it's his). RDF: `schema:hasPart [ a schema:Clip ; schema:name ; schema:startOffset ; yr:speaker ;
+  yr:talk ]` on its `schema:recordedIn` video. A talk cut from that stream sets `video.stream` to the event's id; the
+  player then offers "watch the whole day" at the same moment, and the Atlas inspector "Watch the day".
   The Talks window (writing workspace) draws them as a timeline; the floating player (`/player.js`, also on every
   reader page) plays them and resumes across page loads from `sessionStorage["yr-player"]`.
 - Repos: IRI `:repo/<owner>/<name>`; `schema:codeRepository` (GitHub URL), `schema:programmingLanguage`,
