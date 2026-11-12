@@ -30,6 +30,7 @@ scripts/
   serve.mjs       tiny static server for dist/ (Pages semantics: dirs → index.html, misses → 404)
   github-data.mjs GitHub activity → site/data/github.*, contrib.js, github-detail.json
   atlas-rdf.mjs   atlas.json + github.json → site/data/atlas.ttl (and atlas.js)
+  strava-rdf.mjs  a Strava bulk export → site/data/strava.js, strava-tracks.json, strava.ttl (privacy-trimmed)
 dist/             build output (gitignored)
 prototypes/       the four earlier design directions, local reference only (gitignored)
 ```
@@ -42,6 +43,7 @@ npm run build          # node scripts/build.mjs → dist/   (deterministic; ~0.3
 npm run check          # must pass before anything ships; CI runs it
 npm run serve          # http://localhost:8080/ (node scripts/serve.mjs [port] [dir])
 npm run data           # refresh GitHub data + regenerate atlas.ttl (needs GITHUB_TOKEN or `gh auth`)
+npm run strava -- <export.zip>   # import a Strava bulk export (see site/DATA.md, "Strava activities")
 ```
 
 `build` writes: `/index.html` (the shell, with `../data/` → `/data/`, `index.html` → `/`, and

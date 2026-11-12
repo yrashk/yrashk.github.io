@@ -1,0 +1,6 @@
+@prefix : <https://yrashk.com/atlas/> .
+@prefix yr: <https://yrashk.com/ns#> .
+@prefix schema: <https://schema.org/> .
+@prefix xsd: <http://www.w3.org/2001/XMLSchema#> .
+
+# Strava activities of yrashk.com (scripts/strava-rdf.mjs). No export imported yet.

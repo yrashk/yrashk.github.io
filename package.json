@@ -10,7 +10,8 @@
     "build": "node scripts/build.mjs",
     "data": "node scripts/github-data.mjs site/data && node scripts/atlas-rdf.mjs site/data",
     "serve": "node scripts/serve.mjs",
-    "check": "node scripts/check.mjs"
+    "check": "node scripts/check.mjs",
+    "strava": "node scripts/strava-rdf.mjs"
   },
   "dependencies": {
     "markdown-it": "^14.1.0",

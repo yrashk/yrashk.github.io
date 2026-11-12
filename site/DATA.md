@@ -116,6 +116,29 @@ Kept apart so `atlas.ttl` stays small; the console loads it second, in the backg
   `yr:Repository` node with `schema:name` / `schema:codeRepository` and `:yrashk yr:contributedTo` it.
 - Commit days: `<repo> yr:commitDay [ schema:startDate "2013-10-01"^^xsd:date ; yr:commits 1 ]`.
 
+### Strava activities (`data/strava.ttl`, `strava.js`, `strava-tracks.json`)
+
+Made by `scripts/strava-rdf.mjs` from a Strava bulk export (Settings → My Account → Download or
+Delete Your Account → Request Your Archive): `npm run strava -- ~/Downloads/export_123.zip`. Only
+`activities.csv` and `activities/*` (GPX, TCX, FIT, gzipped or not) are read. The zip is never
+committed; the three outputs are, and CI does not regenerate them. `--empty` writes the no-data
+placeholders (`window.STRAVA = null`, which hides the Strava presets).
+
+Privacy, by construction: no names, descriptions, notes, gear, photos, heart rate, calories or Strava
+ids (activities are numbered by local date instead: `:strava/2025-06-14-1` is the first that day);
+times only to the local hour; a place only as the nearest Atlas place within 60 km; every route loses
+its first and last kilometre, splits at GPS jumps, and drops points inside the private zones listed in
+`.strava-private.json` (gitignored: `{"trim": 1000, "zones": [{"lat", "lon", "radius"}], "exclude": [strava ids]}`).
+If the export carries a visibility column, only activities visible to everyone are kept.
+
+- `yr:Activity` (also `schema:ExerciseAction`), IRI `<https://yrashk.com/atlas/strava/<day>-<n>>`; `:yrashk yr:did <activity>`.
+- `schema:exerciseType` (Strava's type: `"Ride"`, `"Run"`, …), `schema:startDate` (`xsd:date`, local), `yr:hour`
+  (local hour, 0–23), `yr:distance` (metres, decimal), `yr:movingTime` / `yr:elapsedTime` (seconds),
+  `yr:elevationGain` (metres, decimal), `schema:location` (an Atlas place, when within 60 km).
+- `strava.js`: `window.STRAVA = {generated, fields, types, places, acts: [[day, hour, typeIndex, metres, seconds, climb, placeIndex, hasRoute]]}`.
+- `strava-tracks.json`: `{tracks: [[activityId, encodedPolyline, …]]}` (Google polyline, precision 5,
+  Douglas–Peucker at 15 m), read only when the console's Map view first opens.
+
 ## Lab query console — `05-os-atlas/sparql.js`
 
 A self-contained ES module the OS mounts into a Lab window:
@@ -136,7 +159,9 @@ It styles itself with the OS CSS variables (`--bone`, `--signal`, … read from 
 touches DOM outside `element`.
 
 Also: `contributionsUrl` (default `contributions.ttl` next to the Turtle, loaded in the background after the
-core Atlas; `null` skips it), `codemirror: false` (plain textarea editor). The editor is CodeMirror 6 vendored
+core Atlas; `null` skips it), `stravaUrl` (default `strava.ttl`, loaded third; `null` skips it and hides the
+"activities" presets — the shell passes `null` while `window.STRAVA` is null), `tracksUrl` (default
+`strava-tracks.json`, for the Map view), `codemirror: false` (plain textarea editor). The editor is CodeMirror 6 vendored
 at `app/vendor/codemirror.js` (lazy-imported; the textarea is the fallback) with a Vim toggle
 (`localStorage["yr-vim"]`; `:w` / `:run` run, `:q` leaves) and an autorun toggle (`localStorage["yr-autorun"]`,
 on by default: a parsed query runs ~320 ms after the last edit under a 150 ms budget; SPARQL Update never
@@ -145,6 +170,14 @@ declared automatically when used), terms from the loaded store ranked by use and
 `a`, properties after a subject or `;`, individuals/datatypes in object position), variables already in the
 query, keywords and built-ins with signatures. Keys typed in the editor do not bubble out of it. `api.run()`
 resolves to the result.
+
+Result views: **Table**, **Graph**, **Chart** and **Map** (plus Vocabulary and Inspect). Chart draws a SELECT
+as bars: a `year`/`hour`/`month` column (or a date) is an ordered x axis with gaps filled, else the first
+non-numeric column becomes horizontal bars, largest first; a second non-numeric column stacks series (eight
+hues in fixed order by name, the rest folded into "other"; palette validated for both themes); each numeric
+column is a measure chip. Map draws the routes of the activities in a result (bright) over every other
+route (faint), plus Atlas places with `schema:geo`; no map tiles, nothing leaves the site; routes far apart
+are grouped into regions (chips, busiest first). A preset may name its default `view`.
 
 ## Theme contract (site-wide)
 

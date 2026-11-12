@@ -812,6 +812,7 @@ table.ps tr:hover td{background:var(--panel-2);cursor:pointer}
 <script src="../data/contrib.js"></script>
 <script src="../data/atlas.js"></script>
 <script src="../data/github.js"></script>
+<script src="../data/strava.js"></script>
 <script src="player.js"></script>
 <script>
 /* ═══════════════════════════ data (from the content dossier; curated) ═══════════════════════════ */
@@ -1116,7 +1117,7 @@ function showEssay(id){ focus('essays'); const li=$('#jp-'+id); if(!li) return; 
 /* ═══════════════════════════ lab: query console (mounts ./sparql.js when it exists) ═══════════════════════════ */
 let QAPI=null;
 guard('query',()=>{ const el=$('#qc');
-  import('./sparql.js').then(m=>m.mountQueryConsole(el,{turtleUrl:'../data/atlas.ttl',engineUrl:'../data/rdf/',onLocate:id=>locateInAtlas(id),onHighlight:ids=>{ if(S.focus==='query'||S.ws===4) atlas.highlight(ids); }})).then(api=>{ QAPI=api; })
+  import('./sparql.js').then(m=>m.mountQueryConsole(el,{turtleUrl:'../data/atlas.ttl',engineUrl:'../data/rdf/',...(window.STRAVA?{}:{stravaUrl:null}),onLocate:id=>locateInAtlas(id),onHighlight:ids=>{ if(S.focus==='query'||S.ws===4) atlas.highlight(ids); }})).then(api=>{ QAPI=api; })
     .catch(e=>{ el.innerHTML=`<div class="qc-wait"><b>query engine not built yet</b><span>sparql.js mounts here once the RDF side lands: SPARQL over ../data/atlas.ttl, results flying the Atlas. Meanwhile the terminal knows <code>atlas ls</code>, <code>locate</code> and <code>gh</code>.</span><small>${esc(String(e&&e.message||e))}</small></div>`; }); });
 
 /* ═══════════════════════════ lab: procs (projects as processes) ═══════════════════════════ */

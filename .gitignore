@@ -6,3 +6,7 @@ output
 .cache
 # the four original design directions, kept locally for reference
 prototypes/
+# Strava: private zones (they would say where home is) and the raw export
+.strava-private.json
+export_*.zip
+strava-export/

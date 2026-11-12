@@ -4,12 +4,13 @@
 //   const api = await mountQueryConsole(element, { turtleUrl, engineUrl, onLocate, onHighlight });
 //   api.run("SELECT …") / api.run("companies");   api.dispose();
 // Options: turtleUrl, engineUrl, contributionsUrl (default: contributions.ttl next to the Turtle; null
-// skips it), onLocate, onHighlight, hash (read/write #q=&view=&node=; harness only), codemirror
+// skips it), stravaUrl (default: strava.ttl next to the Turtle; null skips it and hides the Strava
+// presets), tracksUrl (default: strava-tracks.json beside it, for the Map view), onLocate, onHighlight, hash (read/write #q=&view=&node=; harness only), codemirror
 // (false forces the plain textarea editor). The editor is CodeMirror 6 from ./vendor/codemirror.js,
 // lazily imported, with optional Vim keys; the textarea editor is the fallback when it cannot load.
 //
 // Everything lives inside `element` (class "qc"): a highlighted editor, presets, results as a
-// sortable table or a force-directed graph, a resource inspector, a vocabulary view, CSV/Turtle
+// sortable table, a force-directed graph, a bar chart, a map of routes and places, a resource inspector, a vocabulary view, CSV/Turtle
 // export and a status line. Styles use the OS tokens (--bone, --signal, …) with fallbacks and follow
 // the site theme contract (DATA.md): no hard-coded colours; the canvas re-reads its palette on `yr-theme`.
 // No dependencies beyond ../data/rdf/engine.js. See DATA.md.
@@ -263,6 +264,100 @@ SELECT ?pr ?repo ?title ?state ?date WHERE {
   FILTER(STRSTARTS(?title, "Problem:"))
 }
 ORDER BY DESC(?date)`,
+  },
+  // ── activities (loaded third, from strava.ttl; hidden when there is none) ──
+  {
+    id: "km-per-year",
+    group: "activities",
+    view: "chart",
+    needs: "strava",
+    label: "Distance per year",
+    blurb: "Kilometres per year and sport, from Strava.",
+    query: `# Kilometres per year and sport (Strava), with the number of activities.
+SELECT ?year ?sport (ROUND(SUM(?m) / 1000) AS ?km) (COUNT(?a) AS ?activities) WHERE {
+  :yrashk yr:did ?a .
+  ?a schema:exerciseType ?sport ; schema:startDate ?day ; yr:distance ?m .
+  BIND(YEAR(?day) AS ?year)
+}
+GROUP BY ?year ?sport
+ORDER BY DESC(?year) DESC(?km)`,
+  },
+  {
+    id: "longest-rides",
+    group: "activities",
+    view: "map",
+    needs: "strava",
+    label: "Longest rides",
+    blurb: "The twenty longest rides: distance, climbing and where.",
+    query: `# The longest rides, with climbing and the nearest Atlas place.
+SELECT ?ride ?day (ROUND(?m / 100) / 10 AS ?km) (?climb AS ?metresUp) ?place WHERE {
+  ?ride schema:exerciseType "Ride" ; schema:startDate ?day ; yr:distance ?m ; yr:elevationGain ?climb .
+  OPTIONAL { ?ride schema:location ?place }
+}
+ORDER BY DESC(?m)
+LIMIT 20`,
+  },
+  {
+    id: "climbs",
+    group: "activities",
+    view: "map",
+    needs: "strava",
+    label: "Biggest climbs",
+    blurb: "The activities with the most metres climbed, of any sport.",
+    query: `# The most climbing in one go, of any sport.
+SELECT ?activity ?sport ?day ?metresUp (ROUND(?m / 1000) AS ?km) WHERE {
+  ?activity schema:exerciseType ?sport ; schema:startDate ?day ; yr:elevationGain ?metresUp ; yr:distance ?m .
+}
+ORDER BY DESC(?metresUp)
+LIMIT 20`,
+  },
+  {
+    id: "hours",
+    group: "activities",
+    view: "chart",
+    needs: "strava",
+    label: "Time of day",
+    blurb: "When he heads out: activities by local hour.",
+    query: `# Activities by the local hour they started.
+SELECT ?hour (COUNT(?a) AS ?activities) (ROUND(SUM(?s) / 3600) AS ?hoursMoving) WHERE {
+  ?a a yr:Activity ; yr:hour ?hour ; yr:movingTime ?s .
+}
+GROUP BY ?hour
+ORDER BY ?hour`,
+  },
+  {
+    id: "where",
+    group: "activities",
+    view: "chart",
+    needs: "strava",
+    label: "Home and away",
+    blurb: "Activities by Atlas place (within 60 km), and everywhere else.",
+    query: `# Where the activities happen: the nearest Atlas place within 60 km, else "elsewhere".
+SELECT ?where (COUNT(?a) AS ?activities) (ROUND(SUM(?m) / 1000) AS ?km) (MIN(?day) AS ?first) (MAX(?day) AS ?last) WHERE {
+  ?a a yr:Activity ; yr:distance ?m ; schema:startDate ?day .
+  OPTIONAL { ?a schema:location ?place . ?place schema:name ?name }
+  BIND(COALESCE(?name, "elsewhere") AS ?where)
+}
+GROUP BY ?where
+ORDER BY DESC(?activities)`,
+  },
+  {
+    id: "commits-and-rides",
+    group: "activities",
+    needs: "strava",
+    label: "Commits & rides",
+    blurb: "Days with both a ride and commits: GitHub and Strava, joined on the date.",
+    query: `# Days he both rode and pushed commits: two datasets, one graph, joined on the day.
+SELECT ?day (SAMPLE(?km) AS ?rideKm) (SUM(?c) AS ?commits) (COUNT(DISTINCT ?repo) AS ?repos) WHERE {
+  { SELECT ?day (ROUND(SUM(?m) / 1000) AS ?km) WHERE {
+      ?a schema:exerciseType "Ride" ; schema:startDate ?day ; yr:distance ?m .
+    } GROUP BY ?day }
+  ?repo yr:commitDay ?cd .
+  ?cd schema:startDate ?day ; yr:commits ?c .
+}
+GROUP BY ?day
+ORDER BY DESC(?commits)
+LIMIT 25`,
   },
   {
     id: "shape",
@@ -572,13 +667,43 @@ const CSS = `
 .qc-status .st-mode.visual{background:var(--qsig2)}
 .qc-status .st-mode[hidden]{display:none}
 .qc-status .hint{color:var(--qsig2)}
+/* chart view: series hues validated (dataviz validator) on the graphite and paper panels */
+.qc{--qc-s1:#3987e5;--qc-s2:#d95926;--qc-s3:#199e70;--qc-s4:#c98500;--qc-s5:#d55181;--qc-s6:#008300;--qc-s7:#9085e9;--qc-s8:#e66767;--qc-other:var(--qbone4)}
+:root[data-theme="paper"] .qc,.qc[data-theme="paper"]{--qc-s1:#2a78d6;--qc-s2:#eb6834;--qc-s3:#1baf7a;--qc-s4:#eda100;--qc-s5:#e87ba4;--qc-s6:#008300;--qc-s7:#6250d6;--qc-s8:#e34948}
+.qc-view[data-view="chart"]{overflow-x:hidden}
+.qc-ch-h{display:flex;flex-wrap:wrap;gap:6px 14px;align-items:center;padding:8px 12px 2px;min-height:34px;font:11px/1.2 var(--qmono);color:var(--qbone3)}
+.qc-ch-m{color:var(--qbone2)}
+.qc-ch-ms{display:flex;gap:3px;flex-wrap:wrap}
+.qc-ch-ms button{height:22px;padding:0 8px;border:1px solid transparent;border-radius:4px;font:inherit;color:var(--qbone3)}
+.qc-ch-ms button:hover{color:var(--qbone)}
+.qc-ch-ms button[aria-pressed="true"]{color:var(--qsig2);border-color:var(--qsigline);background:var(--qsigdim)}
+.qc-ch-lg{display:flex;flex-wrap:wrap;gap:4px 12px}
+.qc-ch-lg span{display:inline-flex;align-items:center;gap:5px;color:var(--qbone2)}
+.qc-ch-lg i{width:9px;height:9px;border-radius:2px}
+.qc-ch{display:block}
+.qc-ch .gl{stroke:var(--qline);stroke-width:1}
+.qc-ch .base{stroke:var(--qline2);stroke-width:1}
+.qc-ch .ax{fill:var(--qbone4);font:10px var(--qmono);font-variant-numeric:tabular-nums}
+.qc-ch .lb{fill:var(--qbone2);font:11.5px var(--qmono)}
+.qc-ch .hit{fill:transparent}
+.qc-ch .hit.on{fill:var(--qpanel2);fill-opacity:.55}
+.qc-map{background:var(--qpanel)}
+.qc-mclu{position:absolute;left:8px;top:8px;right:8px;display:flex;flex-wrap:wrap;gap:3px}
+.qc-mclu[hidden]{display:none}
+.qc-mclu button{height:22px;padding:0 8px;border:1px solid var(--qline);border-radius:4px;background:var(--qpanel);font:11px/1 var(--qmono);color:var(--qbone3)}
+.qc-mclu button:hover{color:var(--qbone)}
+.qc-mclu button[aria-pressed="true"]{color:var(--qsig2);border-color:var(--qsigline);background:var(--qsigdim)}
 `;
-
 // ── the console ────────────────────────────────────────────────────────────────
 export async function mountQueryConsole(element, options = {}) {
   const { turtleUrl = "../data/atlas.ttl", engineUrl = "../data/rdf/", onLocate = () => {}, onHighlight = () => {}, hash = false, codemirror = true } = options;
   // contributions.ttl (PRs, issues, commit days) sits next to atlas.ttl; null disables it.
   const contributionsUrl = options.contributionsUrl === undefined ? new URL("contributions.ttl", new URL(turtleUrl, document.baseURI)).href : options.contributionsUrl;
+  // strava.ttl (activities) loads third, after contributions; null disables it and its presets.
+  const stravaUrl = options.stravaUrl === undefined ? new URL("strava.ttl", new URL(turtleUrl, document.baseURI)).href : options.stravaUrl;
+  const presets = PRESETS.filter((p) => p.needs !== "strava" || stravaUrl);
+  // strava-tracks.json (privacy-trimmed routes) is read the first time the Map view opens.
+  const tracksUrl = options.tracksUrl === undefined ? (stravaUrl ? new URL("strava-tracks.json", new URL(turtleUrl, document.baseURI)).href : null) : options.tracksUrl;
   const ac = new AbortController();
   const sig = ac.signal;
   const on = (el, ev, fn, o) => el.addEventListener(ev, fn, { ...(o || {}), signal: sig });
@@ -602,6 +727,8 @@ export async function mountQueryConsole(element, options = {}) {
       <div class="qc-tabs" role="tablist">
         <button data-view="table" role="tab" aria-selected="true">Table</button>
         <button data-view="graph" role="tab">Graph</button>
+        <button data-view="chart" role="tab">Chart</button>
+        <button data-view="map" role="tab">Map</button>
         <button data-view="schema" role="tab">Vocabulary</button>
         <button data-view="inspect" role="tab" hidden>Inspect</button>
         <span class="sp"></span>
@@ -610,6 +737,8 @@ export async function mountQueryConsole(element, options = {}) {
       </div>
       <div class="qc-view" data-view="table"></div>
       <div class="qc-view" data-view="graph" hidden><div class="qc-g"><canvas></canvas><div class="qc-crumbs"></div><div class="qc-gtip" hidden></div><div class="qc-gsel" hidden></div><div class="qc-gnote"></div><div class="qc-gctl"><button data-g="in" title="Zoom in">+</button><button data-g="out" title="Zoom out">−</button><button data-g="fit" title="Fit">⌂</button></div></div></div>
+      <div class="qc-view" data-view="chart" hidden></div>
+      <div class="qc-view" data-view="map" hidden><div class="qc-g qc-map"><canvas></canvas><div class="qc-mclu" hidden></div><div class="qc-gtip" hidden></div><div class="qc-gnote"></div><div class="qc-gctl"><button data-g="in" title="Zoom in">+</button><button data-g="out" title="Zoom out">−</button><button data-g="fit" title="Fit">⌂</button></div></div></div>
       <div class="qc-view" data-view="schema" hidden></div>
       <div class="qc-view" data-view="inspect" hidden></div>
     </div>
@@ -660,37 +789,46 @@ export async function mountQueryConsole(element, options = {}) {
   let last = null; // {text, result, ms, preset}
   let currentPreset = null;
   const coreTriples = store.tripleCount();
-  let contribState = contributionsUrl ? "loading" : "none"; // loading | loaded | failed | none
-  let contribMs = 0;
+  // Graphs that arrive in the background, in order, after the core Atlas: queries see each as it lands.
+  const extras = [
+    { name: "contributions", url: contributionsUrl },
+    { name: "strava", url: stravaUrl },
+  ].map((x) => ({ ...x, state: x.url ? "loading" : "none", ms: 0 })); // loading | loaded | failed | none
+  const extra = Object.fromEntries(extras.map((x) => [x.name, x]));
   const showLoad = () => {
-    const extra = contribState === "loaded" ? ` (+ contributions, <b>${fmtMs(contribMs)}</b>)` : contribState === "loading" ? ` <span class="hint">+ contributions…</span>` : contribState === "failed" ? ` <span title="contributions.ttl did not load">· contributions unavailable</span>` : "";
-    status.load.innerHTML = `<b>${fmtN(store.tripleCount())}</b> triples · WAT engine · loaded in <b>${fmtMs(loadMs)}</b>${extra}`;
+    const tail = extras
+      .map((x) => (x.state === "loaded" ? ` (+ ${x.name}, <b>${fmtMs(x.ms)}</b>)` : x.state === "loading" ? ` <span class="hint">+ ${x.name}…</span>` : x.state === "failed" ? ` <span title="${x.name}.ttl did not load">· ${x.name} unavailable</span>` : ""))
+      .join("");
+    status.load.innerHTML = `<b>${fmtN(store.tripleCount())}</b> triples · WAT engine · loaded in <b>${fmtMs(loadMs)}</b>${tail}`;
   };
   showLoad();
-  // The core Atlas answers at once; contributions arrive in the background and queries see both.
-  const contribReady = !contributionsUrl
-    ? Promise.resolve(false)
-    : (async () => {
-        try {
-          const res = await fetch(contributionsUrl);
-          if (!res.ok) throw new Error(`${res.status} ${contributionsUrl}`);
-          const text = await res.text();
-          if (sig.aborted) return false;
-          const t = performance.now();
-          store.loadTurtle(text);
-          contribMs = performance.now() - t;
-          refreshNames();
-          buildIndex();
-          contribState = "loaded";
-        } catch (e) {
-          console.warn("query console: contributions not loaded:", e);
-          contribState = "failed";
-        }
-        showLoad();
-        // The query on screen may now have more to say.
-        if (contribState === "loaded" && last && !last.error && editor.value === last.text) run(last.text, { fromEditor: true, preset: currentPreset, quiet: true });
-        return contribState === "loaded";
-      })();
+  let chain = Promise.resolve();
+  for (const x of extras) {
+    x.ready = !x.url
+      ? Promise.resolve(false)
+      : (chain = chain.then(async () => {
+          try {
+            const res = await fetch(x.url);
+            if (!res.ok) throw new Error(`${res.status} ${x.url}`);
+            const text = await res.text();
+            if (sig.aborted) return false;
+            const t = performance.now();
+            store.loadTurtle(text);
+            x.ms = performance.now() - t;
+            refreshNames();
+            buildIndex();
+            x.state = "loaded";
+          } catch (e) {
+            console.warn(`query console: ${x.name} not loaded:`, e);
+            x.state = "failed";
+          }
+          showLoad();
+          // The query on screen may now have more to say.
+          if (x.state === "loaded" && last && !last.error && editor.value === last.text) run(last.text, { fromEditor: true, preset: currentPreset, quiet: true });
+          return x.state === "loaded";
+        }));
+  }
+  const contribReady = extra.contributions.ready;
 
   // ── editor: CodeMirror 6 when the vendored bundle loads, else the textarea ──
   const prefs = {
@@ -829,7 +967,7 @@ export async function mountQueryConsole(element, options = {}) {
   // ── presets ────────────────────────────────────────────────────────────────
   const presetBar = $(".qc-presets");
   let lastGroup = null;
-  for (const p of PRESETS) {
+  for (const p of presets) {
     if (p.group !== lastGroup && p.group) presetBar.append(h(`<span class="sep" aria-hidden="true" title="${esc(p.group)}"></span>`));
     lastGroup = p.group;
     presetBar.append(h(`<button role="tab" data-preset="${p.id}" title="${esc(p.blurb)}">${esc(p.label)}</button>`));
@@ -853,6 +991,8 @@ export async function mountQueryConsole(element, options = {}) {
     if (v === "inspect") tabs.inspect.hidden = false;
     if (v === "graph") graph.resize(true);
     if (v === "schema" && !schemaBuilt) buildSchema();
+    if (v === "chart") chart.render();
+    if (v === "map") map.show();
     if (hash) writeHash();
   }
   on($(".qc-tabs"), "click", (e) => {
@@ -912,6 +1052,8 @@ export async function mountQueryConsole(element, options = {}) {
     status.res.innerHTML = `<b>${fmtN(count)}</b> ${result.type === "select" ? (count === 1 ? "row" : "rows") : result.type === "ask" ? (result.value ? "true" : "false") : "triples"} · <b>${fmtMs(ms)}</b>`;
     renderTable(result);
     graph.setResult(result, preset ? PRESETS.find((p) => p.id === preset)?.label : text);
+    chart.setResult(result);
+    map.setResult(result);
     highlightAtlas(result);
     if (!quiet) showView(wantView || (view === "inspect" || view === "schema" ? "table" : view));
     return result;
@@ -920,11 +1062,12 @@ export async function mountQueryConsole(element, options = {}) {
     const p = PRESETS.find((x) => x.id === id);
     if (!p) return null;
     const opts = { preset: id, view: v || p.view || (view === "graph" ? "graph" : "table") };
-    if (p.needs === "contributions" && contribState === "loading") {
+    const x = p.needs && extra[p.needs];
+    if (x && x.state === "loading") {
       setQuery(p.query);
       markPreset(id);
-      status.res.innerHTML = `<span class="hint">loading contributions…</span>`;
-      return contribReady.then(() => (sig.aborted ? null : run(p.query, opts)));
+      status.res.innerHTML = `<span class="hint">loading ${x.name}…</span>`;
+      return x.ready.then(() => (sig.aborted ? null : run(p.query, opts)));
     }
     return run(p.query, opts);
   }
@@ -1181,6 +1324,369 @@ export async function mountQueryConsole(element, options = {}) {
     onNavigate: () => hash && writeHash(),
   });
 
+  // ── chart view: a SELECT result as bars ──────────────────────────────────────
+  // The x axis is a year/hour/month column when there is one (ordered, gaps filled), else the first
+  // non-numeric column (horizontal bars, largest first). A second non-numeric column stacks the bars
+  // as series (eight hues in fixed order by name, the rest folded into "other"). Every numeric column
+  // is a measure; chips pick which one. Colours: categorical palette validated for both themes.
+  const chart = (() => {
+    const el = views.chart;
+    let res = null, measure = null;
+    const ORDINAL = /^(year|hour|month|day|week|weekday|dow)$/i;
+    function analyse() {
+      if (!res || res.type !== "select" || !res.count) return null;
+      const { vars, rows } = res;
+      const numeric = vars.map((_, c) => rows.some((r) => r[c]) && rows.every((r) => !r[c] || isNumeric(r[c])));
+      const cats = vars.map((_, c) => c).filter((c) => !numeric[c]);
+      let x = vars.findIndex((v, c) => numeric[c] && ORDINAL.test(v));
+      if (x < 0) x = cats.length ? cats[0] : -1;
+      if (x < 0) return null;
+      const measures = vars.map((_, c) => c).filter((c) => numeric[c] && c !== x);
+      if (!measures.length) return null;
+      const dated = rows.every((r) => !r[x] || /#(date|dateTime|gYear)$/.test(r[x].datatype || ""));
+      return { vars, rows, x, ordered: numeric[x] || dated, intX: numeric[x], series: cats.find((c) => c !== x) ?? -1, measures };
+    }
+    function setResult(r) {
+      res = r;
+      measure = null;
+      if (view === "chart") render();
+    }
+    const nice = (max) => {
+      if (!(max > 0)) return [0, 1];
+      const raw = max / 4, mag = 10 ** Math.floor(Math.log10(raw)), step = [1, 2, 2.5, 5, 10].map((k) => k * mag).find((s) => s >= raw);
+      return [step, Math.ceil(max / step) * step];
+    };
+    const fmtV = (v) => (Math.abs(v) >= 100 ? fmtN(Math.round(v)) : String(Math.round(v * 10) / 10));
+    function render() {
+      const a = analyse();
+      if (!a) {
+        el.innerHTML = `<div class="qc-empty">${res && res.type === "select" ? "Nothing to chart: <b>a chart needs a numeric column</b> and something to put along the axis." : "Charts draw <b>SELECT</b> results. Try <b>Distance per year</b> or <b>PRs per year</b>."}</div>`;
+        return;
+      }
+      const m = a.measures.includes(measure) ? measure : a.measures[0];
+      const key = (t) => (t ? (t.termType === "Literal" ? t.value : t.value) : "");
+      // series, in a fixed order by name; more than eight fold into "other"
+      let names = a.series >= 0 ? [...new Set(a.rows.map((r) => labelOf(r[a.series]) || "—"))] : [""];
+      names.sort((p, q) => p.localeCompare(q));
+      let other = false;
+      if (names.length > 8) {
+        const tot = new Map();
+        for (const r of a.rows) { const n = labelOf(r[a.series]) || "—"; tot.set(n, (tot.get(n) || 0) + (Number(r[m]?.value) || 0)); }
+        const keep = new Set([...tot].sort((p, q) => q[1] - p[1]).slice(0, 7).map(([n]) => n));
+        names = names.filter((n) => keep.has(n));
+        other = true;
+      }
+      const sIdx = (r) => { if (a.series < 0) return 0; const n = labelOf(r[a.series]) || "—"; const i = names.indexOf(n); return i >= 0 ? i : names.length; };
+      const nS = names.length + (other ? 1 : 0);
+      // groups along x
+      const groups = new Map();
+      for (const r of a.rows) {
+        const k = key(r[a.x]);
+        if (!groups.has(k)) groups.set(k, { k, label: labelOf(r[a.x]), cell: r[a.x], v: new Array(nS).fill(0) });
+        groups.get(k).v[sIdx(r)] += Number(r[m]?.value) || 0;
+      }
+      let gs = [...groups.values()];
+      if (a.ordered) {
+        gs.sort((p, q) => (a.intX ? Number(p.k) - Number(q.k) : p.k < q.k ? -1 : p.k > q.k ? 1 : 0));
+        if (a.intX && gs.length > 1) { // fill integer gaps so the axis is honest
+          const lo = Number(gs[0].k), hi = Number(gs[gs.length - 1].k);
+          if (Number.isInteger(lo) && Number.isInteger(hi) && hi - lo < 400) {
+            const by = new Map(gs.map((g) => [Number(g.k), g]));
+            gs = [];
+            for (let i = lo; i <= hi; i++) gs.push(by.get(i) || { k: String(i), label: String(i), v: new Array(nS).fill(0) });
+          }
+        }
+      } else gs.sort((p, q) => q.v.reduce((s, x) => s + x, 0) - p.v.reduce((s, x) => s + x, 0));
+      const tooMany = !a.ordered && gs.length > 30;
+      if (tooMany) gs = gs.slice(0, 30);
+      const total = (g) => g.v.reduce((s, x) => s + x, 0);
+      const color = (i) => (i >= names.length ? "var(--qc-other)" : `var(--qc-s${i + 1})`);
+      const chips = a.measures.length > 1 ? `<span class="qc-ch-ms">${a.measures.map((c) => `<button data-m="${c}" aria-pressed="${c === m}">?${esc(a.vars[c])}</button>`).join("")}</span>` : `<span class="qc-ch-m">?${esc(a.vars[m])}</span>`;
+      const legend = nS > 1 ? `<span class="qc-ch-lg">${[...names, ...(other ? ["other"] : [])].map((n, i) => `<span><i style="background:${color(i)}"></i>${esc(n)}</span>`).join("")}</span>` : "";
+      el.innerHTML = `<div class="qc-ch-h">${chips}${legend}</div>`; // measured first: the legend may wrap
+      const W = Math.max(280, el.clientWidth), H = Math.max(200, el.clientHeight - el.firstElementChild.offsetHeight - 2);
+      const max = Math.max(0, ...gs.map(total));
+      const [step, top] = nice(max);
+      let svg = "";
+      if (a.ordered) {
+        const L = 46, R = 12, T = 12, B = 26, pw = W - L - R, ph = H - T - B;
+        const band = pw / gs.length, bw = Math.max(1, Math.min(48, band * 0.72));
+        const y = (v) => T + ph - (v / top) * ph;
+        for (let v = 0; v <= top + 1e-9; v += step) svg += `<line class="gl" x1="${L}" x2="${W - R}" y1="${y(v)}" y2="${y(v)}"/><text class="ax" x="${L - 6}" y="${y(v) + 3.5}" text-anchor="end">${fmtV(v)}</text>`;
+        const every = Math.max(1, Math.ceil(gs.length / Math.max(1, Math.floor(pw / 44))));
+        gs.forEach((g, i) => {
+          const cx = L + band * (i + 0.5);
+          let acc = 0;
+          const segs = g.v.map((v, s) => [v, s]).filter(([v]) => v > 0);
+          segs.forEach(([v, s], j) => {
+            const y0 = y(acc), y1 = y(acc + v), h = Math.max(0, y0 - y1 - (j ? 2 : 0));
+            const x0 = cx - bw / 2, r = j === segs.length - 1 ? Math.min(4, bw / 2, h) : 0;
+            svg += r ? `<path fill="${color(s)}" d="M${x0},${y0 - (j ? 2 : 0)}V${y1 + r}q0,-${r} ${r},-${r}H${x0 + bw - r}q${r},0 ${r},${r}V${y0 - (j ? 2 : 0)}Z"/>` : `<rect fill="${color(s)}" x="${x0}" y="${y1}" width="${bw}" height="${h}"/>`;
+            acc += v;
+          });
+          if (i % every === 0) svg += `<text class="ax" x="${cx}" y="${H - 8}" text-anchor="middle">${esc(String(g.label).slice(0, 10))}</text>`;
+          svg += `<rect class="hit" data-i="${i}" x="${cx - band / 2}" y="${T}" width="${band}" height="${ph}"/>`;
+        });
+        svg += `<line class="base" x1="${L}" x2="${W - R}" y1="${y(0)}" y2="${y(0)}"/>`;
+      } else {
+        const rowH = 20, lab = Math.min(200, Math.max(80, W * 0.32)), L = lab + 10, R = 56, pw = W - L - R;
+        const x = (v) => L + (v / top) * pw;
+        const Hh = gs.length * rowH + 10;
+        gs.forEach((g, i) => {
+          const cy = 6 + i * rowH, bh = 12;
+          let acc = 0;
+          const segs = g.v.map((v, s) => [v, s]).filter(([v]) => v > 0);
+          segs.forEach(([v, s], j) => {
+            const x0 = x(acc) + (j ? 2 : 0), x1 = x(acc + v), w = Math.max(0, x1 - x0), r = j === segs.length - 1 ? Math.min(4, bh / 2, w) : 0;
+            svg += r ? `<path fill="${color(s)}" d="M${x0},${cy}H${x1 - r}q${r},0 ${r},${r}V${cy + bh - r}q0,${r} -${r},${r}H${x0}Z"/>` : `<rect fill="${color(s)}" x="${x0}" y="${cy}" width="${w}" height="${bh}"/>`;
+            acc += v;
+          });
+          svg += `<text class="lb" x="${lab}" y="${cy + 10}" text-anchor="end">${esc(String(g.label).slice(0, 30))}</text><text class="ax" x="${x(total(g)) + 6}" y="${cy + 10}">${fmtV(total(g))}</text><rect class="hit" data-i="${i}" x="0" y="${cy - 4}" width="${W}" height="${rowH}"/>`;
+        });
+        svg = `<line class="base" x1="${L}" x2="${L}" y1="0" y2="${Hh}"/>` + svg;
+        el.innerHTML = `<div class="qc-ch-h">${chips}${legend}</div><svg class="qc-ch" width="${W}" height="${Hh}" viewBox="0 0 ${W} ${Hh}">${svg}</svg>${tooMany ? `<div class="qc-foot">the 30 largest of ${fmtN(groups.size)} · the table has them all</div>` : ""}<div class="qc-gtip" hidden></div>`;
+        el._gs = gs; el._names = [...names, ...(other ? ["other"] : [])]; el._m = a.vars[m];
+        return;
+      }
+      el.innerHTML = `<div class="qc-ch-h">${chips}${legend}</div><svg class="qc-ch" width="${W}" height="${H}" viewBox="0 0 ${W} ${H}">${svg}</svg><div class="qc-gtip" hidden></div>`;
+      el._gs = gs; el._names = [...names, ...(other ? ["other"] : [])]; el._m = a.vars[m];
+    }
+    on(el, "click", (e) => {
+      const b = e.target.closest("[data-m]");
+      if (b) { measure = Number(b.dataset.m); render(); }
+    });
+    on(el, "pointermove", (e) => {
+      const tip = el.querySelector(".qc-gtip");
+      const hit = e.target.closest?.(".hit");
+      el.querySelectorAll(".hit.on").forEach((h) => h !== hit && h.classList.remove("on"));
+      if (!tip) return;
+      if (!hit) { tip.hidden = true; return; }
+      hit.classList.add("on");
+      const g = el._gs[Number(hit.dataset.i)];
+      const parts = g.v.map((v, s) => [v, s]).filter(([v]) => v > 0);
+      tip.innerHTML = `<b>${esc(g.label)}</b>${parts.length > 1 || el._names.length > 1 ? parts.map(([v, s]) => `${esc(el._names[s] || "")} ${fmtV(v)}`).join("<br>") + "<br>" : ""}?${esc(el._m)} <span style="color:var(--qbone)">${fmtV(g.v.reduce((s, x) => s + x, 0))}</span>`;
+      tip.hidden = false;
+      const box = el.getBoundingClientRect();
+      const tx = Math.min(e.clientX - box.left + 14, box.width - tip.offsetWidth - 6);
+      tip.style.left = Math.max(6, tx) + "px";
+      tip.style.top = e.clientY - box.top + el.scrollTop + 14 + "px";
+    });
+    on(el, "pointerleave", () => { const tip = el.querySelector(".qc-gtip"); if (tip) tip.hidden = true; });
+    return { setResult, render };
+  })();
+
+  // ── map view: routes and places from a result ────────────────────────────────
+  // Activities in the result (…/atlas/strava/<day>-<n>) draw their privacy-trimmed routes from
+  // strava-tracks.json (loaded the first time the map opens); every other route stays as a faint
+  // trace for context. Places with schema:geo draw as dots. No tiles: nothing leaves the site.
+  const map = (() => {
+    const box = views.map.querySelector(".qc-g");
+    const cv = box.querySelector("canvas"), tip = box.querySelector(".qc-gtip"), note = box.querySelector(".qc-gnote"), clu = box.querySelector(".qc-mclu");
+    const cx = cv.getContext("2d");
+    const STRAVA = BASE + "strava/";
+    let tracks = null, loading = null, places = null;
+    let hi = new Set(), hiPlaces = new Set(), needFit = true;
+    let V = { s: 1, ox: 0, oy: 0 }, W = 0, H = 0, dpr = 1, pal = {}, raf = 0;
+    const mx = (lon) => (lon + 180) / 360;
+    const my = (lat) => { const r = (Math.max(-85, Math.min(85, lat)) * Math.PI) / 180; return (1 - Math.log(Math.tan(r) + 1 / Math.cos(r)) / Math.PI) / 2; };
+    const latOf = (y) => (Math.atan(Math.sinh(Math.PI * (1 - 2 * y))) * 180) / Math.PI;
+    function decode(str) {
+      const out = [];
+      let i = 0, la = 0, lo = 0;
+      const next = () => { let r = 0, s = 0, b; do { b = str.charCodeAt(i++) - 63; r |= (b & 0x1f) << s; s += 5; } while (b >= 0x20); return r & 1 ? ~(r >> 1) : r >> 1; };
+      while (i < str.length) { la += next(); lo += next(); out.push(mx(lo / 1e5), my(la / 1e5)); }
+      return Float64Array.from(out);
+    }
+    function load() {
+      if (!places) {
+        places = new Map();
+        try {
+          const r = store.query(prefixed(`SELECT ?p ?name ?lat ?lon WHERE { ?p schema:geo ?g . ?g schema:latitude ?lat ; schema:longitude ?lon . OPTIONAL { ?p schema:name ?name } }`).text);
+          for (const row of r.rows) places.set(row[0].value, { name: row[1]?.value || shortIri(row[0].value), x: mx(Number(row[3].value)), y: my(Number(row[2].value)) });
+        } catch (e) { console.warn("query console: places for the map:", e); }
+      }
+      if (!tracksUrl) return Promise.resolve();
+      return (loading ??= fetch(tracksUrl)
+        .then((r) => (r.ok ? r.json() : { tracks: [] }))
+        .then((j) => { tracks = new Map((j.tracks || []).map(([id, ...segs]) => [STRAVA + id, segs.map(decode)])); })
+        .catch((e) => { console.warn("query console: routes not loaded:", e); tracks = new Map(); }));
+    }
+    function setResult(r) {
+      const iris = new Set();
+      if (r.type === "select") for (const row of r.rows) for (const t of row) t?.termType === "NamedNode" && iris.add(t.value);
+      else if (r.type !== "ask") for (const q of r.quads) for (const t of [q.subject, q.object]) t.termType === "NamedNode" && iris.add(t.value);
+      hi = new Set([...iris].filter((i) => i.startsWith(STRAVA)));
+      hiPlaces = new Set([...iris].filter((i) => !i.startsWith(STRAVA)));
+      needFit = true;
+      region = 0;
+      if (view === "map") show();
+    }
+    function readPal() {
+      const cs = getComputedStyle(element);
+      const v = (n, f) => cs.getPropertyValue(n).trim() || f;
+      pal = { faint: v("--qbone4", "#514d47"), mid: v("--qbone3", "#7f7a71"), text: v("--qbone2", "#b7b1a6"), hot: v("--qsig", "#ff6a3d"), panel: v("--qpanel", "#121518") };
+    }
+    function resize() {
+      const r = box.getBoundingClientRect();
+      dpr = Math.min(2, devicePixelRatio || 1);
+      W = r.width; H = r.height;
+      cv.width = Math.max(1, W * dpr); cv.height = Math.max(1, H * dpr);
+      draw();
+    }
+    // Routes far apart (Bangkok, Comox, the Bay Area) would fit as a whole globe: they are grouped into
+    // regions (starts within ~150 km), named after the nearest Atlas place; chips switch between them.
+    let regions = [], region = 0;
+    function regionsOf(list) {
+      const out = [];
+      for (const [id, segs] of list) {
+        const x = segs[0][0], y = segs[0][1];
+        const r = out.find((c) => Math.abs(c.x - x) < c.tol && Math.abs(c.y - y) < c.tol);
+        if (r) r.items.push(segs);
+        else out.push({ x, y, tol: 150e3 / (40075016.686 * Math.cos((latOf(y) * Math.PI) / 180)), items: [segs] });
+      }
+      for (const r of out) {
+        let best = null, bd = Infinity;
+        for (const p of places.values()) { const d = Math.hypot(p.x - r.x, p.y - r.y); if (d < bd) { bd = d; best = p; } }
+        r.name = best && bd < r.tol * 2 ? best.name.split(",")[0] : `${latOf(r.y).toFixed(1)}°, ${(r.x * 360 - 180).toFixed(1)}°`;
+      }
+      return out.sort((a, b) => b.items.length - a.items.length);
+    }
+    function fitTo(segsList, pts) {
+      let x0 = Infinity, y0 = Infinity, x1 = -Infinity, y1 = -Infinity;
+      const add = (x, y) => { if (x < x0) x0 = x; if (x > x1) x1 = x; if (y < y0) y0 = y; if (y > y1) y1 = y; };
+      for (const segs of segsList) for (const s of segs) for (let k = 0; k < s.length; k += 2) add(s[k], s[k + 1]);
+      for (const p of pts) add(p.x, p.y);
+      if (!isFinite(x0)) { V = { s: W, ox: 0, oy: (H - W) / 2 }; return; }
+      const min = 3e-5; // about 2 km: one short route does not fill the screen
+      const w = Math.max(min, x1 - x0), h = Math.max(min, y1 - y0), top = regions.length > 1 ? 30 : 0;
+      const sc = Math.min((W - 48) / w, (H - 48 - top) / h);
+      V = { s: sc, ox: W / 2 - ((x0 + x1) / 2) * sc, oy: (H + top) / 2 - ((y0 + y1) / 2) * sc };
+    }
+    function fit() {
+      const lit = [...hi].filter((i) => tracks?.has(i)).map((i) => [i, tracks.get(i)]);
+      const hp = [...hiPlaces].map((i) => places.get(i)).filter(Boolean);
+      regions = lit.length ? regionsOf(lit) : hp.length ? [] : regionsOf([...(tracks || [])]);
+      region = Math.min(region, Math.max(0, regions.length - 1));
+      clu.hidden = regions.length < 2;
+      clu.innerHTML = regions.length < 2 ? "" : regions.map((r, i) => `<button data-r="${i}" aria-pressed="${i === region}">${esc(r.name)} · ${fmtN(r.items.length)}</button>`).join("");
+      if (regions.length) fitTo(regions[region].items, []);
+      else fitTo([], hp.length ? hp : [...places.values()]);
+    }
+    on(clu, "click", (e) => {
+      const b = e.target.closest("[data-r]");
+      if (!b) return;
+      region = Number(b.dataset.r);
+      for (const x of clu.children) x.setAttribute("aria-pressed", x === b);
+      fitTo(regions[region].items, []);
+      draw();
+    });
+    async function show() {
+      readPal();
+      await load();
+      if (sig.aborted) return;
+      const r = box.getBoundingClientRect();
+      if (r.width !== W || r.height !== H) { W = r.width; H = r.height; cv.width = Math.max(1, W * dpr); cv.height = Math.max(1, H * dpr); }
+      if (needFit) { fit(); needFit = false; }
+      const n = [...hi].filter((i) => tracks?.has(i)).length;
+      note.textContent = !tracksUrl ? "places from the Atlas" : n ? `${fmtN(n)} route${n === 1 ? "" : "s"} from the result · each loses its first and last kilometre` : hi.size ? "these activities have no route (indoor, or trimmed away)" : `${fmtN(tracks?.size || 0)} routes, faint · query activities to light them up`;
+      draw();
+    }
+    function line(segs) {
+      for (const s of segs) {
+        cx.moveTo(s[0] * V.s + V.ox, s[1] * V.s + V.oy);
+        for (let k = 2; k < s.length; k += 2) cx.lineTo(s[k] * V.s + V.ox, s[k + 1] * V.s + V.oy);
+      }
+    }
+    function draw() {
+      cancelAnimationFrame(raf);
+      raf = requestAnimationFrame(() => {
+        cx.setTransform(dpr, 0, 0, dpr, 0, 0);
+        cx.clearRect(0, 0, W, H);
+        cx.lineJoin = cx.lineCap = "round";
+        if (tracks?.size) {
+          cx.globalAlpha = hi.size ? 0.35 : 0.6;
+          cx.strokeStyle = pal.faint; cx.lineWidth = 1;
+          cx.beginPath();
+          for (const [id, segs] of tracks) if (!hi.has(id)) line(segs);
+          cx.stroke();
+          const lit = [...hi].map((i) => tracks.get(i)).filter(Boolean);
+          if (lit.length) {
+            cx.globalAlpha = lit.length > 200 ? 0.5 : 0.9;
+            cx.strokeStyle = pal.hot; cx.lineWidth = lit.length > 50 ? 1.5 : 2;
+            cx.beginPath();
+            for (const segs of lit) line(segs);
+            cx.stroke();
+          }
+        }
+        cx.globalAlpha = 1;
+        cx.font = "italic 13px " + (getComputedStyle(element).getPropertyValue("--qserif").trim() || "serif");
+        const taken = [];
+        const free = (x, y, w) => !taken.some((t) => x < t[0] + t[2] && x + w > t[0] && Math.abs(y - t[1]) < 14) && taken.push([x, y, w]);
+        for (const [iri, p] of [...places].sort((a, b) => hiPlaces.has(b[0]) - hiPlaces.has(a[0]))) {
+          const on = hiPlaces.has(iri), X = p.x * V.s + V.ox, Y = p.y * V.s + V.oy;
+          if (X < -40 || Y < -20 || X > W + 40 || Y > H + 20) continue;
+          cx.beginPath(); cx.arc(X, Y, on ? 5 : 3.5, 0, Math.PI * 2);
+          cx.fillStyle = on ? pal.hot : pal.mid; cx.fill();
+          cx.lineWidth = 2; cx.strokeStyle = pal.panel; cx.stroke();
+          cx.fillStyle = on ? pal.text : pal.mid;
+          if (free(X + 8, Y, cx.measureText(p.name).width)) cx.fillText(p.name, X + 8, Y + 4);
+        }
+        // scale bar: a round distance about 90 px long at the centre latitude
+        const lat = latOf((H / 2 - V.oy) / V.s), mPerPx = (40075016.686 * Math.cos((lat * Math.PI) / 180)) / V.s;
+        const raw = mPerPx * 90, mag = 10 ** Math.floor(Math.log10(raw)), len = [1, 2, 5, 10].map((k) => k * mag).filter((d) => d <= raw).pop() || mag;
+        const px = len / mPerPx, x0 = W - 44 - px, y0 = H - 12;
+        cx.strokeStyle = pal.mid; cx.lineWidth = 1; cx.beginPath(); cx.moveTo(x0, y0 - 4); cx.lineTo(x0, y0); cx.lineTo(x0 + px, y0); cx.lineTo(x0 + px, y0 - 4); cx.stroke();
+        cx.fillStyle = pal.mid; cx.font = "10px " + (getComputedStyle(element).getPropertyValue("--qmono").trim() || "monospace"); cx.textAlign = "center";
+        cx.fillText(len >= 1000 ? `${len / 1000} km` : `${len} m`, x0 + px / 2, y0 - 6); cx.textAlign = "start";
+      });
+    }
+    const zoomAt = (k, X, Y) => { const s = Math.max(50, Math.min(V.s * k, 2 ** 26)); k = s / V.s; V = { s, ox: X - (X - V.ox) * k, oy: Y - (Y - V.oy) * k }; draw(); };
+    const ptrs = new Map();
+    let pinch = null;
+    const local = (e) => { const r = cv.getBoundingClientRect(); return [e.clientX - r.left, e.clientY - r.top]; };
+    const placeAt = (X, Y) => { for (const [iri, p] of places || []) if (Math.hypot(p.x * V.s + V.ox - X, p.y * V.s + V.oy - Y) < 9) return [iri, p]; return null; };
+    on(cv, "pointerdown", (e) => { cv.setPointerCapture(e.pointerId); ptrs.set(e.pointerId, local(e)); cv.classList.add("drag"); pinch = null; ptrs.moved = false; });
+    on(cv, "pointermove", (e) => {
+      const [X, Y] = local(e);
+      if (!ptrs.has(e.pointerId)) {
+        const hit = placeAt(X, Y);
+        cv.classList.toggle("pt", !!hit);
+        tip.hidden = !hit;
+        if (hit) { tip.innerHTML = `<b>${esc(hit[1].name)}</b>click to inspect`; tip.style.left = X + 12 + "px"; tip.style.top = Y + 12 + "px"; }
+        return;
+      }
+      const prev = ptrs.get(e.pointerId);
+      ptrs.set(e.pointerId, [X, Y]);
+      if (ptrs.size === 2) {
+        const [a, b] = [...ptrs.values()], d = Math.hypot(a[0] - b[0], a[1] - b[1]), c = [(a[0] + b[0]) / 2, (a[1] + b[1]) / 2];
+        if (pinch) { V.ox += c[0] - pinch.c[0]; V.oy += c[1] - pinch.c[1]; zoomAt(d / pinch.d, c[0], c[1]); }
+        pinch = { d, c };
+        ptrs.moved = true;
+        return;
+      }
+      if (ptrs.size === 1) { V.ox += X - prev[0]; V.oy += Y - prev[1]; if (Math.abs(X - prev[0]) + Math.abs(Y - prev[1]) > 1) ptrs.moved = true; draw(); }
+    });
+    const up = (e) => {
+      const moved = ptrs.moved;
+      ptrs.delete(e.pointerId);
+      if (ptrs.size < 2) pinch = null;
+      if (!ptrs.size) cv.classList.remove("drag");
+      if (e.type === "pointerup" && !moved) { const hit = placeAt(...local(e)); if (hit) inspect(hit[0]); }
+    };
+    on(cv, "pointerup", up);
+    on(cv, "pointercancel", up);
+    on(cv, "pointerleave", () => (tip.hidden = true));
+    on(cv, "wheel", (e) => { e.preventDefault(); const [X, Y] = local(e); zoomAt(Math.exp(-e.deltaY * (e.deltaMode ? 0.05 : 0.0015)), X, Y); }, { passive: false });
+    on(cv, "dblclick", (e) => { const [X, Y] = local(e); zoomAt(2, X, Y); });
+    on(box.querySelector(".qc-gctl"), "click", (e) => {
+      const b = e.target.closest("[data-g]");
+      if (!b) return;
+      if (b.dataset.g === "fit") { fit(); draw(); } else zoomAt(b.dataset.g === "in" ? 1.6 : 1 / 1.6, W / 2, H / 2);
+    });
+    on(window, "yr-theme", () => { readPal(); draw(); });
+    return { setResult, show, resize };
+  })();
+
   // ── hash state (harness / deep links): #q=<preset>&view=graph&node=<iri> ──
   function writeHash() {
     const p = new URLSearchParams();
@@ -1193,8 +1699,8 @@ export async function mountQueryConsole(element, options = {}) {
   function readHash() {
     const p = new URLSearchParams(location.hash.slice(1));
     const q = p.get("q"), v = p.get("view"), node = p.get("node"), raw = p.get("sparql");
-    if (raw) run(raw, { view: v === "graph" ? "graph" : "table" });
-    else if (q && PRESETS.some((x) => x.id === q)) runPreset(q, v === "graph" || v === "table" ? v : undefined);
+    if (raw) run(raw, { view: ["graph", "chart", "map"].includes(v) ? v : "table" });
+    else if (q && PRESETS.some((x) => x.id === q)) runPreset(q, ["graph", "table", "chart", "map"].includes(v) ? v : undefined);
     else if (!last) runPreset(PRESETS[0].id, v === "graph" ? "graph" : undefined);
     if (node) {
       const iri = node.startsWith("http") ? node : BASE + node;
@@ -1214,6 +1720,8 @@ export async function mountQueryConsole(element, options = {}) {
   const ro = new ResizeObserver(() => {
     editor.layout();
     if (view === "graph") graph.resize();
+    if (view === "chart") chart.render();
+    if (view === "map") map.resize();
   });
   ro.observe(element);
 
@@ -1228,6 +1736,7 @@ export async function mountQueryConsole(element, options = {}) {
     editor,
     graph,
     contributions: contribReady,
+    strava: extra.strava.ready,
     get termIndex() {
       return termIndex;
     },
