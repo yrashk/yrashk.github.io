@@ -1,0 +1,12 @@
+{
+  "v": 1,
+  "cipher": "aes-256-gcm",
+  "kdf": "scrypt",
+  "N": 131072,
+  "r": 8,
+  "p": 1,
+  "salt": "GIvOQPFeiF0WhHNGjGgskw==",
+  "iv": "Vya4PKQl4f06aKc6",
+  "tag": "tldEbWn+yENDHLp+daUCvQ==",
+  "data": "BjCDngQc3A6mg+B2vzij2WSSPDSapEB+Ky7jt27xPgFXT80YgIvpjaRDPyKILm1A/Q=="
+}
