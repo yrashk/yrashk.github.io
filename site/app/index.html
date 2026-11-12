@@ -166,7 +166,7 @@ kbd{font:500 10.5px/1 var(--mono);color:var(--bone-2);background:var(--panel-3);
 .now .lede{font-size:16px;line-height:1.55;color:var(--bone-2);margin:0 0 22px;max-width:52ch;text-wrap:pretty}
 .now .lede b{color:var(--bone);font-weight:500}
 .thesis{border-top:1px solid var(--line);padding:16px 0 14px;display:grid;grid-template-columns:auto 1fr;gap:4px 16px;align-items:start}
-.thesis .mark{font:400 24px/1 var(--serif);color:var(--bone);display:flex;align-items:center;gap:9px;grid-row:1/3}
+.thesis .mark{font:400 24px/1 var(--serif);color:var(--bone);display:flex;align-items:center;gap:.26em;grid-row:1/3}
 .thesis .mark i{display:block;width:10px;height:10px;border-radius:2px;background:var(--signal);transform:rotate(45deg);box-shadow:0 0 12px var(--signal-glow)}
 .thesis .line{font:italic 400 19px/1.3 var(--serif);color:var(--bone);margin:0}
 .thesis .sub{margin:4px 0 0;font-size:14px;color:var(--bone-2);max-width:48ch}
@@ -230,10 +230,22 @@ kbd{font:500 10.5px/1 var(--mono);color:var(--bone-2);background:var(--panel-3);
 .track .y.hot{color:var(--signal)}
 .track b{font:400 17px/1.2 var(--serif);color:var(--bone);display:block}
 .track span{display:block;font-size:13.5px;color:var(--bone-3);margin-top:2px}
+.track b .infw{display:inline;font-size:inherit;color:inherit;margin:0}
 .track a{text-decoration:none}
 .track a:hover b{color:var(--signal-2)}
 .candor{margin:18px 0 0;padding-top:14px;border-top:1px solid var(--line);font-size:13.5px;color:var(--bone-3)}
 .candor i{color:var(--bone-2);font-style:normal}
+
+/* the Inferal mark at the height of the capitals beside it: Instrument Serif and Instrument Sans both
+   set caps at .72em, so the chevron stands on the baseline and tops out with the I of Inferal */
+.inf{display:inline-block;height:.72em;width:auto;margin-right:.26em;vertical-align:baseline;flex:none}
+.thesis .mark{align-items:baseline}
+.thesis .mark .inf{margin:0}
+/* where the name stands as the logo (Atlas, Work, track record, the bio's mark), it is set in Inferal's own
+   wordmark face, loaded from inferal.com (a licensed font; it is not copied here). Its caps are .70em, the
+   site's .72em, so it sits at the same size as the type it replaces */
+@font-face{font-family:"Inferal Perfektta";font-style:normal;font-weight:100 900;font-display:swap;src:url("https://inferal.com/fonts/inferal-perfektta-vf.woff2") format("woff2")}
+.infw{font-family:"Inferal Perfektta",var(--sans);font-weight:600;font-style:normal;letter-spacing:0}
 
 /* essays */
 .ess{list-style:none;margin:0;padding:0}
@@ -629,13 +641,13 @@ table.ps tr:hover td{background:var(--panel-2);cursor:pointer}
         <div class="hero">
           <figure class="photo"><img src="../data/portrait-tall.jpg" alt="Yurii Rashkovskii, studio portrait" width="760" height="1066"></figure>
           <div>
-            <p class="eyebrow"><b>Yurii Rashkovskii</b>founder of Inferal · technologist</p>
+            <p class="eyebrow"><b>Yurii Rashkovskii</b>founder of <svg class="inf" viewBox="0 0 348.45 415.12" aria-hidden="true" focusable="false"><path fill="#0070f3" fill-rule="evenodd" d="M2.44,399.9c-5.45,5.86-1.16,15.22,6.97,15.22h126.55c3.88,0,7.6-1.5,10.33-4.16l197.28-191.95c2.98-2.9,4.6-6.63,4.84-10.43.29-4.47-1.33-9.04-4.84-12.46L146.29,4.16C143.55,1.5,139.83,0,135.96,0H9.4C1.27,0-3.01,9.35,2.44,15.22l193.06,184.2c2.4,2.58,3.46,5.91,3.18,9.15-.22,2.57-1.28,5.08-3.18,7.13L2.44,399.9Z"/></svg>Inferal · technologist</p>
             <h1>Technology is most fascinating when you get it to do new things, unlocking all this <em>raw potential</em>, instead of fixing up something that has stopped working long ago.</h1>
           </div>
         </div>
         <p class="lede">Thirty-odd years of building <b>companies</b> and <b>software</b>, with a stubborn interest in reducing complexity. Ukrainian-born; home is two places, Redwood City and Comox, shared with his wife and children. Runs, skis, cycles, and is trying to figure out sailing.</p>
         <div class="thesis">
-          <span class="mark"><i aria-hidden="true"></i>Inferal</span>
+          <span class="mark"><svg class="inf" viewBox="0 0 348.45 415.12" aria-hidden="true" focusable="false"><path fill="#0070f3" fill-rule="evenodd" d="M2.44,399.9c-5.45,5.86-1.16,15.22,6.97,15.22h126.55c3.88,0,7.6-1.5,10.33-4.16l197.28-191.95c2.98-2.9,4.6-6.63,4.84-10.43.29-4.47-1.33-9.04-4.84-12.46L146.29,4.16C143.55,1.5,139.83,0,135.96,0H9.4C1.27,0-3.01,9.35,2.44,15.22l193.06,184.2c2.4,2.58,3.46,5.91,3.18,9.15-.22,2.57-1.28,5.08-3.18,7.13L2.44,399.9Z"/></svg><span class="infw">Inferal</span></span>
           <p class="line">Software is eating your business.</p>
           <p class="sub">Your systems know what happened. Inferal determines what happens next — data infrastructure that replaces custom glue software with live, governed decision logic. <a href="https://inferal.com">inferal.com</a> · <button data-open-project="inferal" class="lnk">in Work</button></p>
         </div>
@@ -853,6 +865,13 @@ const LAB = {query:[1,8,1,13], console:[8,13,1,7], signal:[8,13,7,13]};
 const ERRS=[]; addEventListener('error',e=>ERRS.push(e.message));
 const $ = (s,r=document)=>r.querySelector(s), $$=(s,r=document)=>[...r.querySelectorAll(s)];
 const esc = s=>String(s).replace(/[&<>"]/g,c=>({'&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;'}[c]));
+/* Inferal is named with its chevron (inferal.com's mark) wherever the company is brought in by name */
+const INF_D='M2.44,399.9c-5.45,5.86-1.16,15.22,6.97,15.22h126.55c3.88,0,7.6-1.5,10.33-4.16l197.28-191.95c2.98-2.9,4.6-6.63,4.84-10.43.29-4.47-1.33-9.04-4.84-12.46L146.29,4.16C143.55,1.5,139.83,0,135.96,0H9.4C1.27,0-3.01,9.35,2.44,15.22l193.06,184.2c2.4,2.58,3.46,5.91,3.18,9.15-.22,2.57-1.28,5.08-3.18,7.13L2.44,399.9Z';
+const INF_SVG='<svg class="inf" viewBox="0 0 348.45 415.12" aria-hidden="true" focusable="false"><path fill="#0070f3" fill-rule="evenodd" d="M2.44,399.9c-5.45,5.86-1.16,15.22,6.97,15.22h126.55c3.88,0,7.6-1.5,10.33-4.16l197.28-191.95c2.98-2.9,4.6-6.63,4.84-10.43.29-4.47-1.33-9.04-4.84-12.46L146.29,4.16C143.55,1.5,139.83,0,135.96,0H9.4C1.27,0-3.01,9.35,2.44,15.22l193.06,184.2c2.4,2.58,3.46,5.91,3.18,9.15-.22,2.57-1.28,5.08-3.18,7.13L2.44,399.9Z"/></svg>';
+let INF_PATH=null; const INF_BLUE='#0070f3';
+const brandName=(id,name,logo=true)=>id==='inferal'?INF_SVG+(logo?`<span class="infw">${esc(name)}</span>`:esc(name)):esc(name);
+/* canvas text needs the face loaded before it draws; the Atlas redraws continuously, so loading is enough */
+try{ document.fonts&&document.fonts.load('600 16px "Inferal Perfektta"'); }catch(e){}
 const reduced = matchMedia('(prefers-reduced-motion: reduce)').matches;
 const mobileQ = matchMedia('(max-width: 760px)');
 const params = new URLSearchParams(location.search);
@@ -1075,7 +1094,7 @@ $('#w-notes .sub').textContent = NOTES.length ? `/ thinking in public · ${NOTES
 const SHELF = (Array.isArray(window.SHELF)?window.SHELF:[]).map(x=>({id:String(x.id||x.title||'').replace(/[^\w.-]/g,'-'), t:x.title||'', b:x.body||'', since:x.since||null, tags:x.tags||[], atlas:x.atlas!==false, sector:(x.atlas&&typeof x.atlas==='object'&&x.atlas.sector)||'writing', f:(x.atlas&&typeof x.atlas==='object'&&x.atlas.f!=null)?x.atlas.f:null, url:x.url||null}));
 $('#shelf').innerHTML = SHELF.length ? SHELF.map(x=>`<li><b>${x.url?`<a href="${esc(x.url)}" style="color:inherit;text-decoration:none">${esc(x.t)}</a>`:esc(x.t)}</b><span>${esc(x.b)}${x.since?` <em class="d" style="font-style:normal">· since ${esc(String(x.since))}</em>`:''}</span></li>`).join('') : `<li class="empty"><b>Nothing on the shelf yet.</b><span>Ideas not built yet will sit here.</span></li>`;
 $('#shelf-sub').textContent = SHELF.length ? `/ ideas · not built yet · ${SHELF.length}` : '/ ideas · not built yet';
-$('#track').innerHTML=VENTURES.map(v=>`<li><span class="y ${v.hot?'hot':''}">${v.y}</span><div>${v.url?`<a href="${v.url}"><b>${esc(v.name)}</b></a>`:`<b>${esc(v.name)}</b>`}<span>${esc(v.ds)}</span></div></li>`).join('');
+$('#track').innerHTML=VENTURES.map(v=>`<li><span class="y ${v.hot?'hot':''}">${v.y}</span><div>${v.url?`<a href="${v.url}"><b>${brandName(v.id,v.name)}</b></a>`:`<b>${brandName(v.id,v.name)}</b>`}<span>${esc(v.ds)}</span></div></li>`).join('');
 /* talks: atlas.json bodies of kind "talk", newest first, on a vertical timeline; recordings play in the floating player */
 const TALKS = AT.bodies.filter(b=>b.kind==='talk').map(b=>({...b, y:b.year||b.start})).sort((a,b)=>b.y-a.y);
 const MON=['Jan','Feb','Mar','Apr','May','Jun','Jul','Aug','Sep','Oct','Nov','Dec'];
@@ -1125,7 +1144,7 @@ guard('query',()=>{ const el=$('#qc');
 
 /* ═══════════════════════════ work: projects as brands ═══════════════════════════ */
 function renderList(){
-  const item=p=>`<li role="none"><button role="option" data-p="${p.id}" aria-selected="${S.project===p.id}" style="--c:${p.c}"><span class="chip"></span><span><span class="nm ${p.mono?'mono':''}">${esc(p.name)}</span><span class="pos">${esc(p.pos)}</span></span></button></li>`;
+  const item=p=>`<li role="none"><button role="option" data-p="${p.id}" aria-selected="${S.project===p.id}" style="--c:${p.c}"><span class="chip"></span><span><span class="nm ${p.mono?'mono':''}">${brandName(p.id,p.name)}</span><span class="pos">${esc(p.pos)}</span></span></button></li>`;
   $('#flist').innerHTML=GROUPS.map(([g,label])=>{ const ps=PROJECTS.filter(p=>p.group===g); return ps.length?`<h4>${esc(label)}</h4><ul role="listbox" aria-label="${esc(label)} projects">${ps.map(item).join('')}</ul>`:''; }).join('')+`
   <h4>Before</h4><ul><li role="none"><button class="arch" data-open-app="track"><span class="chip" style="--c:var(--bone-4)"></span><span><span class="nm">Track record</span><span class="pos">Companies since 2007</span></span></button></li></ul>`;
 }
@@ -1133,7 +1152,7 @@ function selectProject(id){
   const p=PROJECTS.find(x=>x.id===id); if(!p) return; S.project=id; save();
   $$('#flist button[data-p]').forEach(b=>b.setAttribute('aria-selected',String(b.dataset.p===id)));
   $('#proj-sub').textContent=p.name+' · '+p.pos;
-  $('#detail').innerHTML=`<div class="wm" style="--c:${p.c}"><h2 class="${p.mono?'mono':''}">${/active/.test(p.status)?'<span class="pulse" aria-hidden="true"></span>':''}${esc(p.name)}</h2><span class="url">${esc(p.url.replace(/^https?:\/\//,''))}</span></div>
+  $('#detail').innerHTML=`<div class="wm" style="--c:${p.c}"><h2 class="${p.mono?'mono':''}">${/active/.test(p.status)?'<span class="pulse" aria-hidden="true"></span>':''}${brandName(p.id,p.name)}</h2><span class="url">${esc(p.url.replace(/^https?:\/\//,''))}</span></div>
     <p class="pos">${esc(p.pos)}</p>
     ${p.voice?`<blockquote class="voice" style="--c:${p.c}">${esc(p.voice)}</blockquote>`:''}
     <p>${esc(p.desc)}</p>
@@ -1297,7 +1316,7 @@ const atlas=(function(){
       else if(b.kind==='post'){ show=k>1.9||isHot; size=12; } else if(b.kind==='talk'){ show=k>1.6||isHot; size=12; } else if(b.kind==='idea'){ show=k>.9||isHot; size=12.5; } else if(b.kind==='life'){ show=k>.55||isHot||b.id==='born'; size=12.5; } else if(b.size===0){ show=k>1.25||isHot; size=12; } else if(b.size===1){ show=k>.62||isHot; size=13; } else if(b.size===2){ show=k>.36||isHot; size=14.5; } else { show=true; size=17; }
       if(wall && b.size<2 && !isHot && b.kind!=='life') show=false; if(b.id==='born') show=false; /* the 1981 ring is labelled */
       if(!show) return; cx.globalAlpha=dimmed?.35:(b.kind==='repo'?Math.min(1,rv*(.4+.6*b.score)+.15):1);
-      cx.font=lf(size); const tw=cx.measureText(b.label).width; const off=(b.size===3?12:(b.size===2?9:7));
+      cx.font=b.id==='inferal'?`600 ${size}px "Inferal Perfektta",${F_SANS}`:lf(size); const chev=b.id==='inferal'?(()=>{ cx.textBaseline='alphabetic'; const h=cx.measureText('I').actualBoundingBoxAscent||size*.7; return {h, w:h*348.45/415.12, g:size*.26}; })():null; const tw=cx.measureText(b.label).width+(chev?chev.w+chev.g:0); const off=(b.size===3?12:(b.size===2?9:7));
       const showYear=(k>.95||isHot)&&b.kind!=='idea'; const yr=epochStr(b); const yw=showYear?48:0; const lh=size+2+(showYear?12:0);
       const ca=Math.cos(b.ang+theta), sa=Math.sin(b.ang+theta); const cR=[x+off,y-size/2-1], cL=[x-off-tw,y-size/2-1], cU=[x-tw/2,y-off-lh+2], cD=[x-tw/2,y+off+2];
       const horiz=[ca<-.2?cL:cR, ca<-.2?cR:cL], vert=[sa<0?cU:cD, sa<0?cD:cU];
@@ -1307,8 +1326,10 @@ const atlas=(function(){
       cx.textBaseline='top'; cx.textAlign='left';
       if(cx.globalAlpha>=.3) hits.push({box:[pos[0]-4,pos[1]-3,Math.max(tw,yw)+8,lh+4],b}); /* names are clickable too */
       cx.fillStyle=isHot?HOT:(b.kind==='post'||b.kind==='repo'?rgba(BONE,.72):(b.size>=2?rgba(BONE,.95):rgba(BONE,.72)));
-      cx.lineWidth=3; cx.strokeStyle=HALO; cx.lineJoin='round'; cx.strokeText(b.label,pos[0],pos[1]); cx.fillText(b.label,pos[0],pos[1]);
-      if(showYear){ cx.font=`10px ${F_MONO}`; cx.fillStyle=isHot?rgba(SIG,.9):rgba(BONE,.48); cx.strokeText(yr,pos[0],pos[1]+size+2); cx.fillText(yr,pos[0],pos[1]+size+2); }
+      cx.lineWidth=3; cx.strokeStyle=HALO; cx.lineJoin='round'; let tx=pos[0];
+      if(chev){ const sc=chev.h/415.12, mt=cx.measureText('I'), base=pos[1]+(mt.actualBoundingBoxDescent||size*.8); cx.save(); cx.translate(pos[0],base-chev.h); cx.scale(sc,sc); cx.fillStyle=INF_BLUE; cx.fill(INF_PATH||(INF_PATH=new Path2D(INF_D)),'evenodd'); cx.restore(); tx+=chev.w+chev.g; }
+      cx.strokeText(b.label,tx,pos[1]); cx.fillText(b.label,tx,pos[1]);
+      if(showYear){ cx.font=`10px ${F_MONO}`; cx.fillStyle=isHot?rgba(SIG,.9):rgba(BONE,.48); cx.strokeText(yr,tx,pos[1]+size+2); cx.fillText(yr,tx,pos[1]+size+2); }
       cx.globalAlpha=1; });
     if(focusBody){ cx.beginPath(); cx.arc(focusBody.sx,focusBody.sy,14,0,TAU); cx.strokeStyle=rgba(SIG,1); cx.lineWidth=1.5; cx.setLineDash([3,3]); cx.stroke(); cx.setLineDash([]); }
     const pr=2+1.5*k;
@@ -1415,7 +1436,7 @@ const atlas=(function(){
     const s=secById[b.sector]; const p=b.proj;
     inspK.textContent=(b.kind==='repo'?(b.cat==='authored'?'Authored repository':'Contributed to'):KIND[b.kind])+(p&&p.role?' · '+p.role:'')+(b.kind==='post'&&b.post.featured?' · selected':'')+(b.kind==='oss'?' · '+b.cat:'');
     const ring=b.now?0:(b.kind==='idea'?'∞':(NOW_Y-(b.y||NOW_Y)).toFixed(1));
-    let html=`<h2 class="${p&&p.mono?'mono':''}">${esc(b.name)}</h2>`;
+    let html=`<h2 class="${p&&p.mono?'mono':''}">${brandName(b.id,b.name)}</h2>`;
     if(b.line&&!p&&b.kind!=='repo') html+=`<p class="pos">${esc(b.line)}</p>`;
     html+=`<div class="coord"><span>epoch <b>${esc(epochStr(b))}</b></span><span>φ <b>${phiStr(b)}</b></span><span>S <b>${s.n} · ${esc(s.name)}</b></span><span>r <b>${ring} ring${ring==1?'':'s'}</b></span></div>`;
     if(p){ html+=`<p class="pos">${esc(p.pos)}</p>${p.voice?`<blockquote class="voice" style="--c:${p.c}">${esc(p.voice)}</blockquote>`:''}<p>${esc(p.desc)}</p>`; }
