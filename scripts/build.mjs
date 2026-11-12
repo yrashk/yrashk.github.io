@@ -328,6 +328,7 @@ function renderPost(post, prev, next, template) {
   const atlasHref = loc.focus ? `/#focus=${loc.focus}` : "/#app=atlas";
   return render(template, {
     title: post.title, siteTitle: SITE_TITLE, description: post.excerpt, permalink: post.permalink, canonical: ORIGIN + post.permalink,
+    homesJson: JSON.stringify(HOMES).replace(/</g, "\\u003c"), homesNames: HOMES.map((h) => h.n).join(" · "), here: atlas.person?.here ?? "",
     standfirst: post.standfirst ? `<p class="standfirst">${esc(post.standfirst)}</p>` : "",
     date: post.date, dateLong: longDate(post.date), dateSlash: `${y} / ${m} / ${d}`, dateDots: `${y} · ${m} · ${d}`,
     updatedRow: post.updated ? `<dt>updated</dt><dd><time datetime="${post.updated}">${post.updated}</time></dd>` : "",
@@ -385,6 +386,8 @@ for (const f of listFiles(POSTS_DIR, [".md", ".html"])) posts.push(await loadPos
 posts.sort((a, b) => (a.date < b.date ? -1 : a.date > b.date ? 1 : a.permalink.localeCompare(b.permalink)));
 const seen = new Set();
 for (const p of posts) { if (seen.has(p.permalink)) throw new Error(`duplicate permalink ${p.permalink}`); seen.add(p.permalink); }
+// The reader's top-bar clock: his homes (person.homes) with their time zones; person.here is underlined.
+const HOMES = (atlas.person?.homes ?? []).map((id) => atlas.places?.find((p) => p.id === id)).filter((p) => p?.tz).map((p) => ({ id: p.id, n: p.name.split(",")[0], tz: p.tz }));
 const article = tpl("article.html");
 posts.forEach((p, i) => write(join(p.permalink, "index.html"), renderPost(p, posts[i - 1], posts[i + 1], article)));
 const listed = posts.filter((p) => p.listed).slice().reverse(); // newest first
@@ -463,7 +466,7 @@ ${PREPAINT}
 }
 
 // 8. cache-busting. GitHub Pages serves with a 10-minute cache, so after a deploy a browser could pair
-// a new page with stale data. Every quoted reference to a data/vendor file (and to sparql.js, player.js) gets
+// a new page with stale data. Every quoted reference to a data/vendor file (and to sparql.js, player.js, clock.js) gets
 // ?v=<content hash>. Leaves first, then sparql.js (whose hash covers its rewritten references), then pages.
 {
   const walk = (dir) => (existsSync(dir) ? readdirSync(dir, { withFileTypes: true }).flatMap((e) => (e.isDirectory() ? walk(join(dir, e.name)) : [join(dir, e.name)])) : []);
@@ -481,6 +484,8 @@ ${PREPAINT}
   }
   const player = join(DIST, "player.js"); // the floating talk player, on the shell and every reader page
   if (existsSync(player)) leaves.push(["player.js", hash(player)]);
+  const clock = join(DIST, "clock.js"); // the two-homes clock, also on the shell and every reader page
+  if (existsSync(clock)) leaves.push(["clock.js", hash(clock)]);
   for (const page of walk(DIST).filter((f) => f.endsWith(".html"))) writeFileSync(page, stamp(readFileSync(page, "utf8"), leaves));
 }
 

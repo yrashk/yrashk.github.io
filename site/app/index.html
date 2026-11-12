@@ -813,6 +813,7 @@ table.ps tr:hover td{background:var(--panel-2);cursor:pointer}
 <script src="../data/atlas.js"></script>
 <script src="../data/github.js"></script>
 <script src="../data/strava.js"></script>
+<script src="clock.js"></script>
 <script src="player.js"></script>
 <script>
 /* ═══════════════════════════ data (from the content dossier; curated) ═══════════════════════════ */
@@ -909,26 +910,17 @@ function pulse(){
 }
 if(!reduced){ setInterval(()=>{ if(document.hidden) return; const c=cores[Math.floor(Math.random()*cores.length)]; c.classList.add('warm'); setTimeout(()=>c.classList.remove('warm'),500); }, 3800); }
 
-/* ═══════════════════════════ clock (Comox, BC) ═══════════════════════════ */
-/* two homes: Redwood City, CA (America/Los_Angeles) and Comox, BC (America/Vancouver). Offsets come from Intl: when they match, one Pacific time with both names; when they differ (BC stays on daylight time), both clocks. */
-const HOMES=[{id:'redwood-city',n:'Redwood City',tz:'America/Los_Angeles'},{id:'comox',n:'Comox',tz:'America/Vancouver'}];
-/* where he is right now: atlas.json person.here (one of person.homes); unknown → no mark */
-const HERE = HOMES.find(h=>h.id===((window.ATLAS||{}).person||{}).here) || null;
+/* ═══════════════════════════ clock: his two homes ═══════════════════════════ */
+/* the clock itself is ./clock.js, shared with every reader page: homes and person.here come from atlas.json */
+const HOMES=yrClock.homesFrom(window.ATLAS);
+let CLOCK=null; try{ CLOCK=yrClock.start({clock:$('#clock'), zone:$('#zone'), box:$('.clock'), homes:HOMES, here:((window.ATLAS||{}).person||{}).here}); }catch(e){ ERRS.push('clock: '+e.message); }
+const HERE=(CLOCK&&CLOCK.here)||null;
 const fmt=(tz,o)=>new Intl.DateTimeFormat('en-CA',{timeZone:tz,hour12:false,...o});
 const fTime=fmt(HOMES[0].tz,{hour:'2-digit',minute:'2-digit'});
 const fTimeS=fmt(HOMES[0].tz,{hour:'2-digit',minute:'2-digit',second:'2-digit'});
-const part=(tz,n,name,opt)=>(new Intl.DateTimeFormat('en-US',{timeZone:tz,timeZoneName:opt}).formatToParts(n).find(p=>p.type==='timeZoneName')||{}).value||'';
 const fDate=new Intl.DateTimeFormat('en-US',{timeZone:HOMES[0].tz,weekday:'long',month:'long',day:'numeric',year:'numeric'});
-function homes(n=new Date()){ return HOMES.map(h=>({...h,t:fmt(h.tz,{hour:'2-digit',minute:'2-digit'}).format(n),z:part(h.tz,n,'z','short'),off:part(h.tz,n,'o','shortOffset').replace('GMT','UTC')})); }
-function homesNow(n=new Date(),short=false){ const [a,b]=homes(n); if(a.t===b.t) return [a.t, `${a.z} · ${a.n} · ${b.n}`]; return short ? [`${a.t} · ${b.t}`, `${a.n} / ${b.n}`] : [`${a.n} ${a.t} · ${b.n} ${b.t}`, `${a.z} / ${b.z}`]; }
-/* the top-bar clock: the current city carries a thin signal underline (the time stands in for it where names are hidden) */
-function tick(){ const n=new Date(); const [a,b]=homes(n); const short=innerWidth<1100; const mk=(h,txt)=>`<i class="city${HERE&&HERE.id===h.id?' here':''}">${esc(txt)}</i>`; let t,z;
-  if(a.t===b.t){ t = HERE ? mk(HERE,a.t) : esc(a.t); z = `${a.z} · ${mk(a,a.n)} · ${mk(b,b.n)}`; }
-  else if(short){ t = `${mk(a,a.t)} · ${mk(b,b.t)}`; z = `${mk(a,a.n)} / ${mk(b,b.n)}`; }
-  else { t = `${mk(a,a.n)} ${a.t} · ${mk(b,b.n)} ${b.t}`; z = `${a.z} / ${b.z}`; }
-  $('#clock').innerHTML=t; $('#zone').innerHTML=z; const cl=$('.clock'); if(HERE){ cl.title=`currently in ${HERE.n}`; cl.setAttribute('aria-label',`local time · currently in ${HERE.n}`); } }
-addEventListener('resize',()=>guard('clock',tick));
-guard('clock',tick); setInterval(()=>guard('clock',tick),1000);
+function homes(n=new Date()){ return yrClock.at(HOMES,n); }
+function homesNow(n=new Date(),short=false){ const [a,b]=homes(n); if(!b||a.t===b.t) return [a.t, `${a.z} · ${HOMES.map(h=>h.n).join(' · ')}`]; return short ? [`${a.t} · ${b.t}`, `${a.n} / ${b.n}`] : [`${a.n} ${a.t} · ${b.n} ${b.t}`, `${a.z} / ${b.z}`]; }
 if(HERE){ $$('#w-about .sub .city').forEach(c=>{ if(c.dataset.home===HERE.id){ c.classList.add('here'); c.title=`currently in ${HERE.n}`; } }); }
 
 /* ═══════════════════════════ layout (tiling) ═══════════════════════════ */

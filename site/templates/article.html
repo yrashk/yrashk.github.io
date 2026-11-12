@@ -77,6 +77,8 @@ kbd{font:500 10.5px/1 var(--mono);color:var(--bone-2);background:var(--panel-3);
 .cores span b{color:var(--bone-3);font-weight:500;font-variant-numeric:tabular-nums}
 .clock{color:var(--bone-2)}
 .clock b{color:var(--bone);font-weight:500;font-variant-numeric:tabular-nums}
+.city{font-style:normal}
+.city.here{text-decoration:underline;text-decoration-color:var(--signal);text-decoration-thickness:1.5px;text-underline-offset:4px;text-decoration-skip-ink:none}
 .ua{font-size:13px;line-height:1}
 .tools{display:flex;gap:6px}
 .tools a,.tools button{display:flex;gap:7px;align-items:center;height:24px;padding:0 9px;border:1px solid var(--line);border-radius:5px;color:var(--bone-3);text-decoration:none;font:500 11px/1 var(--mono);letter-spacing:.07em;text-transform:uppercase}
@@ -294,7 +296,7 @@ details.adm:not([open]) summary:hover .t{color:var(--bone)}
   <a class="brand" href="/" aria-label="Home"><span class="bands" aria-hidden="true"><i></i><i></i><i></i><i></i></span>{{siteTitle}}</a>
   <nav class="crumb" aria-label="Breadcrumb"><a href="/#ws=words&app=essays">words</a><span aria-hidden="true">/</span><span class="cur">{{dateSlash}}</span></nav>
   <div class="cores" aria-hidden="true" title="reading progress"><i></i><i></i><i></i><i></i><i></i><i></i><i></i><i></i><span>read <b id="pct">0%</b></span></div>
-  <div class="clock" aria-live="off"><b id="clock">--:--</b> <span id="zone" style="color:var(--bone-4)">Redwood City · Comox</span></div>
+  <div class="clock" aria-live="off"><b id="clock">--:--</b> <span id="zone" style="color:var(--bone-4)">{{homesNames}}</span></div>
   <span class="ua" title="Stands with Ukraine" role="img" aria-label="Stands with Ukraine">🇺🇦</span>
   <div class="tools">
     <button id="theme" aria-pressed="false" title="Toggle paper theme (p)"><span>paper</span><kbd>p</kbd></button>
@@ -374,6 +376,7 @@ details.adm:not([open]) summary:hover .t{color:var(--bone)}
   </section>
 </main>
 
+<script src="/clock.js"></script>
 <script>
 const $=(s,r=document)=>r.querySelector(s), $$=(s,r=document)=>[...r.querySelectorAll(s)];
 const reduced=matchMedia('(prefers-reduced-motion: reduce)').matches;
@@ -386,11 +389,8 @@ applyTheme(root.getAttribute('data-theme'));
 tbtn.addEventListener('click',()=>setTheme(root.getAttribute('data-theme')==='paper'?'dark':'paper'));
 addEventListener('storage',e=>{ if(e.key==='yr-theme') applyTheme(e.newValue); });
 
-/* clock — two homes; offsets from Intl, both shown when they differ */
-const HOMES=[{n:'Redwood City',tz:'America/Los_Angeles'},{n:'Comox',tz:'America/Vancouver'}];
-function tick(){ const n=new Date(); const h=HOMES.map(x=>({...x,t:new Intl.DateTimeFormat('en-CA',{timeZone:x.tz,hour:'2-digit',minute:'2-digit',hour12:false}).format(n),z:(new Intl.DateTimeFormat('en-US',{timeZone:x.tz,timeZoneName:'short'}).formatToParts(n).find(p=>p.type==='timeZoneName')||{}).value||''}));
-  if(h[0].t===h[1].t){ $('#clock').textContent=h[0].t; $('#zone').textContent=`${h[0].z} · Redwood City · Comox`; } else { $('#clock').textContent=`${h[0].n} ${h[0].t} · ${h[1].n} ${h[1].t}`; $('#zone').textContent=`${h[0].z} / ${h[1].z}`; } }
-try{ tick(); }catch(e){} setInterval(tick,30000);
+/* clock: /clock.js, the same as on the desktop; homes and person.here from atlas.json, passed in by the build */
+window.yrClock&&yrClock.start({clock:$('#clock'), zone:$('#zone'), box:$('.clock'), homes:{{{homesJson}}}, here:'{{here}}'});
 
 /* table of contents: current section */
 const heads=$$('.prose :is(h2,h3)[id]'), tocLinks=$$('#toc a');
