@@ -8,6 +8,7 @@
   },
   "scripts": {
     "build": "node scripts/build.mjs",
+    "dev": "node scripts/dev.mjs",
     "data": "node scripts/github-data.mjs site/data && node scripts/atlas-rdf.mjs site/data",
     "serve": "node scripts/serve.mjs",
     "check": "node scripts/check.mjs",

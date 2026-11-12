@@ -28,6 +28,7 @@ scripts/
   build.mjs       the generator (markdown-it + shiki)         → dist/
   check.mjs       link checker + required URLs + copy guard over dist/
   serve.mjs       tiny static server for dist/ (Pages semantics: dirs → index.html, misses → 404)
+  dev.mjs         build + serve + rebuild on any change under site/ or build.mjs, pages live-reload
   github-data.mjs GitHub activity → site/data/github.*, contrib.js, github-detail.json
   atlas-rdf.mjs   atlas.json + github.json → site/data/atlas.ttl (and atlas.js)
   strava-rdf.mjs  a Strava bulk export → site/data/strava.js, strava-tracks.json, strava.ttl (privacy-trimmed)
@@ -42,6 +43,7 @@ npm ci                 # once (Node 20+)
 npm run build          # node scripts/build.mjs → dist/   (deterministic; ~0.3 s)
 npm run check          # must pass before anything ships; CI runs it
 npm run serve          # http://localhost:8080/ (node scripts/serve.mjs [port] [dir])
+npm run dev            # same URL, rebuilds on save and reloads open pages (node scripts/dev.mjs [port])
 npm run data           # refresh GitHub data + regenerate atlas.ttl (needs GITHUB_TOKEN or `gh auth`)
 npm run strava:update  # import the newest ~/Downloads/export_*.zip from Strava, build, check (site/DATA.md)
 ```
@@ -97,6 +99,47 @@ without a body still render (default sector "writing").
 
 `/data/posts.js` carries `{id, title, date, url, tags, excerpt, listed, featured, related}` for
 every post, newest first; the Writing window decides what to feature from it.
+
+### Starting a draft for the author
+
+When Yurii asks for a shell for a new post, prepare the file and leave the writing to him: no
+drafted prose, no suggested sentences. Create `site/content/posts/YYYY-MM-DD-slug.md` (the date is
+the publication date; the slug and permalink are permanent once pushed, even if the title changes
+later) like this:
+
+```markdown
+---
+title: Checking in at 45
+date: 2026-11-12
+permalink: /blog/2026/11/12/check-in-at-45/
+tags: []
+excerpt: ""
+listed: false
+---
+<!--
+  Draft. Not shown in lists, feeds or the sitemap while `listed: false` is above;
+  delete that line to publish. The page still builds at its permalink.
+  - excerpt: one or two sentences for lists, feeds and the meta description
+    (left empty, it falls back to the opening paragraph).
+  - tags: e.g. [life, startups] — anything, lowercased on the page.
+  - Body: plain Markdown. `##` headings become the table of contents.
+    Footnotes [^1], ::: note / ::: tip admonitions, images under
+    site/static/blog/posts/ referenced as /blog/posts/<file>.
+  Preview: npm run dev → http://localhost:8080/blog/YYYY/MM/DD/slug/
+-->
+
+## 
+```
+
+- `listed: false` keeps the draft off lists, feeds and the sitemap; tell him to delete the line to
+  publish. The page is still reachable by URL once pushed, so don't push a draft he hasn't approved.
+- Keep the guidance comment **free of blank lines**. With `excerpt: ""` the build derives the
+  excerpt from the first paragraph that doesn't start with `<`, `#`, `>`, … — a blank line inside
+  the comment makes its second half that paragraph, and it leaks into the meta description and
+  `posts.js`.
+- Open the file in his editor (`open -a Zed <file>`), run `npm run build` to confirm it builds, and
+  offer `npm run dev` for a live preview. Commit only when he asks (`git pull --ff-only` first,
+  Problem/Solution message).
 
 ### Markdown dialect
 
