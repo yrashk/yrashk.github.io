@@ -710,14 +710,18 @@ const CSS = `
 .qc-ch .hit.on{fill:var(--qpanel2);fill-opacity:.55}
 .qc-map{background:var(--qpanel)}
 .qc-map .qc-gnote{bottom:22px}
-.qc-map .qc-gnote:not(:empty),.qc-mattr:not(:empty){background:color-mix(in oklab,var(--qpanel) 80%,transparent);padding:2px 6px;border-radius:3px;left:6px}
+.qc-map .qc-gnote:not(:empty),.qc-mattr:not(:empty){background:color-mix(in oklab,var(--qpanel) 94%,transparent);padding:3px 7px;border-radius:4px;left:6px;box-shadow:0 1px 6px rgba(0,0,0,.25)}
+/* over the map's light tiles, overlays are opaque: translucent fills and dim text washed out on a phone */
+.qc-map .qc-gnote{color:var(--qbone2)}
+.qc-map .qc-mattr{color:var(--qbone3)}
 .qc-mattr{position:absolute;left:10px;bottom:6px;font:9.5px/1 var(--qmono);color:var(--qbone4);white-space:nowrap;overflow:hidden;max-width:calc(100% - 60px);text-overflow:ellipsis}
 .qc-mattr a{color:inherit}
 .qc-mclu{position:absolute;left:8px;top:8px;right:8px;display:flex;flex-wrap:wrap;gap:3px}
 .qc-mclu[hidden]{display:none}
 .qc-mclu button{height:22px;padding:0 8px;border:1px solid var(--qline);border-radius:4px;background:var(--qpanel);font:11px/1 var(--qmono);color:var(--qbone3)}
 .qc-mclu button:hover{color:var(--qbone)}
-.qc-mclu button[aria-pressed="true"]{color:var(--qsig2);border-color:var(--qsigline);background:var(--qsigdim)}
+.qc-mclu button{box-shadow:0 1px 6px rgba(0,0,0,.25)}
+.qc-mclu button[aria-pressed="true"]{color:var(--qsig2);border-color:var(--qsig);background:color-mix(in oklab,var(--qpanel) 82%,var(--qsig))}
 `;
 // ── the console ────────────────────────────────────────────────────────────────
 export async function mountQueryConsole(element, options = {}) {
@@ -1561,7 +1565,7 @@ export async function mountQueryConsole(element, options = {}) {
   const map = (() => {
     const box = views.map.querySelector(".qc-g");
     const cv = box.querySelector("canvas"), tip = box.querySelector(".qc-gtip"), note = box.querySelector(".qc-gnote"), clu = box.querySelector(".qc-mclu");
-    const cx = cv.getContext("2d");
+    let cx = cv.getContext("2d"); // let: drawTiles points it at a layer while toning tiles without canvas filters
     const STRAVA = BASE + "strava/";
     box.querySelector(".qc-mattr").innerHTML = tiles?.attribution || "";
     // raster tiles, cached per URL; a tile that is still loading shows its loaded parent, scaled up
@@ -1580,13 +1584,49 @@ export async function mountQueryConsole(element, options = {}) {
       }
       return t.complete && t.naturalWidth ? t : null;
     }
+    /* Tile toning. Canvas filters (ctx.filter) don't exist in Safari, so on an iPhone the tiles came out raw:
+       a bright map inside the dark theme. Where filters are missing, the same toning is built from blend modes
+       on a layer: invert, take the original hue back, desaturate, darken; then the layer keeps the tiles' own
+       alpha so empty map stays the panel colour. */
+    const FILTER_OK = (() => { try { const c = document.createElement("canvas"); c.width = c.height = 1; const g = c.getContext("2d"); g.filter = "invert(1)"; g.fillStyle = "#fff"; g.fillRect(0, 0, 1, 1); return g.getImageData(0, 0, 1, 1).data[0] < 128; } catch (e) { return false; } })();
+    let layer = null, layer2 = null;
+    function tone(paper) {
+      const L = layer.getContext("2d"), w = layer.width, h = layer.height;
+      layer2.width = w; layer2.height = h; const O = layer2.getContext("2d"); O.drawImage(layer, 0, 0); // the raw tiles
+      L.save(); L.setTransform(1, 0, 0, 1, 0, 0);
+      if (!paper) {
+        L.globalCompositeOperation = "difference"; L.fillStyle = "#fff"; L.fillRect(0, 0, w, h);   // invert(1)
+        L.globalCompositeOperation = "hue"; L.drawImage(layer2, 0, 0);                              // hue-rotate(180deg)
+        L.globalCompositeOperation = "saturation"; L.globalAlpha = 0.65; L.fillStyle = "#808080"; L.fillRect(0, 0, w, h); // saturate(.35)
+        L.globalCompositeOperation = "source-over"; L.globalAlpha = 0.2; L.fillStyle = "#000"; L.fillRect(0, 0, w, h);  // brightness(.8)
+        L.globalAlpha = 0.12; L.fillStyle = "#808080"; L.fillRect(0, 0, w, h);                      // contrast(.85)
+      } else {
+        L.globalCompositeOperation = "saturation"; L.globalAlpha = 0.55; L.fillStyle = "#808080"; L.fillRect(0, 0, w, h); // saturate(.45)
+        L.globalCompositeOperation = "source-over"; L.globalAlpha = 0.08; L.fillStyle = "#a07850"; L.fillRect(0, 0, w, h); // sepia(.12)
+      }
+      L.globalAlpha = 1; L.globalCompositeOperation = "destination-in"; L.drawImage(layer2, 0, 0);  // only where tiles are
+      L.restore();
+    }
     function drawTiles() {
       if (!tiles) return;
+      const paper = document.documentElement.dataset.theme === "paper";
+      if (!FILTER_OK && (paper ? tiles.paper : tiles.dark)) {
+        layer ??= document.createElement("canvas"); layer2 ??= document.createElement("canvas");
+        layer.width = cv.width; layer.height = cv.height;
+        const main = cx; cx = layer.getContext("2d"); cx.setTransform(main.getTransform());
+        try { drawTilesOn(); } finally { cx = main; }
+        tone(paper);
+        cx.save(); cx.setTransform(1, 0, 0, 1, 0, 0); cx.drawImage(layer, 0, 0); cx.restore();
+        return;
+      }
+      drawTilesOn();
+    }
+    function drawTilesOn() {
       const z = Math.max(0, Math.min(tiles.maxZoom ?? 19, Math.round(Math.log2((V.s * Math.min(2, dpr)) / 256)))), n = 2 ** z, size = V.s / n;
       const x0 = Math.floor((-V.ox / V.s) * n), x1 = Math.floor(((W - V.ox) / V.s) * n);
       const y0 = Math.max(0, Math.floor((-V.oy / V.s) * n)), y1 = Math.min(n - 1, Math.floor(((H - V.oy) / V.s) * n));
       if ((x1 - x0 + 1) * (y1 - y0 + 1) > 160) return;
-      cx.filter = (document.documentElement.dataset.theme === "paper" ? tiles.paper : tiles.dark) || "none";
+      if (FILTER_OK) cx.filter = (document.documentElement.dataset.theme === "paper" ? tiles.paper : tiles.dark) || "none";
       for (let ty = y0; ty <= y1; ty++)
         for (let tx = x0; tx <= x1; tx++) {
           const wx = ((tx % n) + n) % n, X = V.ox + tx * size, Y = V.oy + ty * size;
