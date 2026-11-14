@@ -1,0 +1,174 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<rss version="2.0" xmlns:atom="http://www.w3.org/2005/Atom" xmlns:content="http://purl.org/rss/1.0/modules/content/" xmlns:dc="http://purl.org/dc/elements/1.1/">
+  <channel>
+    <title>Yurii Rashkovskii — performance</title>
+    <link>https://yrashk.com/</link>
+    <description>Founder of Inferal. Essays and notes on how people and systems work.</description>
+    <language>en</language>
+    <atom:link href="https://yrashk.com/rss/performance.xml" rel="self" type="application/rss+xml"/>
+    <lastBuildDate>Thu, 16 Feb 2023 00:00:00 GMT</lastBuildDate>
+    <item>
+      <title>What happens if you put HTTP server inside Postgres?</title>
+      <link>https://yrashk.com/blog/2023/02/16/what-happens-if-you-put-http-server-inside-postgres/</link>
+      <guid isPermaLink="true">https://yrashk.com/blog/2023/02/16/what-happens-if-you-put-http-server-inside-postgres/</guid>
+      <pubDate>Thu, 16 Feb 2023 00:00:00 GMT</pubDate>
+      <dc:creator>Yurii Rashkovskii</dc:creator>
+      <category>Postgres</category>
+      <category>Omnigres</category>
+      <category>performance</category>
+      <description>Benchmarks and performance claims are attention-grabbers, but that's not what drew me to work on Omnigres. When I first built a prototype of its HTTP server, I didn't foresee the desire to share the numbers. As we all know, getting benchmarks right is hard, and everybody's mileage may vary. But I'll show you some numbers here anyway. It'll be great to validate or invalidate my findings!</description>
+      <content:encoded><![CDATA[<p>Benchmarks and performance claims are attention-grabbers, but that's not what
+drew me to work on Omnigres. When I first built a prototype of its HTTP server,
+I didn't foresee the desire to share the numbers. As we all know, getting
+benchmarks right is hard, and everybody's mileage may vary. But I'll show
+you some numbers here anyway. It'll be great to validate or invalidate my
+findings!</p>
+<div class="adm warning" role="note"><span class="ic" aria-hidden="true">!</span><span class="t">Outdated API</span><div class="b">
+<p>Since this article has been published, the API of Omnigres has been updated.
+I've not gotten to reflecting this in the aritcle yet. But the points made here
+are still valid!</p>
+</div></div>
+<p>But first, what's Omnigres? The shortest definition I came up with is &quot;Postgres
+as a Platform.&quot;</p>
+<p>What do I mean by this? Well, this comes from the idea that much of your
+application and its infrastructure can live inside or next to Postgres. Your
+business logic, deployment orchestration, caching, job queues, API endpoints,
+form handlers, HTTP server, you name it. Instead of building a system
+composed of multiple services, you only need one server that takes
+care of it. And if it can scale, you've got something great!</p>
+<p>I am not the only one intrigued by this idea (and many don't like it, either):
+check out <a href="https://news.ycombinator.com/item?id=33934139">this HN thread</a>.</p>
+<p>And it is not &quot;one-size-fits-all.&quot; But it fits a good set of problems. Anyway,
+that's a subject for another conversation.</p>
+<p>In the past weeks, I've taken the task of adding an embedded HTTP server to
+Omnigres. Since Omnigres is <a href="https://yrashk.com/blog/2023/01/07/why-not-rust-for-omnigres/">implemented in C</a>, it was only natural
+for me to choose <a href="https://github.com/h2o/h2o">libh2o</a> to implement the
+functionality of an HTTP server. It did help that H2O is known for its good
+performance characteristics.</p>
+<p>The idea was relatively simple: initialize a few HTTP worker processes, each
+quickly handing off details of the incoming HTTP requests to a Postgres
+instance in the same process.</p>
+<p>Sounds a bit weird, right? But bear with me, I will try to explain what's going
+on.</p>
+<p>Below is a sample piece of code of how an HTTP request can be handled.</p>
+<figure class="code"><figcaption class="ch"><span class="lang">sql</span><button type="button" data-copy>copy</button></figcaption>
+<pre class="shiki css-variables"><code><span class="line"><span class="ln" aria-hidden="true">1</span><span style="color:var(--shiki-token-keyword)">select</span><span style="color:var(--shiki-foreground)"> omni_httpd.http_response(headers </span><span style="color:var(--shiki-token-keyword)">=></span><span style="color:var(--shiki-token-keyword)"> array</span><span style="color:var(--shiki-foreground)">[omni_httpd.http_header('content-type', 'text/html')], body </span><span style="color:var(--shiki-token-keyword)">=></span><span style="color:var(--shiki-token-string-expression)"> 'Hello, &#x3C;b>'</span><span style="color:var(--shiki-token-keyword)"> ||</span><span style="color:var(--shiki-foreground)"> users.name </span><span style="color:var(--shiki-token-keyword)">||</span><span style="color:var(--shiki-token-string-expression)"> '&#x3C;/b>!'</span><span style="color:var(--shiki-foreground)">), </span><span style="color:var(--shiki-token-constant)">1</span><span style="color:var(--shiki-token-keyword)"> as</span><span style="color:var(--shiki-foreground)"> priority</span></span>
+<span class="line"><span class="ln" aria-hidden="true">2</span><span style="color:var(--shiki-token-keyword)">       from</span><span style="color:var(--shiki-foreground)"> request</span></span>
+<span class="line"><span class="ln" aria-hidden="true">3</span><span style="color:var(--shiki-token-keyword)">       inner join</span><span style="color:var(--shiki-foreground)"> users </span><span style="color:var(--shiki-token-keyword)">on</span><span style="color:var(--shiki-foreground)"> string_to_array(request.path,</span><span style="color:var(--shiki-token-string-expression)">'/'</span><span style="color:var(--shiki-foreground)">, </span><span style="color:var(--shiki-token-string-expression)">''</span><span style="color:var(--shiki-foreground)">) </span><span style="color:var(--shiki-token-keyword)">=</span><span style="color:var(--shiki-token-keyword)"> array</span><span style="color:var(--shiki-foreground)">[NULL, 'users', users.handle]</span></span>
+<span class="line"><span class="ln" aria-hidden="true">4</span><span style="color:var(--shiki-token-keyword)">union</span></span>
+<span class="line"><span class="ln" aria-hidden="true">5</span><span style="color:var(--shiki-token-keyword)">select</span><span style="color:var(--shiki-foreground)"> omni_httpd.http_response(</span><span style="color:var(--shiki-token-keyword)">status</span><span style="color:var(--shiki-token-keyword)"> =></span><span style="color:var(--shiki-token-constant)"> 404</span><span style="color:var(--shiki-foreground)">, body </span><span style="color:var(--shiki-token-keyword)">=></span><span style="color:var(--shiki-foreground)"> json_build_object(</span><span style="color:var(--shiki-token-string-expression)">'method'</span><span style="color:var(--shiki-foreground)">, request.method, </span><span style="color:var(--shiki-token-string-expression)">'path'</span><span style="color:var(--shiki-foreground)">, request.path, </span><span style="color:var(--shiki-token-string-expression)">'query_string'</span><span style="color:var(--shiki-foreground)">, request.query_string)), </span><span style="color:var(--shiki-token-constant)">0</span><span style="color:var(--shiki-token-keyword)"> AS</span><span style="color:var(--shiki-foreground)"> priority</span></span>
+<span class="line"><span class="ln" aria-hidden="true">6</span><span style="color:var(--shiki-token-keyword)">       from</span><span style="color:var(--shiki-foreground)"> request</span></span>
+<span class="line"><span class="ln" aria-hidden="true">7</span><span style="color:var(--shiki-token-keyword)">order by</span><span style="color:var(--shiki-token-keyword)"> priority DESC</span></span></code></pre></figure>
+<p>The first query in the union joins the request path of <code>/users/:user</code> with the
+<code>users</code> table on <code>users.handle</code> column and serves an HTML response with that
+user's name.</p>
+<p>The second query, being lower in priority, simply returns a 404 Not Found
+response with a JSON that contains some of the request details.</p>
+<figure class="code"><figcaption class="ch"><span class="lang">text</span><button type="button" data-copy>copy</button></figcaption>
+<pre class="shiki css-variables"><code><span class="line"><span class="ln" aria-hidden="true">1</span><span>$ http localhost:9000/users/johndoe</span></span>
+<span class="line"><span class="ln" aria-hidden="true">2</span><span>HTTP/1.1 200 OK</span></span>
+<span class="line"><span class="ln" aria-hidden="true">3</span><span>Connection: keep-alive</span></span>
+<span class="line"><span class="ln" aria-hidden="true">4</span><span>Server: omni_httpd-0.1</span></span>
+<span class="line"><span class="ln" aria-hidden="true">5</span><span>content-type: text/html</span></span>
+<span class="line"><span class="ln" aria-hidden="true">6</span><span>transfer-encoding: chunked</span></span>
+<span class="line"><span class="ln" aria-hidden="true">7</span><span></span></span>
+<span class="line"><span class="ln" aria-hidden="true">8</span><span>Hello, &#x3C;b>John&#x3C;/b>!</span></span>
+<span class="line"><span class="ln" aria-hidden="true">9</span><span></span></span>
+<span class="line"><span class="ln" aria-hidden="true">10</span><span>$ http POST localhost:9000/test\?q</span></span>
+<span class="line"><span class="ln" aria-hidden="true">11</span><span>HTTP/1.1 404 OK</span></span>
+<span class="line"><span class="ln" aria-hidden="true">12</span><span>Connection: keep-alive</span></span>
+<span class="line"><span class="ln" aria-hidden="true">13</span><span>Server: omni_httpd-0.1</span></span>
+<span class="line"><span class="ln" aria-hidden="true">14</span><span>content-type: text/json</span></span>
+<span class="line"><span class="ln" aria-hidden="true">15</span><span>transfer-encoding: chunked</span></span>
+<span class="line"><span class="ln" aria-hidden="true">16</span><span></span></span>
+<span class="line"><span class="ln" aria-hidden="true">17</span><span>{</span></span>
+<span class="line"><span class="ln" aria-hidden="true">18</span><span>    "method": "POST",</span></span>
+<span class="line"><span class="ln" aria-hidden="true">19</span><span>    "path": "/test",</span></span>
+<span class="line"><span class="ln" aria-hidden="true">20</span><span>    "query_string": "q"</span></span>
+<span class="line"><span class="ln" aria-hidden="true">21</span><span>}</span></span></code></pre></figure>
+<p>Once all this worked, I decided to try benchmark it (mostly because I wanted to see how bad would it be):</p>
+<figure class="code"><figcaption class="ch"><span class="lang">text</span><button type="button" data-copy>copy</button></figcaption>
+<pre class="shiki css-variables"><code><span class="line"><span class="ln" aria-hidden="true">1</span><span>$ wrk http://localhost:9000/users/johndoe -c 20 -t 10</span></span>
+<span class="line"><span class="ln" aria-hidden="true">2</span><span>Running 10s test @ http://localhost:9000/users/johndoe</span></span>
+<span class="line"><span class="ln" aria-hidden="true">3</span><span>  10 threads and 20 connections</span></span>
+<span class="line"><span class="ln" aria-hidden="true">4</span><span>  Thread Stats   Avg      Stdev     Max   +/- Stdev</span></span>
+<span class="line"><span class="ln" aria-hidden="true">5</span><span>    Latency   354.85us    1.40ms  47.24ms   97.05%</span></span>
+<span class="line"><span class="ln" aria-hidden="true">6</span><span>    Req/Sec    12.51k     2.37k   25.01k    73.84%</span></span>
+<span class="line"><span class="ln" aria-hidden="true">7</span><span>  1256199 requests in 10.10s, 179.70MB read</span></span>
+<span class="line"><span class="ln" aria-hidden="true">8</span><span>Requests/sec: 124366.73</span></span>
+<span class="line"><span class="ln" aria-hidden="true">9</span><span>Transfer/sec:     17.79MB</span></span></code></pre></figure>
+<p>That's on MacBook Pro M1 Max. I've also ran the same test on an older x86_64-based Linux machine and got about 70K/sec.</p>
+<p>For reference, I decided to try comparing this with a similar (but quick-and-dirty-written) Node.js implementation that goes to the database for the same effect:</p>
+<figure class="code"><figcaption class="ch"><span class="lang">js</span><button type="button" data-copy>copy</button></figcaption>
+<pre class="shiki css-variables"><code><span class="line"><span class="ln" aria-hidden="true">1</span><span style="color:var(--shiki-token-keyword)">const</span><span style="color:var(--shiki-token-constant)"> http</span><span style="color:var(--shiki-token-keyword)"> =</span><span style="color:var(--shiki-token-function)"> require</span><span style="color:var(--shiki-foreground)">(</span><span style="color:var(--shiki-token-string-expression)">"http"</span><span style="color:var(--shiki-foreground)">);</span></span>
+<span class="line"><span class="ln" aria-hidden="true">2</span></span>
+<span class="line"><span class="ln" aria-hidden="true">3</span><span style="color:var(--shiki-token-keyword)">const</span><span style="color:var(--shiki-foreground)"> { </span><span style="color:var(--shiki-token-constant)">Pool</span><span style="color:var(--shiki-foreground)"> } </span><span style="color:var(--shiki-token-keyword)">=</span><span style="color:var(--shiki-token-function)"> require</span><span style="color:var(--shiki-foreground)">(</span><span style="color:var(--shiki-token-string-expression)">'pg'</span><span style="color:var(--shiki-foreground)">)</span></span>
+<span class="line"><span class="ln" aria-hidden="true">4</span></span>
+<span class="line"><span class="ln" aria-hidden="true">5</span><span style="color:var(--shiki-token-keyword)">const</span><span style="color:var(--shiki-token-constant)"> pool</span><span style="color:var(--shiki-token-keyword)"> =</span><span style="color:var(--shiki-token-keyword)"> new</span><span style="color:var(--shiki-token-function)"> Pool</span><span style="color:var(--shiki-foreground)">({ </span><span style="color:var(--shiki-token-comment)">/* connection details */</span><span style="color:var(--shiki-token-punctuation)">,</span><span style="color:var(--shiki-foreground)"> max</span><span style="color:var(--shiki-token-keyword)">:</span><span style="color:var(--shiki-token-constant)"> 10</span><span style="color:var(--shiki-token-punctuation)">,</span><span style="color:var(--shiki-foreground)"> idleTimeMillis</span><span style="color:var(--shiki-token-keyword)">:</span><span style="color:var(--shiki-token-constant)"> 1000</span><span style="color:var(--shiki-token-keyword)"> *</span><span style="color:var(--shiki-token-constant)"> 60</span><span style="color:var(--shiki-foreground)">});</span></span>
+<span class="line"><span class="ln" aria-hidden="true">6</span></span>
+<span class="line"><span class="ln" aria-hidden="true">7</span><span style="color:var(--shiki-token-keyword)">const</span><span style="color:var(--shiki-token-constant)"> host</span><span style="color:var(--shiki-token-keyword)"> =</span><span style="color:var(--shiki-token-string-expression)"> 'localhost'</span><span style="color:var(--shiki-foreground)">;</span></span>
+<span class="line"><span class="ln" aria-hidden="true">8</span><span style="color:var(--shiki-token-keyword)">const</span><span style="color:var(--shiki-token-constant)"> port</span><span style="color:var(--shiki-token-keyword)"> =</span><span style="color:var(--shiki-token-constant)"> 8000</span><span style="color:var(--shiki-foreground)">;</span></span>
+<span class="line"><span class="ln" aria-hidden="true">9</span><span style="color:var(--shiki-token-keyword)">const</span><span style="color:var(--shiki-token-function)"> requestListener</span><span style="color:var(--shiki-token-keyword)"> =</span><span style="color:var(--shiki-token-keyword)"> function</span><span style="color:var(--shiki-foreground)"> (req</span><span style="color:var(--shiki-token-punctuation)">,</span><span style="color:var(--shiki-foreground)"> res) {</span></span>
+<span class="line"><span class="ln" aria-hidden="true">10</span><span style="color:var(--shiki-token-keyword)">    const</span><span style="color:var(--shiki-token-constant)"> split</span><span style="color:var(--shiki-token-keyword)"> =</span><span style="color:var(--shiki-token-constant)"> req</span><span style="color:var(--shiki-token-function)">.</span><span style="color:var(--shiki-token-constant)">url</span><span style="color:var(--shiki-token-function)">.split</span><span style="color:var(--shiki-foreground)">(</span><span style="color:var(--shiki-token-string-expression)">'/'</span><span style="color:var(--shiki-foreground)">);</span></span>
+<span class="line"><span class="ln" aria-hidden="true">11</span><span style="color:var(--shiki-token-keyword)">    if</span><span style="color:var(--shiki-foreground)"> (</span><span style="color:var(--shiki-token-constant)">split</span><span style="color:var(--shiki-foreground)">.</span><span style="color:var(--shiki-token-constant)">length</span><span style="color:var(--shiki-token-keyword)"> ==</span><span style="color:var(--shiki-token-constant)"> 3</span><span style="color:var(--shiki-token-keyword)"> &#x26;&#x26;</span><span style="color:var(--shiki-foreground)"> split[</span><span style="color:var(--shiki-token-constant)">1</span><span style="color:var(--shiki-foreground)">] </span><span style="color:var(--shiki-token-keyword)">==</span><span style="color:var(--shiki-token-string-expression)"> 'users'</span><span style="color:var(--shiki-foreground)">) {</span></span>
+<span class="line"><span class="ln" aria-hidden="true">12</span><span style="color:var(--shiki-token-constant)">      pool</span><span style="color:var(--shiki-token-function)">.query</span><span style="color:var(--shiki-foreground)">({name</span><span style="color:var(--shiki-token-keyword)">:</span><span style="color:var(--shiki-token-string-expression)"> "q"</span><span style="color:var(--shiki-token-punctuation)">,</span><span style="color:var(--shiki-foreground)"> text</span><span style="color:var(--shiki-token-keyword)">:</span><span style="color:var(--shiki-token-string-expression)"> "SELECT users.name FROM users WHERE users.handle = $1"</span><span style="color:var(--shiki-token-punctuation)">,</span><span style="color:var(--shiki-foreground)"> values</span><span style="color:var(--shiki-token-keyword)">:</span><span style="color:var(--shiki-foreground)"> [split[</span><span style="color:var(--shiki-token-constant)">2</span><span style="color:var(--shiki-foreground)">]]}).</span></span>
+<span class="line"><span class="ln" aria-hidden="true">13</span><span style="color:var(--shiki-token-function)">        then</span><span style="color:var(--shiki-foreground)">((qres) </span><span style="color:var(--shiki-token-keyword)">=></span><span style="color:var(--shiki-foreground)"> {</span></span>
+<span class="line"><span class="ln" aria-hidden="true">14</span><span style="color:var(--shiki-token-keyword)">          if</span><span style="color:var(--shiki-foreground)"> (</span><span style="color:var(--shiki-token-constant)">qres</span><span style="color:var(--shiki-foreground)">.</span><span style="color:var(--shiki-token-constant)">rows</span><span style="color:var(--shiki-foreground)">.</span><span style="color:var(--shiki-token-constant)">length</span><span style="color:var(--shiki-token-keyword)"> ==</span><span style="color:var(--shiki-token-constant)"> 1</span><span style="color:var(--shiki-foreground)">) {</span></span>
+<span class="line"><span class="ln" aria-hidden="true">15</span><span style="color:var(--shiki-token-constant)">            res</span><span style="color:var(--shiki-token-function)">.setHeader</span><span style="color:var(--shiki-foreground)">(</span><span style="color:var(--shiki-token-string-expression)">"Content-Type"</span><span style="color:var(--shiki-token-punctuation)">,</span><span style="color:var(--shiki-token-string-expression)"> "text/html"</span><span style="color:var(--shiki-foreground)">);</span></span>
+<span class="line"><span class="ln" aria-hidden="true">16</span><span style="color:var(--shiki-token-constant)">            res</span><span style="color:var(--shiki-token-function)">.writeHead</span><span style="color:var(--shiki-foreground)">(</span><span style="color:var(--shiki-token-constant)">200</span><span style="color:var(--shiki-foreground)">);</span></span>
+<span class="line"><span class="ln" aria-hidden="true">17</span><span style="color:var(--shiki-token-constant)">            res</span><span style="color:var(--shiki-token-function)">.end</span><span style="color:var(--shiki-foreground)">(</span><span style="color:var(--shiki-token-string-expression)">`Hello, &#x3C;b></span><span style="color:var(--shiki-token-keyword)">${</span><span style="color:var(--shiki-token-constant)">qres</span><span style="color:var(--shiki-foreground)">.rows[</span><span style="color:var(--shiki-token-constant)">0</span><span style="color:var(--shiki-foreground)">].name</span><span style="color:var(--shiki-token-keyword)">}</span><span style="color:var(--shiki-token-string-expression)">&#x3C;/b>!`</span><span style="color:var(--shiki-foreground)">);</span></span>
+<span class="line"><span class="ln" aria-hidden="true">18</span><span style="color:var(--shiki-foreground)">          } </span><span style="color:var(--shiki-token-keyword)">else</span><span style="color:var(--shiki-foreground)"> {</span></span>
+<span class="line"><span class="ln" aria-hidden="true">19</span><span style="color:var(--shiki-token-constant)">            res</span><span style="color:var(--shiki-token-function)">.setHeader</span><span style="color:var(--shiki-foreground)">(</span><span style="color:var(--shiki-token-string-expression)">"Content-Type"</span><span style="color:var(--shiki-token-punctuation)">,</span><span style="color:var(--shiki-token-string-expression)"> "application/json"</span><span style="color:var(--shiki-foreground)">);</span></span>
+<span class="line"><span class="ln" aria-hidden="true">20</span><span style="color:var(--shiki-token-constant)">            res</span><span style="color:var(--shiki-token-function)">.writeHead</span><span style="color:var(--shiki-foreground)">(</span><span style="color:var(--shiki-token-constant)">200</span><span style="color:var(--shiki-foreground)">);</span></span>
+<span class="line"><span class="ln" aria-hidden="true">21</span><span style="color:var(--shiki-token-constant)">            res</span><span style="color:var(--shiki-token-function)">.end</span><span style="color:var(--shiki-foreground)">(</span><span style="color:var(--shiki-token-constant)">JSON</span><span style="color:var(--shiki-token-function)">.stringify</span><span style="color:var(--shiki-foreground)">({method</span><span style="color:var(--shiki-token-keyword)">:</span><span style="color:var(--shiki-token-constant)"> req</span><span style="color:var(--shiki-foreground)">.method</span><span style="color:var(--shiki-token-punctuation)">,</span><span style="color:var(--shiki-foreground)"> path</span><span style="color:var(--shiki-token-keyword)">:</span><span style="color:var(--shiki-token-constant)"> req</span><span style="color:var(--shiki-foreground)">.url}));</span></span>
+<span class="line"><span class="ln" aria-hidden="true">22</span><span style="color:var(--shiki-foreground)">          }</span></span>
+<span class="line"><span class="ln" aria-hidden="true">23</span><span style="color:var(--shiki-foreground)">        })</span></span>
+<span class="line"><span class="ln" aria-hidden="true">24</span><span style="color:var(--shiki-foreground)">    } </span><span style="color:var(--shiki-token-keyword)">else</span><span style="color:var(--shiki-foreground)"> {</span></span>
+<span class="line"><span class="ln" aria-hidden="true">25</span><span style="color:var(--shiki-token-constant)">      res</span><span style="color:var(--shiki-token-function)">.setHeader</span><span style="color:var(--shiki-foreground)">(</span><span style="color:var(--shiki-token-string-expression)">"Content-Type"</span><span style="color:var(--shiki-token-punctuation)">,</span><span style="color:var(--shiki-token-string-expression)"> "application/json"</span><span style="color:var(--shiki-foreground)">);</span></span>
+<span class="line"><span class="ln" aria-hidden="true">26</span><span style="color:var(--shiki-token-constant)">      res</span><span style="color:var(--shiki-token-function)">.writeHead</span><span style="color:var(--shiki-foreground)">(</span><span style="color:var(--shiki-token-constant)">200</span><span style="color:var(--shiki-foreground)">);</span></span>
+<span class="line"><span class="ln" aria-hidden="true">27</span><span style="color:var(--shiki-token-constant)">      res</span><span style="color:var(--shiki-token-function)">.end</span><span style="color:var(--shiki-foreground)">(</span><span style="color:var(--shiki-token-constant)">JSON</span><span style="color:var(--shiki-token-function)">.stringify</span><span style="color:var(--shiki-foreground)">({method</span><span style="color:var(--shiki-token-keyword)">:</span><span style="color:var(--shiki-token-constant)"> req</span><span style="color:var(--shiki-foreground)">.method</span><span style="color:var(--shiki-token-punctuation)">,</span><span style="color:var(--shiki-foreground)"> path</span><span style="color:var(--shiki-token-keyword)">:</span><span style="color:var(--shiki-token-constant)"> req</span><span style="color:var(--shiki-foreground)">.url}));</span></span>
+<span class="line"><span class="ln" aria-hidden="true">28</span><span style="color:var(--shiki-foreground)">    }</span></span>
+<span class="line"><span class="ln" aria-hidden="true">29</span><span style="color:var(--shiki-foreground)">};</span></span>
+<span class="line"><span class="ln" aria-hidden="true">30</span><span style="color:var(--shiki-token-keyword)">const</span><span style="color:var(--shiki-token-constant)"> server</span><span style="color:var(--shiki-token-keyword)"> =</span><span style="color:var(--shiki-token-constant)"> http</span><span style="color:var(--shiki-token-function)">.createServer</span><span style="color:var(--shiki-foreground)">(requestListener);</span></span>
+<span class="line"><span class="ln" aria-hidden="true">31</span><span style="color:var(--shiki-token-constant)">server</span><span style="color:var(--shiki-token-function)">.listen</span><span style="color:var(--shiki-foreground)">(port</span><span style="color:var(--shiki-token-punctuation)">,</span><span style="color:var(--shiki-foreground)"> host</span><span style="color:var(--shiki-token-punctuation)">,</span><span style="color:var(--shiki-foreground)"> () </span><span style="color:var(--shiki-token-keyword)">=></span><span style="color:var(--shiki-foreground)"> {</span></span>
+<span class="line"><span class="ln" aria-hidden="true">32</span><span style="color:var(--shiki-token-constant)">    console</span><span style="color:var(--shiki-token-function)">.log</span><span style="color:var(--shiki-foreground)">(</span><span style="color:var(--shiki-token-string-expression)">`Server is running on http://</span><span style="color:var(--shiki-token-keyword)">${</span><span style="color:var(--shiki-foreground)">host</span><span style="color:var(--shiki-token-keyword)">}</span><span style="color:var(--shiki-token-string-expression)">:</span><span style="color:var(--shiki-token-keyword)">${</span><span style="color:var(--shiki-foreground)">port</span><span style="color:var(--shiki-token-keyword)">}</span><span style="color:var(--shiki-token-string-expression)">`</span><span style="color:var(--shiki-foreground)">);</span></span>
+<span class="line"><span class="ln" aria-hidden="true">33</span><span style="color:var(--shiki-foreground)">});</span></span></code></pre></figure>
+<p>And I re-ran the test:</p>
+<figure class="code"><figcaption class="ch"><span class="lang">text</span><button type="button" data-copy>copy</button></figcaption>
+<pre class="shiki css-variables"><code><span class="line"><span class="ln" aria-hidden="true">1</span><span>$ wrk http://localhost:8000/users/johndoe -c 20 -t 10</span></span>
+<span class="line"><span class="ln" aria-hidden="true">2</span><span>Running 10s test @ http://localhost:8000/users/johndoe</span></span>
+<span class="line"><span class="ln" aria-hidden="true">3</span><span>  10 threads and 20 connections</span></span>
+<span class="line"><span class="ln" aria-hidden="true">4</span><span>  Thread Stats   Avg      Stdev     Max   +/- Stdev</span></span>
+<span class="line"><span class="ln" aria-hidden="true">5</span><span>    Latency     1.11ms    0.99ms  33.09ms   99.15%</span></span>
+<span class="line"><span class="ln" aria-hidden="true">6</span><span>    Req/Sec     1.89k   166.30     2.19k    92.18%</span></span>
+<span class="line"><span class="ln" aria-hidden="true">7</span><span>  190319 requests in 10.10s, 33.76MB read</span></span>
+<span class="line"><span class="ln" aria-hidden="true">8</span><span>Requests/sec:  18838.56</span></span>
+<span class="line"><span class="ln" aria-hidden="true">9</span><span>Transfer/sec:      3.34MB</span></span></code></pre></figure>
+<p>From the surface, it looks like omni_httpd is faster for the time being! I am sure with time it'll get slower and I did not explore enough optimizations available for the Node.js experiment (please contribute to make this picture fairer!). But it shows what bundling can do to performance!</p>
+<p><strong>Update</strong>: As <a href="https://lobste.rs/s/39ao1j/what_happens_if_you_put_http_server_inside#c_ipefyz">someone pointed out</a>,
+using TCP locally brings unnecessary overhead where UNIX sockets would have
+performed better. So, I re-ran the Node.js test over UNIX sockets:</p>
+<figure class="code"><figcaption class="ch"><span class="lang">text</span><button type="button" data-copy>copy</button></figcaption>
+<pre class="shiki css-variables"><code><span class="line"><span class="ln" aria-hidden="true">1</span><span>$ wrk http://localhost:8000/users/johndoe -c 20 -t 10</span></span>
+<span class="line"><span class="ln" aria-hidden="true">2</span><span>Running 10s test @ http://localhost:8000/users/johndoe</span></span>
+<span class="line"><span class="ln" aria-hidden="true">3</span><span>  10 threads and 20 connections</span></span>
+<span class="line"><span class="ln" aria-hidden="true">4</span><span>  Thread Stats   Avg      Stdev     Max   +/- Stdev</span></span>
+<span class="line"><span class="ln" aria-hidden="true">5</span><span>    Latency   663.15us  224.77us   9.87ms   93.24%</span></span>
+<span class="line"><span class="ln" aria-hidden="true">6</span><span>    Req/Sec     3.05k   139.17     3.30k    88.71%</span></span>
+<span class="line"><span class="ln" aria-hidden="true">7</span><span>  306649 requests in 10.10s, 54.39MB read</span></span>
+<span class="line"><span class="ln" aria-hidden="true">8</span><span>Requests/sec:  30361.88</span></span>
+<span class="line"><span class="ln" aria-hidden="true">9</span><span>Transfer/sec:      5.39MB</span></span></code></pre></figure>
+<p>It's indeed <em>quite a bit</em> faster but still way below the numbers I was able to get with <code>omni_httpd</code>.</p>
+<p>I want to emphasize that performance was not and is not a primary goal behind
+this work. What I think is more important there is changing the way we think
+about serving HTTP clients, doing data-aware routing, etc. There's still a lot
+of research to be done on this end.</p>
+<p>I also want to mention that this is still early work. There's a lot to be done
+to make this server production-grade (starting from <a href="https://github.com/omnigres/omnigres/issues/44">enabling HTTPS support</a>,
+and improving the architecture to make <a href="https://github.com/omnigres/omnigres/issues/40">HTTP2 multiplexing really work</a>,
+but not ending there), as well as building out other extensions to make building applications really easy and convenient.</p>
+<p>If you want to chat more, join us on <a href="https://discord.gg/Jghrq588qS">Discord</a> or <a href="http://t.me/omnigres">Telegram</a>!</p>
+]]></content:encoded>
+    </item>
+  </channel>
+</rss>

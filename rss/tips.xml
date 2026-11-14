@@ -1,0 +1,94 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<rss version="2.0" xmlns:atom="http://www.w3.org/2005/Atom" xmlns:content="http://purl.org/rss/1.0/modules/content/" xmlns:dc="http://purl.org/dc/elements/1.1/">
+  <channel>
+    <title>Yurii Rashkovskii — tips</title>
+    <link>https://yrashk.com/</link>
+    <description>Founder of Inferal. Essays and notes on how people and systems work.</description>
+    <language>en</language>
+    <atom:link href="https://yrashk.com/rss/tips.xml" rel="self" type="application/rss+xml"/>
+    <lastBuildDate>Mon, 10 Apr 2023 00:00:00 GMT</lastBuildDate>
+    <item>
+      <title>Avoiding Postgres Extensions Limitations</title>
+      <link>https://yrashk.com/blog/2023/04/10/avoiding-postgres-extensions-limitations/</link>
+      <guid isPermaLink="true">https://yrashk.com/blog/2023/04/10/avoiding-postgres-extensions-limitations/</guid>
+      <pubDate>Mon, 10 Apr 2023 00:00:00 GMT</pubDate>
+      <dc:creator>Yurii Rashkovskii</dc:creator>
+      <category>Postgres</category>
+      <category>tips</category>
+      <description>Postgres extensions are great. They enable fantastic use cases and bring new capabilities to one of the most loved open source databases. But there are edges in some of its features and this can be heard in conversations: limitations of the upgrade system, lack of parameterized initialization, search path/OID resolution issues, hard-wired dependency on.control files, schema droppage, etc.</description>
+      <content:encoded><![CDATA[<p>Postgres extensions are great. They enable fantastic use cases and bring new
+capabilities to one of the most loved open source databases. But there are
+edges in some of its features and this can be heard in conversations:
+limitations of the upgrade system, lack of parameterized initialization, search
+path/OID resolution issues, hard-wired dependency on <code>.control</code> files,
+schema droppage <sup class="fn" id="fnref1"><a href="#fn1" aria-label="Footnote 1">1</a></sup>, etc.</p>
+<p>However, the beauty of it is that what we <em>ultimately</em> want from extensions does not
+<em>need</em> to use <code>CREATE EXTENSION</code>'s framework.</p>
+<p>I've seen it a few times where newcomers to the extension world of Postgres learn to
+understand the relationship between <code>.control</code>, <code>.sql</code> and <code>.so</code>
+files. The questions I keep hearing are something like this:</p>
+<ul>
+<li><em>are extensions required to have an .so file?</em></li>
+<li><em>are SQL files required?</em></li>
+<li><em>where do we make users store metadata so that it doesn't get dropped accidentally?</em></li>
+</ul>
+<p>It's convenient to think about Postgres extensions feature as a whole, from
+<code>CREATE EXTENSION</code> down to your functions. However, I think it hides the fact
+that technically speaking, extension are a relatively thin mechanism on top of
+some of the more fundamental capabilities that Postgres provides.</p>
+<ul>
+<li>It allows one to execute SQL (<em>duh!</em>)</li>
+<li>It allows to define functions that are contained in an <code>.so</code> file<sup class="fn" id="fnref2"><a href="#fn2" aria-label="Footnote 2">2</a></sup>.</li>
+</ul>
+<p>Postgres' <a href="https://www.postgresql.org/docs/current/extend-extensions.html">vanilla extension framework</a>
+reads the <code>.control</code> file, executes SQL scripts with a bit of quick-and-dirty
+string value replacements (like <code>MODULE_PATHNAME</code> or <code>@extschema@</code>) and these
+scripts deal with provisioning all that extension requires.</p>
+<p>You can see most of this code in
+<a href="https://doxygen.postgresql.org/extension_8c_source.html">src/backend/commands/extension.c</a>. You can
+see that that code doesn't really deal with <code>.so</code> files. That code is actually
+in
+<a href="https://doxygen.postgresql.org/dfmgr_8c_source.html">src/backend/utils/fmgr/dfmgr.c</a>, like <code>load_external_function</code>.</p>
+<p>What this means is that you don't really need to follow the path
+charted by the framework to add that extended functionality to your database.
+You can <strong>roll your own upgrades</strong>, you can can have <strong>multiple <code>.so</code> files</strong>
+(instead of depending on <code>MODULE_PATHNAME</code>), you can call whatever
+<strong>initialization callbacks</strong> you want during installation, you <strong>don't need
+<code>.control</code> files</strong>. You can think of a lot of your own cases.</p>
+<p>What do you have to give up for this? You have to give up <code>CREATE EXTENSION</code>. Instead, you'd need
+to do something like this:</p>
+<figure class="code"><figcaption class="ch"><span class="lang">postgresql</span><button type="button" data-copy>copy</button></figcaption>
+<pre class="shiki css-variables"><code><span class="line"><span class="ln" aria-hidden="true">1</span><span style="color:var(--shiki-foreground)">psql</span><span style="color:var(--shiki-token-keyword)">=</span><span style="color:var(--shiki-foreground)"># </span><span style="color:var(--shiki-token-keyword)">select</span><span style="color:var(--shiki-foreground)"> myextmgr.install(</span><span style="color:var(--shiki-token-string-expression)">'extension_name'</span><span style="color:var(--shiki-foreground)">);</span></span></code></pre></figure>
+<p>Which is probably not a big ask (<em>implementing the <code>install</code> function itself is a bigger
+one!</em>). In fact, it may be even more interesting because one can use
+this function over an entire dataset. For example, this will allow one to install multiple
+extensions not known ahead of time.</p>
+<div class="adm question" role="note"><span class="ic" aria-hidden="true">?</span><span class="t">But...</span><div class="b">
+<blockquote>
+<p><em>How would we call <code>create function</code> and provide the path to <code>.so</code>
+files if it is not known ahead of time?</em></p>
+</blockquote>
+<p>Great question. There are two ways I can see, depending on how deep you want to go:</p>
+<ol>
+<li>You can <a href="https://www.postgresql.org/docs/current/functions-string.html#FUNCTIONS-STRING-FORMAT"><code>format()</code></a>
+your <code>create function</code> query to supply the correct path with <code>%L</code>. I personally don't love it, but it's done a lot in PL/pgSQL.</li>
+<li>If you're writing this in C, there's <a href="https://doxygen.postgresql.org/pg__proc_8c.html#acb8cfc3bc78d5a1887fac3cda926274b"><code>ProcedureCreate</code></a>.
+It has an ungodly number of parameters, but once you're through, it works really well!</li>
+</ol>
+</div></div>
+<p>A bigger thing you're potentially giving up here is that if you're developing
+an extension that you want <strong>others to use</strong> and it can't be fit into the mold
+provided by vanilla Postgres extensions framework, well, you're presented with
+a new challenge. You will need to find a way to convince your users to use
+your installation method. Whether it is worth it entirely depends on whether
+the limitations you're concerned about are worth overcoming.</p>
+<section class="footnotes" aria-label="Footnotes"><h2>footnotes</h2><ol>
+<li id="fn1"><p>Unless explicitly depended on afterwards <a class="back" href="#fnref1" aria-label="Back to reference 1">↩</a></p>
+</li>
+<li id="fn2"><p>Filename extension that means <a href="https://en.wikipedia.org/wiki/Library_(computing)#Shared_libraries">shared object</a>. <a class="back" href="#fnref2" aria-label="Back to reference 2">↩</a></p>
+</li>
+</ol></section>
+]]></content:encoded>
+    </item>
+  </channel>
+</rss>

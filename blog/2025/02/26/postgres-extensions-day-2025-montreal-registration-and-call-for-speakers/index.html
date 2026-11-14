@@ -1,0 +1,449 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
+<title>Postgres Extensions Day 2025 Montreal: Registration and Call for Speakers — Yurii Rashkovskii</title>
+<meta name="description" content="On May 12th, 2025, Postgres Extension Developers Coalition (PGEDC) will host Postgres Extensions Day 2025 in Montreal, QC.">
+<meta name="author" content="Yurii Rashkovskii">
+<link rel="canonical" href="https://yrashk.com/blog/2025/02/26/postgres-extensions-day-2025-montreal-registration-and-call-for-speakers/">
+<meta name="color-scheme" content="dark light">
+<script>(function(){var t='dark';try{var q=new URLSearchParams(location.search).get('theme');if(q==='paper'||q==='dark'){localStorage.setItem('yr-theme',q);t=q;}else{t=localStorage.getItem('yr-theme')==='paper'?'paper':'dark';}}catch(e){}document.documentElement.setAttribute('data-theme',t);})()</script>
+<meta property="og:type" content="article">
+<meta property="og:title" content="Postgres Extensions Day 2025 Montreal: Registration and Call for Speakers">
+<meta property="og:description" content="On May 12th, 2025, Postgres Extension Developers Coalition (PGEDC) will host Postgres Extensions Day 2025 in Montreal, QC.">
+<meta property="og:url" content="https://yrashk.com/blog/2025/02/26/postgres-extensions-day-2025-montreal-registration-and-call-for-speakers/">
+<meta property="og:site_name" content="Yurii Rashkovskii">
+<meta property="article:published_time" content="2025-02-26">
+<meta name="twitter:card" content="summary">
+<meta name="twitter:site" content="@yrashk">
+<link rel="icon" href="/favicon-32x32.png?v=6fcedaef64" sizes="32x32" type="image/png">
+<link rel="icon" href="/favicon.png?v=0233ca45be" sizes="180x180" type="image/png">
+<link rel="apple-touch-icon" href="/apple-touch-icon.png?v=0233ca45be">
+<link rel="alternate" type="application/rss+xml" title="Yurii Rashkovskii" href="/feed.xml">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=IBM+Plex+Mono:ital,wght@0,400;0,500;0,600;1,400&family=Instrument+Sans:ital,wght@0,400;0,500;0,600;1,400;1,500&family=Instrument+Serif:ital@0;1&display=swap" rel="stylesheet">
+<style>
+:root,:root[data-theme="dark"]{
+  --bg:#0c0e11; --desk:#0a0c0f; --panel:#121518; --panel-2:#181c21; --panel-3:#1e2329;
+  --line:#242a31; --line-2:#30373f;
+  --bone:#e9e4d9; --bone-2:#b7b1a6; --bone-3:#7f7a71; --bone-4:#514d47;
+  --signal:#ff6a3d; --signal-2:#ffa98a; --signal-dim:rgba(255,106,61,.16); --signal-glow:rgba(255,106,61,.55);
+  --code-bg:#0e1114; --kw:#ffa98a; --str:#d9c89a; --num:#9fd0ff; --fn:#e9e4d9; --cm:#6f6a62; --op:#8f8a81;
+  --sans:"Instrument Sans",system-ui,-apple-system,"Segoe UI",sans-serif;
+  --mono:"IBM Plex Mono",ui-monospace,"SF Mono",Menlo,monospace;
+  --bar:38px; --gap:6px; --r:7px; --ease:cubic-bezier(.2,.7,.2,1);
+  --measure:66ch; --serif:"Instrument Serif",Georgia,serif;
+}
+:root[data-theme="paper"]{
+  --bg:#ece7dc; --desk:#e4ded2; --panel:#f6f2ea; --panel-2:#ece7dc; --panel-3:#e2dccf;
+  --line:#d7d0c2; --line-2:#c4bcad;
+  --bone:#17191c; --bone-2:#3d3a35; --bone-3:#6e695f; --bone-4:#a39c8f;
+  --signal:#d9481f; --signal-2:#b53a16; --signal-dim:rgba(217,72,31,.12); --signal-glow:rgba(217,72,31,.35);
+  --code-bg:#f0ebe1; --kw:#b53a16; --str:#6b5a1e; --num:#1f5f8f; --fn:#17191c; --cm:#8a8275; --op:#6e695f;
+  color-scheme:light;
+}
+/* shiki (build-time highlighting) reads its colors from the reader's palette */
+:root{--shiki-foreground:var(--bone);--shiki-background:transparent;--shiki-token-keyword:var(--kw);--shiki-token-string:var(--str);--shiki-token-string-expression:var(--str);--shiki-token-constant:var(--num);--shiki-token-comment:var(--cm);--shiki-token-function:var(--fn);--shiki-token-parameter:var(--bone-2);--shiki-token-punctuation:var(--op);--shiki-token-link:var(--signal-2)}
+*{box-sizing:border-box}
+html{height:100%}
+body{margin:0;min-height:100%;background:var(--desk);color:var(--bone);font:17px/1.65 var(--sans);-webkit-font-smoothing:antialiased;
+  background-image:radial-gradient(rgba(255,255,255,.035) 1px,transparent 1px);background-size:22px 22px;background-position:11px 11px}
+:root[data-theme="paper"] body{background-image:radial-gradient(rgba(0,0,0,.05) 1px,transparent 1px)}
+a{color:inherit}
+button{font:inherit;color:inherit;background:none;border:0;padding:0;cursor:pointer}
+::selection{background:var(--signal);color:#fff}
+:focus-visible{outline:2px solid var(--signal);outline-offset:2px;border-radius:3px}
+.sr-only{position:absolute!important;width:1px;height:1px;padding:0;margin:-1px;overflow:hidden;clip:rect(0,0,0,0);white-space:nowrap;border:0}
+kbd{font:500 10.5px/1 var(--mono);color:var(--bone-2);background:var(--panel-3);border:1px solid var(--line-2);border-bottom-width:2px;border-radius:4px;padding:3px 5px 2px;white-space:nowrap}
+.skip{position:absolute;left:12px;top:-40px;background:var(--signal);color:#0c0e11;padding:8px 12px;border-radius:5px;z-index:50;font:500 12px var(--mono)}
+.skip:focus{top:50px}
+
+/* ───────── bar ───────── */
+#bar{position:fixed;top:0;left:0;right:0;height:var(--bar);z-index:20;display:flex;align-items:center;gap:20px;padding:0 14px;background:var(--bg);border-bottom:1px solid var(--line);font:500 11px/1 var(--mono);letter-spacing:.07em;text-transform:uppercase;color:var(--bone-3);white-space:nowrap}
+.brand{display:flex;align-items:center;gap:9px;color:var(--bone);text-decoration:none;text-transform:none;font-size:12.5px;letter-spacing:.02em}
+.brand .bands{display:grid;gap:2px;width:16px}
+.brand .bands i{display:block;height:2px;background:var(--bone);border-radius:1px}
+.brand .bands i:nth-child(2){width:70%}.brand .bands i:nth-child(3){width:85%;background:var(--signal)}.brand .bands i:nth-child(4){width:55%}
+.crumb{display:flex;gap:8px;align-items:center;color:var(--bone-3);min-width:0}
+.crumb a{color:var(--bone-2);text-decoration:none}
+.crumb a:hover{color:var(--signal)}
+.crumb .cur{color:var(--bone-4);overflow:hidden;text-overflow:ellipsis;max-width:34vw}
+.cores{display:flex;gap:3px;align-items:center;margin-left:auto}
+.cores i{display:block;width:9px;height:15px;border-radius:2px;background:var(--panel-3);border:1px solid var(--line-2);transition:background .3s,border-color .3s,box-shadow .3s}
+.cores i.on{background:var(--signal);border-color:var(--signal);box-shadow:0 0 8px var(--signal-glow)}
+.cores span{margin-left:8px;color:var(--bone-4)}
+.cores span b{color:var(--bone-3);font-weight:500;font-variant-numeric:tabular-nums}
+.clock{color:var(--bone-2)}
+.clock b{color:var(--bone);font-weight:500;font-variant-numeric:tabular-nums}
+.city{font-style:normal}
+.city.here{text-decoration:underline;text-decoration-color:var(--signal);text-decoration-thickness:1.5px;text-underline-offset:4px;text-decoration-skip-ink:none}
+.ua{font-size:13px;line-height:1}
+.tools{display:flex;gap:6px}
+.tools a,.tools button{display:flex;gap:7px;align-items:center;height:24px;padding:0 9px;border:1px solid var(--line);border-radius:5px;color:var(--bone-3);text-decoration:none;font:500 11px/1 var(--mono);letter-spacing:.07em;text-transform:uppercase}
+.tools a:hover,.tools button:hover{color:var(--bone);border-color:var(--line-2)}
+.tools button[aria-pressed="true"]{color:var(--bone);background:var(--panel-2)}
+
+/* ───────── reader window ───────── */
+#reader{position:fixed;left:0;right:0;top:var(--bar);bottom:0;padding:var(--gap);display:flex}
+.win{flex:1;min-width:0;display:flex;flex-direction:column;background:var(--panel);border:1px solid color-mix(in oklab,var(--signal) 55%,var(--line));border-radius:var(--r);overflow:hidden}
+.win-h{flex:none;height:30px;display:flex;align-items:center;gap:10px;padding:0 6px 0 12px;border-bottom:1px solid var(--line);font:500 10.5px/1 var(--mono);letter-spacing:.1em;text-transform:uppercase;color:var(--bone-3);user-select:none;white-space:nowrap}
+.win-h .idx{color:var(--bone-4)}
+.win-h .ttl{color:var(--signal)}
+.win-h .sub{color:var(--bone-4);letter-spacing:.06em;text-transform:none;font-weight:400;overflow:hidden;text-overflow:ellipsis;min-width:0}
+.win-h .ctl{margin-left:auto;display:flex;gap:4px}
+.win-h .ctl a{display:flex;align-items:center;gap:6px;height:22px;padding:0 8px;border-radius:4px;color:var(--bone-3);text-decoration:none;font:500 10.5px/1 var(--mono);letter-spacing:.08em}
+.win-h .ctl a:hover{color:var(--bone);background:var(--panel-3)}
+.win-h .ctl a.x{color:var(--bone-4);font-size:14px;padding:0 7px}
+.win-h .ctl a.x:hover{color:var(--signal)}
+.win-b{flex:1;min-height:0;overflow:auto;overscroll-behavior:contain;scroll-behavior:smooth}
+.page{display:grid;grid-template-columns:minmax(200px,240px) minmax(0,var(--measure)) minmax(0,1fr);gap:0 56px;padding:48px 56px 96px;max-width:1320px;margin:0 auto}
+@media (prefers-reduced-motion:reduce){.win-b{scroll-behavior:auto}}
+
+/* rail */
+.rail{position:sticky;top:0;align-self:start;display:grid;gap:22px;padding-top:6px;font-size:13.5px;color:var(--bone-2)}
+.rail h4{font:500 10px/1 var(--mono);letter-spacing:.12em;text-transform:uppercase;color:var(--bone-4);margin:0 0 8px}
+.rail dl{margin:0;display:grid;grid-template-columns:max-content 1fr;gap:5px 12px;font:400 12px/1.6 var(--mono);color:var(--bone-2)}
+.rail dt{color:var(--bone-4);text-transform:uppercase;letter-spacing:.08em;font-size:10px;line-height:1.95}
+.rail dd{margin:0}
+.rail dd b{color:var(--signal);font-weight:500}
+.rail .tags{display:flex;flex-wrap:wrap;gap:4px}
+.rail .tags a{font:500 10.5px/1 var(--mono);letter-spacing:.08em;text-transform:uppercase;color:var(--bone-2);border:1px solid var(--line);border-radius:4px;padding:5px 7px;text-decoration:none}
+.rail .tags a:hover{border-color:var(--signal);color:var(--signal)}
+.loc{display:block;text-decoration:none;color:var(--bone-2);border:1px solid var(--line);border-radius:6px;overflow:hidden;background:radial-gradient(70% 70% at 50% 45%,var(--panel-2),var(--panel))}
+.loc:hover{border-color:var(--signal)}
+.loc svg{display:block;width:100%;height:auto}
+.loc .cap{display:block;padding:8px 10px 9px;border-top:1px solid var(--line);font:400 11px/1.6 var(--mono);color:var(--bone-3)}
+.loc .cap b{color:var(--bone);font-weight:500}
+.loc .cap i{font-style:normal;color:var(--signal)}
+@keyframes locpulse{from{r:4;opacity:.8}to{r:14;opacity:0}}
+.loc .pulse{animation:locpulse 2.4s ease-out infinite;transform-box:fill-box}
+@media (prefers-reduced-motion:reduce){.loc .pulse{animation:none;opacity:.5}}
+.toc{list-style:none;margin:0;padding:0;border-left:1px solid var(--line)}
+.toc li a{display:block;padding:4px 0 4px 12px;color:var(--bone-3);text-decoration:none;font-size:13px;line-height:1.4;margin-left:-1px;border-left:1px solid transparent}
+.toc li.sub a{padding-left:24px;font-size:12.5px}
+.toc li a:hover{color:var(--bone)}
+.toc li a[aria-current="true"]{color:var(--bone);border-left-color:var(--signal)}
+.toc-none{margin:0;font:400 12px/1.6 var(--mono);color:var(--bone-4)}
+.rail .nav{display:grid;gap:6px}
+.rail .nav a{display:grid;grid-template-columns:14px 1fr;gap:8px;align-items:baseline;color:var(--bone-2);text-decoration:none;font-size:13px;line-height:1.35}
+.rail .nav a:hover{color:var(--signal-2)}
+.rail .nav a span{color:var(--bone-4);font-family:var(--mono);font-size:11px}
+.rail .keys{display:grid;gap:6px;font-size:12px;color:var(--bone-3)}
+.rail .keys div{display:flex;justify-content:space-between;align-items:center}
+
+/* article */
+article{min-width:0}
+.eyebrow{font:500 11px/1 var(--mono);letter-spacing:.1em;text-transform:uppercase;color:var(--signal);margin:0 0 18px;display:flex;gap:12px;align-items:center;flex-wrap:wrap}
+.eyebrow span{color:var(--bone-4)}
+h1{font:600 clamp(30px,3.4vw,44px)/1.1 var(--sans);letter-spacing:-.022em;margin:0 0 18px;color:var(--bone);text-wrap:balance}
+.standfirst{font-size:20px;line-height:1.5;color:var(--bone-2);margin:0 0 28px;text-wrap:pretty}
+.meta{display:flex;flex-wrap:wrap;gap:8px 18px;font:400 12px/1 var(--mono);letter-spacing:.04em;color:var(--bone-3);padding:14px 0;border-top:1px solid var(--line);border-bottom:1px solid var(--line);margin-bottom:36px}
+.meta b{color:var(--bone-2);font-weight:500}
+.meta time{color:var(--bone)}
+.meta .orig a{color:var(--bone-2);text-decoration:underline;text-decoration-color:var(--line);text-underline-offset:3px}
+.meta .orig a:hover{color:var(--signal);text-decoration-color:currentColor}
+.prose>p{margin:0 0 1.25em;color:var(--bone);text-wrap:pretty}
+.prose p{text-wrap:pretty}
+.prose h2{font:600 clamp(22px,2.1vw,27px)/1.25 var(--sans);letter-spacing:-.015em;margin:2.2em 0 .7em;scroll-margin-top:24px;color:var(--bone)}
+.prose h3{font:600 19px/1.3 var(--sans);margin:1.8em 0 .5em;scroll-margin-top:24px}
+.prose h4{font:600 16px/1.35 var(--sans);margin:1.6em 0 .5em;scroll-margin-top:24px}
+.prose :is(h2,h3,h4) a.anchor{color:var(--bone-4);text-decoration:none;margin-left:10px;font-weight:400;opacity:0;font-family:var(--mono);font-size:.7em}
+.prose :is(h2,h3,h4):hover a.anchor,.prose :is(h2,h3,h4) a.anchor:focus{opacity:1}
+.prose a{color:var(--bone);text-decoration:underline;text-decoration-color:var(--line-2);text-underline-offset:3px;text-decoration-thickness:1px}
+.prose a:hover{text-decoration-color:var(--signal);color:var(--signal-2)}
+:root[data-theme="paper"] .prose a:hover{color:var(--signal)}
+.prose code{font:500 .86em var(--mono);background:var(--panel-2);border:1px solid var(--line);border-radius:4px;padding:.1em .35em;color:var(--bone);overflow-wrap:anywhere}
+.prose ul,.prose ol{padding-left:1.3em;margin:0 0 1.25em;color:var(--bone)}
+.prose li{margin:.3em 0}
+.prose li::marker{color:var(--signal)}
+.prose blockquote{margin:1.6em 0;padding:4px 0 4px 20px;border-left:2px solid var(--signal);color:var(--bone-2);font-style:italic}
+.prose blockquote p{margin:0 0 .6em}
+.prose blockquote p:last-child{margin:0}
+.prose strong{font-weight:600;color:var(--bone)}
+.prose hr{border:0;border-top:1px solid var(--line);margin:2.4em 0}
+.prose mark{background:var(--signal-dim);color:var(--bone);padding:.05em .25em;border-radius:3px;box-shadow:inset 0 -1px 0 var(--signal)}
+.prose del,.prose s{color:var(--bone-3);text-decoration-color:var(--signal)}
+.prose img{max-width:100%;height:auto;border-radius:6px;border:1px solid var(--line)}
+.prose table{border-collapse:collapse;width:100%;margin:0 0 1.6em;font-size:15px}
+.prose th,.prose td{text-align:left;padding:8px 10px;border-bottom:1px solid var(--line);vertical-align:top}
+.prose th{font:500 11px/1.4 var(--mono);letter-spacing:.08em;text-transform:uppercase;color:var(--bone-3)}
+.prose iframe,.prose video{max-width:100%;border:1px solid var(--line);border-radius:6px}
+.prose kbd{font-size:.8em}
+sup.fn{font-size:.7em;line-height:0;vertical-align:super}
+sup.fn a{font-family:var(--mono);text-decoration:none;color:var(--signal);padding:0 2px;border:1px solid var(--line);border-radius:3px;font-size:.85em}
+sup.fn a:hover{border-color:var(--signal)}
+
+/* figures */
+.fig{margin:1.8em 0}
+.fig p{margin:0}
+.fig img{display:block;margin:0 auto}
+.fig figcaption{margin-top:8px;font:400 12px/1.6 var(--mono);color:var(--bone-3);text-align:center}
+
+/* admonitions: ::: type Title … ::: ; collapsible with ::: details type Title */
+.adm{display:grid;grid-template-columns:auto 1fr;gap:4px 14px;margin:0 0 1.6em;padding:14px 16px 14px 14px;border:1px solid var(--line-2);border-left:3px solid var(--signal);border-radius:0 6px 6px 0;background:linear-gradient(90deg,var(--signal-dim),var(--panel-2) 60%)}
+.adm .ic{grid-row:1/3;width:22px;height:22px;display:grid;place-items:center;border:1px solid var(--signal);border-radius:50%;color:var(--signal);font:600 12px var(--mono);margin-top:2px}
+.adm .t{font:500 11px/1.6 var(--mono);letter-spacing:.1em;text-transform:uppercase;color:var(--signal);align-self:center}
+.adm .b{grid-column:2;font-size:15.5px;line-height:1.55;color:var(--bone);min-width:0}
+.adm .b>:last-child{margin-bottom:0}
+.adm .b p{margin:0 0 .8em}
+.adm .b ul,.adm .b ol{margin:0 0 .8em}
+.adm .b .code{margin:.8em 0}
+.adm .b blockquote{margin:.4em 0 .9em}
+.adm:is(.note,.info,.abstract,.quote,.example){border-left-color:var(--bone-3);background:var(--panel-2)}
+.adm:is(.note,.info,.abstract,.quote,.example) :is(.ic,.t){color:var(--bone-3);border-color:var(--bone-3)}
+.adm:is(.tip,.hint,.success){border-left-color:#8fb996;background:linear-gradient(90deg,rgba(143,185,150,.14),var(--panel-2) 60%)}
+.adm:is(.tip,.hint,.success) :is(.ic,.t){color:#8fb996;border-color:#8fb996}
+:root[data-theme="paper"] .adm:is(.tip,.hint,.success) :is(.ic,.t){color:#3f7a4a;border-color:#3f7a4a}
+.adm:is(.question,.help){border-left-color:var(--num);background:linear-gradient(90deg,rgba(159,208,255,.12),var(--panel-2) 60%)}
+.adm:is(.question,.help) :is(.ic,.t){color:var(--num);border-color:var(--num)}
+details.adm{display:block;padding:0}
+details.adm summary{display:flex;gap:14px;align-items:center;padding:12px 16px 12px 14px;cursor:pointer;list-style:none}
+details.adm summary::-webkit-details-marker{display:none}
+details.adm summary .ic{margin:0;grid-row:auto}
+details.adm summary::after{content:"+";margin-left:auto;font:500 14px var(--mono);color:var(--bone-3)}
+details.adm[open] summary::after{content:"−"}
+details.adm .b{padding:2px 16px 14px 50px}
+details.adm:not([open]) summary:hover .t{color:var(--bone)}
+
+/* tabs: stacked sections; a little JS turns them into a tab strip */
+.tabs{margin:0 0 1.6em;border:1px solid var(--line);border-radius:7px;background:var(--panel-2);overflow:hidden}
+.tabs .tab{padding:4px 16px 2px}
+.tabs .tab+.tab{border-top:1px solid var(--line)}
+.tabs .tab-t{font:500 11px/1 var(--mono);letter-spacing:.1em;text-transform:uppercase;color:var(--signal);margin:12px 0 8px}
+.tabs .tab>p{margin:0 0 .9em;font-size:15.5px}
+.tabs .tab .code{margin:.9em 0 1em;border-radius:6px}
+.tabs.js .tab-t{display:none}
+.tabs.js .tab{display:none;border-top:0}
+.tabs.js .tab.on{display:block}
+.tab-bar{display:flex;gap:2px;padding:6px 6px 0;border-bottom:1px solid var(--line);background:var(--panel)}
+.tab-bar button{font:500 11px/1 var(--mono);letter-spacing:.1em;text-transform:uppercase;color:var(--bone-3);padding:8px 12px;border-radius:5px 5px 0 0;border:1px solid transparent;border-bottom:0}
+.tab-bar button:hover{color:var(--bone)}
+.tab-bar button[aria-selected="true"]{color:var(--signal);background:var(--panel-2);border-color:var(--line);margin-bottom:-1px;padding-bottom:9px}
+
+/* code block */
+.code{margin:1.6em 0;border:1px solid var(--line);border-radius:7px;overflow:hidden;background:var(--code-bg)}
+.code .ch{display:flex;align-items:center;gap:10px;height:30px;padding:0 6px 0 12px;border-bottom:1px solid var(--line);font:500 10.5px/1 var(--mono);letter-spacing:.1em;text-transform:uppercase;color:var(--bone-3);background:var(--panel)}
+.code .ch .lang{color:var(--signal)}
+.code .ch .nm{color:var(--bone-4);text-transform:none;letter-spacing:.04em;overflow:hidden;text-overflow:ellipsis;white-space:nowrap;min-width:0}
+.code .ch button{margin-left:auto;height:22px;padding:0 8px;border-radius:4px;color:var(--bone-3);font:500 10.5px/1 var(--mono);letter-spacing:.08em;text-transform:uppercase}
+.code .ch button:hover{color:var(--bone);background:var(--panel-3)}
+.code pre{margin:0;padding:14px 16px;overflow:auto;font:13.5px/1.6 var(--mono);color:var(--bone);tab-size:4;background:transparent!important}
+.code pre code{font:inherit;background:none;border:0;padding:0;display:block;min-width:max-content}
+.code .line{display:inline-block;width:100%;min-width:max-content;padding-right:16px}
+.code .line.hl{background:var(--signal-dim);box-shadow:-16px 0 0 var(--signal-dim)}
+.code .ln{display:inline-block;width:2.6ch;margin-right:1.6ch;color:var(--bone-4);text-align:right;user-select:none}
+.code pre:has(.line:nth-child(100)) .ln{width:3.4ch}
+.prose pre:not(.shiki){margin:1.6em 0;padding:14px 16px;overflow:auto;font:13.5px/1.6 var(--mono);background:var(--code-bg);border:1px solid var(--line);border-radius:7px}
+
+/* footnotes & pager */
+.footnotes{margin-top:3em;padding-top:1.4em;border-top:1px solid var(--line);font-size:14.5px;color:var(--bone-2)}
+.footnotes h2{font:500 10.5px/1 var(--mono);letter-spacing:.12em;text-transform:uppercase;color:var(--bone-4);margin:0 0 12px}
+.footnotes ol{margin:0;padding-left:1.4em}
+.footnotes li{margin:.4em 0;scroll-margin-top:24px}
+.footnotes li p{display:inline;margin:0}
+.footnotes li:target{color:var(--bone)}
+.footnotes a.back{text-decoration:none;color:var(--signal);margin-left:6px;font-family:var(--mono)}
+.pager{display:grid;grid-template-columns:1fr 1fr;gap:10px;margin-top:40px}
+.pager a,.pager .none{display:grid;gap:6px;padding:16px 18px;border:1px solid var(--line);border-radius:7px;background:var(--panel-2);text-decoration:none;color:var(--bone);min-width:0;align-content:start}
+.pager .none{color:var(--bone-4);border-style:dashed;background:transparent}
+.pager a:hover{border-color:var(--signal)}
+.pager .next{text-align:right}
+.pager .k{font:500 10px/1 var(--mono);letter-spacing:.12em;text-transform:uppercase;color:var(--bone-4)}
+.pager .t{font-weight:500;line-height:1.3;font-size:15.5px}
+.pager .d{font:400 11px/1 var(--mono);color:var(--bone-3)}
+.sig{margin-top:40px;display:flex;gap:16px;align-items:center;padding:16px 0;border-top:1px solid var(--line);font-size:14px;color:var(--bone-2)}
+.sig img{width:44px;height:44px;border-radius:50%;object-fit:cover;border:1px solid var(--line-2)}
+.sig b{color:var(--bone);font-weight:500}
+.sig a{color:var(--bone-2)}
+
+/* responsive */
+@media (max-width:1100px){
+  .page{grid-template-columns:200px minmax(0,1fr);gap:0 40px;padding:36px 32px 80px}
+  .rail .keys{display:none}
+}
+@media (max-width:760px){
+  :root{--bar:40px;--gap:0px}
+  #bar .clock{display:none}
+  body{font-size:16.5px}
+  #bar{gap:12px;padding:0 12px}
+  #bar .crumb,#bar .cores span,#bar .ua{display:none}
+  #bar .cores{margin-left:auto;gap:2px}
+  #bar .cores i{width:6px;height:12px}
+  #bar .tools button span{display:none}
+  .brand small{display:none}
+  .win{border-radius:0;border-left:0;border-right:0;border-top:0;border-bottom:0}
+  .win-h .sub{display:none}
+  .page{display:block;padding:24px 16px 60px calc(16px + env(safe-area-inset-left))}
+  .rail{position:static;grid-template-columns:1fr 1fr;gap:16px 20px;margin-bottom:28px;padding:0 0 20px;border-bottom:1px solid var(--line)}
+  .rail .toc-wrap{grid-column:1/-1}
+  .rail .nav-wrap{display:none}
+  .standfirst{font-size:18px}
+  .meta{margin-bottom:28px}
+  .code pre{font-size:12.5px;padding:12px}
+  .adm{padding:12px 12px 12px 10px;gap:4px 10px}
+  details.adm .b{padding-left:42px}
+  .pager{grid-template-columns:1fr}
+  .pager .next{text-align:left}
+}
+</style>
+</head>
+<body>
+<a class="skip" href="#article">Skip to article</a>
+
+<header id="bar" role="banner">
+  <a class="brand" href="/" aria-label="Home"><span class="bands" aria-hidden="true"><i></i><i></i><i></i><i></i></span>Yurii Rashkovskii</a>
+  <nav class="crumb" aria-label="Breadcrumb"><a href="/#ws=words&app=essays">words</a><span aria-hidden="true">/</span><span class="cur">2025 / 02 / 26</span></nav>
+  <div class="cores" aria-hidden="true" title="reading progress"><i></i><i></i><i></i><i></i><i></i><i></i><i></i><i></i><span>read <b id="pct">0%</b></span></div>
+  <div class="clock" aria-live="off"><b id="clock">--:--</b> <span id="zone" style="color:var(--bone-4)">Redwood City · Comox</span></div>
+  <span class="ua" title="Stands with Ukraine" role="img" aria-label="Stands with Ukraine">🇺🇦</span>
+  <div class="tools">
+    <button id="theme" aria-pressed="false" title="Toggle paper theme (p)"><span>paper</span><kbd>p</kbd></button>
+    <a id="atlas-link" href="/#focus=p-pgext25" title="Locate on the Atlas (a)"><span>atlas</span><kbd>a</kbd></a><a href="/" title="Back to the desktop (esc)"><span>desktop</span><kbd>esc</kbd></a>
+  </div>
+</header>
+
+<main id="reader">
+  <section class="win" aria-label="Reader">
+    <header class="win-h"><span class="idx">07</span><span class="ttl">words</span><span class="sub">/ reader · /blog/2025/02/26/postgres-extensions-day-2025-montreal-registration-and-call-for-speakers/</span>
+      <div class="ctl"><a href="/#ws=words&app=essays">← words</a><a class="x" href="/" aria-label="Close reader and return to the desktop">×</a></div></header>
+    <div class="win-b" id="scroller">
+      <div class="page">
+        <aside class="rail" aria-label="Article information">
+          <div>
+            <h4>meta</h4>
+            <dl>
+              <dt>date</dt><dd><time datetime="2025-02-26">2025-02-26</time></dd>
+              
+              <dt>read</dt><dd><b>1 min</b></dd>
+              <dt>words</dt><dd>157</dd>
+              <dt>series</dt><dd>Postgres Extensions Day</dd>
+            </dl>
+          </div>
+          <div>
+            <h4>tags</h4>
+            <div class="tags"><a href="/#k=postgres">postgres</a></div>
+          </div>
+          <div class="loc-wrap">
+            <h4>in the atlas</h4>
+            <a class="loc" href="/#focus=p-pgext25" title="Open the Atlas on this essay" aria-label="This essay's position on the Atlas: 2025, sector S II Data, orbiting Postgres Extensions Day">
+              <svg id="locator" viewBox="0 0 200 200" width="200" height="200" aria-hidden="true"><circle cx="100" cy="100" r="22.7" fill="none" stroke="currentColor" stroke-opacity="0.12" stroke-width="0.6"/><circle cx="100" cy="100" r="26.6" fill="none" stroke="currentColor" stroke-opacity="0.12" stroke-width="0.6"/><circle cx="100" cy="100" r="29.6" fill="none" stroke="currentColor" stroke-opacity="0.12" stroke-width="0.6"/><circle cx="100" cy="100" r="39.0" fill="none" stroke="currentColor" stroke-opacity="0.35" stroke-width="1"/><circle cx="100" cy="100" r="55.5" fill="none" stroke="currentColor" stroke-opacity="0.35" stroke-width="1"/><circle cx="100" cy="100" r="68.2" fill="none" stroke="currentColor" stroke-opacity="0.35" stroke-width="1"/><circle cx="100" cy="100" r="79.2" fill="none" stroke="currentColor" stroke-opacity="0.35" stroke-width="1"/><circle cx="100" cy="100" r="88.0" fill="none" stroke="currentColor" stroke-opacity=".5" stroke-width="1"/><line x1="100.0" y1="82.0" x2="100.0" y2="12.0" stroke="currentColor" stroke-opacity=".18" stroke-dasharray="2 3"/><line x1="117.1" y1="94.4" x2="183.7" y2="72.8" stroke="currentColor" stroke-opacity=".18" stroke-dasharray="2 3"/><line x1="110.6" y1="114.6" x2="151.7" y2="171.2" stroke="currentColor" stroke-opacity=".18" stroke-dasharray="2 3"/><line x1="89.4" y1="114.6" x2="48.3" y2="171.2" stroke="currentColor" stroke-opacity=".18" stroke-dasharray="2 3"/><line x1="82.9" y1="94.4" x2="16.3" y2="72.8" stroke="currentColor" stroke-opacity=".18" stroke-dasharray="2 3"/><circle cx="100" cy="100" r="16" fill="none" stroke="var(--signal)" stroke-opacity=".6"/><circle cx="100" cy="100" r="2.2" fill="var(--signal)"/><line x1="120.9" y1="116.4" x2="120.9" y2="116.4" stroke="currentColor" stroke-opacity=".35" stroke-dasharray="2 4"/><circle cx="119.9" cy="115.6" r="3.2" fill="currentColor"/><text x="125.9" y="119.6" font-family="var(--serif)" font-style="italic" font-size="11" fill="currentColor" fill-opacity=".85">Postgres Extensions Day</text><line x1="122.7" y1="112.8" x2="119.9" y2="115.6" stroke="currentColor" stroke-opacity=".3"/><circle class="pulse" cx="122.7" cy="112.8" r="4" fill="none" stroke="var(--signal)"/><circle cx="122.7" cy="112.8" r="2.6" fill="none" stroke="var(--signal)" stroke-width="1.2"/><text x="104" y="21.0" font-family="var(--mono)" font-size="7.5" fill="currentColor" fill-opacity=".55">1981</text><text x="104" y="58.0" font-family="var(--mono)" font-size="7.5" fill="currentColor" fill-opacity=".55">2020</text><text x="104" y="41.5" font-family="var(--mono)" font-size="7.5" fill="currentColor" fill-opacity=".55">2010</text><text x="118.7" y="128.8" text-anchor="end" font-family="var(--mono)" font-size="8" fill="var(--signal)">this essay</text></svg>
+              <span class="cap"><b>2025 · 02 · 26</b> · S II Data · orbits Postgres Extensions Day<br><i>locate on the atlas ◎</i></span>
+            </a>
+          </div>
+          <div class="toc-wrap">
+            <h4>on this page</h4>
+            <p class="toc-none">no sections</p>
+          </div>
+          <div class="nav-wrap">
+            <h4>nearby</h4>
+            <div class="nav">
+              <a href="/blog/2023/07/30/repeating-yourself-thrice-doesnt-turn-you-into-a-3x-developer/"><span>←</span>Repeating Yourself Thrice Doesn’t Turn You Into a 3x Developer</a>
+              <a href="/blog/2025/06/21/firing-developers-wont-make-software-cheaper/"><span>→</span>Firing Developers Won’t Make Software Cheaper</a>
+            </div>
+          </div>
+          <div class="keys">
+            <div><span>paper / graphite</span><kbd>p</kbd></div>
+            <div><span>previous / next</span><span><kbd>[</kbd> <kbd>]</kbd></span></div>
+            <div><span>desktop</span><kbd>esc</kbd></div>
+            <div><span>locate on the atlas</span><kbd>a</kbd></div>
+          </div>
+        </aside>
+
+        <article id="article" aria-labelledby="title">
+          <p class="eyebrow">words <span>·</span> postgres extensions day <span>·</span> <time datetime="2025-02-26">February 26, 2025</time></p>
+          <h1 id="title">Postgres Extensions Day 2025 Montreal: Registration and Call for Speakers</h1>
+          
+          <div class="meta"><span>by <b>Yurii Rashkovskii</b></span><span><time datetime="2025-02-26">2025-02-26</time></span><span>1 min read</span><span>#postgres</span></div>
+
+          <div class="prose" id="prose">
+<p>On May 12th, 2025, Postgres Extension Developers Coalition (PGEDC) will host <a href="https://pgext.day">Postgres Extensions Day 2025</a> in Montreal, QC.</p>
+<p>It is a one-day, in-person event dedicated to the comprehensive exploration of Postgres extension – encompassing development, ecosystem, and operational concerns.</p>
+<p>The program includes in-depth technical presentations, practical demonstrations, and structured discussions designed to foster collaboration and innovation. Whether you are new to Postgres extensions or an experienced developer, you will gain valuable insights, advanced techniques, and inspiration for your future work.</p>
+<p>This free, community-led event operates independently and is unaffiliated with other events. Prior registration is required.</p>
+<p><mark>Call for Speakers</mark> is open until April 1st.</p>
+<p>Topics of interest include:</p>
+<ul>
+<li>Teaching extension development</li>
+<li>Extension packaging &amp; delivery</li>
+<li>Libraries and frameworks for extensions</li>
+<li>Gaps and challenges</li>
+<li>Implementing extensions in different languages</li>
+<li>Interesting techniques &amp; discoveries</li>
+<li>Operating extensions in production</li>
+<li>Extensions security</li>
+</ul>
+<p>If the topic above is not listed, please still feel free to submit your talk.</p>
+<p><a href="http://pgext2025mtl.eventbrite.ca/">Register</a> and <a href="https://sessionize.com/pgextday2025mtl">submit your talks</a> soon!</p>
+
+          </div>
+
+          <nav class="pager" aria-label="Previous and next posts">
+            <a class="prev" href="/blog/2023/07/30/repeating-yourself-thrice-doesnt-turn-you-into-a-3x-developer/" rel="prev"><span class="k">← previous</span><span class="t">Repeating Yourself Thrice Doesn’t Turn You Into a 3x Developer</span><span class="d">2023-07-30</span></a>
+            <a class="next" href="/blog/2025/06/21/firing-developers-wont-make-software-cheaper/" rel="next"><span class="k">next →</span><span class="t">Firing Developers Won’t Make Software Cheaper</span><span class="d">2025-06-21</span></a>
+          </nav>
+
+          <footer class="sig">
+            <img src="/data/portrait-square.jpg?v=1221ff7207" alt="" width="44" height="44">
+            <div><b>Yurii Rashkovskii</b> — founder of <a href="https://inferal.com">Inferal</a>, technologist. Writes from Redwood City, CA and Comox, BC or wherever life catches him. <a href="/">Back to the desktop</a></div>
+          </footer>
+        </article>
+      </div>
+    </div>
+  </section>
+</main>
+
+<script src="/clock.js?v=659ddb2e57"></script>
+<script>
+const $=(s,r=document)=>r.querySelector(s), $$=(s,r=document)=>[...r.querySelectorAll(s)];
+const reduced=matchMedia('(prefers-reduced-motion: reduce)').matches;
+
+/* theme — site-wide contract (site/DATA.md): localStorage yr-theme, data-theme on <html>, yr-theme event, cross-tab sync */
+const root=document.documentElement, tbtn=$('#theme');
+function applyTheme(t){ t=t==='paper'?'paper':'dark'; root.setAttribute('data-theme',t); tbtn.setAttribute('aria-pressed',String(t==='paper')); return t; }
+function setTheme(t){ t=applyTheme(t); try{ localStorage.setItem('yr-theme',t); }catch(e){} dispatchEvent(new CustomEvent('yr-theme',{detail:t})); }
+applyTheme(root.getAttribute('data-theme'));
+tbtn.addEventListener('click',()=>setTheme(root.getAttribute('data-theme')==='paper'?'dark':'paper'));
+addEventListener('storage',e=>{ if(e.key==='yr-theme') applyTheme(e.newValue); });
+
+/* clock: /clock.js, the same as on the desktop; homes and person.here from atlas.json, passed in by the build */
+window.yrClock&&yrClock.start({clock:$('#clock'), zone:$('#zone'), box:$('.clock'), homes:[{"id":"redwood-city","n":"Redwood City","tz":"America/Los_Angeles"},{"id":"comox","n":"Comox","tz":"America/Vancouver"}], here:'comox'});
+
+/* table of contents: current section */
+const heads=$$('.prose :is(h2,h3)[id]'), tocLinks=$$('#toc a');
+if(heads.length&&tocLinks.length){ const io=new IntersectionObserver(es=>{ es.forEach(e=>{ if(e.isIntersecting){ tocLinks.forEach(a=>a.setAttribute('aria-current',String(a.getAttribute('href')==='#'+e.target.id))); } }); },{root:$('#scroller'),rootMargin:'0px 0px -70% 0px',threshold:0}); heads.forEach(h=>io.observe(h)); }
+
+/* reading progress → core strip */
+const sc=$('#scroller'), cores=$$('.cores i'), pct=$('#pct');
+function progress(){ const max=sc.scrollHeight-sc.clientHeight; const p=max>0?Math.min(1,sc.scrollTop/max):1; pct.textContent=Math.round(p*100)+'%'; const n=Math.round(p*cores.length); cores.forEach((c,i)=>c.classList.toggle('on',i<n)); }
+sc.addEventListener('scroll',progress,{passive:true}); addEventListener('resize',progress); progress();
+
+/* copy buttons (line numbers are decoration, not code) */
+$$('[data-copy]').forEach(b=>b.addEventListener('click',async()=>{ const pre=b.closest('.code').querySelector('pre').cloneNode(true); pre.querySelectorAll('.ln').forEach(n=>n.remove()); try{ await navigator.clipboard.writeText(pre.innerText.replace(/\n$/,'')); b.textContent='copied'; }catch(e){ b.textContent='select & copy'; } setTimeout(()=>b.textContent='copy',1400); }));
+
+/* tabs: progressive enhancement over stacked sections */
+$$('.tabs').forEach((box,bi)=>{ const tabs=$$(':scope > .tab',box); if(tabs.length<2) return; const bar=document.createElement('div'); bar.className='tab-bar'; bar.setAttribute('role','tablist');
+  tabs.forEach((t,i)=>{ const id=`tab-${bi}-${i}`; t.id=id+'-panel'; t.setAttribute('role','tabpanel'); const b=document.createElement('button'); b.type='button'; b.id=id; b.setAttribute('role','tab'); b.setAttribute('aria-controls',t.id); b.textContent=$('.tab-t',t).textContent;
+    const pick=()=>{ tabs.forEach((x,j)=>{ x.classList.toggle('on',j===i); bar.children[j].setAttribute('aria-selected',String(j===i)); }); };
+    b.addEventListener('click',pick); bar.appendChild(b); if(i===0) queueMicrotask(pick); });
+  box.prepend(bar); box.classList.add('js'); });
+
+/* keys */
+const PREV="/blog/2023/07/30/repeating-yourself-thrice-doesnt-turn-you-into-a-3x-developer/", NEXT="/blog/2025/06/21/firing-developers-wont-make-software-cheaper/", ATLAS=$('#atlas-link').getAttribute('href');
+addEventListener('keydown',e=>{
+  const tag=(e.target.tagName||'').toLowerCase(); if(tag==='input'||tag==='textarea'||e.metaKey||e.ctrlKey||e.altKey) return;
+  if(e.key==='p'){ tbtn.click(); }
+  else if(e.key==='Escape'){ location.href='/'; }
+  else if(e.key==='a'){ location.href=ATLAS; }
+  else if(e.key==='['&&PREV){ location.href=PREV; }
+  else if(e.key===']'&&NEXT){ location.href=NEXT; }
+  else if(e.key==='j'){ sc.scrollBy({top:innerHeight*.6,behavior:reduced?'auto':'smooth'}); }
+  else if(e.key==='k'){ sc.scrollBy({top:-innerHeight*.6,behavior:reduced?'auto':'smooth'}); }
+});
+/* deep link into the scroller (hash targets live inside the scrolling pane) */
+if(location.hash){ const t=document.getElementById(decodeURIComponent(location.hash.slice(1))); if(t) requestAnimationFrame(()=>t.scrollIntoView()); }
+</script>
+<script src="/player.js?v=2fac7b96c3" defer></script>
+</body>
+</html>

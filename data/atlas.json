@@ -1,0 +1,1761 @@
+{
+ "person": {
+  "id": "yrashk",
+  "name": "Yurii Rashkovskii",
+  "born": 1981,
+  "birthplace": "Ukraine",
+  "homes": [
+   "redwood-city",
+   "comox"
+  ],
+  "here": "comox"
+ },
+ "places": [
+  {
+   "id": "redwood-city",
+   "name": "Redwood City, CA",
+   "lat": 37.49,
+   "lon": -122.24,
+   "tz": "America/Los_Angeles"
+  },
+  {
+   "id": "comox",
+   "name": "Comox, BC",
+   "lat": 49.67,
+   "lon": -124.93,
+   "tz": "America/Vancouver"
+  },
+  {
+   "id": "san-francisco",
+   "name": "San Francisco, CA",
+   "lat": 37.77,
+   "lon": -122.42,
+   "tz": "America/Los_Angeles"
+  },
+  {
+   "id": "canada",
+   "name": "Canada",
+   "lat": 56.13,
+   "lon": -106.35,
+   "tz": "America/Vancouver"
+  },
+  {
+   "id": "ukraine",
+   "name": "Ukraine",
+   "lat": 49,
+   "lon": 32,
+   "tz": "Europe/Kyiv"
+  },
+  {
+   "id": "bangkok",
+   "name": "Bangkok, Thailand",
+   "lat": 13.76,
+   "lon": 100.5,
+   "tz": "Asia/Bangkok"
+  }
+ ],
+ "sectors": [
+  {
+   "id": "companies",
+   "label": "Companies"
+  },
+  {
+   "id": "data",
+   "label": "Data"
+  },
+  {
+   "id": "machines",
+   "label": "Machines & languages"
+  },
+  {
+   "id": "writing",
+   "label": "Words & ideas"
+  },
+  {
+   "id": "life",
+   "label": "Life"
+  }
+ ],
+ "bodies": [
+  {
+   "id": "born",
+   "kind": "life",
+   "name": "Born, Ukraine",
+   "sector": "life",
+   "start": 1981,
+   "end": null,
+   "approx": false,
+   "weight": 3,
+   "place": "ukraine",
+   "line": "Born in Ukraine.",
+   "f": 0.5
+  },
+  {
+   "id": "first-job",
+   "kind": "life",
+   "name": "First job",
+   "sector": "life",
+   "start": 1999,
+   "end": null,
+   "approx": false,
+   "weight": 2,
+   "line": "1999.",
+   "f": 0.58
+  },
+  {
+   "id": "moved-to-canada",
+   "kind": "life",
+   "name": "Moved to Canada",
+   "sector": "life",
+   "start": 2008,
+   "end": null,
+   "approx": false,
+   "weight": 2,
+   "place": "canada",
+   "line": "Home has been in Canada since 2008; Comox, BC today.",
+   "f": 0.7
+  },
+  {
+   "id": "ghjoin",
+   "kind": "life",
+   "name": "Joins GitHub",
+   "sector": "machines",
+   "start": 2008,
+   "end": null,
+   "approx": false,
+   "weight": 1,
+   "url": "https://github.com/yrashk",
+   "line": "Account created 2008-02-19. Since then: 342 public repositories, 827 followers.",
+   "f": 0.4
+  },
+  {
+   "id": "lived-in-bangkok",
+   "kind": "life",
+   "name": "Lived in Bangkok",
+   "sector": "life",
+   "start": 2014,
+   "end": 2019,
+   "approx": false,
+   "weight": 2,
+   "place": "bangkok",
+   "line": "Bangkok, 2014–2019.",
+   "f": 0.3
+  },
+  {
+   "id": "sf",
+   "kind": "life",
+   "name": "Working in San Francisco",
+   "sector": "life",
+   "start": 2026,
+   "end": null,
+   "approx": false,
+   "weight": 2,
+   "place": "san-francisco",
+   "line": "Inferal is built from the Bay Area; home is Redwood City and Comox.",
+   "f": 0.84
+  },
+  {
+   "id": "inferal",
+   "group": "now",
+   "kind": "company",
+   "name": "Inferal",
+   "sector": "companies",
+   "start": 2025,
+   "end": null,
+   "approx": false,
+   "weight": 4,
+   "url": "https://inferal.com",
+   "line": "Software is eating your business.",
+   "quote": "Data should summon agents — not the other way around.",
+   "f": 0.5,
+   "voice": "Your systems know what happened. Inferal determines what happens next.",
+   "color": "#ff6a3d",
+   "role": "founder",
+   "status": "active",
+   "desc": "Data infrastructure that replaces custom glue software with live, governed decision logic. Models that run your business. Grew out of Omnigres in 2025.",
+   "notes": [
+    "Products: Relay (data movement), the Data Platform, Operational Models (ontologies) and Ontosome, a catalog of ontology modules.",
+    "Team: Yurii Rashkovskii (founder), Jeremy Tregunna, Mehdi Akiki.",
+    "From the Inferal blog: “Time Is Part of the Business Logic.”"
+   ],
+   "githubOrgs": [
+    "inferal-oss",
+    "inferaldata"
+   ]
+  },
+  {
+   "id": "hackerintro",
+   "kind": "company",
+   "name": "HackerIntro",
+   "sector": "companies",
+   "start": 2021,
+   "end": 2023,
+   "approx": false,
+   "weight": 3,
+   "line": "Resume Search: crawled and indexed developer resumes 24/7. Shut down in 2023.",
+   "role": "founder",
+   "f": 0.24
+  },
+  {
+   "id": "trustatom",
+   "kind": "company",
+   "name": "Trustatom / Streamline.vc",
+   "sector": "companies",
+   "start": 2014,
+   "end": 2015,
+   "approx": false,
+   "weight": 3,
+   "line": "Bitcoin-based smart contracts; raised, then pivoted to startup data assurance for investors under the Streamline.vc name.",
+   "role": "founder",
+   "github": [
+    "trustatom-oss/trustatom-oss.github.io",
+    "trustatom-oss/elixir-fluent-client"
+   ],
+   "f": 0.62
+  },
+  {
+   "id": "bexio",
+   "kind": "company",
+   "name": "Bex.io",
+   "sector": "companies",
+   "start": 2013,
+   "end": 2014,
+   "approx": false,
+   "weight": 3,
+   "line": "Bitcoin exchange as a service. Raised seed.",
+   "desc": "Grew out of Spawngrid in 2013.",
+   "role": "founder",
+   "f": 0.36
+  },
+  {
+   "id": "spawngrid",
+   "kind": "company",
+   "name": "Spawngrid",
+   "sector": "companies",
+   "start": 2011,
+   "end": 2013,
+   "approx": false,
+   "weight": 3,
+   "line": "A cloud for complex Erlang systems. Also built Test.io, a property testing solution, and ultimately became Bex.io",
+   "desc": "2011–2013; became Bex.io (2013).",
+   "continuedAs": "bexio",
+   "role": "founder",
+   "github": [
+    "spawngrid/erel",
+    "spawngrid/proper_stdlib",
+    "spawngrid/seqbind",
+    "spawngrid/htoad",
+    "spawngrid/quickrel",
+    "spawngrid/exmig"
+   ],
+   "f": 0.88
+  },
+  {
+   "id": "issuesdone",
+   "kind": "company",
+   "name": "Issues Done",
+   "sector": "companies",
+   "start": 2007,
+   "end": 2008,
+   "approx": false,
+   "weight": 3,
+   "line": "A web-based Getting Things Done application. The first company.",
+   "role": "founder",
+   "f": 0.5
+  },
+  {
+   "id": "hexagon",
+   "kind": "company",
+   "name": "Hexagon.cc (IsoHunt)",
+   "sector": "companies",
+   "start": 2008,
+   "end": 2013,
+   "approx": false,
+   "weight": 2,
+   "line": "Worked at Hexagon.cc (IsoHunt), 2008–2013.",
+   "role": "employee",
+   "f": 0.12
+  },
+  {
+   "id": "ditto",
+   "kind": "company",
+   "name": "Ditto",
+   "sector": "companies",
+   "start": 2018,
+   "end": 2019,
+   "approx": false,
+   "weight": 2,
+   "line": "Worked at Ditto, 2018–2019.",
+   "role": "employee",
+   "f": 0.76
+  },
+  {
+   "id": "pgext",
+   "kind": "project",
+   "name": "Postgres Extensions Day",
+   "sector": "data",
+   "start": 2025,
+   "end": 2025,
+   "year": 2025.36,
+   "approx": false,
+   "weight": 3,
+   "url": "https://pgext.day",
+   "line": "A one-day, in-person event for the people who extend Postgres.",
+   "quote": null,
+   "role": "organizer",
+   "f": 0.78,
+   "desc": "Organised the first edition in Montreal, May 12, 2025, hosted by the Postgres Extension Developers Coalition.",
+   "video": {
+    "yt": "cucQOOAahNY",
+    "from": 949,
+    "title": "Postgres Extensions Day 2025",
+    "date": "2025-05-12",
+    "venue": "Montréal",
+    "chapters": [
+     {
+      "t": 949,
+      "speaker": "Yurii Rashkovskii",
+      "title": "Welcome"
+     },
+     {
+      "t": 1065,
+      "speaker": "Hannu Krosing",
+      "title": "From pl/v8 to pl/<any>: towards easier extension development"
+     },
+     {
+      "t": 2847,
+      "speaker": "Andrey Borodin",
+      "title": "Upgrade as an extension"
+     },
+     {
+      "t": 4693,
+      "speaker": "Paul Jungwirth",
+      "title": "Inlining Postgres Functions, Now and Then"
+     },
+     {
+      "t": 6520,
+      "speaker": "Alvaro Hernandez",
+      "title": "Postgres à la carte: dynamic container images with your choice of extensions"
+     },
+     {
+      "t": 8752,
+      "speaker": "Yurii Rashkovskii",
+      "title": "Extension Upgrades",
+      "talk": "talk-ext-upgrades"
+     },
+     {
+      "t": 10165,
+      "speaker": "Phil Eaton",
+      "title": "Working with MemoryContexts and debugging memory leaks in Postgres"
+     },
+     {
+      "t": 11707,
+      "speaker": "Sweta Vooda",
+      "title": "Postgres as a Control Plane: Challenges in Offloading Compute via Extensions"
+     },
+     {
+      "t": 17423,
+      "speaker": "Ruohang Feng",
+      "title": "The Missing Postgres Extension Repo and Package Manager"
+     },
+     {
+      "t": 18944,
+      "speaker": "David Wheeler",
+      "title": "How to automatically release your extensions on PGXN"
+     },
+     {
+      "t": 20936,
+      "speaker": "Cary Huang",
+      "title": "Extending PostgreSQL with Java: Overcoming Development Challenges in Bridging Java and C Application"
+     },
+     {
+      "t": 22733,
+      "speaker": "Cheng Chen",
+      "title": "Rethinking OLAP Architecture: The Journey to pg_mooncake v0.2"
+     },
+     {
+      "t": 24373,
+      "speaker": "Florents Tselai",
+      "title": "Spat: Hijacking Shared Memory for a Redis-Like Experience in PostgreSQL"
+     },
+     {
+      "t": 26283,
+      "speaker": "Yurii Rashkovskii",
+      "title": "Cppgres: One less reason to hate C++",
+      "talk": "talk-cppgres"
+     },
+     {
+      "t": 28187,
+      "speaker": "Alastair Turner",
+      "title": "Extensibility - new options and a wish list"
+     }
+    ]
+   }
+  },
+  {
+   "id": "omnigres",
+   "kind": "company",
+   "name": "Omnigres",
+   "sector": "data",
+   "start": 2022,
+   "end": 2025,
+   "year": 2023.6,
+   "role": "founder",
+   "approx": false,
+   "weight": 4,
+   "url": "https://github.com/omnigres/omnigres",
+   "line": "Postgres as a Platform.",
+   "github": [
+    "omnigres/omnigres"
+   ],
+   "continuedAs": "inferal",
+   "f": 0.44,
+   "desc": "Postgres as a complete application runtime: business logic, job queues, API endpoints, an HTTP server — inside or next to the database, instead of a constellation of services. 2022–2025; continued as Inferal (2025)."
+  },
+  {
+   "id": "strata",
+   "group": "experimental",
+   "kind": "project",
+   "name": "Strata",
+   "sector": "machines",
+   "start": 2026,
+   "end": null,
+   "approx": false,
+   "weight": 4,
+   "url": "https://yrashk.com/strata",
+   "line": "A 64-bit machine where memory is explicit I/O.",
+   "quote": "The machine shows through instead of being hidden.",
+   "github": [
+    "yrashk/strata"
+   ],
+   "f": 0.5,
+   "voice": "The machine shows through instead of being hidden.",
+   "color": "#e9e4d9",
+   "role": "author",
+   "status": "active · pushed today",
+   "desc": "A prototype instruction set and the small operating system that proves it. Local Stores instead of caches; transfers that complete with a tag; no interrupts.",
+   "notes": [
+    "RTL, a C emulator with JITs, the StrataOS microkernel written in Strata assembly, Strata Forth, and a browser playground.",
+    "Local Stores, not caches: 64 KiB per core. Transfers carry completion tags: tget, tput, tany. Linear capabilities.",
+    "StrataOS has a tiled window server and a strip of core cells that pulse on context switches — this desktop is its cousin."
+   ]
+  },
+  {
+   "id": "libycxx",
+   "group": "experimental",
+   "kind": "project",
+   "name": "libycxx",
+   "sector": "machines",
+   "start": 2026,
+   "end": null,
+   "approx": false,
+   "weight": 4,
+   "url": "https://libycxx.org",
+   "line": "An independent C++26 standard library.",
+   "quote": "There is no list of tolerated failures.",
+   "github": [
+    "yrashk/libycxx"
+   ],
+   "f": 0.24,
+   "voice": "There is no list of tolerated failures.",
+   "color": "#9fd0ff",
+   "mono": true,
+   "role": "director",
+   "status": "v0.1.0",
+   "desc": "Freestanding core plus hosted library; import std; works. Version 0.1.0. Presented as a spec sheet, because that is what it is.",
+   "notes": [
+    "2,824 spec-derived tests, plus 17,098 external libc++ and libstdc++ tests run unmodified.",
+    "19 real-world projects built against it.",
+    "Implemented by AI agents directed by the author."
+   ]
+  },
+  {
+   "id": "flyology",
+   "group": "experimental",
+   "kind": "project",
+   "name": "Flyology",
+   "sector": "machines",
+   "start": 2026,
+   "end": null,
+   "approx": false,
+   "weight": 3,
+   "url": "https://flyology.org",
+   "line": "Systems foundations for Ada.",
+   "quote": "A study of flight, revisited.",
+   "f": 0.78,
+   "github": [
+    "flyology-ada/flyology",
+    "flyology-ada/flyology-object-storage",
+    "flyology-ada/flyology-http",
+    "flyology-ada/flyology-postgres",
+    "flyology-ada/flyology-db",
+    "flyology-ada/flyology-simd",
+    "flyology-ada/flyology-freestanding",
+    "flyology-ada/flyology-tui",
+    "flyology-ada/flyology-rdf",
+    "flyology-ada/flyology-serde",
+    "flyology-ada/flyology-json",
+    "flyology-ada/flyology-device",
+    "flyology-ada/flyology-remoting",
+    "flyology-ada/flyology-cbor",
+    "flyology-ada/flyology-wire",
+    "flyology-ada/flyology-type-ir",
+    "flyology-ada/flyology-crc",
+    "flyology-ada/flyology.org",
+    "flyology-ada/website-kit",
+    "flyology-ada/gnat-patches",
+    "flyology-ada/agents",
+    "flyology-ada/tla",
+    "flyology-ada/counterweave"
+   ],
+   "voice": "A study of flight, revisited.",
+   "color": "#d9c89a",
+   "role": "author",
+   "status": "active",
+   "desc": "Named after Flyology, the book Ada Lovelace planned at twelve. Two task lanes, native and lightweight, and the libraries a serious system needs.",
+   "notes": [
+    "Libraries: HTTP, Postgres, QUIC, JSON, RDF, SIMD, TUI, NUMA, Cachelines, Allocators."
+   ]
+  },
+  {
+   "id": "shutters",
+   "group": "life",
+   "kind": "project",
+   "name": "Shutters",
+   "sector": "life",
+   "start": 2026,
+   "end": null,
+   "approx": true,
+   "weight": 3,
+   "url": "https://shutte.rs",
+   "line": "A quiet place for your photographs.",
+   "quote": null,
+   "f": 0.5,
+   "voice": null,
+   "color": "#b7b1a6",
+   "role": "author",
+   "status": "private · invite-only",
+   "desc": "A private, invite-only photo archive built for his family and now ready for friends.",
+   "notes": [
+    "shutte.rs — the name is the domain."
+   ]
+  },
+  {
+   "id": "abtop",
+   "kind": "oss",
+   "name": "abtop",
+   "sector": "machines",
+   "start": 2026,
+   "end": 2026,
+   "approx": false,
+   "weight": 1,
+   "url": "https://github.com/graykode/abtop",
+   "line": "A contribution to abtop, an htop for AI coding agents: a light-terminal readability fix.",
+   "github": [
+    "graykode/abtop"
+   ],
+   "f": 0.95
+  },
+  {
+   "id": "uplpgsql",
+   "kind": "project",
+   "name": "uplpgsql",
+   "sector": "data",
+   "start": 2026,
+   "end": null,
+   "approx": true,
+   "weight": 2,
+   "url": "https://github.com/yrashk/uplpgsql",
+   "line": "A JIT-compiled PL/pgSQL.",
+   "f": 0.2,
+   "desc": "Work in progress."
+  },
+  {
+   "id": "elixir",
+   "kind": "oss",
+   "name": "Elixir",
+   "sector": "machines",
+   "start": 2011,
+   "end": 2013,
+   "approx": false,
+   "weight": 2,
+   "url": "https://github.com/elixir-lang/elixir",
+   "line": "An early contributor to the Elixir language, in its Erlang-VM infancy.",
+   "github": [
+    "elixir-lang/elixir",
+    "elixir-lang/elixir-lang.github.com"
+   ],
+   "f": 0.56
+  },
+  {
+   "id": "pumpkindb",
+   "kind": "oss",
+   "name": "PumpkinDB",
+   "sector": "machines",
+   "start": 2017,
+   "end": 2017,
+   "approx": false,
+   "weight": 2,
+   "url": "https://github.com/PumpkinDB/PumpkinDB",
+   "line": "PumpkinDB, 2017 — the project whose commit history taught the one-commit-at-a-time essay.",
+   "github": [
+    "PumpkinDB/PumpkinDB",
+    "PumpkinDB/pumpkindb.github.io",
+    "PumpkinDB/pumpkindb-java",
+    "PumpkinDB/rust-spdk",
+    "PumpkinDB/rfc"
+   ],
+   "f": 0.22
+  },
+  {
+   "id": "erlzmq2",
+   "kind": "oss",
+   "name": "erlzmq2",
+   "sector": "machines",
+   "start": 2011,
+   "end": 2016,
+   "approx": false,
+   "weight": 2,
+   "url": "https://github.com/zeromq/erlzmq2",
+   "line": "ZeroMQ bindings for Erlang.",
+   "github": [
+    "zeromq/erlzmq2",
+    "zeromq/erlzmq",
+    "agner/erlzmq.agner"
+   ],
+   "f": 0.1
+  },
+  {
+   "id": "pgrx",
+   "kind": "oss",
+   "name": "pgrx",
+   "sector": "data",
+   "start": 2022,
+   "end": 2023,
+   "approx": false,
+   "weight": 2,
+   "url": "https://github.com/pgcentralfoundation/pgrx",
+   "line": "Contributions to pgrx, the framework for writing Postgres extensions in Rust.",
+   "github": [
+    "pgcentralfoundation/pgrx",
+    "pgext-rs/pgext-rs"
+   ],
+   "f": 0.1
+  },
+  {
+   "id": "wasmrs",
+   "kind": "oss",
+   "name": "wasm.rs",
+   "sector": "machines",
+   "start": 2021,
+   "end": 2021,
+   "approx": false,
+   "weight": 1,
+   "url": "https://github.com/wasm-rs",
+   "line": "WebAssembly in Rust — and a good domain.",
+   "github": [
+    "wasm-rs/async-executor",
+    "wasm-rs/wasm-rs.github.io",
+    "wasm-rs/dbg",
+    "wasm-rs/cargo-metadata",
+    "wasm-rs/shared-channel"
+   ],
+   "f": 0.82
+  },
+  {
+   "id": "cplusplus",
+   "kind": "oss",
+   "name": "GNU Common C++",
+   "sector": "machines",
+   "start": 2000,
+   "end": 2000,
+   "approx": true,
+   "weight": 1,
+   "url": "https://sourceforge.net/p/cplusplus/",
+   "line": "A member of GNU Common C++, portable C++ class libraries, on SourceForge.",
+   "f": 0.3
+  },
+  {
+   "id": "eas",
+   "kind": "oss",
+   "name": "E/AS",
+   "sector": "machines",
+   "start": 2001,
+   "end": 2004,
+   "approx": true,
+   "weight": 2,
+   "url": "https://sourceforge.net/p/eas-dev/",
+   "line": "E/AS, an open-source business automation system; one of its developers.",
+   "f": 0.66
+  },
+  {
+   "id": "camomile",
+   "kind": "oss",
+   "name": "Camomile",
+   "sector": "machines",
+   "start": 2002,
+   "end": 2002,
+   "approx": true,
+   "weight": 1,
+   "url": "https://sourceforge.net/p/camomile/",
+   "line": "Camomile, the Unicode library for OCaml; one of its developers.",
+   "f": 0.14
+  },
+  {
+   "id": "ocamlspread",
+   "kind": "oss",
+   "role": "author",
+   "name": "OcamlSpread",
+   "sector": "machines",
+   "start": 2002,
+   "end": 2002,
+   "approx": false,
+   "weight": 1,
+   "url": "https://sourceforge.net/p/ocamlspread/",
+   "line": "OCaml bindings for the Spread group-communication toolkit. Released 0.0.1 in September 2002.",
+   "f": 0.86
+  },
+  {
+   "id": "common-xml",
+   "kind": "oss",
+   "role": "author",
+   "name": "COMMON-XML",
+   "sector": "machines",
+   "start": 2003,
+   "end": 2003,
+   "approx": false,
+   "weight": 1,
+   "url": "https://sourceforge.net/p/common-xml/",
+   "line": "A full-featured XML library for Common Lisp.",
+   "f": 0.46
+  },
+  {
+   "id": "cl-dtype",
+   "kind": "oss",
+   "role": "author",
+   "name": "CL-DTYPE",
+   "sector": "machines",
+   "start": 2003,
+   "end": 2003,
+   "approx": false,
+   "weight": 1,
+   "url": "https://www.cliki.net/CL-DTYPE",
+   "line": "DType, the MIT Media Lab wire format, in Common Lisp; with help from Victor Sovetov.",
+   "f": 0.06
+  },
+  {
+   "id": "etiquette",
+   "kind": "oss",
+   "name": "Etiquette",
+   "sector": "machines",
+   "start": 2003,
+   "end": 2003,
+   "approx": false,
+   "weight": 1,
+   "url": "https://sourceforge.net/p/etiquette/",
+   "line": "Etiquette, Eugene Zaikonnikov's Common Lisp framework for building network protocols; one of its developers.",
+   "f": 0.74
+  },
+  {
+   "id": "portableaserve",
+   "kind": "oss",
+   "name": "Portable AllegroServe",
+   "sector": "machines",
+   "start": 2003,
+   "end": 2003,
+   "approx": true,
+   "weight": 1,
+   "url": "https://sourceforge.net/p/portableaserve/",
+   "line": "Portable AllegroServe, a Common Lisp web server that runs across Lisps and systems; one of its developers.",
+   "f": 0.92
+  },
+  {
+   "id": "encline",
+   "kind": "oss",
+   "role": "author",
+   "name": "Encline",
+   "sector": "machines",
+   "start": 2004,
+   "end": 2004,
+   "approx": false,
+   "weight": 2,
+   "url": "https://www.cliki.net/Encline",
+   "line": "A Common Lisp engine for enterprise software: frame database, workflow, group communication, transactions, failure recovery.",
+   "desc": "Came with EnclineTest (etest), its unit-test framework, in 2004.",
+   "f": 0.2
+  },
+  {
+   "id": "p-canoe",
+   "kind": "writing",
+   "name": "Team Uncommunication",
+   "sector": "writing",
+   "start": 2014,
+   "end": null,
+   "approx": false,
+   "weight": 1,
+   "url": "/blog/2014/04/21/team-uncommunication/",
+   "line": "Two friends, a canoe, a lake on Vancouver Island. What fixed the paddling was a steering agreement, not more talking — “we didn’t need to communicate our paddling at all!”",
+   "date": "2014-04-21",
+   "listed": true,
+   "featured": true,
+   "tags": [
+    "practices",
+    "teamwork"
+   ],
+   "f": 0.3,
+   "year": 2014.3
+  },
+  {
+   "id": "p-c4",
+   "kind": "writing",
+   "name": "Solving Problems, One Commit at a Time",
+   "sector": "data",
+   "start": 2017,
+   "end": null,
+   "approx": false,
+   "weight": 1,
+   "url": "/blog/2017/09/04/solving-problems-one-commit-at-a-time/",
+   "line": "Every commit is a problem statement and its solution. The history of this very site still reads “Problem: …”.",
+   "date": "2017-09-04",
+   "listed": true,
+   "featured": true,
+   "tags": [
+    "Git",
+    "C4",
+    "practices"
+   ],
+   "f": 0.62,
+   "related": [
+    "pumpkindb"
+   ],
+   "year": 2017.67
+  },
+  {
+   "id": "p-rust",
+   "kind": "writing",
+   "name": "Why not Rust for Omnigres?",
+   "sector": "data",
+   "start": 2023,
+   "end": null,
+   "approx": false,
+   "weight": 1,
+   "url": "/blog/2023/01/07/why-not-rust-for-omnigres/",
+   "line": "On the complexity and inefficiencies plaguing modern business software — and a deliberately unfashionable choice.",
+   "date": "2023-01-07",
+   "listed": true,
+   "featured": true,
+   "tags": [
+    "Postgres",
+    "Omnigres",
+    "Rust",
+    "C"
+   ],
+   "related": [
+    "omnigres"
+   ],
+   "f": 0.56,
+   "year": 2023.02
+  },
+  {
+   "id": "p-http",
+   "kind": "writing",
+   "name": "What happens if you put HTTP server inside Postgres?",
+   "sector": "data",
+   "start": 2023,
+   "end": null,
+   "approx": false,
+   "weight": 1,
+   "url": "/blog/2023/02/16/what-happens-if-you-put-http-server-inside-postgres/",
+   "line": "Benchmarks are attention-grabbers, but that’s not what drew me to Omnigres. Still: one query that makes a database answer HTTP.",
+   "date": "2023-02-16",
+   "listed": true,
+   "featured": true,
+   "tags": [
+    "Postgres",
+    "Omnigres",
+    "performance"
+   ],
+   "related": [
+    "omnigres"
+   ],
+   "f": 0.4,
+   "sample": true,
+   "year": 2023.13
+  },
+  {
+   "id": "p-pgext25",
+   "kind": "writing",
+   "name": "Postgres Extensions Day 2025 Montreal: Registration and Call for Speakers",
+   "sector": "data",
+   "start": 2025,
+   "end": null,
+   "approx": false,
+   "weight": 1,
+   "url": "/blog/2025/02/26/postgres-extensions-day-2025-montreal-registration-and-call-for-speakers/",
+   "line": "On May 12th, 2025, the Postgres Extension Developers Coalition hosts a one-day, in-person event in Montreal.",
+   "date": "2025-02-26",
+   "listed": true,
+   "featured": false,
+   "tags": [
+    "Postgres"
+   ],
+   "related": [
+    "pgext"
+   ],
+   "f": 0.66,
+   "year": 2025.15
+  },
+  {
+   "id": "p-d3x",
+   "kind": "writing",
+   "name": "Omnigres Developer Experience",
+   "sector": "data",
+   "start": 2023,
+   "end": null,
+   "approx": false,
+   "weight": 1,
+   "url": "/blog/2023/07/20/omnigres-developer-experience/",
+   "line": "The most successful developer tools are usually the ones with an amazing developer experience.",
+   "date": "2023-07-20",
+   "listed": true,
+   "featured": false,
+   "tags": [
+    "Omnigres",
+    "D3X"
+   ],
+   "related": [
+    "omnigres"
+   ],
+   "f": 0.3,
+   "year": 2023.55
+  },
+  {
+   "id": "p-regr",
+   "kind": "writing",
+   "name": "Structured Postgres Regression Tests",
+   "sector": "data",
+   "start": 2023,
+   "end": null,
+   "approx": false,
+   "weight": 1,
+   "url": "/blog/2023/04/23/structured-postgres-regression-tests/",
+   "line": "As my tests became larger, I started getting lost in them.",
+   "date": "2023-04-23",
+   "listed": true,
+   "featured": false,
+   "tags": [
+    "Postgres",
+    "Omnigres"
+   ],
+   "related": [
+    "omnigres"
+   ],
+   "f": 0.62,
+   "year": 2023.31
+  },
+  {
+   "id": "p-lim",
+   "kind": "writing",
+   "name": "Avoiding Postgres Extensions Limitations",
+   "sector": "data",
+   "start": 2023,
+   "end": null,
+   "approx": false,
+   "weight": 1,
+   "url": "/blog/2023/04/10/avoiding-postgres-extensions-limitations/",
+   "line": "Postgres extensions are great, but there are edges in some of its features.",
+   "date": "2023-04-10",
+   "listed": true,
+   "featured": false,
+   "tags": [
+    "Postgres",
+    "tips"
+   ],
+   "related": [
+    "omnigres"
+   ],
+   "f": 0.2,
+   "year": 2023.27
+  },
+  {
+   "id": "p-sum",
+   "kind": "writing",
+   "name": "Sum Types in Postgres",
+   "sector": "data",
+   "start": 2023,
+   "end": null,
+   "approx": false,
+   "weight": 1,
+   "url": "/blog/2023/04/09/sum-types-in-postgres/",
+   "line": "A generalized mechanism for values that can be any of the given variants.",
+   "date": "2023-04-09",
+   "listed": true,
+   "featured": false,
+   "tags": [
+    "Postgres",
+    "Omnigres",
+    "types"
+   ],
+   "related": [
+    "omnigres"
+   ],
+   "f": 0.72,
+   "year": 2023.27
+  },
+  {
+   "id": "p-plrust",
+   "kind": "writing",
+   "name": "PL/Rust Just Shipped: Easy Way to Try It Out",
+   "sector": "data",
+   "start": 2023,
+   "end": null,
+   "approx": false,
+   "weight": 1,
+   "url": "/blog/2023/04/05/plrust-just-shipped-easy-way-to-try-it-out/",
+   "line": "PL/Rust 1.0.0 is out; here’s a quick way to try it without the long setup.",
+   "date": "2023-04-05",
+   "listed": true,
+   "featured": false,
+   "tags": [
+    "Postgres",
+    "Rust",
+    "Docker"
+   ],
+   "related": [
+    "omnigres"
+   ],
+   "f": 0.12,
+   "year": 2023.26
+  },
+  {
+   "id": "p-game",
+   "kind": "writing",
+   "name": "Make Postgres an Application Server, Gamified",
+   "sector": "data",
+   "start": 2023,
+   "end": null,
+   "approx": false,
+   "weight": 1,
+   "url": "/blog/2023/04/04/make-postgres-an-application-server-gamified/",
+   "line": "Can Postgres be a fully self-sufficient platform for your application?",
+   "date": "2023-04-04",
+   "listed": true,
+   "featured": false,
+   "tags": [
+    "Postgres",
+    "Omnigres",
+    "contest"
+   ],
+   "related": [
+    "omnigres"
+   ],
+   "f": 0.5,
+   "year": 2023.25
+  },
+  {
+   "id": "p-couchdb",
+   "kind": "writing",
+   "name": "What Is Missing in CouchDB Approach",
+   "sector": "data",
+   "start": 2007,
+   "end": null,
+   "approx": false,
+   "weight": 1,
+   "url": "/blog/2007/11/22/what-is-missing-in-couchdb-approach/",
+   "line": "From the archive: an object’s slot should be an object too.",
+   "date": "2007-11-22",
+   "listed": true,
+   "featured": false,
+   "tags": [
+    "databases",
+    "CouchDB"
+   ],
+   "f": 0.34,
+   "related": [
+    "pumpkindb"
+   ],
+   "year": 2007.89
+  },
+  {
+   "id": "p-docdb-fud",
+   "kind": "writing",
+   "name": "Top 10 Reasons to Avoid Document Databases FUD",
+   "sector": "data",
+   "start": 2008,
+   "end": null,
+   "approx": false,
+   "weight": 1,
+   "url": "/blog/2008/04/26/top-10-reasons-to-avoid-document-databases-fud/",
+   "line": "From the archive: a point-by-point answer to the case against document databases, from the StrokeDB days.",
+   "date": "2008-04-26",
+   "listed": true,
+   "featured": false,
+   "tags": [
+    "databases",
+    "StrokeDB"
+   ],
+   "f": 0.5,
+   "related": [
+    "pumpkindb"
+   ],
+   "year": 2008.32
+  },
+  {
+   "id": "p-no-database",
+   "kind": "writing",
+   "name": "We Don’t Need a “Database”",
+   "sector": "data",
+   "start": 2008,
+   "end": null,
+   "approx": false,
+   "weight": 1,
+   "url": "/blog/2008/05/16/we-dont-need-a-database/",
+   "line": "From the archive: “Your application itself IS a smart database.”",
+   "date": "2008-05-16",
+   "listed": true,
+   "featured": false,
+   "tags": [
+    "databases",
+    "StrokeDB"
+   ],
+   "f": 0.66,
+   "related": [
+    "pumpkindb"
+   ],
+   "year": 2008.37
+  },
+  {
+   "id": "p-save",
+   "kind": "writing",
+   "name": "Is “Save” Obsolete?",
+   "sector": "data",
+   "start": 2008,
+   "end": null,
+   "approx": false,
+   "weight": 1,
+   "url": "/blog/2008/07/13/is-save-obsolete/",
+   "line": "From the archive: persist every change, and record business operations instead of saves.",
+   "date": "2008-07-13",
+   "listed": true,
+   "featured": false,
+   "tags": [
+    "databases",
+    "StrokeDB"
+   ],
+   "f": 0.82,
+   "related": [
+    "pumpkindb"
+   ],
+   "year": 2008.53
+  },
+  {
+   "id": "p-team-play",
+   "kind": "writing",
+   "name": "The Team Play Myth",
+   "sector": "writing",
+   "start": 2014,
+   "end": null,
+   "approx": false,
+   "weight": 1,
+   "url": "/blog/2014/09/07/the-team-play-myth/",
+   "line": "The sequel to Team Uncommunication: one person per small project, and every teammate an educator.",
+   "date": "2014-09-07",
+   "listed": true,
+   "featured": false,
+   "tags": [
+    "practices",
+    "teamwork"
+   ],
+   "f": 0.55,
+   "related": [
+    "p-canoe"
+   ],
+   "year": 2014.68
+  },
+  {
+   "id": "p-lazy-es",
+   "kind": "writing",
+   "name": "Lazy Event Sourcing",
+   "sector": "data",
+   "start": 2016,
+   "end": null,
+   "approx": false,
+   "weight": 1,
+   "url": "/blog/2016/04/13/lazy-event-sourcing/",
+   "line": "Query the events when you need the data, instead of predicting the future in a state database.",
+   "date": "2016-04-13",
+   "listed": true,
+   "featured": false,
+   "tags": [
+    "event sourcing",
+    "databases"
+   ],
+   "f": 0.3,
+   "related": [
+    "pumpkindb"
+   ],
+   "year": 2016.28
+  },
+  {
+   "id": "p-no-user",
+   "kind": "writing",
+   "name": "There Is No “User”",
+   "sector": "data",
+   "start": 2016,
+   "end": null,
+   "approx": false,
+   "weight": 1,
+   "url": "/blog/2016/09/26/there-is-no-user/",
+   "line": "Record what happened — someone signed in with LinkedIn — and decide what that was later.",
+   "date": "2016-09-26",
+   "listed": true,
+   "featured": false,
+   "tags": [
+    "event sourcing",
+    "databases"
+   ],
+   "f": 0.46,
+   "related": [
+    "pumpkindb"
+   ],
+   "year": 2016.74
+  },
+  {
+   "id": "p-pumpkins",
+   "kind": "writing",
+   "name": "Your Functional Programs Are Imperative Pumpkins",
+   "sector": "data",
+   "start": 2016,
+   "end": null,
+   "approx": false,
+   "weight": 1,
+   "url": "/blog/2016/10/30/your-functional-programs-are-imperative-pumpkins/",
+   "line": "Immutable code on a mutable database is still an imperative system. It doesn’t have to be.",
+   "date": "2016-10-30",
+   "listed": true,
+   "featured": false,
+   "tags": [
+    "event sourcing",
+    "databases",
+    "functional programming"
+   ],
+   "f": 0.72,
+   "related": [
+    "pumpkindb"
+   ],
+   "year": 2016.83
+  },
+  {
+   "id": "p-abstractions",
+   "kind": "writing",
+   "name": "Removing Obscuring Abstractions",
+   "sector": "data",
+   "start": 2017,
+   "end": null,
+   "approx": false,
+   "weight": 1,
+   "url": "/blog/2017/06/09/removing-obscuring-abstractions/",
+   "line": "Down to a B+ tree key/value store with no overwrites, to see what storing and finding data really costs.",
+   "date": "2017-06-09",
+   "listed": true,
+   "featured": false,
+   "tags": [
+    "PumpkinDB",
+    "databases"
+   ],
+   "f": 0.86,
+   "related": [
+    "pumpkindb"
+   ],
+   "year": 2017.44
+  },
+  {
+   "id": "p-covers",
+   "kind": "writing",
+   "name": "Under the Covers of Code",
+   "sector": "data",
+   "start": 2018,
+   "end": null,
+   "approx": false,
+   "weight": 1,
+   "url": "/blog/2018/01/31/under-the-covers-of-code/",
+   "line": "Code says what, not why. Problem/Solution commits, and SIT, an issue tracker that lives in the repository.",
+   "date": "2018-01-31",
+   "listed": true,
+   "featured": false,
+   "tags": [
+    "Git",
+    "practices"
+   ],
+   "f": 0.48,
+   "related": [
+    "p-c4"
+   ],
+   "year": 2018.08
+  },
+  {
+   "id": "p-dear-oss",
+   "kind": "writing",
+   "name": "Dear Open Source Projects…",
+   "sector": "writing",
+   "start": 2018,
+   "end": null,
+   "approx": false,
+   "weight": 1,
+   "url": "/blog/2018/03/15/dear-open-source-projects/",
+   "line": "On choosing open, durable places for a community to talk.",
+   "date": "2018-03-15",
+   "listed": true,
+   "featured": false,
+   "tags": [
+    "open source"
+   ],
+   "f": 0.7,
+   "year": 2018.2
+  },
+  {
+   "id": "p-3x",
+   "kind": "writing",
+   "name": "Repeating Yourself Thrice Doesn’t Turn You Into a 3x Developer",
+   "sector": "data",
+   "start": 2023,
+   "end": null,
+   "approx": false,
+   "weight": 1,
+   "url": "/blog/2023/07/30/repeating-yourself-thrice-doesnt-turn-you-into-a-3x-developer/",
+   "line": "Three tiers, three times the work. Written with Ophir Lojkine.",
+   "date": "2023-07-30",
+   "listed": true,
+   "featured": false,
+   "tags": [
+    "Omnigres",
+    "Postgres",
+    "architecture"
+   ],
+   "f": 0.86,
+   "related": [
+    "omnigres"
+   ],
+   "year": 2023.58
+  },
+  {
+   "id": "p-firing",
+   "kind": "writing",
+   "name": "Firing Developers Won’t Make Software Cheaper",
+   "sector": "writing",
+   "start": 2025,
+   "end": null,
+   "approx": false,
+   "weight": 1,
+   "url": "/blog/2025/06/21/firing-developers-wont-make-software-cheaper/",
+   "line": "Reduce the need for software instead of hiding its complexity.",
+   "date": "2025-06-21",
+   "listed": true,
+   "featured": false,
+   "tags": [
+    "AI",
+    "software"
+   ],
+   "f": 0.4,
+   "related": [
+    "inferal"
+   ],
+   "year": 2025.47
+  },
+  {
+   "id": "talk-cppgres",
+   "kind": "talk",
+   "name": "Cppgres: One less reason to hate C++",
+   "sector": "data",
+   "start": 2025,
+   "end": 2025,
+   "approx": false,
+   "weight": 1,
+   "year": 2025.36,
+   "date": "2025-05-12",
+   "event": "Postgres Extensions Day 2025",
+   "venue": "Montréal",
+   "line": "Writing Postgres extensions in C++20 with a header-only library — and why the old reasons to avoid C++ no longer hold.",
+   "video": {
+    "yt": "cucQOOAahNY",
+    "start": 26283,
+    "end": 28187,
+    "cut": true,
+    "stream": "pgext"
+   },
+   "url": "https://www.youtube.com/watch?v=cucQOOAahNY&t=26283s",
+   "related": [
+    "pgext"
+   ]
+  },
+  {
+   "id": "talk-ext-upgrades",
+   "kind": "talk",
+   "name": "Extension Upgrades",
+   "sector": "data",
+   "start": 2025,
+   "end": 2025,
+   "approx": false,
+   "weight": 1,
+   "year": 2025.36,
+   "date": "2025-05-12",
+   "event": "Postgres Extensions Day 2025",
+   "venue": "Montréal",
+   "line": "Install paths, upgrade paths, and versioning everything — including the shared library — so pg_upgrade keeps working.",
+   "video": {
+    "yt": "cucQOOAahNY",
+    "start": 8752,
+    "end": 10165,
+    "cut": true,
+    "stream": "pgext"
+   },
+   "url": "https://www.youtube.com/watch?v=cucQOOAahNY&t=8752s",
+   "related": [
+    "pgext"
+   ]
+  },
+  {
+   "id": "talk-pgpm",
+   "kind": "talk",
+   "name": "Postgres.pm: Packaging Manager Magic",
+   "sector": "data",
+   "start": 2025,
+   "end": 2025,
+   "approx": false,
+   "weight": 1,
+   "year": 2025.21,
+   "date": "2025-03-19",
+   "event": "Postgres Conference 2025",
+   "venue": "Orlando",
+   "line": "GitHub URL in, package out: building and packaging Postgres extensions automatically.",
+   "url": "https://postgresconf.org/conferences/postgresconf_global_2025/program/proposals/postgres-pm-build-better",
+   "related": [
+    "omnigres"
+   ]
+  },
+  {
+   "id": "talk-immutability",
+   "kind": "talk",
+   "name": "How immutability challenges extension packaging and distribution",
+   "sector": "data",
+   "start": 2026,
+   "end": 2026,
+   "approx": false,
+   "weight": 1,
+   "year": 2026.38,
+   "date": "2026-05-19",
+   "event": "PGConf.dev 2026",
+   "format": "panel",
+   "line": "An open discussion with Alastair Turner, David E. Wheeler and Floor Drees on extensions in image-based Postgres deployments.",
+   "url": "https://2026.pgconf.dev/session/618"
+  },
+  {
+   "id": "talk-unusual-types",
+   "kind": "talk",
+   "name": "Unusual Useful Types for Postgres",
+   "sector": "data",
+   "start": 2024,
+   "end": 2024,
+   "approx": false,
+   "weight": 1,
+   "year": 2024.68,
+   "date": "2024-09-07",
+   "event": "Percona University Istanbul 2024",
+   "venue": "Istanbul",
+   "line": "Identity types for JOIN safety, variants, and other uses of the Postgres type system.",
+   "url": "https://percona.university/percona-university-istanbul-open-source-databases-meetup-2024/",
+   "related": [
+    "omnigres"
+   ]
+  },
+  {
+   "id": "talk-pushing-boundaries",
+   "kind": "talk",
+   "name": "Pushing boundaries with extensions, for extensions",
+   "sector": "data",
+   "start": 2024,
+   "end": 2024,
+   "approx": false,
+   "weight": 1,
+   "year": 2024.41,
+   "date": "2024-05-29",
+   "event": "PGConf.dev 2024",
+   "venue": "Vancouver",
+   "also": [
+    "Postgres Conference 2024",
+    "PGIBZ 2024"
+   ],
+   "line": "The Postgres API surface, versioning, and provisioning: the limits of the extension system and how to work around them today.",
+   "url": "https://www.pgevents.ca/events/pgconfdev2024/sessions/session/14-pushing-boundaries-with-extensions-for-extensions/",
+   "related": [
+    "omnigres"
+   ]
+  },
+  {
+   "id": "talk-buildable",
+   "kind": "talk",
+   "name": "Universally Buildable Extensions: Dev to Prod",
+   "sector": "data",
+   "start": 2024,
+   "end": 2024,
+   "approx": false,
+   "weight": 1,
+   "year": 2024.33,
+   "date": "2024-05-01",
+   "event": "Extension Ecosystem Mini-Summit 5",
+   "venue": "online",
+   "line": "Describing Postgres extensions so they build anywhere, from development to production.",
+   "video": {
+    "yt": "R5ijx8IJyaM"
+   },
+   "slides": "https://justatheory.com/shared/extension-ecosystem-summit/omni-universally-buildable-extensions.pdf",
+   "url": "https://www.youtube.com/watch?v=R5ijx8IJyaM",
+   "related": [
+    "omnigres"
+   ]
+  },
+  {
+   "id": "talk-postgres-can-do-what",
+   "kind": "talk",
+   "name": "Omnigres: Postgres can do WHAT?",
+   "sector": "data",
+   "start": 2024,
+   "end": 2024,
+   "approx": false,
+   "weight": 1,
+   "year": 2024.29,
+   "event": "Postgres Conference 2024",
+   "venue": "San Jose",
+   "line": "Postgres as a platform for data-intensive applications: a constellation of extensions.",
+   "url": "https://postgresconf.org/conferences/2024/program/proposals/omnigres-postgres-can-do-what",
+   "related": [
+    "omnigres"
+   ]
+  },
+  {
+   "id": "talk-lazy-es",
+   "kind": "talk",
+   "name": "Lazy event sourcing: Living in the now",
+   "sector": "data",
+   "start": 2016,
+   "end": 2016,
+   "approx": false,
+   "weight": 1,
+   "year": 2016.87,
+   "date": "2016-11-15",
+   "event": "O'Reilly Software Architecture Conference",
+   "venue": "San Francisco",
+   "line": "Designing event-sourced systems that defer deciding what the state of the world should include until the very end.",
+   "video": {
+    "href": "https://www.oreilly.com/library/view/oreilly-software-architecture/9781491976142/video289771.html",
+    "host": "O'Reilly"
+   },
+   "url": "https://www.oreilly.com/library/view/oreilly-software-architecture/9781491976142/video289771.html"
+  },
+  {
+   "id": "talk-bitcoin-elixir",
+   "kind": "talk",
+   "name": "Bitcoin & Elixir: Living the Cutting Edge",
+   "sector": "companies",
+   "start": 2014,
+   "end": 2014,
+   "approx": false,
+   "weight": 1,
+   "year": 2014.18,
+   "event": "Erlang Factory SF Bay Area 2014",
+   "venue": "San Francisco",
+   "line": "Building a Bitcoin exchange service in Elixir, from the Bex.io trenches.",
+   "video": {
+    "yt": "ySkC4vxBfko",
+    "dur": 2905
+   },
+   "url": "https://www.youtube.com/watch?v=ySkC4vxBfko",
+   "related": [
+    "bexio",
+    "elixir"
+   ]
+  },
+  {
+   "id": "talk-meta-is-mega",
+   "kind": "talk",
+   "name": "Meta is Mega",
+   "sector": "machines",
+   "start": 2013,
+   "end": 2013,
+   "approx": false,
+   "weight": 1,
+   "year": 2013.89,
+   "date": "2013-11-23",
+   "event": "Toronto Erlang Factory Lite 2013",
+   "venue": "Toronto",
+   "line": "Elixir with Erlang to build useful tools quickly — Hypnotoad, a server orchestration tool, as the example.",
+   "url": "https://www.erlang-factory.com/conference/Toronto2013/speakers/YuriiRashkovskii",
+   "related": [
+    "elixir"
+   ]
+  },
+  {
+   "id": "talk-erlang-dc-meta",
+   "kind": "talk",
+   "name": "Erlang metaprogramming with Elixir",
+   "sector": "machines",
+   "start": 2013,
+   "end": 2013,
+   "approx": false,
+   "weight": 1,
+   "year": 2013.9,
+   "event": "Erlang DC 2013",
+   "venue": "Washington, DC",
+   "line": "Elixir as a meta-compiler for Erlang that stays close to Erlang itself.",
+   "video": {
+    "yt": "m32CGvzixrQ",
+    "dur": 3470
+   },
+   "url": "https://www.youtube.com/watch?v=m32CGvzixrQ",
+   "related": [
+    "elixir"
+   ]
+  },
+  {
+   "id": "talk-euc-meta",
+   "kind": "talk",
+   "name": "Meta-Programming with Elixir",
+   "sector": "machines",
+   "start": 2013,
+   "end": 2013,
+   "approx": false,
+   "weight": 1,
+   "year": 2013.45,
+   "event": "Erlang User Conference 2013",
+   "venue": "Stockholm",
+   "line": "Programming Erlang more productively through Elixir macros — and the pitfalls to avoid.",
+   "video": {
+    "yt": "a3eJoM5FFiQ",
+    "dur": 2390
+   },
+   "url": "https://www.youtube.com/watch?v=a3eJoM5FFiQ",
+   "related": [
+    "elixir"
+   ]
+  },
+  {
+   "id": "talk-genomu",
+   "kind": "talk",
+   "name": "Genomu: A Concurrency-Oriented Database",
+   "sector": "machines",
+   "start": 2013,
+   "end": 2013,
+   "approx": false,
+   "weight": 1,
+   "year": 2013.22,
+   "date": "2013-03-22",
+   "event": "Erlang Factory SF Bay Area 2013",
+   "venue": "San Francisco",
+   "line": "A database in Elixir on Riak Core: event sourcing, a redis-like API, and conflict resolution by log merging.",
+   "video": {
+    "yt": "ujaoprIKY9M",
+    "dur": 2528
+   },
+   "url": "https://www.youtube.com/watch?v=ujaoprIKY9M",
+   "related": [
+    "elixir"
+   ]
+  },
+  {
+   "id": "talk-vancouver-meta",
+   "kind": "talk",
+   "name": "Erlang metaprogramming with Elixir",
+   "sector": "machines",
+   "start": 2012,
+   "end": 2012,
+   "approx": false,
+   "weight": 1,
+   "year": 2012.57,
+   "date": "2012-07-28",
+   "event": "Vancouver Erlang Factory Lite 2012",
+   "venue": "Vancouver",
+   "line": "Erlang can have many faces: Elixir as a way to write less boilerplate.",
+   "video": {
+    "yt": "qCtoqwQ7x5M",
+    "dur": 1769
+   },
+   "url": "https://www.youtube.com/watch?v=qCtoqwQ7x5M",
+   "related": [
+    "elixir"
+   ]
+  },
+  {
+   "id": "talk-parse-transforms",
+   "kind": "talk",
+   "name": "Fear Not, or a Brief Introduction to Parse Transformations",
+   "sector": "machines",
+   "start": 2012,
+   "end": 2012,
+   "approx": false,
+   "weight": 1,
+   "year": 2012.22,
+   "event": "Erlang Factory SF Bay Area 2012",
+   "venue": "San Francisco",
+   "line": "Parse transformations in Erlang, without the fear.",
+   "video": {
+    "yt": "FJErAhBIYUA",
+    "dur": 1194
+   },
+   "url": "https://www.youtube.com/watch?v=FJErAhBIYUA",
+   "related": [
+    "spawngrid"
+   ]
+  },
+  {
+   "id": "talk-erlang-web",
+   "kind": "talk",
+   "name": "Building Web Applications in the Erlang Era",
+   "sector": "machines",
+   "start": 2011,
+   "end": 2011,
+   "approx": false,
+   "weight": 1,
+   "year": 2011.45,
+   "event": "Erlang Factory London 2011",
+   "venue": "London",
+   "line": "Thick clients, Socket.IO, session-oriented development and fault-tolerant session management in Erlang.",
+   "url": "https://www.erlang-factory.com/conference/London2011/speakers/YuriiRashkovskii"
+  },
+  {
+   "id": "talk-beamjs",
+   "kind": "talk",
+   "name": "Beam.js: Erlang Meets JavaScript",
+   "sector": "machines",
+   "start": 2011,
+   "end": 2011,
+   "approx": false,
+   "weight": 1,
+   "year": 2011.22,
+   "event": "Erlang Factory SF Bay Area 2011",
+   "venue": "San Francisco",
+   "line": "A JavaScript platform built on erlv8, with bi-directional integration with Erlang.",
+   "video": {
+    "href": "https://www.infoq.com/presentations/Beamjs-Erlang-Meets-JavaScript/",
+    "host": "InfoQ",
+    "dur": 1801
+   },
+   "url": "https://www.infoq.com/presentations/Beamjs-Erlang-Meets-JavaScript/"
+  },
+  {
+   "id": "talk-parallel-testing",
+   "kind": "talk",
+   "name": "Highly parallel testing in Erlang",
+   "sector": "machines",
+   "start": 2010,
+   "end": 2010,
+   "approx": false,
+   "weight": 1,
+   "year": 2010.48,
+   "date": "2010-06-24",
+   "event": "Vancouver Erlang Meetup",
+   "venue": "Vancouver",
+   "line": "Parallel integration testing with epitest.",
+   "url": "https://github.com/kenpratt/vancouver_erlang"
+  }
+ ]
+}

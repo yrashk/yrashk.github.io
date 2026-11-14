@@ -1,0 +1,185 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<rss version="2.0" xmlns:atom="http://www.w3.org/2005/Atom" xmlns:content="http://purl.org/rss/1.0/modules/content/" xmlns:dc="http://purl.org/dc/elements/1.1/">
+  <channel>
+    <title>Yurii Rashkovskii — Rust</title>
+    <link>https://yrashk.com/</link>
+    <description>Founder of Inferal. Essays and notes on how people and systems work.</description>
+    <language>en</language>
+    <atom:link href="https://yrashk.com/rss/Rust.xml" rel="self" type="application/rss+xml"/>
+    <lastBuildDate>Wed, 05 Apr 2023 00:00:00 GMT</lastBuildDate>
+    <item>
+      <title>PL/Rust Just Shipped: Easy Way to Try It Out</title>
+      <link>https://yrashk.com/blog/2023/04/05/plrust-just-shipped-easy-way-to-try-it-out/</link>
+      <guid isPermaLink="true">https://yrashk.com/blog/2023/04/05/plrust-just-shipped-easy-way-to-try-it-out/</guid>
+      <pubDate>Wed, 05 Apr 2023 00:00:00 GMT</pubDate>
+      <dc:creator>Yurii Rashkovskii</dc:creator>
+      <category>Postgres</category>
+      <category>Omnigres</category>
+      <category>Rust</category>
+      <category>Docker</category>
+      <category>containers</category>
+      <description>As a Rust enthusiast and a contributor to a sister project I am stoked about the release of PL/Rust 1.0.0 that was just announced.</description>
+      <content:encoded><![CDATA[<p>As a Rust enthusiast and a contributor to a <a href="https://github.com/tcdi/pgx">sister
+project</a> I am stoked about the release of PL/Rust
+1.0.0 that was <a href="https://github.com/tcdi/plrust/releases/tag/v1.0.0">just announced</a>.</p>
+<p>However, its setup instructions are rather long and it takes time to build it. So I
+took the time to prepare a build for you to try.</p>
+<p>As <a href="https://github.com/omnigres/omnigres">Omnigres</a> is intended to be an
+application platform, support for multiple languages is important. Hence I
+decided to spend the day making sure PL/Rust is shipped with Omnigres. Omnigres
+container image is simply a Postgres image with Omnigres extensions (and now
+PL/Rust, too.) provisioned.</p>
+<h2 id="try-it-out-now" tabindex="-1">Try it out now<a class="anchor" href="#try-it-out-now" aria-label="Link to this section">#</a></h2>
+<p>You can start Omnigres with the following commands:</p>
+<figure class="code"><figcaption class="ch"><span class="lang">shell</span><button type="button" data-copy>copy</button></figcaption>
+<pre class="shiki css-variables"><code><span class="line"><span class="ln" aria-hidden="true">1</span><span style="color:var(--shiki-token-function)">docker</span><span style="color:var(--shiki-token-string)"> volume</span><span style="color:var(--shiki-token-string)"> create</span><span style="color:var(--shiki-token-string)"> omnigres</span></span>
+<span class="line"><span class="ln" aria-hidden="true">2</span><span style="color:var(--shiki-token-function)">docker</span><span style="color:var(--shiki-token-string)"> run</span><span style="color:var(--shiki-token-string)"> --name</span><span style="color:var(--shiki-token-string)"> omnigres</span><span style="color:var(--shiki-token-string)"> -e</span><span style="color:var(--shiki-token-string)"> POSTGRES_PASSWORD=omnigres</span><span style="color:var(--shiki-token-string)"> -e</span><span style="color:var(--shiki-token-string)"> POSTGRES_USER=omnigres</span><span style="color:var(--shiki-foreground)"> \</span></span>
+<span class="line"><span class="ln" aria-hidden="true">3</span><span style="color:var(--shiki-token-string)">                           -e</span><span style="color:var(--shiki-token-string)"> POSTGRES_DB=omnigres</span><span style="color:var(--shiki-token-string)"> --mount</span><span style="color:var(--shiki-token-string)"> source=omnigres,target=/var/lib/postgresql/data</span><span style="color:var(--shiki-foreground)"> \</span></span>
+<span class="line"><span class="ln" aria-hidden="true">4</span><span style="color:var(--shiki-token-string)">           -p</span><span style="color:var(--shiki-token-string)"> 5432:5432</span><span style="color:var(--shiki-token-string)"> -p</span><span style="color:var(--shiki-token-string)"> 8080:8080</span><span style="color:var(--shiki-token-string)"> --rm</span><span style="color:var(--shiki-token-string)"> ghcr.io/omnigres/omnigres:latest</span></span>
+<span class="line"><span class="ln" aria-hidden="true">5</span><span style="color:var(--shiki-token-comment)"># Now you can connect to it:</span></span>
+<span class="line"><span class="ln" aria-hidden="true">6</span><span style="color:var(--shiki-token-function)">psql</span><span style="color:var(--shiki-token-string)"> -h</span><span style="color:var(--shiki-token-string)"> localhost</span><span style="color:var(--shiki-token-string)"> -p</span><span style="color:var(--shiki-token-constant)"> 5432</span><span style="color:var(--shiki-token-string)"> -U</span><span style="color:var(--shiki-token-string)"> omnigres</span><span style="color:var(--shiki-token-string)"> omnigres</span><span style="color:var(--shiki-token-comment)"> # password is `omnigres`</span></span></code></pre></figure>
+<p>That's it, now you can try this:</p>
+<figure class="code"><figcaption class="ch"><span class="lang">postgresql</span><button type="button" data-copy>copy</button></figcaption>
+<pre class="shiki css-variables"><code><span class="line"><span class="ln" aria-hidden="true">1</span><span style="color:var(--shiki-token-keyword)">create</span><span style="color:var(--shiki-foreground)"> extension plrust;</span></span>
+<span class="line"><span class="ln" aria-hidden="true">2</span></span>
+<span class="line"><span class="ln" aria-hidden="true">3</span><span style="color:var(--shiki-token-keyword)">create</span><span style="color:var(--shiki-token-keyword)"> function</span><span style="color:var(--shiki-token-function)"> test</span><span style="color:var(--shiki-foreground)">() </span><span style="color:var(--shiki-token-keyword)">returns</span><span style="color:var(--shiki-foreground)"> bool </span><span style="color:var(--shiki-token-keyword)">language</span><span style="color:var(--shiki-foreground)"> plrust </span><span style="color:var(--shiki-token-keyword)">as</span><span style="color:var(--shiki-foreground)"> $$ Ok(Some(true)) $$;</span></span>
+<span class="line"><span class="ln" aria-hidden="true">4</span></span>
+<span class="line"><span class="ln" aria-hidden="true">5</span><span style="color:var(--shiki-token-keyword)">select</span><span style="color:var(--shiki-foreground)"> test(); </span><span style="color:var(--shiki-token-comment)">-- => t</span></span></code></pre></figure>
+<p>It works! The sky is the limit now 😄 🦀</p>
+<h2 id="what-have-i-learned" tabindex="-1">What Have I Learned?<a class="anchor" href="#what-have-i-learned" aria-label="Link to this section">#</a></h2>
+<p>I got up at 5AM today to make this happen. I am writing this past 5PM. It's been a long day, and I've made a lot of mistakes
+on the way, and figured out some gotchas.</p>
+<p>The amount of <strong>space</strong> PL/Rust takes is rather not insignificant. I've measured about an <em>8Gb</em> increase of the image size. While
+it is not the end of the world for standard cases, this is something to be aware of <sup class="fn" id="fnref1"><a href="#fn1" aria-label="Footnote 1">1</a></sup>. I've been told that there are some ideas on how
+to improve the space usage but it'll never be really slim (Rust compiler itself is not small.)</p>
+<p>If you're building PL/Rust in environments like <strong>containers</strong>, <a href="https://github.com/tcdi/plrust/issues/278">make sure <strong><code>USER</code></strong> environment variable is set</a>.
+It'll fail to build if it is not.</p>
+<p>It also seems to be necessary to have at least <strong>16GB RAM</strong> to build it. Not sure about memory requirements in runtime just yet.</p>
+<p><strong>First-time function compilation</strong> takes an awfully long time. However, one can prime it ahead of time by compiling a test function in a throwaway database.
+That's what I did in the image above.</p>
+<hr>
+<p>It took a while to make sure the container works exactly how I want it to, but it was worth it!</p>
+<section class="footnotes" aria-label="Footnotes"><h2>footnotes</h2><ol>
+<li id="fn1"><p>For those not needing the bulk (and Rust), I've added the <strong><code>omnigres-slim</code></strong> version of the image. <a class="back" href="#fnref1" aria-label="Back to reference 1">↩</a></p>
+</li>
+</ol></section>
+]]></content:encoded>
+    </item>
+    <item>
+      <title>Why not Rust for Omnigres?</title>
+      <link>https://yrashk.com/blog/2023/01/07/why-not-rust-for-omnigres/</link>
+      <guid isPermaLink="true">https://yrashk.com/blog/2023/01/07/why-not-rust-for-omnigres/</guid>
+      <pubDate>Sat, 07 Jan 2023 00:00:00 GMT</pubDate>
+      <dc:creator>Yurii Rashkovskii</dc:creator>
+      <category>Postgres</category>
+      <category>Omnigres</category>
+      <category>Rust</category>
+      <category>C</category>
+      <description>Omnigres is a new project to turn Postgres into a complete development and production deployment platform. I've started it to reflect on the complexity and inefficiencies plaguing modern business software development.</description>
+      <content:encoded><![CDATA[<p><a href="https://github.com/omnigres/omnigres">Omnigres</a> is a new project to turn
+Postgres into a complete development and production deployment platform. I've
+started it to reflect on the complexity and inefficiencies plaguing modern
+business software development.</p>
+<p>As an aging (and sometimes cranky!) developer, I crave simplicity. But that's a
+topic for another post. Here I wanted to address a common question:</p>
+<blockquote>
+<p><strong>Why didn't you implement this in Rust?</strong></p>
+</blockquote>
+<p>It's a great question, considering I've been using Rust for a number of years
+now, and I generally advocate its use for its rich ecosystem, safety and
+tooling. I <a href="https://github.com/tcdi/pgx/pulls?q=is%3Apr+author%3Ayrashk+">actively contribute</a> to
+<a href="https://github.com/tcdi/pgx">pgx</a>, a library for building Postgres extensions
+in Rust. Yet, Omnigres appears to be all done in C.</p>
+<p>Here's why.</p>
+<p><em>Beware: the list has a lot of subjective and controversial opinions.</em></p>
+<h3 id="making-a-good-wrapper-pgx-is-a-lot-of-work" tabindex="-1">Making a good wrapper (pgx) is a lot of work<a class="anchor" href="#making-a-good-wrapper-pgx-is-a-lot-of-work" aria-label="Link to this section">#</a></h3>
+<p>While it's getting there, when you try to build something pushing the
+boundaries, pgx may not yet provide sufficient API coverage, so you have to
+resort to unsafe FFI. It drove me to make a number of contributions to it.
+Still, since it takes a while to refine them enough to be considered
+well-rounded, it impedes general development velocity.</p>
+<p>Making a good, safe wrapper for such a complex project as Postgres is a
+significant undertaking. It'll take however long it takes. That's why I am
+wholeheartedly supporting it and spending time evolving it.</p>
+<p>But as of today, I want to be able to move fast.</p>
+<h3 id="postgres-is-quirky-c" tabindex="-1">Postgres is [quirky] C<a class="anchor" href="#postgres-is-quirky-c" aria-label="Link to this section">#</a></h3>
+<p>Its whole internal API is designed to be consumed by C code, and Postgres
+doesn't know anything about your other language.</p>
+<p>It uses <code>setjmp/longjmp</code> for exceptions (so you'd have to roll your own guards
+to unwind the stack). It has its own memory management system. It
+manages the SPI stack. It has lots of mutable global variables!</p>
+<p>So, to consume it from C is only natural, even though it can be dangerous.</p>
+<h3 id="dependencies" tabindex="-1">Dependencies<a class="anchor" href="#dependencies" aria-label="Link to this section">#</a></h3>
+<p>Between not really knowing what's inside of your dependencies and obnoxious
+compile times, there's a reason for having less dependencies.</p>
+<p>Rust's Cargo makes it terribly easy to add dependencies, so there's no tax on
+adding yet another library. This is generally seen as a good thing in the
+industry, but I keep coming back to the idea that less is better.</p>
+<p>If, however, you had to pay for every dependency, we'd use a lot less of them,
+only when necessary. C is excellent in this department! I gave up on a
+number of dependencies simply because I had difficulties integrating them
+into my build system. So I see this is a filter for the need <em>and</em> the
+quality of the dependency.</p>
+<h3 id="fast-compile-times" tabindex="-1">Fast compile times<a class="anchor" href="#fast-compile-times" aria-label="Link to this section">#</a></h3>
+<p>Rust compiler is notoriously slow. Pgx brings its own complexity that makes
+rapid iteration nearly impossible. My builds are extremely fast with C. It's a
+simple language, and I tend to add very few dependencies.</p>
+<h3 id="complex-language-fatigue" tabindex="-1">Complex language fatigue<a class="anchor" href="#complex-language-fatigue" aria-label="Link to this section">#</a></h3>
+<p>I've been developing software for a few decades now and am growing tired of
+complex languages. Going back to C feels like taking a vacation and stopping
+chasing ideals and just focusing on the problem at hand.</p>
+<p>If Postgres (or Linux kernel) can be done in C, I am sure a few extensions
+could, too!</p>
+<h3 id="formal-verification-methods" tabindex="-1">Formal verification methods<a class="anchor" href="#formal-verification-methods" aria-label="Link to this section">#</a></h3>
+<p>There are projects that are focusing on bringing this to Rust, but there are
+some great static analysis and formal verification tools that have been used in
+C for quite a while. I fancy <a href="https://frama-c.com">Frama-C</a> and try to add it
+<a href="https://github.com/omnigres/omnigres/blob/a291b00172a5ce430a9536c21f4a78f2f98a0114/libgluepg_curl/libgluepg_curl.c#L46-L64">bit</a>
+by bit to Omnigres where I think it may be necessary.</p>
+<h3 id="rust-safeties-are-slightly-less-relevant-in-postgres" tabindex="-1">Rust safeties are slightly less relevant in Postgres<a class="anchor" href="#rust-safeties-are-slightly-less-relevant-in-postgres" aria-label="Link to this section">#</a></h3>
+<p>Postgres is inherently <strong>single-threaded</strong> and therefore, &quot;fearless
+concurrency&quot; is not buying us much. Sure, you can build an extension that'll
+communicate with other processes and threads over shared memory, but this is
+not much of a concern at the core database level.</p>
+<p>Postgres has its own <strong>memory management</strong> story, which is quite good. Instead
+of having a single allocation pool, it has memory contexts that are established
+temporarily or for a scope. When they are deleted, all the memory allocated in
+them is released. So memory leaks are not necessarily a concern. Rust doesn't
+necessarily consider leaks a safety issue, but it's nice to know we will not
+crash the server with an OOM.</p>
+<p>Of course, there's still use-after-free, which you have to be careful about.
+This is where tools like AddressSanitizer can come in very handy.</p>
+<p>I've seen that most of my crashes in the extensions were coming from misusing
+some Postgres API, and I was getting a lot of them in Rust as well.</p>
+<hr>
+<blockquote>
+<p><strong>But Yurii, isn't C a dangerous and flawed language?</strong></p>
+</blockquote>
+<p>Yes, it is both dangerous and flawed. In general, I wouldn't build new projects
+in C, but after months of going back on forth on this, I think, ultimately,
+building a project on top of Postgres in C is reasonable.</p>
+<blockquote>
+<p>Did you consider Zig?</p>
+</blockquote>
+<p>I absolutely did. I am very interested in Zig (and have previously developed
+some small projects in it) and I keep track of its development. But I
+ultimately didn't want to fight both Postgres and Zig at the same time.</p>
+<blockquote>
+<p>Did you consider Nim?</p>
+</blockquote>
+<p>You bet! The attraction was that it compiles to C, and I can emit C code where
+necessary, obliterating the need to replicate certain tricks. But it's a
+complex, big language, and I am not confident about its own bugs, obscurities
+and upgrade stories (Nim 2 is coming!)</p>
+<hr>
+<p>Knowing how Rust crowd behaves sometimes, there may be those inclined to
+persuade me to change my opinion or prove me wrong. Of course, they are free to
+do so, but I'd prefer to focus on getting things done!</p>
+<p>Ultimately, I think Rust is great. Omnigres will have first-class support
+for it and will promote its use and the use of
+<a href="https://github.com/tcdi/pgx">pgx</a> for building extensions. <strong>Update</strong>: <a href="https://yrashk.com/blog/2023/04/05/plrust-just-shipped-easy-way-to-try-it-out/">PL/Rust
+is now being shipped with Omnigres</a>!</p>
+]]></content:encoded>
+    </item>
+  </channel>
+</rss>

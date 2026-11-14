@@ -1,0 +1,69 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<rss version="2.0" xmlns:atom="http://www.w3.org/2005/Atom" xmlns:content="http://purl.org/rss/1.0/modules/content/" xmlns:dc="http://purl.org/dc/elements/1.1/">
+  <channel>
+    <title>Yurii Rashkovskii — Docker</title>
+    <link>https://yrashk.com/</link>
+    <description>Founder of Inferal. Essays and notes on how people and systems work.</description>
+    <language>en</language>
+    <atom:link href="https://yrashk.com/rss/Docker.xml" rel="self" type="application/rss+xml"/>
+    <lastBuildDate>Wed, 05 Apr 2023 00:00:00 GMT</lastBuildDate>
+    <item>
+      <title>PL/Rust Just Shipped: Easy Way to Try It Out</title>
+      <link>https://yrashk.com/blog/2023/04/05/plrust-just-shipped-easy-way-to-try-it-out/</link>
+      <guid isPermaLink="true">https://yrashk.com/blog/2023/04/05/plrust-just-shipped-easy-way-to-try-it-out/</guid>
+      <pubDate>Wed, 05 Apr 2023 00:00:00 GMT</pubDate>
+      <dc:creator>Yurii Rashkovskii</dc:creator>
+      <category>Postgres</category>
+      <category>Omnigres</category>
+      <category>Rust</category>
+      <category>Docker</category>
+      <category>containers</category>
+      <description>As a Rust enthusiast and a contributor to a sister project I am stoked about the release of PL/Rust 1.0.0 that was just announced.</description>
+      <content:encoded><![CDATA[<p>As a Rust enthusiast and a contributor to a <a href="https://github.com/tcdi/pgx">sister
+project</a> I am stoked about the release of PL/Rust
+1.0.0 that was <a href="https://github.com/tcdi/plrust/releases/tag/v1.0.0">just announced</a>.</p>
+<p>However, its setup instructions are rather long and it takes time to build it. So I
+took the time to prepare a build for you to try.</p>
+<p>As <a href="https://github.com/omnigres/omnigres">Omnigres</a> is intended to be an
+application platform, support for multiple languages is important. Hence I
+decided to spend the day making sure PL/Rust is shipped with Omnigres. Omnigres
+container image is simply a Postgres image with Omnigres extensions (and now
+PL/Rust, too.) provisioned.</p>
+<h2 id="try-it-out-now" tabindex="-1">Try it out now<a class="anchor" href="#try-it-out-now" aria-label="Link to this section">#</a></h2>
+<p>You can start Omnigres with the following commands:</p>
+<figure class="code"><figcaption class="ch"><span class="lang">shell</span><button type="button" data-copy>copy</button></figcaption>
+<pre class="shiki css-variables"><code><span class="line"><span class="ln" aria-hidden="true">1</span><span style="color:var(--shiki-token-function)">docker</span><span style="color:var(--shiki-token-string)"> volume</span><span style="color:var(--shiki-token-string)"> create</span><span style="color:var(--shiki-token-string)"> omnigres</span></span>
+<span class="line"><span class="ln" aria-hidden="true">2</span><span style="color:var(--shiki-token-function)">docker</span><span style="color:var(--shiki-token-string)"> run</span><span style="color:var(--shiki-token-string)"> --name</span><span style="color:var(--shiki-token-string)"> omnigres</span><span style="color:var(--shiki-token-string)"> -e</span><span style="color:var(--shiki-token-string)"> POSTGRES_PASSWORD=omnigres</span><span style="color:var(--shiki-token-string)"> -e</span><span style="color:var(--shiki-token-string)"> POSTGRES_USER=omnigres</span><span style="color:var(--shiki-foreground)"> \</span></span>
+<span class="line"><span class="ln" aria-hidden="true">3</span><span style="color:var(--shiki-token-string)">                           -e</span><span style="color:var(--shiki-token-string)"> POSTGRES_DB=omnigres</span><span style="color:var(--shiki-token-string)"> --mount</span><span style="color:var(--shiki-token-string)"> source=omnigres,target=/var/lib/postgresql/data</span><span style="color:var(--shiki-foreground)"> \</span></span>
+<span class="line"><span class="ln" aria-hidden="true">4</span><span style="color:var(--shiki-token-string)">           -p</span><span style="color:var(--shiki-token-string)"> 5432:5432</span><span style="color:var(--shiki-token-string)"> -p</span><span style="color:var(--shiki-token-string)"> 8080:8080</span><span style="color:var(--shiki-token-string)"> --rm</span><span style="color:var(--shiki-token-string)"> ghcr.io/omnigres/omnigres:latest</span></span>
+<span class="line"><span class="ln" aria-hidden="true">5</span><span style="color:var(--shiki-token-comment)"># Now you can connect to it:</span></span>
+<span class="line"><span class="ln" aria-hidden="true">6</span><span style="color:var(--shiki-token-function)">psql</span><span style="color:var(--shiki-token-string)"> -h</span><span style="color:var(--shiki-token-string)"> localhost</span><span style="color:var(--shiki-token-string)"> -p</span><span style="color:var(--shiki-token-constant)"> 5432</span><span style="color:var(--shiki-token-string)"> -U</span><span style="color:var(--shiki-token-string)"> omnigres</span><span style="color:var(--shiki-token-string)"> omnigres</span><span style="color:var(--shiki-token-comment)"> # password is `omnigres`</span></span></code></pre></figure>
+<p>That's it, now you can try this:</p>
+<figure class="code"><figcaption class="ch"><span class="lang">postgresql</span><button type="button" data-copy>copy</button></figcaption>
+<pre class="shiki css-variables"><code><span class="line"><span class="ln" aria-hidden="true">1</span><span style="color:var(--shiki-token-keyword)">create</span><span style="color:var(--shiki-foreground)"> extension plrust;</span></span>
+<span class="line"><span class="ln" aria-hidden="true">2</span></span>
+<span class="line"><span class="ln" aria-hidden="true">3</span><span style="color:var(--shiki-token-keyword)">create</span><span style="color:var(--shiki-token-keyword)"> function</span><span style="color:var(--shiki-token-function)"> test</span><span style="color:var(--shiki-foreground)">() </span><span style="color:var(--shiki-token-keyword)">returns</span><span style="color:var(--shiki-foreground)"> bool </span><span style="color:var(--shiki-token-keyword)">language</span><span style="color:var(--shiki-foreground)"> plrust </span><span style="color:var(--shiki-token-keyword)">as</span><span style="color:var(--shiki-foreground)"> $$ Ok(Some(true)) $$;</span></span>
+<span class="line"><span class="ln" aria-hidden="true">4</span></span>
+<span class="line"><span class="ln" aria-hidden="true">5</span><span style="color:var(--shiki-token-keyword)">select</span><span style="color:var(--shiki-foreground)"> test(); </span><span style="color:var(--shiki-token-comment)">-- => t</span></span></code></pre></figure>
+<p>It works! The sky is the limit now 😄 🦀</p>
+<h2 id="what-have-i-learned" tabindex="-1">What Have I Learned?<a class="anchor" href="#what-have-i-learned" aria-label="Link to this section">#</a></h2>
+<p>I got up at 5AM today to make this happen. I am writing this past 5PM. It's been a long day, and I've made a lot of mistakes
+on the way, and figured out some gotchas.</p>
+<p>The amount of <strong>space</strong> PL/Rust takes is rather not insignificant. I've measured about an <em>8Gb</em> increase of the image size. While
+it is not the end of the world for standard cases, this is something to be aware of <sup class="fn" id="fnref1"><a href="#fn1" aria-label="Footnote 1">1</a></sup>. I've been told that there are some ideas on how
+to improve the space usage but it'll never be really slim (Rust compiler itself is not small.)</p>
+<p>If you're building PL/Rust in environments like <strong>containers</strong>, <a href="https://github.com/tcdi/plrust/issues/278">make sure <strong><code>USER</code></strong> environment variable is set</a>.
+It'll fail to build if it is not.</p>
+<p>It also seems to be necessary to have at least <strong>16GB RAM</strong> to build it. Not sure about memory requirements in runtime just yet.</p>
+<p><strong>First-time function compilation</strong> takes an awfully long time. However, one can prime it ahead of time by compiling a test function in a throwaway database.
+That's what I did in the image above.</p>
+<hr>
+<p>It took a while to make sure the container works exactly how I want it to, but it was worth it!</p>
+<section class="footnotes" aria-label="Footnotes"><h2>footnotes</h2><ol>
+<li id="fn1"><p>For those not needing the bulk (and Rust), I've added the <strong><code>omnigres-slim</code></strong> version of the image. <a class="back" href="#fnref1" aria-label="Back to reference 1">↩</a></p>
+</li>
+</ol></section>
+]]></content:encoded>
+    </item>
+  </channel>
+</rss>

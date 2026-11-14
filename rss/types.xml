@@ -1,0 +1,92 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<rss version="2.0" xmlns:atom="http://www.w3.org/2005/Atom" xmlns:content="http://purl.org/rss/1.0/modules/content/" xmlns:dc="http://purl.org/dc/elements/1.1/">
+  <channel>
+    <title>Yurii Rashkovskii — types</title>
+    <link>https://yrashk.com/</link>
+    <description>Founder of Inferal. Essays and notes on how people and systems work.</description>
+    <language>en</language>
+    <atom:link href="https://yrashk.com/rss/types.xml" rel="self" type="application/rss+xml"/>
+    <lastBuildDate>Sun, 09 Apr 2023 00:00:00 GMT</lastBuildDate>
+    <item>
+      <title>Sum Types in Postgres</title>
+      <link>https://yrashk.com/blog/2023/04/09/sum-types-in-postgres/</link>
+      <guid isPermaLink="true">https://yrashk.com/blog/2023/04/09/sum-types-in-postgres/</guid>
+      <pubDate>Sun, 09 Apr 2023 00:00:00 GMT</pubDate>
+      <dc:creator>Yurii Rashkovskii</dc:creator>
+      <category>Postgres</category>
+      <category>Omnigres</category>
+      <category>types</category>
+      <description>At times, representing the variety of types a value can take through multiple tables can taxing, both in terms of development complexity as well as, potentially, performance. You must just need a value to be of any of the given variants. I've set out to build a generalized mechanism for defining these.</description>
+      <content:encoded><![CDATA[<p>At times, representing the variety of types a value can take through multiple tables can taxing, both
+in terms of development complexity as well as, potentially, performance. You must just need a value
+to be of any of the given variants. I've set out to build a generalized mechanism for defining these.</p>
+<div class="adm question" role="note"><span class="ic" aria-hidden="true">?</span><span class="t">Can you give me an example?</span><div class="b">
+<p>Sure. Let's say we want to store geometric primitives<sup class="fn" id="fnref1"><a href="#fn1" aria-label="Footnote 1">1</a></sup> and be able to find certain shapes
+with certain properties.</p>
+<p>One can put different shapes into different tables or even use multiple columns per shape type. But
+this makes the schema fairly complicated.</p>
+<p>Wouldn't it be cool to just store any shape in a single column?</p>
+</div></div>
+<h2 id="intro" tabindex="-1">Intro<a class="anchor" href="#intro" aria-label="Link to this section">#</a></h2>
+<p>I am working on <a href="https://github.com/omnigres/omnigres">making Postgres a full-featured application development platform</a>,
+so this issue came up a few times. For example, I want to be able to return different <a href="https://docs.omnigres.org/omni_httpd/intro/"><em>kinds</em> of responses to HTTP requests</a>,
+like upgrading to WebSockets, delaying a response, terminating a connection, etc. The <code>http_response</code> type is limited to conventional responses.</p>
+<p>So I thought, <em>is it possible to support this type of thing in Postgres?</em> I develop a number of extensions and have used
+its C API surface extensively. I was pretty sure this can be achieved! A few days later, the support has materialized.</p>
+<p>The basic idea is simple:</p>
+<ul>
+<li>Register a base type for every sum type and list all variant types OIDs in extension's configuration</li>
+<li>If all variants are fixed size, sum type is also fixed size of the largest variant (plus discriminant)</li>
+<li>Use underlying variant type's I/O functions</li>
+<li>Dispatch I/O and conversion functions to generalized implementations provided by the extension<sup class="fn" id="fnref2"><a href="#fn2" aria-label="Footnote 2">2</a></sup></li>
+</ul>
+<p>It's been a pretty fun experience connecting all the dots and using C API to define types, functions, casts, etc.</p>
+<p>The way it works is pretty simple:</p>
+<figure class="code"><figcaption class="ch"><span class="lang">postgresql</span><button type="button" data-copy>copy</button></figcaption>
+<pre class="shiki css-variables"><code><span class="line"><span class="ln" aria-hidden="true">1</span><span style="color:var(--shiki-foreground)">omni_types</span><span style="color:var(--shiki-token-keyword)">=</span><span style="color:var(--shiki-foreground)"># </span><span style="color:var(--shiki-token-keyword)">select</span><span style="color:var(--shiki-foreground)"> omni_types.sum_type(</span><span style="color:var(--shiki-token-string-expression)">'geom'</span><span style="color:var(--shiki-foreground)">, </span><span style="color:var(--shiki-token-string-expression)">'point'</span><span style="color:var(--shiki-foreground)">, </span><span style="color:var(--shiki-token-string-expression)">'circle'</span><span style="color:var(--shiki-foreground)">);</span></span>
+<span class="line"><span class="ln" aria-hidden="true">2</span><span style="color:var(--shiki-foreground)">sum_type</span></span>
+<span class="line"><span class="ln" aria-hidden="true">3</span><span style="color:var(--shiki-token-comment)">----------</span></span>
+<span class="line"><span class="ln" aria-hidden="true">4</span><span style="color:var(--shiki-foreground)"> geom</span></span>
+<span class="line"><span class="ln" aria-hidden="true">5</span><span style="color:var(--shiki-foreground)">(</span><span style="color:var(--shiki-token-constant)">1</span><span style="color:var(--shiki-token-keyword)"> row</span><span style="color:var(--shiki-foreground)">)</span></span></code></pre></figure>
+<p>Now we have a type we can do something with:</p>
+<figure class="code"><figcaption class="ch"><span class="lang">postgresql</span><button type="button" data-copy>copy</button></figcaption>
+<pre class="shiki css-variables"><code><span class="line"><span class="ln" aria-hidden="true">1</span><span style="color:var(--shiki-foreground)">omni_types</span><span style="color:var(--shiki-token-keyword)">=</span><span style="color:var(--shiki-foreground)"># </span><span style="color:var(--shiki-token-keyword)">create</span><span style="color:var(--shiki-token-keyword)"> table</span><span style="color:var(--shiki-foreground)"> geoms </span><span style="color:var(--shiki-token-keyword)">as</span><span style="color:var(--shiki-token-keyword)"> values</span><span style="color:var(--shiki-foreground)"> </span></span>
+<span class="line"><span class="ln" aria-hidden="true">2</span><span style="color:var(--shiki-foreground)">(</span><span style="color:var(--shiki-token-string-expression)">'point(10,10)'</span><span style="color:var(--shiki-foreground)">::geom),(</span><span style="color:var(--shiki-token-string-expression)">'circle(&#x3C;10,10,10>)'</span><span style="color:var(--shiki-foreground)">::geom),(</span><span style="color:var(--shiki-token-string-expression)">'circle(&#x3C;20,10,10>)'</span><span style="color:var(--shiki-foreground)">::geom);</span></span>
+<span class="line"><span class="ln" aria-hidden="true">3</span><span style="color:var(--shiki-token-keyword)">SELECT</span><span style="color:var(--shiki-token-constant)"> 3</span></span></code></pre></figure>
+<p>Let's select all shapes that have an X coordinate set to 10:</p>
+<figure class="code"><figcaption class="ch"><span class="lang">postgresql</span><button type="button" data-copy>copy</button></figcaption>
+<pre class="shiki css-variables"><code><span class="line"><span class="ln" aria-hidden="true">1</span><span style="color:var(--shiki-foreground)">omni_types</span><span style="color:var(--shiki-token-keyword)">=</span><span style="color:var(--shiki-foreground)"># </span><span style="color:var(--shiki-token-keyword)">select</span><span style="color:var(--shiki-token-keyword)"> *</span><span style="color:var(--shiki-token-keyword)"> from</span><span style="color:var(--shiki-foreground)"> geoms </span><span style="color:var(--shiki-token-keyword)">where</span></span>
+<span class="line"><span class="ln" aria-hidden="true">2</span><span style="color:var(--shiki-foreground)">                  (omni_types.variant(column1) </span><span style="color:var(--shiki-token-keyword)">=</span><span style="color:var(--shiki-token-string-expression)"> 'point'</span><span style="color:var(--shiki-foreground)">::regtype </span></span>
+<span class="line"><span class="ln" aria-hidden="true">3</span><span style="color:var(--shiki-token-keyword)">                   and</span><span style="color:var(--shiki-foreground)"> (column1::</span><span style="color:var(--shiki-token-keyword)">point</span><span style="color:var(--shiki-foreground)">)[0] </span><span style="color:var(--shiki-token-keyword)">=</span><span style="color:var(--shiki-token-constant)"> 10</span><span style="color:var(--shiki-foreground)">) </span></span>
+<span class="line"><span class="ln" aria-hidden="true">4</span><span style="color:var(--shiki-token-keyword)">               or</span><span style="color:var(--shiki-foreground)"> (omni_types.variant(column1) </span><span style="color:var(--shiki-token-keyword)">=</span><span style="color:var(--shiki-token-string-expression)"> 'circle'</span><span style="color:var(--shiki-foreground)">::regtype </span></span>
+<span class="line"><span class="ln" aria-hidden="true">5</span><span style="color:var(--shiki-token-keyword)">                   and</span><span style="color:var(--shiki-foreground)"> (</span><span style="color:var(--shiki-token-keyword)">point</span><span style="color:var(--shiki-foreground)">(column1::</span><span style="color:var(--shiki-token-keyword)">circle</span><span style="color:var(--shiki-foreground)">))[0] </span><span style="color:var(--shiki-token-keyword)">=</span><span style="color:var(--shiki-token-constant)"> 10</span><span style="color:var(--shiki-foreground)">);</span></span>
+<span class="line"><span class="ln" aria-hidden="true">6</span><span style="color:var(--shiki-foreground)">       column1</span></span>
+<span class="line"><span class="ln" aria-hidden="true">7</span><span style="color:var(--shiki-token-comment)">----------------------</span></span>
+<span class="line"><span class="ln" aria-hidden="true">8</span><span style="color:var(--shiki-token-keyword)"> point</span><span style="color:var(--shiki-foreground)">((</span><span style="color:var(--shiki-token-constant)">10</span><span style="color:var(--shiki-foreground)">,</span><span style="color:var(--shiki-token-constant)">10</span><span style="color:var(--shiki-foreground)">))</span></span>
+<span class="line"><span class="ln" aria-hidden="true">9</span><span style="color:var(--shiki-token-keyword)"> circle</span><span style="color:var(--shiki-foreground)">(</span><span style="color:var(--shiki-token-keyword)">&#x3C;</span><span style="color:var(--shiki-foreground)">(</span><span style="color:var(--shiki-token-constant)">10</span><span style="color:var(--shiki-foreground)">,</span><span style="color:var(--shiki-token-constant)">10</span><span style="color:var(--shiki-foreground)">),</span><span style="color:var(--shiki-token-constant)">10</span><span style="color:var(--shiki-token-keyword)">></span><span style="color:var(--shiki-foreground)">)</span></span>
+<span class="line"><span class="ln" aria-hidden="true">10</span><span style="color:var(--shiki-foreground)">(</span><span style="color:var(--shiki-token-constant)">2</span><span style="color:var(--shiki-token-keyword)"> rows</span><span style="color:var(--shiki-foreground)">)</span></span></code></pre></figure>
+<p>There are still a few issues to work out (<a href="https://github.com/omnigres/omnigres/pull/149"><s>adding binary send/recv support</s></a>,
+<a href="https://github.com/omnigres/omnigres/pull/145"><s>ensuring proper TOAST support</s></a>, convenience API, etc.) but I think it's a worthy prototype to play with.</p>
+<h2 id="try-it-out" tabindex="-1">Try it out<a class="anchor" href="#try-it-out" aria-label="Link to this section">#</a></h2>
+<p>You can try it out as part of latest Omnigres builds:</p>
+<figure class="code"><figcaption class="ch"><span class="lang">shell</span><button type="button" data-copy>copy</button></figcaption>
+<pre class="shiki css-variables"><code><span class="line"><span class="ln" aria-hidden="true">1</span><span style="color:var(--shiki-token-function)">docker</span><span style="color:var(--shiki-token-string)"> volume</span><span style="color:var(--shiki-token-string)"> create</span><span style="color:var(--shiki-token-string)"> omnigres</span></span>
+<span class="line"><span class="ln" aria-hidden="true">2</span><span style="color:var(--shiki-token-function)">docker</span><span style="color:var(--shiki-token-string)"> run</span><span style="color:var(--shiki-token-string)"> --name</span><span style="color:var(--shiki-token-string)"> omnigres</span><span style="color:var(--shiki-token-string)"> -e</span><span style="color:var(--shiki-token-string)"> POSTGRES_PASSWORD=omnigres</span><span style="color:var(--shiki-token-string)"> -e</span><span style="color:var(--shiki-token-string)"> POSTGRES_USER=omnigres</span><span style="color:var(--shiki-foreground)"> \</span></span>
+<span class="line"><span class="ln" aria-hidden="true">3</span><span style="color:var(--shiki-token-string)">                           -e</span><span style="color:var(--shiki-token-string)"> POSTGRES_DB=omnigres</span><span style="color:var(--shiki-token-string)"> --mount</span><span style="color:var(--shiki-token-string)"> source=omnigres,target=/var/lib/postgresql/data</span><span style="color:var(--shiki-foreground)"> \</span></span>
+<span class="line"><span class="ln" aria-hidden="true">4</span><span style="color:var(--shiki-token-string)">           -p</span><span style="color:var(--shiki-token-string)"> 5432:5432</span><span style="color:var(--shiki-token-string)"> -p</span><span style="color:var(--shiki-token-string)"> 8080:8080</span><span style="color:var(--shiki-token-string)"> --rm</span><span style="color:var(--shiki-token-string)"> ghcr.io/omnigres/omnigres-slim:latest</span></span>
+<span class="line"><span class="ln" aria-hidden="true">5</span><span style="color:var(--shiki-token-comment)"># Now you can connect to it:</span></span>
+<span class="line"><span class="ln" aria-hidden="true">6</span><span style="color:var(--shiki-token-function)">psql</span><span style="color:var(--shiki-token-string)"> -h</span><span style="color:var(--shiki-token-string)"> localhost</span><span style="color:var(--shiki-token-string)"> -p</span><span style="color:var(--shiki-token-constant)"> 5432</span><span style="color:var(--shiki-token-string)"> -U</span><span style="color:var(--shiki-token-string)"> omnigres</span><span style="color:var(--shiki-token-string)"> omnigres</span><span style="color:var(--shiki-token-comment)"> # password is `omnigres`</span></span></code></pre></figure>
+<p>In <code>psql</code>:</p>
+<figure class="code"><figcaption class="ch"><span class="lang">postgresql</span><button type="button" data-copy>copy</button></figcaption>
+<pre class="shiki css-variables"><code><span class="line"><span class="ln" aria-hidden="true">1</span><span style="color:var(--shiki-foreground)">omnigres</span><span style="color:var(--shiki-token-keyword)">=</span><span style="color:var(--shiki-foreground)"># </span><span style="color:var(--shiki-token-keyword)">create</span><span style="color:var(--shiki-foreground)"> extension omni_types;</span></span></code></pre></figure>
+<p>You can read more about using the sum types in the <a href="https://docs.omnigres.org/omni_types/sum_types/">documentation</a>.</p>
+<section class="footnotes" aria-label="Footnotes"><h2>footnotes</h2><ol>
+<li id="fn1"><p>PostGIS has its own <code>geometry</code> type but I am using this is an example. <a class="back" href="#fnref1" aria-label="Back to reference 1">↩</a></p>
+</li>
+<li id="fn2"><p><code>omni_types</code> extension in Omnigres <a class="back" href="#fnref2" aria-label="Back to reference 2">↩</a></p>
+</li>
+</ol></section>
+]]></content:encoded>
+    </item>
+  </channel>
+</rss>

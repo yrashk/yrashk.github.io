@@ -1,0 +1,49 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<rss version="2.0" xmlns:atom="http://www.w3.org/2005/Atom" xmlns:content="http://purl.org/rss/1.0/modules/content/" xmlns:dc="http://purl.org/dc/elements/1.1/">
+  <channel>
+    <title>Yurii Rashkovskii — functional programming</title>
+    <link>https://yrashk.com/</link>
+    <description>Founder of Inferal. Essays and notes on how people and systems work.</description>
+    <language>en</language>
+    <atom:link href="https://yrashk.com/rss/functional%20programming.xml" rel="self" type="application/rss+xml"/>
+    <lastBuildDate>Sun, 30 Oct 2016 00:00:00 GMT</lastBuildDate>
+    <item>
+      <title>Your Functional Programs Are Imperative Pumpkins</title>
+      <link>https://yrashk.com/blog/2016/10/30/your-functional-programs-are-imperative-pumpkins/</link>
+      <guid isPermaLink="true">https://yrashk.com/blog/2016/10/30/your-functional-programs-are-imperative-pumpkins/</guid>
+      <pubDate>Sun, 30 Oct 2016 00:00:00 GMT</pubDate>
+      <dc:creator>Yurii Rashkovskii</dc:creator>
+      <category>event sourcing</category>
+      <category>databases</category>
+      <category>functional programming</category>
+      <description>Earlier this year, on a rainy night in Bangkok, I was attending a regular Hack Night event, and I just had to jump into somebody’s else conversation without an invitation.</description>
+      <content:encoded><![CDATA[<p><img src="https://yrashk.com/blog/posts/your-functional-programs-are-imperative-pumpkins/1.jpg" alt=""></p>
+<p>Earlier this year, on a rainy night in Bangkok, I was attending a regular Hack Night event, and I just had to jump into somebody’s else conversation without an invitation.</p>
+<p>The guy I almost interrupted was describing the beauty and benefits of functional programming and, in particular, immutability. In fact, he was even pitching Elixir and if you know me, you know I’ve been engaged in the project for some time, so it was extra rewarding to listen to that.</p>
+<p>Except for one thing.</p>
+<p>I switched to the Java ecosystem as my primary stack some time ago, for a number of reasons. So listening in, I felt a mix of loss and guilt for abandoning such a beautiful functional ship for the industrial trenches and all their impurities. That didn’t feel good at all.</p>
+<p>However, man is not a rational animal, he is a rationalizing one (<em>thank you, Mr. Heinlein</em>), so I was desperately seeking for a justification for not being in that camp anymore, even though I do understand the values and benefits of functional programming.</p>
+<p>Almost nobody in the functional camp wants to hear the good old reasons of tooling, ecosystem maturity, community size, leadership, performance, etc. — these simply have been mulled over way too many times. While I believe that many of these reasons are quite valid and are in fact my reasons for changing ships, I felt like there’s also something more important about it.</p>
+<p>Something not immediately obvious.</p>
+<p>I’ve been mildly obsessed with data modelling and databases for at least a decade now. Programs without data and without data persistence aren’t very practical, of course, but accepting that there is only one way to do that wasn’t very exciting, so I tried to learn more.</p>
+<p>Once, I tried to marry the concepts of a frame database with a language-integrated database (<em>hello, MUMPS!</em>). Another time, I took Riak Core and ignored the CRDT work, opting for a bastardized interpretation of event sourcing and <a href="https://www.youtube.com/watch?v=ujaoprIKY9M">built a prototype for a client in gaming</a>.</p>
+<p>For the past year or so, I’ve been on my follow-up quest to figure out the innards and hidden secrets of event sourcing. I’ve built a few private prototypes and then incorporated some of my findings into the <a href="https://eventsourcing.com">Eventsourcing project</a>.</p>
+<p>Arguably, one of my most important discoveries has been that the phrase that begins with <em>“event…”</em> doesn’t have to end with “<em>handlers”</em>. That seems to be a common pattern in programming circles. If there’s an event, there must be a handler — a conflation with a concept of a message. Feels almost like a knee jerk reaction.</p>
+<p>Instead, seeing an event as a <em>categorization</em>, simply a piece of data that represents something we considered to have happened, opens up some interesting opportunities. Suddenly, we don’t have to handle events when they “arrive” and we can simply store them.</p>
+<p>We can index them, and query relevant ones on demand, when we need them, and construct domain model objects as we please. Since we never modify the events (after all, they have happened already!), we can see our data models as pure functions on events.</p>
+<p>This is true even in the classic event sourcing model where you do handle the events to apply changes to the read side, but having that gap that “event handling” introduces, these functions might provide a different level of data consistency.</p>
+<p>But what is even more interesting, is that, generally speaking, writing to such a database is similarly almost as functional. A command that generates events is a function on input data that returns journal entries and index records to be amended to the database.</p>
+<p>When somebody is trying to write to such a database, they are no longer fighting for a shared resource, they can all write and the read side can figure out what to make of it.</p>
+<p>So it hit me. Practical functional programming, in many instances, is far from delivering on its potential because while it works really well within code, the moment we persist data, all of that ends. In most applications, data on the disk is mutable, and the mutations are mostly not lossless. For practical reasons, the data that was updated is data gone.</p>
+<p>So while functional approach make our lives better between the moments we hit the disk, its effect is significantly reduced by those reads and writes especially writes!)</p>
+<p>If we consider the data layer as something that connects our business logic together (however <em>inside-out</em> this sounds*)*, then we have these pieces of pure, clean code floating in a sea of dirty mutable data.</p>
+<p><img src="https://yrashk.com/blog/posts/your-functional-programs-are-imperative-pumpkins/2.png" alt=""></p>
+<p>Finally, I had a justification that I actually understood and believed in.</p>
+<p>Often times, when we build systems, regardless of the underlying programming language, what we build is not quite functional <em>as a whole</em> because of the way we manage the data. So then, does it matter that some of the components aren’t pure?</p>
+<p>Well, yes, it does as it would have been better to have those components done right — we’d save so much time fighting the bugs! However, combined into a system, they will still suffer from the trade-offs of the mutable, non-functional model.</p>
+<p>So when I did jump into the conversation, I brought up exactly this issue — our systems are largely not functional.</p>
+<p>But they can be.</p>
+]]></content:encoded>
+    </item>
+  </channel>
+</rss>

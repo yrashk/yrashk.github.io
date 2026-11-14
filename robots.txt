@@ -1,0 +1,3 @@
+User-agent: *
+Allow: /
+Sitemap: https://yrashk.com/sitemap.xml

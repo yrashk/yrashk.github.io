@@ -1,0 +1,96 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<rss version="2.0" xmlns:atom="http://www.w3.org/2005/Atom" xmlns:content="http://purl.org/rss/1.0/modules/content/" xmlns:dc="http://purl.org/dc/elements/1.1/">
+  <channel>
+    <title>Yurii Rashkovskii — teamwork</title>
+    <link>https://yrashk.com/</link>
+    <description>Founder of Inferal. Essays and notes on how people and systems work.</description>
+    <language>en</language>
+    <atom:link href="https://yrashk.com/rss/teamwork.xml" rel="self" type="application/rss+xml"/>
+    <lastBuildDate>Sun, 07 Sep 2014 00:00:00 GMT</lastBuildDate>
+    <item>
+      <title>The Team Play Myth</title>
+      <link>https://yrashk.com/blog/2014/09/07/the-team-play-myth/</link>
+      <guid isPermaLink="true">https://yrashk.com/blog/2014/09/07/the-team-play-myth/</guid>
+      <pubDate>Sun, 07 Sep 2014 00:00:00 GMT</pubDate>
+      <dc:creator>Yurii Rashkovskii</dc:creator>
+      <category>practices</category>
+      <category>teamwork</category>
+      <description>After I wrote the original piece on Team Uncommunication, I’ve been thinking a lot on how this can be practically implemented.</description>
+      <content:encoded><![CDATA[<p>After I wrote the original piece on <a href="https://yrashk.com/blog/2014/04/21/team-uncommunication/">Team Uncommunication</a>, I’ve been thinking a lot on how this can be practically implemented.</p>
+<p>While the true zen of uncommunication is still lightyears away, there should be practices that reduce the need for inevitably delaying overhead of team communication. Especially in those teams where people are often in different locations and time zones.</p>
+<p>The conveyor belt has impacted many industries in a lot of ways. One of those impacts is that we often build teamwork based on individual skills. Let’s say we have a project to launch and promote a new feature. In order to accomplish it, we would typically need such roles as backend engineer, designer, frontend engineer (and maybe even a mobile frontend specialist!), marketing specialist… and likely a project manager!</p>
+<p>All they need to do is to coordinate (aka “communicate”) themselves to get to a single goal. All while possibly being 8–12 hours away from each other. Waiting others to do their job. How exciting!</p>
+<p>This typical approach is based on the premise that it is best to let specialists do their part of the job. Common sense, right? It might indeed have been the best idea if we had shipping deadlines that aren’t as tight, and the runways weren’t that short.</p>
+<p>So, here is an idea described as a few simple steps:</p>
+<h2 id="make-projects-really-small" tabindex="-1">Make Projects Really Small<a class="anchor" href="#make-projects-really-small" aria-label="Link to this section">#</a></h2>
+<p>Bite-size, quickly shippable, clear, measurable goals. Ideally just a day.. or a few days long, because you will…</p>
+<h2 id="delegate-each-project-to-just-one-person" tabindex="-1">Delegate Each Project To Just One Person<a class="anchor" href="#delegate-each-project-to-just-one-person" aria-label="Link to this section">#</a></h2>
+<p>One and only one person. All included objectives to be executed and measured by that person. But how will that person accomplish such a cross-discipline endeavour? After all, hardly anyone has all the skills necessary. That’s the where the actual teamwork comes in…</p>
+<h2 id="make-every-team-member-an-educator" tabindex="-1">Make Every Team Member an Educator<a class="anchor" href="#make-every-team-member-an-educator" aria-label="Link to this section">#</a></h2>
+<p>Everybody has their strongest skills. But instead of pulling people with these skills into every project, project owners should instead go and learn from their fellow experts.</p>
+<p>Instead of “can you please do this?” it should become “can you explain how this thing works?”</p>
+<p>What this gives us is project ownership (good), continuous learning (great), and faster delivery (fantastic!)</p>
+<blockquote>
+<p>Give a man a fish and you feed him for a day; teach a man to fish and you feed him for a lifetime.</p>
+</blockquote>
+]]></content:encoded>
+    </item>
+    <item>
+      <title>Team Uncommunication</title>
+      <link>https://yrashk.com/blog/2014/04/21/team-uncommunication/</link>
+      <guid isPermaLink="true">https://yrashk.com/blog/2014/04/21/team-uncommunication/</guid>
+      <pubDate>Mon, 21 Apr 2014 00:00:00 GMT</pubDate>
+      <dc:creator>Yurii Rashkovskii</dc:creator>
+      <category>practices</category>
+      <category>teamwork</category>
+      <description>Last year, my friends and I spent a few days by a lake on Vancouver Island. The house we were renting came with two canoes and, naturally, one of my friends and I ended up paddling one. Being quite new to canoes, we were at first struggling to keep the thing straight and move swiftly.</description>
+      <content:encoded><![CDATA[<p><em>The art of silence</em></p>
+<p>Last year, my friends and I spent a few days by a lake on Vancouver Island. The
+house we were renting came with two canoes and, naturally, one of my friends
+and I ended up paddling one. Being quite new to canoes, we were at first
+struggling to keep the thing straight and move swiftly.</p>
+<figure class="fig">
+<p><img src="https://yrashk.com/blog/posts/canoe.png" alt="structure of a canoe"></p>
+<figcaption>Canoe, picture by oldtowncanoe.com</figcaption></figure>
+<p>Why? Because we tried to communicate it wrong. We started off by giving each
+other infrequent commands and doing what felt right. Net result? We were almost
+spinning around. Then we decided to go for the “leadership model” where the one
+on the stern seat (&quot;stroke&quot;) orchestrates. That was a little better, but it was
+still frustrating as hell.</p>
+<p>What helped us and ultimately brought joy to the experience was a simple idea
+of a steering agreement. As opposed to a kayak paddle, a canoe paddle only
+allows you to paddle on one side at a time. We decided to always paddle on
+opposites sides (duh!) and whenever either of us was <em>overpaddling</em>, the other
+person was having a little break. After a few minutes, we were going in a
+straight line, having a lot of fun and we didn’t need to <em>communicate</em> our
+paddling at all!</p>
+<hr>
+<p>Why do I still remember this little story? One of the reasons is because it is
+so illustrative to the whole &quot;team communication&quot; debate. Over years, I’ve seen
+different teams communicate in different ways. The root of the problem seems to
+be in the wrong choice of word (&quot;communication&quot;). Many of us have simply
+assumed that this is about talking.</p>
+<p>But is that a right way to think about it? There is a lot of artifacts brought
+to us by this concept. Morning standup meetings with recital of what can be
+easily extracted from a <em>well organized</em> scrum board. Relying on in-person
+communications and, as a result, building a <em>no remote people allowed</em> culture
+that often leads to poor documenting efforts. Leadership struggles. Picking the
+right tool for chatting.</p>
+<p>What if instead of relying on constant talking, we focus on defining easy to
+follow game rules and using technology to facilitate this? Imagine the joy of
+being able to stay uninterrupted when you need that most. Imagine the ability
+to hire outside of a 50 miles radius. Imagine being able to let new hires
+onboard themselves. Imagine shipping ahead of the schedule <em>(ok, I might have
+made that one up :)</em>.</p>
+<p>Establishing this will not be easy and it will require some ongoing
+maintenance, but the net benefit will be seriously outweighing the
+expenditures. For the moment, I am deliberately not going to make any
+<em>practical suggestions</em> on what to do to achieve the zen of <strong>team
+uncommunication</strong>. I want this concept to continue roaming free of constraints
+for a little while so that we can be as creative and critical as possible. I
+choose to stay inquisitive about enabling teamwork the right way. I choose to
+stay a newbie.</p>
+]]></content:encoded>
+    </item>
+  </channel>
+</rss>
