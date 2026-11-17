@@ -3,8 +3,8 @@
 `wat.wasm` is the hand-written WebAssembly RDF store + SPARQL 1.2 engine from
 [Semblance](https://github.com/inferal-oss/semblance) (`rdf-engine/wat/`), Apache-2.0 OR MIT.
 
-- Source commit: `652e2e778b883b7509b5c788564879dc515b755c` (2026-11-11)
-- Build: 139,114 bytes raw, ~62 KiB gzipped. ABI version 3 (`rdf-engine/ABI.md` upstream).
+- Source commit: `a11023da6c3ad325883fc4606fa9f44e515f8ec7` (2026-11-17)
+- Build: 144,597 bytes raw, ~63 KiB gzipped. ABI version 4 (`rdf-engine/ABI.md` upstream).
 
 `engine.js` is a small browser host written for this site (not the upstream TypeScript adapter):
 it loads the module, writes strings into the engine's input buffer, reads ids back out as

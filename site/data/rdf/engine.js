@@ -1,4 +1,4 @@
-// A small browser host for the Semblance WAT RDF engine (wat.wasm, ABI 3).
+// A small browser host for the Semblance WAT RDF engine (wat.wasm, ABI 4).
 //
 //   import { openStore } from "./engine.js";
 //   const db = await openStore(new URL("./wat.wasm", import.meta.url));
@@ -20,7 +20,7 @@
 // ES module, no dependencies. Works in browsers and in Node 18+ (pass bytes or a Module
 // when `fetch` of the wasm URL is not available).
 
-const ABI_VERSION = 3;
+const ABI_VERSION = 4;
 const DEFAULT_GRAPH = 1;
 export const Format = { NTriples: 1, NQuads: 2, Turtle: 3, TriG: 4 };
 const FORM = { 1: "select", 2: "construct", 3: "ask", 4: "describe" };
