@@ -20,7 +20,7 @@
     yr:lived                   :born, :first-job, :moved-to-canada, :ghjoin, :lived-in-bangkok, :sf ;
     yr:founded                 :inferal, :hackerintro, :trustatom, :bexio, :spawngrid, :issuesdone, :omnigres ;
     yr:workedAt                :hexagon, :ditto ;
-    yr:built                   :pgext, :strata, :libycxx, :flyology, :shutters, :uplpgsql ;
+    yr:built                   :pgext, :strata, :libycxx, :flyology, :lasocket, :shutters, :uplpgsql ;
     yr:wrote                   :p-canoe, :p-c4, :p-rust, :p-http, :p-pgext25, :p-d3x, :p-regr, :p-lim, :p-sum, :p-plrust, :p-game, :p-couchdb, :p-docdb-fud, :p-no-database, :p-save, :p-team-play, :p-lazy-es, :p-no-user, :p-pumpkins, :p-abstractions, :p-covers, :p-dear-oss, :p-3x, :p-firing ;
     yr:authored                :ocamlspread, :common-xml, :cl-dtype, :encline ;
     yr:contributedTo           :abtop, :elixir, :pumpkindb, :erlzmq2, :pgrx, :wasmrs, :cplusplus, :eas, :camomile, :etiquette, :portableaserve ;
@@ -307,6 +307,19 @@
     yr:role                    "author" ;
     yr:status                  "active" ;
     yr:repo                    <https://yrashk.com/atlas/repo/flyology-ada/flyology>, <https://yrashk.com/atlas/repo/flyology-ada/flyology-object-storage>, <https://yrashk.com/atlas/repo/flyology-ada/flyology-http>, <https://yrashk.com/atlas/repo/flyology-ada/flyology-postgres>, <https://yrashk.com/atlas/repo/flyology-ada/flyology-db>, <https://yrashk.com/atlas/repo/flyology-ada/flyology-simd>, <https://yrashk.com/atlas/repo/flyology-ada/flyology-freestanding>, <https://yrashk.com/atlas/repo/flyology-ada/flyology-tui>, <https://yrashk.com/atlas/repo/flyology-ada/flyology-rdf>, <https://yrashk.com/atlas/repo/flyology-ada/flyology-serde>, <https://yrashk.com/atlas/repo/flyology-ada/flyology-json>, <https://yrashk.com/atlas/repo/flyology-ada/flyology-device>, <https://yrashk.com/atlas/repo/flyology-ada/flyology-remoting>, <https://yrashk.com/atlas/repo/flyology-ada/flyology-cbor>, <https://yrashk.com/atlas/repo/flyology-ada/flyology-wire>, <https://yrashk.com/atlas/repo/flyology-ada/flyology-type-ir>, <https://yrashk.com/atlas/repo/flyology-ada/flyology-crc>, <https://yrashk.com/atlas/repo/flyology-ada/flyology.org>, <https://yrashk.com/atlas/repo/flyology-ada/website-kit>, <https://yrashk.com/atlas/repo/flyology-ada/gnat-patches>, <https://yrashk.com/atlas/repo/flyology-ada/agents>, <https://yrashk.com/atlas/repo/flyology-ada/tla>, <https://yrashk.com/atlas/repo/flyology-ada/counterweave> .
+
+:lasocket
+    a                          yr:Project, schema:CreativeWork ;
+    schema:name                "lasocket" ;
+    schema:url                 <https://github.com/yrashk/lasocket> ;
+    schema:description         "One IP, many machines answering it at once." ;
+    schema:abstract            "Active-active TCP and UDP sockets across a LAN. Every node holds every connection; kill nodes, kill the coordinator, replace every machine, and nc, curl and ping sessions keep going, byte-exact." ;
+    yr:sector                  <https://yrashk.com/atlas/sector/machines> ;
+    yr:start                   "2026"^^xsd:gYear ;
+    yr:weight                  3 ;
+    yr:role                    "author" ;
+    yr:status                  "active" ;
+    yr:repo                    <https://yrashk.com/atlas/repo/yrashk/lasocket> .
 
 :shutters
     a                          yr:Project, schema:CreativeWork ;

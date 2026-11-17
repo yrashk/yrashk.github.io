@@ -839,8 +839,8 @@ const AT = window.ATLAS || {person:{},places:[],sectors:[],bodies:[]};
 const GH = window.GITHUB || null;
 const A = id=>AT.bodies.find(b=>b.id===id)||{};
 /* the brand layer: five chosen projects (name, positioning, voice, colour) */
-const GROUPS=[['now','Now'],['experimental','Experimental'],['life','Life']]; const groupLabel=g=>(GROUPS.find(x=>x[0]===g)||[g,g])[1];
-const PROJECTS = ['inferal','strata','libycxx','flyology','shutters'].map(id=>{ const b=A(id); return {id, group:b.group||'now', name:b.name, c:b.color||'#b7b1a6', mono:!!b.mono, url:b.url, pos:b.line, voice:(b.voice||b.quote||'')===b.line?'':(b.voice||b.quote||''), desc:b.desc||'', notes:b.notes||[], quote:b.quote&&b.quote!==b.voice?b.quote:null, status:b.status||'', role:b.role||''}; });
+const GROUPS=[['now','Now'],['experimental','Experimental'],['stunts','Stunts'],['life','Life']]; const groupLabel=g=>(GROUPS.find(x=>x[0]===g)||[g,g])[1];
+const PROJECTS = ['inferal','libycxx','flyology','strata','lasocket','shutters'].map(id=>{ const b=A(id); return {id, group:b.group||'now', name:b.name, c:b.color||'#b7b1a6', mono:!!b.mono, url:b.url, pos:b.line, voice:(b.voice||b.quote||'')===b.line?'':(b.voice||b.quote||''), desc:b.desc||'', notes:b.notes||[], quote:b.quote&&b.quote!==b.voice?b.quote:null, status:b.status||'', role:b.role||''}; });
 /* the founder track record: companies, plus the two community things */
 const VENTURES = AT.bodies.filter(b=>b.kind==='company'||b.id==='pgext').sort((a,b)=>b.start-a.start).map(b=>({id:b.id, y:String(b.start), name:b.name, ds:(b.line||'')+(b.role==='founder'&&b.id==='inferal'?' Founder.':''), hot:b.id==='inferal', url:b.url}));
 /* every post keeps its real URL; only `listed` ones are on the front. The build may inject window.POSTS (/data/posts.js); atlas.json is the fallback */

@@ -414,7 +414,7 @@
   },
   {
    "id": "strata",
-   "group": "experimental",
+   "group": "stunts",
    "kind": "project",
    "name": "Strata",
    "sector": "machines",
@@ -515,6 +515,34 @@
    "desc": "Named after Flyology, the book Ada Lovelace planned at twelve. Two task lanes, native and lightweight, and the libraries a serious system needs.",
    "notes": [
     "Libraries: HTTP, Postgres, QUIC, JSON, RDF, SIMD, TUI, NUMA, Cachelines, Allocators."
+   ]
+  },
+  {
+   "id": "lasocket",
+   "group": "stunts",
+   "kind": "project",
+   "name": "lasocket",
+   "sector": "machines",
+   "start": 2026,
+   "end": null,
+   "approx": false,
+   "weight": 3,
+   "url": "https://github.com/yrashk/lasocket",
+   "line": "One IP, many machines answering it at once.",
+   "quote": null,
+   "github": [
+    "yrashk/lasocket"
+   ],
+   "f": 0.64,
+   "voice": null,
+   "color": "#7fd6b0",
+   "role": "author",
+   "status": "active",
+   "desc": "Active-active TCP and UDP sockets across a LAN. Every node holds every connection; kill nodes, kill the coordinator, replace every machine, and nc, curl and ping sessions keep going, byte-exact.",
+   "notes": [
+    "No coordinator on the hot path: who sends each segment block is a rendezvous hash over the live members, and nothing is acknowledged until two nodes hold it.",
+    "Adapts to the switch: multicast, flood or relay per neighbor. No router or switch configuration.",
+    "Rust. A Docker demo kills nodes, flips the switch through four scenarios and runs a chaos monkey while clients verify every byte."
    ]
   },
   {
