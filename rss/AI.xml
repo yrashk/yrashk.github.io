@@ -1,0 +1,73 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<rss version="2.0" xmlns:atom="http://www.w3.org/2005/Atom" xmlns:content="http://purl.org/rss/1.0/modules/content/" xmlns:dc="http://purl.org/dc/elements/1.1/">
+  <channel>
+    <title>Yurii Rashkovskii — AI</title>
+    <link>https://yrashk.com/</link>
+    <description>Founder of Inferal. Essays and notes on how people and systems work.</description>
+    <language>en</language>
+    <atom:link href="https://yrashk.com/rss/AI.xml" rel="self" type="application/rss+xml"/>
+    <lastBuildDate>Sat, 21 Jun 2025 00:00:00 GMT</lastBuildDate>
+    <item>
+      <title>Firing Developers Won’t Make Software Cheaper</title>
+      <link>https://yrashk.com/blog/2025/06/21/firing-developers-wont-make-software-cheaper/</link>
+      <guid isPermaLink="true">https://yrashk.com/blog/2025/06/21/firing-developers-wont-make-software-cheaper/</guid>
+      <pubDate>Sat, 21 Jun 2025 00:00:00 GMT</pubDate>
+      <dc:creator>Yurii Rashkovskii</dc:creator>
+      <category>AI</category>
+      <category>software</category>
+      <description>Let’s stop asking, “When can I fire my developers?” Let’s ask, “What can we build so we don’t need as many developers in the first place?”</description>
+      <content:encoded><![CDATA[<p><img src="https://yrashk.com/blog/posts/firing-developers-wont-make-software-cheaper/1.jpg" alt=""></p>
+<p>Everyone cheering AI coding tools says the quiet part out loud eventually:</p>
+<blockquote>
+<p><em>“So… when can I fire my developers?”</em></p>
+</blockquote>
+<p>That’s the real subtext no one puts in their blog posts.</p>
+<ul>
+<li>“A new class of builders is emerging” → <em>(Translation: maybe we don’t need expensive engineers?)</em></li>
+<li>“Focus on outcomes, not methods” → <em>(Translation: maybe we don’t need people who care about methods?)</em></li>
+</ul>
+<p>Under the polished veneer of empowerment, the motivation is clear: cut costs, move faster. And there’s nothing inherently wrong with that.</p>
+<p>Except we’re focusing on the visible output of software developers, and confusing that with their value. Simulating the output doesn’t eliminate the role — it just replaces developers with something fast, unpredictable, and equally expensive in other ways.</p>
+<p>You’re still left with messy, brittle, over-complicated systems — just built faster and broken differently.</p>
+<p>The real move isn’t to replace developers with AI.</p>
+<p>It’s to stop needing so much software engineering, operations, and maintenance in the first place.</p>
+<h2 id="the-fantasy-of-fewer-engineers" tabindex="-1">The Fantasy of Fewer Engineers<a class="anchor" href="#the-fantasy-of-fewer-engineers" aria-label="Link to this section">#</a></h2>
+<p>Every few years, a new wave of tooling arrives that promises to make engineers obsolete. Even in the early days. COBOL. 4GLs. Visual Basic. No-code. Now, AI.</p>
+<p>Each time, the hope is the same: let someone else (or something else) do the building. But the underlying complexity doesn’t go away. It just gets hidden. Until it leaks.</p>
+<p>AI today is like hiring a half-drunk junior developer: fast, tireless, and unaware of consequences. It can spit out working code, but it can’t reason about tradeoffs, edge cases, evolving requirements, or failure modes.</p>
+<p>Software isn’t expensive because of syntax. It’s expensive because systems live for years, not minutes.</p>
+<h2 id="the-problem-isnt-developers-its-over-engineering" tabindex="-1">The Problem Isn’t Developers. It’s Over-Engineering<a class="anchor" href="#the-problem-isnt-developers-its-over-engineering" aria-label="Link to this section">#</a></h2>
+<p>If you’re trying to build business systems cheaper, the goal shouldn’t be firing developers.</p>
+<p>The goal should be to need less bespoke code in the first place.</p>
+<p>Too many products are weighed down by:</p>
+<ul>
+<li>Separation of concerns</li>
+<li>Over-abundant, over-dependent microservices</li>
+<li>Ongoing maintenance and migration tax</li>
+</ul>
+<p>We’ve been chasing clever architectures instead of asking whether we* need this much architecture.*</p>
+<h2 id="data-not-software-is-the-core-of-business-systems" tabindex="-1">Data, Not Software, Is the Core of Business Systems<a class="anchor" href="#data-not-software-is-the-core-of-business-systems" aria-label="Link to this section">#</a></h2>
+<p>That’s what I’m working on.</p>
+<p>Since 2004, for over 20 years, I haven’t been able to shake the belief that the real heart of most business systems isn’t the code.</p>
+<p>It’s the data.</p>
+<p>Business workflows are usually just data state machines: records moving through stages, reacting to events, triggering outcomes.</p>
+<p>But data has been:</p>
+<ul>
+<li>Misunderstood by app developers</li>
+<li>Constrained by layers of abstractions</li>
+<li>Boxed away in the realm of DBAs and managed services</li>
+</ul>
+<p>What if we stopped pushing data to the edges of the system? What if we started with data and let systems emerge from there?</p>
+<h2 id="the-future-data-native-architectures" tabindex="-1">The Future: Data-Native Architectures<a class="anchor" href="#the-future-data-native-architectures" aria-label="Link to this section">#</a></h2>
+<p>Not AI-generated code. Not yet another abstraction layer. But a fundamental shift in how we model, build, and reason about systems.</p>
+<p>If we want cheaper, more maintainable business software, we need to stop repeating the cycle: new tool, same mess, slightly better.</p>
+<p>We must reduce the need for software and understand that data is not buckets of “things” but a structured and fluid representation of reality.</p>
+<p>Let’s stop asking, “When can I fire my developers?”</p>
+<p>Let’s ask, “What can we build so we don’t need as many developers in the first place?”</p>
+<p>Let’s stop hiding the complexity.</p>
+<p>Let’s eliminate it.</p>
+<p><a href="https://www.linkedin.com/pulse/firing-developers-wont-make-software-cheaper-yurii-rashkovskii-qzcfc/"><em>Originally published on LinkedIn</em></a></p>
+]]></content:encoded>
+    </item>
+  </channel>
+</rss>
