@@ -40,8 +40,8 @@ jobs:
             git checkout -- site/data/github.json site/data/github.js site/data/contrib.js site/data/github-detail.json
           fi
 
-      - name: Atlas RDF
-        run: node scripts/atlas-rdf.mjs site/data
+      - name: GitHub RDF
+        run: node scripts/github-rdf.mjs site/data
 
       - run: npm run build
       - run: npm run check

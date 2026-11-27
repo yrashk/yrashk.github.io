@@ -1,7 +1,7 @@
 // The top-bar clock of his two homes, shared by the desktop (index.html) and every reader page
 // (templates/article.html), served at /clock.js.
 //
-// Homes come from atlas.json: person.homes → places with a time zone (window.ATLAS on the desktop; the
+// Homes come from the Atlas (atlas.ttl, queried by the build): person.homes → places with a time zone (window.ATLAS on the desktop; the
 // build passes the same list to reader pages). Where he is now carries a thin signal underline (pages
 // style `.city.here`): the current entry of person.stays, else person.here. A stay somewhere that is not
 // a home adds that place's clock in front of the homes. Offsets come from Intl: when the two homes match,

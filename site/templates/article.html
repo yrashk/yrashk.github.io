@@ -389,7 +389,7 @@ applyTheme(root.getAttribute('data-theme'));
 tbtn.addEventListener('click',()=>setTheme(root.getAttribute('data-theme')==='paper'?'dark':'paper'));
 addEventListener('storage',e=>{ if(e.key==='yr-theme') applyTheme(e.newValue); });
 
-/* clock: /clock.js, the same as on the desktop; homes, person.here and person.stays from atlas.json, passed in by the build */
+/* clock: /clock.js, the same as on the desktop; homes, person.here and person.stays from atlas.ttl, passed in by the build */
 window.yrClock&&yrClock.start({clock:$('#clock'), zone:$('#zone'), box:$('.clock'), homes:{{{homesJson}}}, here:'{{here}}', stays:{{{staysJson}}}});
 
 /* table of contents: current section */

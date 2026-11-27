@@ -4,7 +4,7 @@
  * page, survives workspace switches (it is not a window of the tiling layout), and resumes across page loads:
  * its state (talk, position, mode, place) lives in sessionStorage["yr-player"].
  *
- *   YRPlayer.open(talk, {at, mode})   talk = an atlas.json body of kind "talk" (see site/DATA.md)
+ *   YRPlayer.open(talk, {at, mode})   talk = a window.ATLAS body of kind "talk" (see site/DATA.md)
  *   YRPlayer.current()                → the talk id playing (or paused) now, or null
  *   addEventListener('yr-player', e)  e.detail = {id, state: 'playing'|'paused'|'ended'|'closed'|'error'}
  *

@@ -36,6 +36,7 @@ import { homedir, tmpdir } from "node:os";
 import { join } from "node:path";
 import { gunzipSync } from "node:zlib";
 import { createHash, randomBytes } from "node:crypto";
+import { loadAtlas } from "./atlas.mjs";
 
 const args = process.argv.slice(2);
 const empty = args[0] === "--empty";
@@ -300,10 +301,10 @@ function encode(pts) {
 }
 
 // ── places and local time, from the Atlas ────────────────────────────────────
-const atlas = existsSync(join(dataDir, "atlas.json")) ? JSON.parse(readFileSync(join(dataDir, "atlas.json"), "utf8")) : { places: [], bodies: [] };
+const atlas = existsSync(join(dataDir, "atlas.ttl")) ? (await loadAtlas(dataDir)).atlas : { places: [], bodies: [] };
 const PLACES = (atlas.places ?? []).filter((p) => p.lat != null);
 const bodyIds = new Set((atlas.bodies ?? []).map((b) => b.id));
-const placeIri = (id) => (bodyIds.has(id) ? `<${PREFIXES[""]}place/${id}>` : `:${id}`); // same rule as atlas-rdf.mjs
+const placeIri = (id) => (bodyIds.has(id) ? `<${PREFIXES[""]}place/${id}>` : `:${id}`); // <place/…> when a body has the same id
 function nearest(pt, within) {
   let best = null, bd = Infinity;
   for (const p of PLACES) { const d = meters(pt, [p.lat, p.lon]); if (d < bd) { bd = d; best = p; } }

@@ -843,7 +843,7 @@ const GROUPS=[['now','Now'],['experimental','Experimental'],['stunts','Stunts'],
 const PROJECTS = ['inferal','libycxx','ycxx','flyology','strata','lasocket','shutters'].map(id=>{ const b=A(id); return {id, group:b.group||'now', name:b.name, c:b.color||'#b7b1a6', mono:!!b.mono, url:b.url, pos:b.line, voice:(b.voice||b.quote||'')===b.line?'':(b.voice||b.quote||''), desc:b.desc||'', notes:b.notes||[], quote:b.quote&&b.quote!==b.voice?b.quote:null, status:b.status||'', role:b.role||''}; });
 /* the founder track record: companies, plus the two community things */
 const VENTURES = AT.bodies.filter(b=>b.kind==='company'||b.id==='pgext').sort((a,b)=>b.start-a.start).map(b=>({id:b.id, y:String(b.start), name:b.name, ds:(b.line||'')+(b.role==='founder'&&b.id==='inferal'?' Founder.':''), hot:b.id==='inferal', url:b.url}));
-/* every post keeps its real URL; only `listed` ones are on the front. The build may inject window.POSTS (/data/posts.js); atlas.json is the fallback */
+/* every post keeps its real URL; only `listed` ones are on the front. The build may inject window.POSTS (/data/posts.js); window.ATLAS is the fallback */
 const POSTS = Array.isArray(window.POSTS) ? window.POSTS.map(p=>{ const b=A(p.id||''); return {id:p.id||('p-'+String(p.url||'').replace(/\W+/g,'-')), d:p.date, t:p.title, h:p.url, real:null, tg:p.tags||[], listed:p.listed!==false, featured:!!(p.featured||b.featured), about:(p.related||b.related||[])[0]||null, sector:p.sector||b.sector||'writing', f:p.f!=null?p.f:(b.f!=null?b.f:null), y:b.year||(+String(p.date).slice(0,4)+.5), x:p.excerpt||'', sample:false}; }) : AT.bodies.filter(b=>b.kind==='writing').map(b=>({id:b.id, d:b.date, t:b.name, h:b.sample?'article.html':b.url, real:b.sample?b.url:null, tg:b.tags||[], listed:b.listed!==false, featured:!!b.featured, about:(b.related||[])[0]||null, sector:b.sector, f:b.f, y:b.year||b.start+.5, x:b.line, sample:!!b.sample}));
 /* notes come only from the build (window.NOTES via /data/notes.js); nothing is invented here */
 const NOTES = Array.isArray(window.NOTES) ? window.NOTES.map((n,i)=>({id:n.id||('n·'+String(window.NOTES.length-i).padStart(2,'0')), t:n.title||n.t||'', b:n.body||n.b||'', tg:n.tag||n.tg||'', url:n.url||null})) : [];
@@ -936,7 +936,7 @@ function pulse(){
 if(!reduced){ setInterval(()=>{ if(document.hidden) return; const c=cores[Math.floor(Math.random()*cores.length)]; c.classList.add('warm'); setTimeout(()=>c.classList.remove('warm'),500); }, 3800); }
 
 /* ═══════════════════════════ clock: his two homes ═══════════════════════════ */
-/* the clock itself is ./clock.js, shared with every reader page: homes, person.here and person.stays come from atlas.json */
+/* the clock itself is ./clock.js, shared with every reader page: homes, person.here and person.stays come from window.ATLAS (atlas.ttl, queried by the build) */
 const HOMES=yrClock.homesFrom(window.ATLAS);
 let CLOCK=null; try{ CLOCK=yrClock.start({clock:$('#clock'), zone:$('#zone'), box:$('.clock'), homes:HOMES, here:((window.ATLAS||{}).person||{}).here, stays:yrClock.staysFrom(window.ATLAS)}); }catch(e){ ERRS.push('clock: '+e.message); }
 const HERE=(CLOCK&&CLOCK.here)||null;
@@ -1102,7 +1102,7 @@ const SHELF = (Array.isArray(window.SHELF)?window.SHELF:[]).map(x=>({id:String(x
 $('#shelf').innerHTML = SHELF.length ? SHELF.map(x=>`<li><b>${x.url?`<a href="${esc(x.url)}" style="color:inherit;text-decoration:none">${esc(x.t)}</a>`:esc(x.t)}</b><span>${esc(x.b)}${x.since?` <em class="d" style="font-style:normal">· since ${esc(String(x.since))}</em>`:''}</span></li>`).join('') : `<li class="empty"><b>Nothing on the shelf yet.</b><span>Ideas not built yet will sit here.</span></li>`;
 $('#shelf-sub').textContent = SHELF.length ? `/ ideas · not built yet · ${SHELF.length}` : '/ ideas · not built yet';
 $('#track').innerHTML=VENTURES.map(v=>`<li><span class="y ${v.hot?'hot':''}">${v.y}</span><div>${v.url?`<a href="${v.url}"><b>${brandName(v.id,v.name)}</b></a>`:`<b>${brandName(v.id,v.name)}</b>`}<span>${esc(v.ds)}</span></div></li>`).join('');
-/* talks: atlas.json bodies of kind "talk", newest first, on a vertical timeline; recordings play in the floating player */
+/* talks: Atlas bodies of kind "talk", newest first, on a vertical timeline; recordings play in the floating player */
 const TALKS = AT.bodies.filter(b=>b.kind==='talk').map(b=>({...b, y:b.year||b.start})).sort((a,b)=>b.y-a.y);
 const MON=['Jan','Feb','Mar','Apr','May','Jun','Jul','Aug','Sep','Oct','Nov','Dec'];
 const clockS=s=>{ s=Math.max(0,Math.round(s||0)); const h=Math.floor(s/3600), m=Math.floor(s%3600/60), x=s%60; return (h?h+':'+String(m).padStart(2,'0'):m)+':'+String(x).padStart(2,'0'); };
@@ -1182,7 +1182,7 @@ const rOf = y => R0 + KR * Math.pow(Math.max(0, NOW_Y - y), POW);
 const yOf = r => NOW_Y - Math.pow(Math.max(0, r - R0) / KR, 1/POW);
 const R_EDGE = rOf(BIRTH), R_IDEAS = R_EDGE + 48, STEP = rOf(NOW_Y-1) - R0;
 const TAU = Math.PI*2, D2R = Math.PI/180;
-/* five sectors, one per facet of the work (labels from atlas.json, in drawing order) */
+/* five sectors, one per facet of the work (labels from the Atlas, in drawing order) */
 const SEC_ANG = {companies:[-90,-18], data:[-18,54], machines:[54,126], writing:[126,198], life:[198,270]};
 const NUM = ['I','II','III','IV','V'];
 const SECTORS = (AT.sectors.length?AT.sectors:Object.keys(SEC_ANG).map(id=>({id,label:id}))).map((s,i)=>({id:s.id, n:NUM[i]||String(i+1), name:s.label, a0:(SEC_ANG[s.id]||[0,72])[0], a1:(SEC_ANG[s.id]||[0,72])[1]}));
@@ -1218,7 +1218,7 @@ AT.bodies.forEach(b=>{
 /* the shelf: ideas on the uncharted orbit, placed by a hash of their id (since = optional epoch hint for the inspector) */
 SHELF.filter(x=>x.atlas).forEach(x=>{ BODIES.push({id:'shelf-'+x.id, name:x.t, kind:'idea', cat:'idea', sector:secById[x.sector]?x.sector:'writing', f:x.f!=null?x.f:hashF('shelf-'+x.id), size:0, url:x.url, line:x.b, desc:x.b, since:x.since, start:x.since?+x.since:null, end:null, related:[], src:{}}); });
 const HAS_IDEAS = BODIES.some(b=>b.kind==='idea');
-/* posts injected by the build that atlas.json does not know yet still get a place on the chart */
+/* posts injected by the build that the Atlas does not know yet still get a place on the chart */
 POSTS.filter(P=>!AT.bodies.some(b=>b.id===P.id)).forEach(P=>{ const about=P.about&&AT.bodies.find(b=>b.id===P.about); BODIES.push({id:P.id, name:P.t, kind:'post', cat:'writing', sector:secById[about?about.sector:P.sector]?(about?about.sector:P.sector):'writing', f:P.f!=null?P.f:hashF(P.id), size:0, url:P.h, line:P.x, post:P, y:P.y, about:P.about, start:+P.d.slice(0,4), end:null, related:[], src:{}}); });
 REPOS.forEach(r=>{ const key=repoKey(r); if(taken.has(key)) return; const score=repoScore(r);
   BODIES.push({id:'gh-'+key.replace(/[^\w.-]/g,'-'), name:key.startsWith('yrashk/')?key.slice(7):key, kind:'repo', cat:r.cat, sector:repoSector(r), f:hashF(key), size:0, url:r.url, repo:r, score, y:r.first+.5, from:r.last>r.first?r.first+.5:undefined, to:r.last>r.first?r.last+.5:undefined, line:r.description||'', start:r.first, end:r.last}); });

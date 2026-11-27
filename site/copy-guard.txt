@@ -1,7 +1,7 @@
 # Copy guard: phrases that must never appear in the built site.
 # One entry per line: a plain phrase (matched case-insensitively) or a /regex/.
 # `npm run check` scans the visible text of every page (text, title, alt, aria-label, meta,
-# UI strings in scripts; not code blocks or comments) and data/atlas.json, atlas.ttl, posts.js, notes.js.
+# UI strings in scripts; not code blocks or comments) and data/atlas.json (built from atlas.ttl), atlas.ttl, posts.js, notes.js.
 # github.json/github.js are raw API data and are exempt (filtered by github-data.mjs's exclude list).
 
 pelmet                 # a fork he tried; not his project

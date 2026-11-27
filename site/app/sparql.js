@@ -3,7 +3,8 @@
 //   import { mountQueryConsole } from "./sparql.js";
 //   const api = await mountQueryConsole(element, { turtleUrl, engineUrl, onLocate, onHighlight });
 //   api.run("SELECT …") / api.run("companies");   api.dispose();
-// Options: turtleUrl, engineUrl, contributionsUrl (default: contributions.ttl next to the Turtle; null
+// Options: turtleUrl, engineUrl, githubUrl (default: github.ttl next to the Turtle, loaded with it; null skips it),
+// contributionsUrl (default: contributions.ttl next to the Turtle; null
 // skips it), stravaUrl (default: strava.ttl next to the Turtle; null skips it and hides the Strava
 // presets), tracksUrl (default: strava-tracks.json beside it, for the Map view), tiles (map background;
 // null for none), initial ({q, sparql, view}: what to show first) and onState (called with the same shape
@@ -30,6 +31,7 @@ const PREFIXES = [
   ["xsd", XSD],
   ["rdfs", "http://www.w3.org/2000/01/rdf-schema#"],
   ["rdf", "http://www.w3.org/1999/02/22-rdf-syntax-ns#"],
+  ["ord", "https://ontology.inferal.com/modules/ordering/"],
 ];
 const PREFIX_BLOCK = PREFIXES.map(([p, ns]) => `PREFIX ${p}: <${ns}>`).join("\n");
 // Prefixes the editor can complete and declare on demand (added to the PREFIX block when used).
@@ -174,6 +176,23 @@ SELECT ?event ?name ?year ?place ?lat ?lon WHERE {
   }
 }
 ORDER BY ?year`,
+  },
+  {
+    id: "stays",
+    label: "Where he is",
+    blurb: "His homes, and where he is or will be: the stays, with today's marked.",
+    query: `# Where he is or will be (yr:stay), with today's stay marked.
+# Dates are days in the place's own calendar; NOW() is UTC, so a travel day may read a day off.
+# His homes, in clock order: :yrashk yr:homes/rdf:rest*/rdf:first ?home
+SELECT ?place ?from ?to ?now WHERE {
+  :yrashk yr:stay ?stay .
+  ?stay yr:place ?where ; schema:startDate ?from .
+  ?where schema:name ?place .
+  OPTIONAL { ?stay schema:endDate ?to }
+  BIND(xsd:date(SUBSTR(STR(NOW()), 1, 10)) AS ?today)
+  BIND(IF(?from <= ?today && (!BOUND(?to) || ?to >= ?today), "← now", "") AS ?now)
+}
+ORDER BY ?from`,
   },
   {
     id: "constellation",
@@ -730,6 +749,8 @@ export async function mountQueryConsole(element, options = {}) {
   const contributionsUrl = options.contributionsUrl === undefined ? new URL("contributions.ttl", new URL(turtleUrl, document.baseURI)).href : options.contributionsUrl;
   // strava.ttl (activities) loads third, after contributions; null disables it and its presets.
   const stravaUrl = options.stravaUrl === undefined ? new URL("strava.ttl", new URL(turtleUrl, document.baseURI)).href : options.stravaUrl;
+  // github.ttl (repositories, generated) is part of the core Atlas: loaded with atlas.ttl; null skips it.
+  const githubUrl = options.githubUrl === undefined ? new URL("github.ttl", new URL(turtleUrl, document.baseURI)).href : options.githubUrl;
   const presets = PRESETS.filter((p) => p.needs !== "strava" || stravaUrl);
   // strava-tracks.json (privacy-trimmed routes) is read the first time the Map view opens.
   // Map background: OpenStreetMap's standard raster tiles (no key; attribution shown; light use per the
@@ -793,9 +814,9 @@ export async function mountQueryConsole(element, options = {}) {
   const t0 = performance.now();
   const engineBase = new URL(engineUrl, document.baseURI);
   const { openStore } = await import(new URL("engine.js", engineBase).href);
-  const [store, ttlRes] = await Promise.all([openStore(new URL("wat.wasm", engineBase).href), fetch(new URL(turtleUrl, document.baseURI))]);
+  const [store, ttlRes, ghRes] = await Promise.all([openStore(new URL("wat.wasm", engineBase).href), fetch(new URL(turtleUrl, document.baseURI)), githubUrl ? fetch(githubUrl).catch(() => null) : null]);
   if (!ttlRes.ok) throw new Error(`query console: ${ttlRes.status} fetching ${turtleUrl}`);
-  const parsed = store.loadTurtle(await ttlRes.text());
+  const parsed = store.loadTurtle(await ttlRes.text()) + (ghRes && ghRes.ok ? store.loadTurtle(await ghRes.text()) : 0);
   const loadMs = performance.now() - t0;
   if (sig.aborted) return { run: () => null, dispose() {} };
 

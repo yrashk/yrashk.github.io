@@ -16,8 +16,8 @@ in `site/DATA.md`. Read them before touching copy or data.
 ```
 site/
   app/            the OS shell: index.html (served at /), sparql.js, …  (sparql-harness.html is dev-only)
-  data/           github.json/.js, contrib.js (generated), atlas.json/.js (curated), atlas.ttl (generated),
-                  rdf/ (WAT RDF engine), portraits        → served at /data/
+  data/           atlas.ttl (the curated Atlas, hand-edited Turtle), github.json/.js, github.ttl, contributions.ttl,
+                  contrib.js (generated), rdf/ (WAT RDF engine), portraits        → served at /data/
   content/posts/  essays: YYYY-MM-DD-slug.md (or .html), frontmatter below
   content/notes/  short notes: YYYY-MM-DD-slug.md → /data/notes.js (see its README)
   templates/      article.html (the reader), 404.html
@@ -31,7 +31,8 @@ scripts/
   dev.mjs         build + serve + rebuild on any change under site/ or build.mjs, pages live-reload
   dev-client.js   injected by dev.mjs: posts morph changed blocks in place, other pages reload
   github-data.mjs GitHub activity → site/data/github.*, contrib.js, github-detail.json
-  atlas-rdf.mjs   atlas.json + github.json → site/data/atlas.ttl (and atlas.js)
+  atlas.mjs       loads atlas.ttl into the WAT engine and SPARQL-queries it into the plain Atlas object
+  github-rdf.mjs  github.json + github-detail.json → site/data/github.ttl, contributions.ttl
   strava-rdf.mjs  a Strava bulk export → site/data/strava.js, strava-tracks.json, strava.ttl (privacy-trimmed)
 dist/             build output (gitignored)
 prototypes/       the four earlier design directions, local reference only (gitignored)
@@ -65,8 +66,8 @@ serves that path).
 - **Images referenced by old posts stay at `/blog/posts/<file>`** (`site/static/blog/posts/`).
 - **Copy guard.** `site/copy-guard.txt` lists banned phrases (plain, case-insensitive, or `/regex/`,
   with `#` comments). `check` scans the visible text of every page (text nodes, title, alt,
-  aria-label, meta, UI strings in scripts; not code blocks or comments) and `data/atlas.json`,
-  `atlas.ttl`, `posts.js`, `notes.js`. `github.json`/`github.js` are raw API data and exempt. When a
+  aria-label, meta, UI strings in scripts; not code blocks or comments) and `data/atlas.json`
+  (the queried Atlas), `atlas.ttl`, `posts.js`, `notes.js`. `github.json`/`github.js` are raw API data and exempt. When a
   copy decision is made, add it there so it sticks.
 - The shell (`site/app/index.html`) and the data files are owned by their own workflows; the build
   copies them and rewrites paths only. Do not fork copies of them.
@@ -94,8 +95,8 @@ excerpt: "One or two sentences; used in lists, feeds and meta description."
 ---
 ```
 
-The Atlas locator in the rail comes from `site/data/atlas.json`: a `kind: writing` body whose
-`url` equals the permalink supplies the sector, position (`f`, `year`) and `related` body. Posts
+The Atlas locator in the rail comes from `site/data/atlas.ttl`: an `yr:Essay` body whose
+`schema:url` is the permalink supplies the sector, position (`yr:position`, `yr:chartYear`) and `yr:related` body. Posts
 without a body still render (default sector "writing").
 
 `/data/posts.js` carries `{id, title, date, url, tags, excerpt, listed, featured, related}` for
@@ -204,15 +205,21 @@ built-in samples. See `site/content/notes/README.md`.
 ## Data
 
 - `npm run data` = `github-data.mjs site/data` (GitHub GraphQL/REST; excludes repos in its
-  `EXCLUDE` set) then `atlas-rdf.mjs site/data` (Turtle per `site/DATA.md`). Both are
+  `EXCLUDE` set) then `github-rdf.mjs site/data` (Turtle per `site/DATA.md`). Both are
   dependency-free and committed outputs are kept so a build works offline.
-- `site/data/atlas.json` is hand-curated; keep `atlas.js` in sync (`atlas-rdf.mjs` regenerates it).
+- `site/data/atlas.ttl` is the one source of the curated Atlas (person, homes and stays, places,
+  sectors, bodies), edited by hand. Nothing parses it but the WAT engine: `scripts/atlas.mjs`
+  queries it for the build, `github-rdf.mjs` and `strava-rdf.mjs`, and the build writes the result to
+  `/data/atlas.js` + `/data/atlas.json` for the desktop (build output only; there is no atlas.json in
+  `site/data`). A Turtle mistake fails `npm run build`.
+- Travel: add or change a `yr:stay [ … ]` on `:yrashk` in `atlas.ttl` (the place needs a
+  `yr:timeZone`); the top-bar clock picks today's stay in the visitor's browser (`site/DATA.md`).
 
 ## CI
 
 `.github/workflows/pages.yml`: on push to `master`, daily (04:17 UTC) and on demand:
 checkout → setup-node (LTS, npm cache) → `npm ci` → `github-data.mjs` (falls back to the committed
-files if the API fails) → `atlas-rdf.mjs` → `npm run build` → `npm run check` → publish `dist/`
+files if the API fails) → `github-rdf.mjs` → `npm run build` → `npm run check` → publish `dist/`
 to `gh-pages` (peaceiris/actions-gh-pages, `cname: yrashk.com`). Only `GITHUB_TOKEN` is used.
 
 ## Git conventions
