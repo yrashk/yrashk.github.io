@@ -130,6 +130,23 @@ const placeNode = (id) => {
   return `<${PREFIXES[""]}place/${id}>`;
 };
 
+// person.stays: where he is or will be. The current stay is the latest that has started (by the date in
+// its place's time zone); its `to` ends it only when the next stay does not begin the day after — the same
+// rule as site/app/clock.js. Outside every stay he is at person.here (one of person.homes).
+const placeTz = (id) => atlas?.places?.find((p) => p.id === id)?.tz;
+const STAYS = (atlas?.person?.stays ?? []).filter((s) => placeTz(s.place) && /^\d{4}-\d{2}-\d{2}$/.test(s.from)).sort((a, b) => (a.from < b.from ? -1 : a.from > b.from ? 1 : 0));
+const stayNode = (st) => `<${PREFIXES[""]}stay/${st.from}-${st.place}>`;
+const dayIn = (tz, n) => new Intl.DateTimeFormat("en-CA", { timeZone: tz, year: "numeric", month: "2-digit", day: "2-digit" }).format(n);
+const nextDay = (d) => new Date(Date.parse(d + "T00:00:00Z") + 864e5).toISOString().slice(0, 10);
+const HERE = (() => {
+  const now = new Date(), P = atlas?.person ?? {};
+  let i = -1;
+  STAYS.forEach((s, k) => { if (dayIn(placeTz(s.place), now) >= s.from) i = k; });
+  const s = STAYS[i], next = STAYS[i + 1];
+  if (s && !(s.to && dayIn(placeTz(s.place), now) > s.to && !(next && next.from <= nextDay(s.to)))) return s.place;
+  return (P.homes ?? []).includes(P.here) ? P.here : null;
+})();
+
 // Which repos belong to a curated body, so the person's role links point at the body.
 const repoBody = new Map();
 for (const b of atlas?.bodies ?? []) for (const r of b.github ?? []) repoBody.set(r.toLowerCase(), b.id);
@@ -149,7 +166,8 @@ if (atlas) {
     ["schema:birthDate", P.born && gYear(P.born)],
     ["schema:birthPlace", atlas.places?.some((pl) => pl.id === P.birthplace?.toLowerCase()) ? placeNode(P.birthplace.toLowerCase()) : P.birthplace && str(P.birthplace)],
     ["schema:homeLocation", (P.homes ?? []).map(placeNode)],
-    ["yr:currentLocation", (P.homes ?? []).includes(P.here) && placeNode(P.here)], // where he is now (person.here)
+    ["yr:currentLocation", HERE && placeNode(HERE)], // where he is on the day this file is written (person.stays, else person.here)
+    ["yr:stay", STAYS.map(stayNode)],
     ["yr:lived", byKind("life")],
     ["yr:founded", byKind("company", (b) => !b.role || b.role === "founder")],
     ["yr:workedAt", byKind("company", (b) => b.role && b.role !== "founder")],
@@ -160,6 +178,19 @@ if (atlas) {
     ["yr:contributedTo", byKind("oss", (b) => b.role !== "author")],
     ["yr:presented", byKind("talk")],
   ]);
+
+  if (STAYS.length) {
+    comment("── Stays: where he is or will be (person.stays; dates in the place's own calendar, endDate inclusive) ──");
+    blank();
+    for (const st of STAYS)
+      subject(stayNode(st), [
+        ["a", "yr:Stay"],
+        ["yr:place", placeNode(st.place)],
+        ["yr:home", (P.homes ?? []).includes(st.place) && "true"],
+        ["schema:startDate", date(st.from)],
+        ["schema:endDate", st.to && date(st.to)],
+      ]);
+  }
 
   comment("── Places ──");
   blank();

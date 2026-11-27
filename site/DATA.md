@@ -19,7 +19,12 @@ RDF script may regenerate `atlas.js` from `atlas.json`).
 {
   "person": {
     "id": "yrashk", "name": "Yurii Rashkovskii", "born": 1981, "birthplace": "Ukraine",
-    "homes": ["redwood-city", "comox"]
+    "homes": ["redwood-city", "comox"],
+    "here": "comox",                       // where he is when no stay covers today (one of homes)
+    "stays": [                             // where he is or will be; edit as plans change
+      { "place": "bangkok", "from": "2026-11-22", "to": "2026-12-07" },
+      { "place": "redwood-city", "from": "2027-01-23" }   // no `to`: open-ended
+    ]
   },
   "places": [
     { "id": "redwood-city", "name": "Redwood City, CA", "lat": 37.49, "lon": -122.24, "tz": "America/Los_Angeles" },
@@ -80,7 +85,13 @@ Base IRI `https://yrashk.com/atlas/` (bodies are `<https://yrashk.com/atlas/stra
 @prefix rdfs:   <http://www.w3.org/2000/01/rdf-schema#> .
 ```
 
-- Person `:yrashk a schema:Person ; schema:name ; schema:birthDate "1981"^^xsd:gYear ; schema:homeLocation :redwood-city, :comox ; yr:currentLocation :comox` (from `person.here`, one of `person.homes`).
+- Person `:yrashk a schema:Person ; schema:name ; schema:birthDate "1981"^^xsd:gYear ; schema:homeLocation :redwood-city, :comox ; yr:currentLocation :bangkok ; yr:stay <stay/…>`. `yr:currentLocation` is where he is on the day `atlas.ttl` is written (CI rewrites it daily, so it may trail by up to a day): the current stay, else `person.here`.
+- Stays (`person.stays`, `place` = a place id with a `tz`; dates are days in that place's own calendar, `to` inclusive and optional):
+  `<stay/2026-11-22-bangkok> a yr:Stay ; yr:place :bangkok ; schema:startDate "2026-11-22"^^xsd:date ; schema:endDate "2026-12-07"^^xsd:date`,
+  plus `yr:home true` when the place is one of `person.homes`. The current stay is the latest one that has started; its `to` ends it
+  only when the next stay does not begin the day after, so travel days never fall back to `person.here`. The top-bar clock
+  (`app/clock.js`) applies the same rule in the visitor's browser: the current place is underlined, and a place that is not a home
+  gets its own clock in front of the homes.
 - Kinds → classes: `yr:LifeEvent`, `yr:Company` (also `schema:Organization`), `yr:Project` (also `schema:CreativeWork`),
   `yr:Essay` (also `schema:BlogPosting`), `yr:Idea`, `yr:Repository` (also `schema:SoftwareSourceCode`).
 - Body properties: `schema:name`, `schema:url`, `schema:description` (= line), `yr:quote`, `yr:sector`

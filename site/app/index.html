@@ -936,9 +936,9 @@ function pulse(){
 if(!reduced){ setInterval(()=>{ if(document.hidden) return; const c=cores[Math.floor(Math.random()*cores.length)]; c.classList.add('warm'); setTimeout(()=>c.classList.remove('warm'),500); }, 3800); }
 
 /* ═══════════════════════════ clock: his two homes ═══════════════════════════ */
-/* the clock itself is ./clock.js, shared with every reader page: homes and person.here come from atlas.json */
+/* the clock itself is ./clock.js, shared with every reader page: homes, person.here and person.stays come from atlas.json */
 const HOMES=yrClock.homesFrom(window.ATLAS);
-let CLOCK=null; try{ CLOCK=yrClock.start({clock:$('#clock'), zone:$('#zone'), box:$('.clock'), homes:HOMES, here:((window.ATLAS||{}).person||{}).here}); }catch(e){ ERRS.push('clock: '+e.message); }
+let CLOCK=null; try{ CLOCK=yrClock.start({clock:$('#clock'), zone:$('#zone'), box:$('.clock'), homes:HOMES, here:((window.ATLAS||{}).person||{}).here, stays:yrClock.staysFrom(window.ATLAS)}); }catch(e){ ERRS.push('clock: '+e.message); }
 const HERE=(CLOCK&&CLOCK.here)||null;
 const fmt=(tz,o)=>new Intl.DateTimeFormat('en-CA',{timeZone:tz,hour12:false,...o});
 const fTime=fmt(HOMES[0].tz,{hour:'2-digit',minute:'2-digit'});

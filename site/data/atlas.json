@@ -8,7 +8,33 @@
    "redwood-city",
    "comox"
   ],
-  "here": "comox"
+  "here": "comox",
+  "stays": [
+   {
+    "place": "bangkok",
+    "from": "2026-11-22",
+    "to": "2026-12-07"
+   },
+   {
+    "place": "redwood-city",
+    "from": "2026-12-08",
+    "to": "2026-12-25"
+   },
+   {
+    "place": "bangkok",
+    "from": "2026-12-26",
+    "to": "2027-01-14"
+   },
+   {
+    "place": "china",
+    "from": "2027-01-15",
+    "to": "2027-01-22"
+   },
+   {
+    "place": "redwood-city",
+    "from": "2027-01-23"
+   }
+  ]
  },
  "places": [
   {
@@ -52,6 +78,13 @@
    "lat": 13.76,
    "lon": 100.5,
    "tz": "Asia/Bangkok"
+  },
+  {
+   "id": "china",
+   "name": "China",
+   "lat": 35.86,
+   "lon": 104.2,
+   "tz": "Asia/Shanghai"
   }
  ],
  "sectors": [

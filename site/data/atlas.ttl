@@ -16,7 +16,8 @@
     schema:birthDate           "1981"^^xsd:gYear ;
     schema:birthPlace          :ukraine ;
     schema:homeLocation        :redwood-city, :comox ;
-    yr:currentLocation         :comox ;
+    yr:currentLocation         :bangkok ;
+    yr:stay                    <https://yrashk.com/atlas/stay/2026-11-22-bangkok>, <https://yrashk.com/atlas/stay/2026-12-08-redwood-city>, <https://yrashk.com/atlas/stay/2026-12-26-bangkok>, <https://yrashk.com/atlas/stay/2027-01-15-china>, <https://yrashk.com/atlas/stay/2027-01-23-redwood-city> ;
     yr:lived                   :born, :first-job, :moved-to-canada, :ghjoin, :lived-in-bangkok, :sf ;
     yr:founded                 :inferal, :hackerintro, :trustatom, :bexio, :spawngrid, :issuesdone, :omnigres ;
     yr:workedAt                :hexagon, :ditto ;
@@ -25,6 +26,39 @@
     yr:authored                :ocamlspread, :common-xml, :cl-dtype, :encline ;
     yr:contributedTo           :abtop, :elixir, :pumpkindb, :erlzmq2, :pgrx, :wasmrs, :cplusplus, :eas, :camomile, :etiquette, :portableaserve ;
     yr:presented               :talk-cppgres, :talk-ext-upgrades, :talk-pgpm, :talk-immutability, :talk-unusual-types, :talk-pushing-boundaries, :talk-buildable, :talk-postgres-can-do-what, :talk-lazy-es, :talk-bitcoin-elixir, :talk-meta-is-mega, :talk-erlang-dc-meta, :talk-euc-meta, :talk-genomu, :talk-vancouver-meta, :talk-parse-transforms, :talk-erlang-web, :talk-beamjs, :talk-parallel-testing .
+
+# ── Stays: where he is or will be (person.stays; dates in the place's own calendar, endDate inclusive) ──
+
+<https://yrashk.com/atlas/stay/2026-11-22-bangkok>
+    a                          yr:Stay ;
+    yr:place                   :bangkok ;
+    schema:startDate           "2026-11-22"^^xsd:date ;
+    schema:endDate             "2026-12-07"^^xsd:date .
+
+<https://yrashk.com/atlas/stay/2026-12-08-redwood-city>
+    a                          yr:Stay ;
+    yr:place                   :redwood-city ;
+    yr:home                    true ;
+    schema:startDate           "2026-12-08"^^xsd:date ;
+    schema:endDate             "2026-12-25"^^xsd:date .
+
+<https://yrashk.com/atlas/stay/2026-12-26-bangkok>
+    a                          yr:Stay ;
+    yr:place                   :bangkok ;
+    schema:startDate           "2026-12-26"^^xsd:date ;
+    schema:endDate             "2027-01-14"^^xsd:date .
+
+<https://yrashk.com/atlas/stay/2027-01-15-china>
+    a                          yr:Stay ;
+    yr:place                   :china ;
+    schema:startDate           "2027-01-15"^^xsd:date ;
+    schema:endDate             "2027-01-22"^^xsd:date .
+
+<https://yrashk.com/atlas/stay/2027-01-23-redwood-city>
+    a                          yr:Stay ;
+    yr:place                   :redwood-city ;
+    yr:home                    true ;
+    schema:startDate           "2027-01-23"^^xsd:date .
 
 # ── Places ──
 
@@ -63,6 +97,12 @@
     schema:name                "Bangkok, Thailand" ;
     schema:geo                 [ schema:latitude 13.76 ; schema:longitude 100.5 ] ;
     yr:timeZone                "Asia/Bangkok" .
+
+:china
+    a                          schema:Place ;
+    schema:name                "China" ;
+    schema:geo                 [ schema:latitude 35.86 ; schema:longitude 104.2 ] ;
+    yr:timeZone                "Asia/Shanghai" .
 
 # ── Sectors (the slices of the chart, in drawing order) ──
 

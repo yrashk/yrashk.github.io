@@ -328,7 +328,7 @@ function renderPost(post, prev, next, template) {
   const atlasHref = loc.focus ? `/#focus=${loc.focus}` : "/#app=atlas";
   return render(template, {
     title: post.title, siteTitle: SITE_TITLE, description: post.excerpt, permalink: post.permalink, canonical: ORIGIN + post.permalink,
-    homesJson: JSON.stringify(HOMES).replace(/</g, "\\u003c"), homesNames: HOMES.map((h) => h.n).join(" · "), here: atlas.person?.here ?? "",
+    homesJson: JSON.stringify(HOMES).replace(/</g, "\\u003c"), homesNames: HOMES.map((h) => h.n).join(" · "), here: atlas.person?.here ?? "", staysJson: JSON.stringify(STAYS).replace(/</g, "\u003c"),
     standfirst: post.standfirst ? `<p class="standfirst">${esc(post.standfirst)}</p>` : "",
     date: post.date, dateLong: longDate(post.date), dateSlash: `${y} / ${m} / ${d}`, dateDots: `${y} · ${m} · ${d}`,
     updatedRow: post.updated ? `<dt>updated</dt><dd><time datetime="${post.updated}">${post.updated}</time></dd>` : "",
@@ -386,8 +386,10 @@ for (const f of listFiles(POSTS_DIR, [".md", ".html"])) posts.push(await loadPos
 posts.sort((a, b) => (a.date < b.date ? -1 : a.date > b.date ? 1 : a.permalink.localeCompare(b.permalink)));
 const seen = new Set();
 for (const p of posts) { if (seen.has(p.permalink)) throw new Error(`duplicate permalink ${p.permalink}`); seen.add(p.permalink); }
-// The reader's top-bar clock: his homes (person.homes) with their time zones; person.here is underlined.
+// The reader's top-bar clock: his homes (person.homes) with their time zones; where he is now is underlined.
 const HOMES = (atlas.person?.homes ?? []).map((id) => atlas.places?.find((p) => p.id === id)).filter((p) => p?.tz).map((p) => ({ id: p.id, n: p.name.split(",")[0], tz: p.tz }));
+// …and where he is or will be (person.stays, resolved to places with a time zone); the page picks today's.
+const STAYS = (atlas.person?.stays ?? []).map((s) => ({ s, p: atlas.places?.find((p) => p.id === s.place) })).filter(({ s, p }) => p?.tz && s.from).map(({ s, p }) => ({ id: p.id, n: p.name.split(",")[0], tz: p.tz, from: s.from, ...(s.to ? { to: s.to } : {}) }));
 const article = tpl("article.html");
 posts.forEach((p, i) => write(join(p.permalink, "index.html"), renderPost(p, posts[i - 1], posts[i + 1], article)));
 const listed = posts.filter((p) => p.listed).slice().reverse(); // newest first
