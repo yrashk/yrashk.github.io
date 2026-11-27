@@ -20,7 +20,7 @@
     yr:lived                   :born, :first-job, :moved-to-canada, :ghjoin, :lived-in-bangkok, :sf ;
     yr:founded                 :inferal, :hackerintro, :trustatom, :bexio, :spawngrid, :issuesdone, :omnigres ;
     yr:workedAt                :hexagon, :ditto ;
-    yr:built                   :pgext, :strata, :libycxx, :flyology, :lasocket, :shutters, :uplpgsql ;
+    yr:built                   :pgext, :strata, :libycxx, :ycxx, :flyology, :lasocket, :shutters, :uplpgsql ;
     yr:wrote                   :p-canoe, :p-c4, :p-rust, :p-http, :p-pgext25, :p-d3x, :p-regr, :p-lim, :p-sum, :p-plrust, :p-game, :p-couchdb, :p-docdb-fud, :p-no-database, :p-save, :p-team-play, :p-lazy-es, :p-no-user, :p-pumpkins, :p-abstractions, :p-covers, :p-dear-oss, :p-3x, :p-firing ;
     yr:authored                :ocamlspread, :common-xml, :cl-dtype, :encline ;
     yr:contributedTo           :abtop, :elixir, :pumpkindb, :erlzmq2, :pgrx, :wasmrs, :cplusplus, :eas, :camomile, :etiquette, :portableaserve ;
@@ -293,6 +293,20 @@
     yr:role                    "director" ;
     yr:status                  "v0.1.0" ;
     yr:repo                    <https://yrashk.com/atlas/repo/yrashk/libycxx> .
+
+:ycxx
+    a                          yr:Project, schema:CreativeWork ;
+    schema:name                "ycxx" ;
+    schema:url                 <https://github.com/yrashk/ycxx> ;
+    schema:description         "An independent, resident C++26 compiler." ;
+    schema:abstract            "Preprocessor, front end, constant evaluator, code generator, object writer and linker, all its own. It stays resident, holds the whole program's analysis in memory, and recomputes only what a change can affect." ;
+    yr:quote                   "How far can we get with this?" ;
+    yr:sector                  <https://yrashk.com/atlas/sector/machines> ;
+    yr:start                   "2026"^^xsd:gYear ;
+    yr:weight                  3 ;
+    yr:role                    "director" ;
+    yr:status                  "pre-0.1" ;
+    yr:repo                    <https://yrashk.com/atlas/repo/yrashk/ycxx> .
 
 :flyology
     a                          yr:Project, schema:CreativeWork ;

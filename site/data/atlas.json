@@ -470,6 +470,35 @@
    ]
   },
   {
+   "id": "ycxx",
+   "group": "experimental",
+   "kind": "project",
+   "name": "ycxx",
+   "sector": "machines",
+   "start": 2026,
+   "end": null,
+   "approx": false,
+   "weight": 3,
+   "url": "https://github.com/yrashk/ycxx",
+   "line": "An independent, resident C++26 compiler.",
+   "quote": "How far can we get with this?",
+   "github": [
+    "yrashk/ycxx"
+   ],
+   "f": 0.34,
+   "voice": "How far can we get with this?",
+   "color": "#b9a8ff",
+   "mono": true,
+   "role": "director",
+   "status": "pre-0.1",
+   "desc": "Preprocessor, front end, constant evaluator, code generator, object writer and linker, all its own. It stays resident, holds the whole program's analysis in memory, and recomputes only what a change can affect.",
+   "notes": [
+    "In one week, from an old idea to compiling a good subset of C++ (classes, templates, constant evaluation) to signed macOS arm64 and static x86-64 Linux executables, with no external compiler, assembler or linker.",
+    "Watch mode with an interactive trace for people and agents; ycxx policies for affine and linear type checking; its own benchmarking tool.",
+    "Built by AI agents directed by the author, like libycxx before it. Open to anyone with spare LLM capacity to point at it."
+   ]
+  },
+  {
    "id": "flyology",
    "group": "experimental",
    "kind": "project",
