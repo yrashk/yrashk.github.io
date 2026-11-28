@@ -1,0 +1,54 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<rss version="2.0" xmlns:atom="http://www.w3.org/2005/Atom" xmlns:content="http://purl.org/rss/1.0/modules/content/" xmlns:dc="http://purl.org/dc/elements/1.1/">
+  <channel>
+    <title>Yurii Rashkovskii — open source</title>
+    <link>https://yrashk.com/</link>
+    <description>Founder of Inferal. Essays and notes on how people and systems work.</description>
+    <language>en</language>
+    <atom:link href="https://yrashk.com/rss/open%20source.xml" rel="self" type="application/rss+xml"/>
+    <lastBuildDate>Thu, 15 Mar 2018 00:00:00 GMT</lastBuildDate>
+    <item>
+      <title>Dear Open Source Projects…</title>
+      <link>https://yrashk.com/blog/2018/03/15/dear-open-source-projects/</link>
+      <guid isPermaLink="true">https://yrashk.com/blog/2018/03/15/dear-open-source-projects/</guid>
+      <pubDate>Thu, 15 Mar 2018 00:00:00 GMT</pubDate>
+      <dc:creator>Yurii Rashkovskii</dc:creator>
+      <category>open source</category>
+      <description>By using a closed source, proprietary product you are incentivizing others to create more closed source, proprietary products.</description>
+      <content:encoded><![CDATA[<p>A few days ago, I posted this tweet after discovering that yet another open source project I am using has that funny Heroku app to join their chat:</p>
+<p><em>[The embedded tweet is no longer available.]</em></p>
+<p>Thanks to a few lucky mentions I got down the road, it got liked and retweeted handsomely. Nothing spectacular but it showed that this message resonated with many people. (Of course, there were people who disagreed with me, that’s fine — and expected).</p>
+<p>I thought it might make sense to unpack the message and perhaps explain some of the fundamental concerns I have.</p>
+<p>While I was triggered to tweet by that “request your invite” shim app, my actual feelings about Slack are deeper than that. I’ve been an early Slack user when it was invite-only-ish and tried to use it in my company — which was neither a success nor a failure. Since then, however, I’ve been only using it if I really needed to — collaborating with others on projects I was paid to work on, joining existing projects or chat rooms. Every time I’d grumble quietly but accept my fate.</p>
+<p>Why don’t I like it? As a lot of people mentioned in that Twitter conversation, they find it “accessible”, “easy to use”, “having superior UX” and so on. While I do agree that their product does look nice style-wise, it is not without its own quirks, like any other product out there. Let alone the “invitation hack”, there are lot of things to be less than happy about (threaded conversations, multi-organizational communications, lack of contextual actionability, and so on). You can counter this by saying that “others are worse”, but unless we find a good way to rationalize those comparisons, it’s rather “I am less familiar with X, therefore Y is better”.</p>
+<p>There are numerous alternatives, each with its own pros and cons. Some look less polished but provide some really interesting functionality that improve the overall workflow UX (as opposed to “conversational UX” — say, creating and tracking actionable tasks from the conversation, or simply joining a room). I personally view UX in a broader context. How does it help me achieving my ultimate goals? (This question actually makes me really wonder “What <em>are</em> my ultimate goals?”)</p>
+<p>Is it hard to evaluate all of them? Sure. That’s one of the reasons people pick “what’s hot and/or feels familiar” as opposed to an informed choice. Nothing wrong with that. I’ve been guilty of this behavior more times than I can count.</p>
+<p>But this is not my main point. Just the first one.</p>
+<p>What is accessibility, anyway? Even defined with the confines of a “chat/communication” tool. Is it just about chatting itself or should this cover processes that happen before or after typing words into that little box? I want to give you an example.</p>
+<p>There have been many cases where I was able to figure out some subtle or obscure issues by finding some references to the problem I am experiencing in IRC chat logs. In an ideal world people should perhaps document important findings or FAQ material noted in logs, but we’re all humans — so this doesn’t always happen.</p>
+<p>However, with tools like Slack, public logs are no longer accessible in the same way. This means that a lot of potentially valuable information simply vanishes from the public eye. Is this an accessibility issue or not?</p>
+<p>Next one is kind of a big one. Centralization. By definition, when you build a centralized product you have to solve very difficult problems related to scaling and availability. Those are bloody hard and expensive. And they don’t contribute to end user’s happiness.</p>
+<p>If anything, they do the opposite — the occasional downtime, slower performance, multitenancy-related risks… they aren’t exactly features you’d want to advertise.</p>
+<p>On the other hand, when the software you run serves very few clients, it can afford to be less scaleable, because the vastness of the internet and fragmentation of users is what would effectively scale it. There is a lot of computing power everywhere — from data centers all the way to network edges.</p>
+<p>When centralized services malfunction, this affects everybody. When this happens to a service that serves 0.5% of the entire community, only 0.5% suffers.</p>
+<p>“But I can’t be bothered to admin another service!” Yes. We all have very limited amount of time and focus we can spare (not to mention expertise). I can’t agree more with this. This is why I think it is important to consider the following thought:</p>
+<p><em>Client-server might be not the best architecture for a number of problems. It is entirely possible to build a significant variety of tools that can function in a decentralized fashion (not just the blockchains!), enabling people to accomplish their tasks while requiring essentially no service maintenance.</em></p>
+<p>If this idea is too radical or otherwise unacceptable to you, how about this: <em>we can make open source software installation and maintenance easier. It is entirely possible as well. If a project X has a problem in that area, consider contributing so that you and others can run it with next to no overhead.</em></p>
+<p>Another comment I received mentioned that this issue is just not a top 10 priority (but rather in six or so digits) in the open source community.</p>
+<p>It’s very tempting to see the community as a single body and therefore having a single “top list” of concerns. It’s easy. We’re wired for easy. But the thing is… we’re all different, we all have different needs, concerns and motivations. What might be a concern #2434243 for one, might be #5 for another. Does it mean it is any less valid?</p>
+<p>Naturally, one should act upon concerns that are of a high priority to them, but I don’t think “well, this is not a concern for me” is a valid counter-argument. It’s a perfectly valid no-action decision motivation, though — as it should be.</p>
+<p>The last, but not least important concern of mine is that Slack is a proprietary product.</p>
+<p>You can’t directly affect its future. If a feature is gone, it’s gone for good. If it doesn’t work the way you want it to, you are at the mercy of its developers.</p>
+<p>You are a product consumer.</p>
+<p>This might be fine for those less technically-savvy, but what does it mean to us, those who not only <strong>can</strong> make things better, but also <strong>do</strong> actively contribute to this cause by involving themselves in all these open source projects.</p>
+<p>There are numerous open source alternatives to Slack. Are they perfect? Nope. But they are “almost there”. They are not broken beyond repair. Far from that. Most of them just need some “final touches” that you and I can deliver.</p>
+<p>Most of the common software we use (browsers, editors, and so on) is open source. It’s pretty good (as software gets, really). We don’t really need to rely on a few for-profit enterprises with closed products in the middle of our workflow.</p>
+<p><strong>By using a closed source, proprietary product you are incentivizing others to create more closed source, proprietary products.</strong></p>
+<p>Think about it.</p>
+<p>P.S. Somebody mentioned that, using this logic, GitHub should also be avoided as it is a proprietary product. I actually tend to agree with a caveat: the Git repository hosting product of theirs is not much of a vendor lock-in as it is very easy to push your repository elsewhere even if GitHub is to suddenly shut down. But there are parts of it that are less easily portable.</p>
+<p>One of them is Issues &amp; Pull Requests. While you can back them up, those backups are not exactly… actionable. This is one of the reasons I started <a href="https://sit.fyi/">SIT</a> <strong>[shameless plug]</strong>, a true serverless information tracker. It includes the <code>issue-tracking</code> module that provides the same functionality without the dependency on GitHub.</p>
+<p>I’d also love to see novel answers to how repository search and discovery (effectively, another product of GitHub) can be improved to be independent of GitHub and include more sources it would pull the information from.</p>
+]]></content:encoded>
+    </item>
+  </channel>
+</rss>

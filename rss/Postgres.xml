@@ -1,0 +1,773 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<rss version="2.0" xmlns:atom="http://www.w3.org/2005/Atom" xmlns:content="http://purl.org/rss/1.0/modules/content/" xmlns:dc="http://purl.org/dc/elements/1.1/">
+  <channel>
+    <title>Yurii Rashkovskii — Postgres</title>
+    <link>https://yrashk.com/</link>
+    <description>Founder of Inferal. Essays and notes on how people and systems work.</description>
+    <language>en</language>
+    <atom:link href="https://yrashk.com/rss/Postgres.xml" rel="self" type="application/rss+xml"/>
+    <lastBuildDate>Wed, 26 Feb 2025 00:00:00 GMT</lastBuildDate>
+    <item>
+      <title>Postgres Extensions Day 2025 Montreal: Registration and Call for Speakers</title>
+      <link>https://yrashk.com/blog/2025/02/26/postgres-extensions-day-2025-montreal-registration-and-call-for-speakers/</link>
+      <guid isPermaLink="true">https://yrashk.com/blog/2025/02/26/postgres-extensions-day-2025-montreal-registration-and-call-for-speakers/</guid>
+      <pubDate>Wed, 26 Feb 2025 00:00:00 GMT</pubDate>
+      <dc:creator>Yurii Rashkovskii</dc:creator>
+      <category>Postgres</category>
+      <description>On May 12th, 2025, Postgres Extension Developers Coalition (PGEDC) will host Postgres Extensions Day 2025 in Montreal, QC.</description>
+      <content:encoded><![CDATA[<p>On May 12th, 2025, Postgres Extension Developers Coalition (PGEDC) will host <a href="https://pgext.day">Postgres Extensions Day 2025</a> in Montreal, QC.</p>
+<p>It is a one-day, in-person event dedicated to the comprehensive exploration of Postgres extension – encompassing development, ecosystem, and operational concerns.</p>
+<p>The program includes in-depth technical presentations, practical demonstrations, and structured discussions designed to foster collaboration and innovation. Whether you are new to Postgres extensions or an experienced developer, you will gain valuable insights, advanced techniques, and inspiration for your future work.</p>
+<p>This free, community-led event operates independently and is unaffiliated with other events. Prior registration is required.</p>
+<p><mark>Call for Speakers</mark> is open until April 1st.</p>
+<p>Topics of interest include:</p>
+<ul>
+<li>Teaching extension development</li>
+<li>Extension packaging &amp; delivery</li>
+<li>Libraries and frameworks for extensions</li>
+<li>Gaps and challenges</li>
+<li>Implementing extensions in different languages</li>
+<li>Interesting techniques &amp; discoveries</li>
+<li>Operating extensions in production</li>
+<li>Extensions security</li>
+</ul>
+<p>If the topic above is not listed, please still feel free to submit your talk.</p>
+<p><a href="http://pgext2025mtl.eventbrite.ca/">Register</a> and <a href="https://sessionize.com/pgextday2025mtl">submit your talks</a> soon!</p>
+]]></content:encoded>
+    </item>
+    <item>
+      <title>Structured Postgres Regression Tests</title>
+      <link>https://yrashk.com/blog/2023/04/23/structured-postgres-regression-tests/</link>
+      <guid isPermaLink="true">https://yrashk.com/blog/2023/04/23/structured-postgres-regression-tests/</guid>
+      <pubDate>Sun, 23 Apr 2023 00:00:00 GMT</pubDate>
+      <dc:creator>Yurii Rashkovskii</dc:creator>
+      <category>Postgres</category>
+      <category>Omnigres</category>
+      <description>I've been using pg_regress tests for a while. It's generally a great way to ensure the behavior of your Postgres code works and continues working as expected. However, as my tests became larger, I started getting lost in them; and there are limits as to what you can test by having a psql session.</description>
+      <content:encoded><![CDATA[<p>I've been using <code>pg_regress</code> tests for a while. It's generally a great way to ensure
+the behavior of your Postgres code works and continues working as expected. However,
+as my tests became larger, I started getting lost in them; and there are limits as to
+what you can test by having a <code>psql</code> session.</p>
+<p>If you don't know, <code>pg_regress</code> basically takes an SQL file you give to it and sends it
+to <code>psql</code> running against a Postgres instance (either managed by <code>pg_regress</code> or by you)
+and compares the output against a previous stored execution log. If there are no differences,
+all is good (aka <em>&quot;tests passed&quot;</em>.)</p>
+<p>But I found that at least in my practice, tests tend to become rather large and it's hard
+to find separation between steps, individual tests and so on. Of course, you can put every
+individual test into a separate file, but that feels like a bandaid.</p>
+<p>So I thought, <em>&quot;how can I structure this better? There must be a way.&quot;</em></p>
+<p>My hunch was that if I can put both inputs (queries) and outputs (results,
+errors, etc.) into a machine-processable format that is also very
+visual, I can do a lot with it. I didn't want to write JSON, though. It
+doesn't force you into having a visual structure.</p>
+<p>Unsurprisingly, <strong>YAML</strong> fit the bill. As much as I may not be its fan (it has design flaws and is
+definitely being overused for, <em>uhm</em>, &quot;programming&quot;), but it does provide a good visual structure,
+can be essentially queried and has some interesting features like tags and anchors. And, importantly,
+it has pretty good support for multiline strings<sup class="fn" id="fnref1"><a href="#fn1" aria-label="Footnote 1">1</a></sup>!</p>
+<p>So, instead of having something like this in your test:</p>
+<figure class="code"><figcaption class="ch"><span class="lang">postgresql</span><button type="button" data-copy>copy</button></figcaption>
+<pre class="shiki css-variables"><code><span class="line"><span class="ln" aria-hidden="true">1</span><span style="color:var(--shiki-token-keyword)">select</span><span style="color:var(--shiki-foreground)"> true </span><span style="color:var(--shiki-token-keyword)">as</span><span style="color:var(--shiki-token-keyword)"> value</span></span>
+<span class="line"><span class="ln" aria-hidden="true">2</span><span style="color:var(--shiki-token-keyword)"> value</span></span>
+<span class="line"><span class="ln" aria-hidden="true">3</span><span style="color:var(--shiki-token-comment)">-------</span></span>
+<span class="line"><span class="ln" aria-hidden="true">4</span><span style="color:var(--shiki-foreground)">    t</span></span>
+<span class="line"><span class="ln" aria-hidden="true">5</span><span style="color:var(--shiki-foreground)">(</span><span style="color:var(--shiki-token-constant)">1</span><span style="color:var(--shiki-token-keyword)"> row</span><span style="color:var(--shiki-foreground)">)    </span></span></code></pre></figure>
+<p>...what if you can have something a bit more structured?</p>
+<figure class="code"><figcaption class="ch"><span class="lang">yaml</span><button type="button" data-copy>copy</button></figcaption>
+<pre class="shiki css-variables"><code><span class="line"><span class="ln" aria-hidden="true">1</span><span style="color:var(--shiki-token-keyword)">query</span><span style="color:var(--shiki-token-keyword)">:</span><span style="color:var(--shiki-token-string-expression)"> select true as value</span></span>
+<span class="line"><span class="ln" aria-hidden="true">2</span><span style="color:var(--shiki-token-keyword)">results</span><span style="color:var(--shiki-token-keyword)">:</span></span>
+<span class="line"><span class="ln" aria-hidden="true">3</span><span style="color:var(--shiki-foreground)">- </span><span style="color:var(--shiki-token-keyword)">value</span><span style="color:var(--shiki-token-keyword)">:</span><span style="color:var(--shiki-token-string-expression)"> t</span></span></code></pre></figure>
+<p>At this point I got excited and decided that there's no going back and <a href="https://docs.omnigres.org/pg_yregress/usage/"><code>pg_yregress</code></a>
+was prototyped.</p>
+<p>By focusing on the structure one can feed into it, one can provide a lot of information to it, such as:</p>
+<ul>
+<li><strong>configuration</strong> of the instances to be tested against</li>
+<li>initialization sequences</li>
+<li><strong>reusable queries</strong> (<em>hello, YAML aliases!</em>)</li>
+<li>sending tests to <strong>multiple instances</strong> (<em>want to test a replication scenario?</em>)<sup class="fn" id="fnref2"><a href="#fn2" aria-label="Footnote 2">2</a></sup></li>
+</ul>
+<p>Unlike <code>pg_regress</code>, it doesn't use <code>psql</code> and this opens some interesting opportunities. For example, it can be used to <a href="https://docs.omnigres.org/pg_yregress/usage/#binary-format">test binary
+encodings</a> as it simply uses <code>libpq</code>:</p>
+<figure class="code"><figcaption class="ch"><span class="lang">yaml</span><button type="button" data-copy>copy</button></figcaption>
+<pre class="shiki css-variables"><code><span class="line"><span class="ln" aria-hidden="true">1</span><span style="color:var(--shiki-token-keyword)">query</span><span style="color:var(--shiki-token-keyword)">:</span><span style="color:var(--shiki-token-string-expression)"> select true as value</span></span>
+<span class="line"><span class="ln" aria-hidden="true">2</span><span style="color:var(--shiki-token-keyword)">binary</span><span style="color:var(--shiki-token-keyword)">:</span><span style="color:var(--shiki-token-constant)"> true</span></span>
+<span class="line"><span class="ln" aria-hidden="true">3</span><span style="color:var(--shiki-token-keyword)">results</span><span style="color:var(--shiki-token-keyword)">:</span></span>
+<span class="line"><span class="ln" aria-hidden="true">4</span><span style="color:var(--shiki-foreground)">- </span><span style="color:var(--shiki-token-keyword)">value</span><span style="color:var(--shiki-token-keyword)">:</span><span style="color:var(--shiki-token-constant)"> 0x01</span></span></code></pre></figure>
+<p>Also, it wraps queries into transactions by default<sup class="fn" id="fnref3"><a href="#fn3" aria-label="Footnote 3">3</a></sup>, which removes a lot of <code>begin</code>/<code>rollback</code> noise in <code>pg_regress</code>-based tests.</p>
+<p>It's still pretty new and rough around edges but I am already migrating <a href="https://omnigr.es/">Omnigres</a> to it and will continue adding
+necessary features and improving the user experience. Check out the <a href="https://docs.omnigres.org/pg_yregress/usage">documentation</a> if you
+are interested.</p>
+<p><em>Feedback, suggestions and contributions will be appreciated, so don't be shy!</em></p>
+<section class="footnotes" aria-label="Footnotes"><h2>footnotes</h2><ol>
+<li id="fn1"><p>not a lot of queries easily fit into a single line, so... <a class="back" href="#fnref1" aria-label="Back to reference 1">↩</a></p>
+</li>
+<li id="fn2"><p>Not all features are ready, please be patient or consider contributing. I'll get to it if you don't! <a class="back" href="#fnref2" aria-label="Back to reference 2">↩</a></p>
+</li>
+<li id="fn3"><p>Actually, there's no way to turn this behavior off right now, but it'll come soon as it is a trivial change. <a class="back" href="#fnref3" aria-label="Back to reference 3">↩</a></p>
+</li>
+</ol></section>
+]]></content:encoded>
+    </item>
+    <item>
+      <title>Avoiding Postgres Extensions Limitations</title>
+      <link>https://yrashk.com/blog/2023/04/10/avoiding-postgres-extensions-limitations/</link>
+      <guid isPermaLink="true">https://yrashk.com/blog/2023/04/10/avoiding-postgres-extensions-limitations/</guid>
+      <pubDate>Mon, 10 Apr 2023 00:00:00 GMT</pubDate>
+      <dc:creator>Yurii Rashkovskii</dc:creator>
+      <category>Postgres</category>
+      <category>tips</category>
+      <description>Postgres extensions are great. They enable fantastic use cases and bring new capabilities to one of the most loved open source databases. But there are edges in some of its features and this can be heard in conversations: limitations of the upgrade system, lack of parameterized initialization, search path/OID resolution issues, hard-wired dependency on.control files, schema droppage, etc.</description>
+      <content:encoded><![CDATA[<p>Postgres extensions are great. They enable fantastic use cases and bring new
+capabilities to one of the most loved open source databases. But there are
+edges in some of its features and this can be heard in conversations:
+limitations of the upgrade system, lack of parameterized initialization, search
+path/OID resolution issues, hard-wired dependency on <code>.control</code> files,
+schema droppage <sup class="fn" id="fnref1"><a href="#fn1" aria-label="Footnote 1">1</a></sup>, etc.</p>
+<p>However, the beauty of it is that what we <em>ultimately</em> want from extensions does not
+<em>need</em> to use <code>CREATE EXTENSION</code>'s framework.</p>
+<p>I've seen it a few times where newcomers to the extension world of Postgres learn to
+understand the relationship between <code>.control</code>, <code>.sql</code> and <code>.so</code>
+files. The questions I keep hearing are something like this:</p>
+<ul>
+<li><em>are extensions required to have an .so file?</em></li>
+<li><em>are SQL files required?</em></li>
+<li><em>where do we make users store metadata so that it doesn't get dropped accidentally?</em></li>
+</ul>
+<p>It's convenient to think about Postgres extensions feature as a whole, from
+<code>CREATE EXTENSION</code> down to your functions. However, I think it hides the fact
+that technically speaking, extension are a relatively thin mechanism on top of
+some of the more fundamental capabilities that Postgres provides.</p>
+<ul>
+<li>It allows one to execute SQL (<em>duh!</em>)</li>
+<li>It allows to define functions that are contained in an <code>.so</code> file<sup class="fn" id="fnref2"><a href="#fn2" aria-label="Footnote 2">2</a></sup>.</li>
+</ul>
+<p>Postgres' <a href="https://www.postgresql.org/docs/current/extend-extensions.html">vanilla extension framework</a>
+reads the <code>.control</code> file, executes SQL scripts with a bit of quick-and-dirty
+string value replacements (like <code>MODULE_PATHNAME</code> or <code>@extschema@</code>) and these
+scripts deal with provisioning all that extension requires.</p>
+<p>You can see most of this code in
+<a href="https://doxygen.postgresql.org/extension_8c_source.html">src/backend/commands/extension.c</a>. You can
+see that that code doesn't really deal with <code>.so</code> files. That code is actually
+in
+<a href="https://doxygen.postgresql.org/dfmgr_8c_source.html">src/backend/utils/fmgr/dfmgr.c</a>, like <code>load_external_function</code>.</p>
+<p>What this means is that you don't really need to follow the path
+charted by the framework to add that extended functionality to your database.
+You can <strong>roll your own upgrades</strong>, you can can have <strong>multiple <code>.so</code> files</strong>
+(instead of depending on <code>MODULE_PATHNAME</code>), you can call whatever
+<strong>initialization callbacks</strong> you want during installation, you <strong>don't need
+<code>.control</code> files</strong>. You can think of a lot of your own cases.</p>
+<p>What do you have to give up for this? You have to give up <code>CREATE EXTENSION</code>. Instead, you'd need
+to do something like this:</p>
+<figure class="code"><figcaption class="ch"><span class="lang">postgresql</span><button type="button" data-copy>copy</button></figcaption>
+<pre class="shiki css-variables"><code><span class="line"><span class="ln" aria-hidden="true">1</span><span style="color:var(--shiki-foreground)">psql</span><span style="color:var(--shiki-token-keyword)">=</span><span style="color:var(--shiki-foreground)"># </span><span style="color:var(--shiki-token-keyword)">select</span><span style="color:var(--shiki-foreground)"> myextmgr.install(</span><span style="color:var(--shiki-token-string-expression)">'extension_name'</span><span style="color:var(--shiki-foreground)">);</span></span></code></pre></figure>
+<p>Which is probably not a big ask (<em>implementing the <code>install</code> function itself is a bigger
+one!</em>). In fact, it may be even more interesting because one can use
+this function over an entire dataset. For example, this will allow one to install multiple
+extensions not known ahead of time.</p>
+<div class="adm question" role="note"><span class="ic" aria-hidden="true">?</span><span class="t">But...</span><div class="b">
+<blockquote>
+<p><em>How would we call <code>create function</code> and provide the path to <code>.so</code>
+files if it is not known ahead of time?</em></p>
+</blockquote>
+<p>Great question. There are two ways I can see, depending on how deep you want to go:</p>
+<ol>
+<li>You can <a href="https://www.postgresql.org/docs/current/functions-string.html#FUNCTIONS-STRING-FORMAT"><code>format()</code></a>
+your <code>create function</code> query to supply the correct path with <code>%L</code>. I personally don't love it, but it's done a lot in PL/pgSQL.</li>
+<li>If you're writing this in C, there's <a href="https://doxygen.postgresql.org/pg__proc_8c.html#acb8cfc3bc78d5a1887fac3cda926274b"><code>ProcedureCreate</code></a>.
+It has an ungodly number of parameters, but once you're through, it works really well!</li>
+</ol>
+</div></div>
+<p>A bigger thing you're potentially giving up here is that if you're developing
+an extension that you want <strong>others to use</strong> and it can't be fit into the mold
+provided by vanilla Postgres extensions framework, well, you're presented with
+a new challenge. You will need to find a way to convince your users to use
+your installation method. Whether it is worth it entirely depends on whether
+the limitations you're concerned about are worth overcoming.</p>
+<section class="footnotes" aria-label="Footnotes"><h2>footnotes</h2><ol>
+<li id="fn1"><p>Unless explicitly depended on afterwards <a class="back" href="#fnref1" aria-label="Back to reference 1">↩</a></p>
+</li>
+<li id="fn2"><p>Filename extension that means <a href="https://en.wikipedia.org/wiki/Library_(computing)#Shared_libraries">shared object</a>. <a class="back" href="#fnref2" aria-label="Back to reference 2">↩</a></p>
+</li>
+</ol></section>
+]]></content:encoded>
+    </item>
+    <item>
+      <title>Sum Types in Postgres</title>
+      <link>https://yrashk.com/blog/2023/04/09/sum-types-in-postgres/</link>
+      <guid isPermaLink="true">https://yrashk.com/blog/2023/04/09/sum-types-in-postgres/</guid>
+      <pubDate>Sun, 09 Apr 2023 00:00:00 GMT</pubDate>
+      <dc:creator>Yurii Rashkovskii</dc:creator>
+      <category>Postgres</category>
+      <category>Omnigres</category>
+      <category>types</category>
+      <description>At times, representing the variety of types a value can take through multiple tables can taxing, both in terms of development complexity as well as, potentially, performance. You must just need a value to be of any of the given variants. I've set out to build a generalized mechanism for defining these.</description>
+      <content:encoded><![CDATA[<p>At times, representing the variety of types a value can take through multiple tables can taxing, both
+in terms of development complexity as well as, potentially, performance. You must just need a value
+to be of any of the given variants. I've set out to build a generalized mechanism for defining these.</p>
+<div class="adm question" role="note"><span class="ic" aria-hidden="true">?</span><span class="t">Can you give me an example?</span><div class="b">
+<p>Sure. Let's say we want to store geometric primitives<sup class="fn" id="fnref1"><a href="#fn1" aria-label="Footnote 1">1</a></sup> and be able to find certain shapes
+with certain properties.</p>
+<p>One can put different shapes into different tables or even use multiple columns per shape type. But
+this makes the schema fairly complicated.</p>
+<p>Wouldn't it be cool to just store any shape in a single column?</p>
+</div></div>
+<h2 id="intro" tabindex="-1">Intro<a class="anchor" href="#intro" aria-label="Link to this section">#</a></h2>
+<p>I am working on <a href="https://github.com/omnigres/omnigres">making Postgres a full-featured application development platform</a>,
+so this issue came up a few times. For example, I want to be able to return different <a href="https://docs.omnigres.org/omni_httpd/intro/"><em>kinds</em> of responses to HTTP requests</a>,
+like upgrading to WebSockets, delaying a response, terminating a connection, etc. The <code>http_response</code> type is limited to conventional responses.</p>
+<p>So I thought, <em>is it possible to support this type of thing in Postgres?</em> I develop a number of extensions and have used
+its C API surface extensively. I was pretty sure this can be achieved! A few days later, the support has materialized.</p>
+<p>The basic idea is simple:</p>
+<ul>
+<li>Register a base type for every sum type and list all variant types OIDs in extension's configuration</li>
+<li>If all variants are fixed size, sum type is also fixed size of the largest variant (plus discriminant)</li>
+<li>Use underlying variant type's I/O functions</li>
+<li>Dispatch I/O and conversion functions to generalized implementations provided by the extension<sup class="fn" id="fnref2"><a href="#fn2" aria-label="Footnote 2">2</a></sup></li>
+</ul>
+<p>It's been a pretty fun experience connecting all the dots and using C API to define types, functions, casts, etc.</p>
+<p>The way it works is pretty simple:</p>
+<figure class="code"><figcaption class="ch"><span class="lang">postgresql</span><button type="button" data-copy>copy</button></figcaption>
+<pre class="shiki css-variables"><code><span class="line"><span class="ln" aria-hidden="true">1</span><span style="color:var(--shiki-foreground)">omni_types</span><span style="color:var(--shiki-token-keyword)">=</span><span style="color:var(--shiki-foreground)"># </span><span style="color:var(--shiki-token-keyword)">select</span><span style="color:var(--shiki-foreground)"> omni_types.sum_type(</span><span style="color:var(--shiki-token-string-expression)">'geom'</span><span style="color:var(--shiki-foreground)">, </span><span style="color:var(--shiki-token-string-expression)">'point'</span><span style="color:var(--shiki-foreground)">, </span><span style="color:var(--shiki-token-string-expression)">'circle'</span><span style="color:var(--shiki-foreground)">);</span></span>
+<span class="line"><span class="ln" aria-hidden="true">2</span><span style="color:var(--shiki-foreground)">sum_type</span></span>
+<span class="line"><span class="ln" aria-hidden="true">3</span><span style="color:var(--shiki-token-comment)">----------</span></span>
+<span class="line"><span class="ln" aria-hidden="true">4</span><span style="color:var(--shiki-foreground)"> geom</span></span>
+<span class="line"><span class="ln" aria-hidden="true">5</span><span style="color:var(--shiki-foreground)">(</span><span style="color:var(--shiki-token-constant)">1</span><span style="color:var(--shiki-token-keyword)"> row</span><span style="color:var(--shiki-foreground)">)</span></span></code></pre></figure>
+<p>Now we have a type we can do something with:</p>
+<figure class="code"><figcaption class="ch"><span class="lang">postgresql</span><button type="button" data-copy>copy</button></figcaption>
+<pre class="shiki css-variables"><code><span class="line"><span class="ln" aria-hidden="true">1</span><span style="color:var(--shiki-foreground)">omni_types</span><span style="color:var(--shiki-token-keyword)">=</span><span style="color:var(--shiki-foreground)"># </span><span style="color:var(--shiki-token-keyword)">create</span><span style="color:var(--shiki-token-keyword)"> table</span><span style="color:var(--shiki-foreground)"> geoms </span><span style="color:var(--shiki-token-keyword)">as</span><span style="color:var(--shiki-token-keyword)"> values</span><span style="color:var(--shiki-foreground)"> </span></span>
+<span class="line"><span class="ln" aria-hidden="true">2</span><span style="color:var(--shiki-foreground)">(</span><span style="color:var(--shiki-token-string-expression)">'point(10,10)'</span><span style="color:var(--shiki-foreground)">::geom),(</span><span style="color:var(--shiki-token-string-expression)">'circle(&#x3C;10,10,10>)'</span><span style="color:var(--shiki-foreground)">::geom),(</span><span style="color:var(--shiki-token-string-expression)">'circle(&#x3C;20,10,10>)'</span><span style="color:var(--shiki-foreground)">::geom);</span></span>
+<span class="line"><span class="ln" aria-hidden="true">3</span><span style="color:var(--shiki-token-keyword)">SELECT</span><span style="color:var(--shiki-token-constant)"> 3</span></span></code></pre></figure>
+<p>Let's select all shapes that have an X coordinate set to 10:</p>
+<figure class="code"><figcaption class="ch"><span class="lang">postgresql</span><button type="button" data-copy>copy</button></figcaption>
+<pre class="shiki css-variables"><code><span class="line"><span class="ln" aria-hidden="true">1</span><span style="color:var(--shiki-foreground)">omni_types</span><span style="color:var(--shiki-token-keyword)">=</span><span style="color:var(--shiki-foreground)"># </span><span style="color:var(--shiki-token-keyword)">select</span><span style="color:var(--shiki-token-keyword)"> *</span><span style="color:var(--shiki-token-keyword)"> from</span><span style="color:var(--shiki-foreground)"> geoms </span><span style="color:var(--shiki-token-keyword)">where</span></span>
+<span class="line"><span class="ln" aria-hidden="true">2</span><span style="color:var(--shiki-foreground)">                  (omni_types.variant(column1) </span><span style="color:var(--shiki-token-keyword)">=</span><span style="color:var(--shiki-token-string-expression)"> 'point'</span><span style="color:var(--shiki-foreground)">::regtype </span></span>
+<span class="line"><span class="ln" aria-hidden="true">3</span><span style="color:var(--shiki-token-keyword)">                   and</span><span style="color:var(--shiki-foreground)"> (column1::</span><span style="color:var(--shiki-token-keyword)">point</span><span style="color:var(--shiki-foreground)">)[0] </span><span style="color:var(--shiki-token-keyword)">=</span><span style="color:var(--shiki-token-constant)"> 10</span><span style="color:var(--shiki-foreground)">) </span></span>
+<span class="line"><span class="ln" aria-hidden="true">4</span><span style="color:var(--shiki-token-keyword)">               or</span><span style="color:var(--shiki-foreground)"> (omni_types.variant(column1) </span><span style="color:var(--shiki-token-keyword)">=</span><span style="color:var(--shiki-token-string-expression)"> 'circle'</span><span style="color:var(--shiki-foreground)">::regtype </span></span>
+<span class="line"><span class="ln" aria-hidden="true">5</span><span style="color:var(--shiki-token-keyword)">                   and</span><span style="color:var(--shiki-foreground)"> (</span><span style="color:var(--shiki-token-keyword)">point</span><span style="color:var(--shiki-foreground)">(column1::</span><span style="color:var(--shiki-token-keyword)">circle</span><span style="color:var(--shiki-foreground)">))[0] </span><span style="color:var(--shiki-token-keyword)">=</span><span style="color:var(--shiki-token-constant)"> 10</span><span style="color:var(--shiki-foreground)">);</span></span>
+<span class="line"><span class="ln" aria-hidden="true">6</span><span style="color:var(--shiki-foreground)">       column1</span></span>
+<span class="line"><span class="ln" aria-hidden="true">7</span><span style="color:var(--shiki-token-comment)">----------------------</span></span>
+<span class="line"><span class="ln" aria-hidden="true">8</span><span style="color:var(--shiki-token-keyword)"> point</span><span style="color:var(--shiki-foreground)">((</span><span style="color:var(--shiki-token-constant)">10</span><span style="color:var(--shiki-foreground)">,</span><span style="color:var(--shiki-token-constant)">10</span><span style="color:var(--shiki-foreground)">))</span></span>
+<span class="line"><span class="ln" aria-hidden="true">9</span><span style="color:var(--shiki-token-keyword)"> circle</span><span style="color:var(--shiki-foreground)">(</span><span style="color:var(--shiki-token-keyword)">&#x3C;</span><span style="color:var(--shiki-foreground)">(</span><span style="color:var(--shiki-token-constant)">10</span><span style="color:var(--shiki-foreground)">,</span><span style="color:var(--shiki-token-constant)">10</span><span style="color:var(--shiki-foreground)">),</span><span style="color:var(--shiki-token-constant)">10</span><span style="color:var(--shiki-token-keyword)">></span><span style="color:var(--shiki-foreground)">)</span></span>
+<span class="line"><span class="ln" aria-hidden="true">10</span><span style="color:var(--shiki-foreground)">(</span><span style="color:var(--shiki-token-constant)">2</span><span style="color:var(--shiki-token-keyword)"> rows</span><span style="color:var(--shiki-foreground)">)</span></span></code></pre></figure>
+<p>There are still a few issues to work out (<a href="https://github.com/omnigres/omnigres/pull/149"><s>adding binary send/recv support</s></a>,
+<a href="https://github.com/omnigres/omnigres/pull/145"><s>ensuring proper TOAST support</s></a>, convenience API, etc.) but I think it's a worthy prototype to play with.</p>
+<h2 id="try-it-out" tabindex="-1">Try it out<a class="anchor" href="#try-it-out" aria-label="Link to this section">#</a></h2>
+<p>You can try it out as part of latest Omnigres builds:</p>
+<figure class="code"><figcaption class="ch"><span class="lang">shell</span><button type="button" data-copy>copy</button></figcaption>
+<pre class="shiki css-variables"><code><span class="line"><span class="ln" aria-hidden="true">1</span><span style="color:var(--shiki-token-function)">docker</span><span style="color:var(--shiki-token-string)"> volume</span><span style="color:var(--shiki-token-string)"> create</span><span style="color:var(--shiki-token-string)"> omnigres</span></span>
+<span class="line"><span class="ln" aria-hidden="true">2</span><span style="color:var(--shiki-token-function)">docker</span><span style="color:var(--shiki-token-string)"> run</span><span style="color:var(--shiki-token-string)"> --name</span><span style="color:var(--shiki-token-string)"> omnigres</span><span style="color:var(--shiki-token-string)"> -e</span><span style="color:var(--shiki-token-string)"> POSTGRES_PASSWORD=omnigres</span><span style="color:var(--shiki-token-string)"> -e</span><span style="color:var(--shiki-token-string)"> POSTGRES_USER=omnigres</span><span style="color:var(--shiki-foreground)"> \</span></span>
+<span class="line"><span class="ln" aria-hidden="true">3</span><span style="color:var(--shiki-token-string)">                           -e</span><span style="color:var(--shiki-token-string)"> POSTGRES_DB=omnigres</span><span style="color:var(--shiki-token-string)"> --mount</span><span style="color:var(--shiki-token-string)"> source=omnigres,target=/var/lib/postgresql/data</span><span style="color:var(--shiki-foreground)"> \</span></span>
+<span class="line"><span class="ln" aria-hidden="true">4</span><span style="color:var(--shiki-token-string)">           -p</span><span style="color:var(--shiki-token-string)"> 5432:5432</span><span style="color:var(--shiki-token-string)"> -p</span><span style="color:var(--shiki-token-string)"> 8080:8080</span><span style="color:var(--shiki-token-string)"> --rm</span><span style="color:var(--shiki-token-string)"> ghcr.io/omnigres/omnigres-slim:latest</span></span>
+<span class="line"><span class="ln" aria-hidden="true">5</span><span style="color:var(--shiki-token-comment)"># Now you can connect to it:</span></span>
+<span class="line"><span class="ln" aria-hidden="true">6</span><span style="color:var(--shiki-token-function)">psql</span><span style="color:var(--shiki-token-string)"> -h</span><span style="color:var(--shiki-token-string)"> localhost</span><span style="color:var(--shiki-token-string)"> -p</span><span style="color:var(--shiki-token-constant)"> 5432</span><span style="color:var(--shiki-token-string)"> -U</span><span style="color:var(--shiki-token-string)"> omnigres</span><span style="color:var(--shiki-token-string)"> omnigres</span><span style="color:var(--shiki-token-comment)"> # password is `omnigres`</span></span></code></pre></figure>
+<p>In <code>psql</code>:</p>
+<figure class="code"><figcaption class="ch"><span class="lang">postgresql</span><button type="button" data-copy>copy</button></figcaption>
+<pre class="shiki css-variables"><code><span class="line"><span class="ln" aria-hidden="true">1</span><span style="color:var(--shiki-foreground)">omnigres</span><span style="color:var(--shiki-token-keyword)">=</span><span style="color:var(--shiki-foreground)"># </span><span style="color:var(--shiki-token-keyword)">create</span><span style="color:var(--shiki-foreground)"> extension omni_types;</span></span></code></pre></figure>
+<p>You can read more about using the sum types in the <a href="https://docs.omnigres.org/omni_types/sum_types/">documentation</a>.</p>
+<section class="footnotes" aria-label="Footnotes"><h2>footnotes</h2><ol>
+<li id="fn1"><p>PostGIS has its own <code>geometry</code> type but I am using this is an example. <a class="back" href="#fnref1" aria-label="Back to reference 1">↩</a></p>
+</li>
+<li id="fn2"><p><code>omni_types</code> extension in Omnigres <a class="back" href="#fnref2" aria-label="Back to reference 2">↩</a></p>
+</li>
+</ol></section>
+]]></content:encoded>
+    </item>
+    <item>
+      <title>PL/Rust Just Shipped: Easy Way to Try It Out</title>
+      <link>https://yrashk.com/blog/2023/04/05/plrust-just-shipped-easy-way-to-try-it-out/</link>
+      <guid isPermaLink="true">https://yrashk.com/blog/2023/04/05/plrust-just-shipped-easy-way-to-try-it-out/</guid>
+      <pubDate>Wed, 05 Apr 2023 00:00:00 GMT</pubDate>
+      <dc:creator>Yurii Rashkovskii</dc:creator>
+      <category>Postgres</category>
+      <category>Omnigres</category>
+      <category>Rust</category>
+      <category>Docker</category>
+      <category>containers</category>
+      <description>As a Rust enthusiast and a contributor to a sister project I am stoked about the release of PL/Rust 1.0.0 that was just announced.</description>
+      <content:encoded><![CDATA[<p>As a Rust enthusiast and a contributor to a <a href="https://github.com/tcdi/pgx">sister
+project</a> I am stoked about the release of PL/Rust
+1.0.0 that was <a href="https://github.com/tcdi/plrust/releases/tag/v1.0.0">just announced</a>.</p>
+<p>However, its setup instructions are rather long and it takes time to build it. So I
+took the time to prepare a build for you to try.</p>
+<p>As <a href="https://github.com/omnigres/omnigres">Omnigres</a> is intended to be an
+application platform, support for multiple languages is important. Hence I
+decided to spend the day making sure PL/Rust is shipped with Omnigres. Omnigres
+container image is simply a Postgres image with Omnigres extensions (and now
+PL/Rust, too.) provisioned.</p>
+<h2 id="try-it-out-now" tabindex="-1">Try it out now<a class="anchor" href="#try-it-out-now" aria-label="Link to this section">#</a></h2>
+<p>You can start Omnigres with the following commands:</p>
+<figure class="code"><figcaption class="ch"><span class="lang">shell</span><button type="button" data-copy>copy</button></figcaption>
+<pre class="shiki css-variables"><code><span class="line"><span class="ln" aria-hidden="true">1</span><span style="color:var(--shiki-token-function)">docker</span><span style="color:var(--shiki-token-string)"> volume</span><span style="color:var(--shiki-token-string)"> create</span><span style="color:var(--shiki-token-string)"> omnigres</span></span>
+<span class="line"><span class="ln" aria-hidden="true">2</span><span style="color:var(--shiki-token-function)">docker</span><span style="color:var(--shiki-token-string)"> run</span><span style="color:var(--shiki-token-string)"> --name</span><span style="color:var(--shiki-token-string)"> omnigres</span><span style="color:var(--shiki-token-string)"> -e</span><span style="color:var(--shiki-token-string)"> POSTGRES_PASSWORD=omnigres</span><span style="color:var(--shiki-token-string)"> -e</span><span style="color:var(--shiki-token-string)"> POSTGRES_USER=omnigres</span><span style="color:var(--shiki-foreground)"> \</span></span>
+<span class="line"><span class="ln" aria-hidden="true">3</span><span style="color:var(--shiki-token-string)">                           -e</span><span style="color:var(--shiki-token-string)"> POSTGRES_DB=omnigres</span><span style="color:var(--shiki-token-string)"> --mount</span><span style="color:var(--shiki-token-string)"> source=omnigres,target=/var/lib/postgresql/data</span><span style="color:var(--shiki-foreground)"> \</span></span>
+<span class="line"><span class="ln" aria-hidden="true">4</span><span style="color:var(--shiki-token-string)">           -p</span><span style="color:var(--shiki-token-string)"> 5432:5432</span><span style="color:var(--shiki-token-string)"> -p</span><span style="color:var(--shiki-token-string)"> 8080:8080</span><span style="color:var(--shiki-token-string)"> --rm</span><span style="color:var(--shiki-token-string)"> ghcr.io/omnigres/omnigres:latest</span></span>
+<span class="line"><span class="ln" aria-hidden="true">5</span><span style="color:var(--shiki-token-comment)"># Now you can connect to it:</span></span>
+<span class="line"><span class="ln" aria-hidden="true">6</span><span style="color:var(--shiki-token-function)">psql</span><span style="color:var(--shiki-token-string)"> -h</span><span style="color:var(--shiki-token-string)"> localhost</span><span style="color:var(--shiki-token-string)"> -p</span><span style="color:var(--shiki-token-constant)"> 5432</span><span style="color:var(--shiki-token-string)"> -U</span><span style="color:var(--shiki-token-string)"> omnigres</span><span style="color:var(--shiki-token-string)"> omnigres</span><span style="color:var(--shiki-token-comment)"> # password is `omnigres`</span></span></code></pre></figure>
+<p>That's it, now you can try this:</p>
+<figure class="code"><figcaption class="ch"><span class="lang">postgresql</span><button type="button" data-copy>copy</button></figcaption>
+<pre class="shiki css-variables"><code><span class="line"><span class="ln" aria-hidden="true">1</span><span style="color:var(--shiki-token-keyword)">create</span><span style="color:var(--shiki-foreground)"> extension plrust;</span></span>
+<span class="line"><span class="ln" aria-hidden="true">2</span></span>
+<span class="line"><span class="ln" aria-hidden="true">3</span><span style="color:var(--shiki-token-keyword)">create</span><span style="color:var(--shiki-token-keyword)"> function</span><span style="color:var(--shiki-token-function)"> test</span><span style="color:var(--shiki-foreground)">() </span><span style="color:var(--shiki-token-keyword)">returns</span><span style="color:var(--shiki-foreground)"> bool </span><span style="color:var(--shiki-token-keyword)">language</span><span style="color:var(--shiki-foreground)"> plrust </span><span style="color:var(--shiki-token-keyword)">as</span><span style="color:var(--shiki-foreground)"> $$ Ok(Some(true)) $$;</span></span>
+<span class="line"><span class="ln" aria-hidden="true">4</span></span>
+<span class="line"><span class="ln" aria-hidden="true">5</span><span style="color:var(--shiki-token-keyword)">select</span><span style="color:var(--shiki-foreground)"> test(); </span><span style="color:var(--shiki-token-comment)">-- => t</span></span></code></pre></figure>
+<p>It works! The sky is the limit now 😄 🦀</p>
+<h2 id="what-have-i-learned" tabindex="-1">What Have I Learned?<a class="anchor" href="#what-have-i-learned" aria-label="Link to this section">#</a></h2>
+<p>I got up at 5AM today to make this happen. I am writing this past 5PM. It's been a long day, and I've made a lot of mistakes
+on the way, and figured out some gotchas.</p>
+<p>The amount of <strong>space</strong> PL/Rust takes is rather not insignificant. I've measured about an <em>8Gb</em> increase of the image size. While
+it is not the end of the world for standard cases, this is something to be aware of <sup class="fn" id="fnref1"><a href="#fn1" aria-label="Footnote 1">1</a></sup>. I've been told that there are some ideas on how
+to improve the space usage but it'll never be really slim (Rust compiler itself is not small.)</p>
+<p>If you're building PL/Rust in environments like <strong>containers</strong>, <a href="https://github.com/tcdi/plrust/issues/278">make sure <strong><code>USER</code></strong> environment variable is set</a>.
+It'll fail to build if it is not.</p>
+<p>It also seems to be necessary to have at least <strong>16GB RAM</strong> to build it. Not sure about memory requirements in runtime just yet.</p>
+<p><strong>First-time function compilation</strong> takes an awfully long time. However, one can prime it ahead of time by compiling a test function in a throwaway database.
+That's what I did in the image above.</p>
+<hr>
+<p>It took a while to make sure the container works exactly how I want it to, but it was worth it!</p>
+<section class="footnotes" aria-label="Footnotes"><h2>footnotes</h2><ol>
+<li id="fn1"><p>For those not needing the bulk (and Rust), I've added the <strong><code>omnigres-slim</code></strong> version of the image. <a class="back" href="#fnref1" aria-label="Back to reference 1">↩</a></p>
+</li>
+</ol></section>
+]]></content:encoded>
+    </item>
+    <item>
+      <title>Make Postgres an Application Server, Gamified</title>
+      <link>https://yrashk.com/blog/2023/04/04/make-postgres-an-application-server-gamified/</link>
+      <guid isPermaLink="true">https://yrashk.com/blog/2023/04/04/make-postgres-an-application-server-gamified/</guid>
+      <pubDate>Tue, 04 Apr 2023 00:00:00 GMT</pubDate>
+      <dc:creator>Yurii Rashkovskii</dc:creator>
+      <category>Postgres</category>
+      <category>Omnigres</category>
+      <category>contest</category>
+      <description>Have you ever wondered if Postgres can be a fully self-sufficient platform for your application? Learn how to make it become an application server and win some prizes, too!</description>
+      <content:encoded><![CDATA[<p>Have you ever wondered if Postgres can be a fully self-sufficient platform for your
+application? Learn how to make it become an application server and win some prizes, too!</p>
+<h2 id="intro" tabindex="-1">Intro<a class="anchor" href="#intro" aria-label="Link to this section">#</a></h2>
+<p><a href="https://github.com/omnigres/omnigres">Omnigres</a> is a project with the goal of making Postgres
+a complete platform for developing and deploying applications. It enables colocating your business
+logic with the data and exploit the benefits of such an approach. It's very early but it is already
+showing promise and is ready for some <em>early adopters</em>!</p>
+<p>The focus of this first, <strong>informal contest</strong> is to explore its HTTP server
+capabilities. With <em>omni_httpd</em> one can serve HTTP requests using SQL queries.</p>
+<div class="adm question" role="note"><span class="ic" aria-hidden="true">?</span><span class="t">What's the deadline?</span><div class="b">
+<p>It will end May 1, 2023 unless extended further.</p>
+</div></div>
+<h2 id="brief" tabindex="-1">Brief<a class="anchor" href="#brief" aria-label="Link to this section">#</a></h2>
+<p>In its <a href="https://docs.omnigres.org/">documentation</a> there is an example <a href="https://docs.omnigres.org/examples/motd/">MOTD service</a>
+that is barely scratching the surface of what's possible. This is where we start. You can find the copy of the code below, too.</p>
+<details class="adm example"><summary><span class="ic" aria-hidden="true">#</span><span class="t">MOTD service code</span></summary><div class="b">
+<figure class="code"><figcaption class="ch"><span class="lang">postgresql</span><button type="button" data-copy>copy</button></figcaption>
+<pre class="shiki css-variables"><code><span class="line"><span class="ln" aria-hidden="true">1</span><span style="color:var(--shiki-token-comment)">-- MOTDs stored here</span></span>
+<span class="line"><span class="ln" aria-hidden="true">2</span><span style="color:var(--shiki-token-keyword)">create</span><span style="color:var(--shiki-token-keyword)"> table</span><span style="color:var(--shiki-token-function)"> if</span><span style="color:var(--shiki-token-keyword)"> not</span><span style="color:var(--shiki-token-keyword)"> exists</span><span style="color:var(--shiki-foreground)"> motd</span></span>
+<span class="line"><span class="ln" aria-hidden="true">3</span><span style="color:var(--shiki-foreground)">(</span></span>
+<span class="line"><span class="ln" aria-hidden="true">4</span><span style="color:var(--shiki-foreground)">    id        </span><span style="color:var(--shiki-token-keyword)">int</span><span style="color:var(--shiki-token-keyword)"> primary key</span><span style="color:var(--shiki-token-keyword)"> generated</span><span style="color:var(--shiki-token-keyword)"> always</span><span style="color:var(--shiki-token-keyword)"> as</span><span style="color:var(--shiki-token-keyword)"> identity</span><span style="color:var(--shiki-foreground)">,</span></span>
+<span class="line"><span class="ln" aria-hidden="true">5</span><span style="color:var(--shiki-foreground)">    content   </span><span style="color:var(--shiki-token-keyword)">text</span><span style="color:var(--shiki-foreground)">,</span></span>
+<span class="line"><span class="ln" aria-hidden="true">6</span><span style="color:var(--shiki-foreground)">    posted_at </span><span style="color:var(--shiki-token-keyword)">timestamp</span><span style="color:var(--shiki-token-keyword)"> default</span><span style="color:var(--shiki-token-keyword)"> now</span><span style="color:var(--shiki-foreground)">()</span></span>
+<span class="line"><span class="ln" aria-hidden="true">7</span><span style="color:var(--shiki-foreground)">);</span></span>
+<span class="line"><span class="ln" aria-hidden="true">8</span></span>
+<span class="line"><span class="ln" aria-hidden="true">9</span><span style="color:var(--shiki-token-comment)">-- Shows last MOTD</span></span>
+<span class="line"><span class="ln" aria-hidden="true">10</span><span style="color:var(--shiki-token-keyword)">create or replace</span><span style="color:var(--shiki-token-keyword)"> function</span><span style="color:var(--shiki-token-function)"> show_motd</span><span style="color:var(--shiki-foreground)">() </span><span style="color:var(--shiki-token-keyword)">returns</span><span style="color:var(--shiki-foreground)"> setof omni_httpd.http_response </span><span style="color:var(--shiki-token-keyword)">as</span></span>
+<span class="line"><span class="ln" aria-hidden="true">11</span><span style="color:var(--shiki-foreground)">$$</span></span>
+<span class="line"><span class="ln" aria-hidden="true">12</span><span style="color:var(--shiki-token-keyword)">select</span></span>
+<span class="line"><span class="ln" aria-hidden="true">13</span><span style="color:var(--shiki-foreground)">    omni_httpd.http_response(</span><span style="color:var(--shiki-token-string-expression)">'Posted at '</span><span style="color:var(--shiki-token-keyword)"> ||</span><span style="color:var(--shiki-foreground)"> posted_at </span><span style="color:var(--shiki-token-keyword)">||</span><span style="color:var(--shiki-foreground)"> E</span><span style="color:var(--shiki-token-string-expression)">'\n'</span><span style="color:var(--shiki-token-keyword)"> ||</span><span style="color:var(--shiki-foreground)"> content)</span></span>
+<span class="line"><span class="ln" aria-hidden="true">14</span><span style="color:var(--shiki-token-keyword)">from</span></span>
+<span class="line"><span class="ln" aria-hidden="true">15</span><span style="color:var(--shiki-foreground)">    motd</span></span>
+<span class="line"><span class="ln" aria-hidden="true">16</span><span style="color:var(--shiki-token-keyword)">order by</span></span>
+<span class="line"><span class="ln" aria-hidden="true">17</span><span style="color:var(--shiki-foreground)">    posted_at </span><span style="color:var(--shiki-token-keyword)">desc</span></span>
+<span class="line"><span class="ln" aria-hidden="true">18</span><span style="color:var(--shiki-token-keyword)">limit</span><span style="color:var(--shiki-token-constant)"> 1</span><span style="color:var(--shiki-foreground)">;</span></span>
+<span class="line"><span class="ln" aria-hidden="true">19</span><span style="color:var(--shiki-foreground)">$$ </span><span style="color:var(--shiki-token-keyword)">language</span><span style="color:var(--shiki-token-keyword)"> sql</span><span style="color:var(--shiki-foreground)">;</span></span>
+<span class="line"><span class="ln" aria-hidden="true">20</span></span>
+<span class="line"><span class="ln" aria-hidden="true">21</span><span style="color:var(--shiki-token-comment)">-- Shows when there are no MOTDs</span></span>
+<span class="line"><span class="ln" aria-hidden="true">22</span><span style="color:var(--shiki-token-keyword)">create or replace</span><span style="color:var(--shiki-token-keyword)"> function</span><span style="color:var(--shiki-token-function)"> no_motd</span><span style="color:var(--shiki-foreground)">() </span><span style="color:var(--shiki-token-keyword)">returns</span><span style="color:var(--shiki-foreground)"> setof omni_httpd.http_response </span><span style="color:var(--shiki-token-keyword)">as</span></span>
+<span class="line"><span class="ln" aria-hidden="true">23</span><span style="color:var(--shiki-foreground)">$$</span></span>
+<span class="line"><span class="ln" aria-hidden="true">24</span><span style="color:var(--shiki-token-keyword)">select</span><span style="color:var(--shiki-foreground)"> omni_httpd.http_response(</span><span style="color:var(--shiki-token-string-expression)">'No MOTD'</span><span style="color:var(--shiki-foreground)">);</span></span>
+<span class="line"><span class="ln" aria-hidden="true">25</span><span style="color:var(--shiki-foreground)">$$</span></span>
+<span class="line"><span class="ln" aria-hidden="true">26</span><span style="color:var(--shiki-token-keyword)">    language</span><span style="color:var(--shiki-token-keyword)"> sql</span><span style="color:var(--shiki-foreground)">;</span></span>
+<span class="line"><span class="ln" aria-hidden="true">27</span></span>
+<span class="line"><span class="ln" aria-hidden="true">28</span><span style="color:var(--shiki-token-comment)">-- Creates a new MOTD </span></span>
+<span class="line"><span class="ln" aria-hidden="true">29</span><span style="color:var(--shiki-token-keyword)">create or replace</span><span style="color:var(--shiki-token-keyword)"> function</span><span style="color:var(--shiki-token-function)"> update_motd</span><span style="color:var(--shiki-foreground)">(request omni_httpd.http_request) </span><span style="color:var(--shiki-token-keyword)">returns</span><span style="color:var(--shiki-foreground)"> omni_httpd.http_response </span><span style="color:var(--shiki-token-keyword)">as</span></span>
+<span class="line"><span class="ln" aria-hidden="true">30</span><span style="color:var(--shiki-foreground)">$$</span></span>
+<span class="line"><span class="ln" aria-hidden="true">31</span><span style="color:var(--shiki-token-keyword)">insert</span></span>
+<span class="line"><span class="ln" aria-hidden="true">32</span><span style="color:var(--shiki-token-keyword)">into</span></span>
+<span class="line"><span class="ln" aria-hidden="true">33</span><span style="color:var(--shiki-foreground)">    motd (content)</span></span>
+<span class="line"><span class="ln" aria-hidden="true">34</span><span style="color:var(--shiki-token-keyword)">values</span></span>
+<span class="line"><span class="ln" aria-hidden="true">35</span><span style="color:var(--shiki-foreground)">    (convert_from(request.body, </span><span style="color:var(--shiki-token-string-expression)">'UTF8'</span><span style="color:var(--shiki-foreground)">))</span></span>
+<span class="line"><span class="ln" aria-hidden="true">36</span><span style="color:var(--shiki-foreground)">returning omni_httpd.http_response(</span><span style="color:var(--shiki-token-keyword)">status</span><span style="color:var(--shiki-token-keyword)"> =></span><span style="color:var(--shiki-token-constant)"> 201</span><span style="color:var(--shiki-foreground)">);</span></span>
+<span class="line"><span class="ln" aria-hidden="true">37</span><span style="color:var(--shiki-foreground)">$$</span></span>
+<span class="line"><span class="ln" aria-hidden="true">38</span><span style="color:var(--shiki-token-keyword)">    language</span><span style="color:var(--shiki-token-keyword)"> sql</span><span style="color:var(--shiki-foreground)">;</span></span>
+<span class="line"><span class="ln" aria-hidden="true">39</span></span>
+<span class="line"><span class="ln" aria-hidden="true">40</span><span style="color:var(--shiki-token-comment)">-- Handlers</span></span>
+<span class="line"><span class="ln" aria-hidden="true">41</span><span style="color:var(--shiki-token-keyword)">update</span><span style="color:var(--shiki-foreground)"> omni_httpd.handlers</span></span>
+<span class="line"><span class="ln" aria-hidden="true">42</span><span style="color:var(--shiki-token-keyword)">set</span></span>
+<span class="line"><span class="ln" aria-hidden="true">43</span><span style="color:var(--shiki-foreground)">    query </span><span style="color:var(--shiki-token-keyword)">=</span><span style="color:var(--shiki-foreground)"> (</span><span style="color:var(--shiki-token-keyword)">select</span></span>
+<span class="line"><span class="ln" aria-hidden="true">44</span><span style="color:var(--shiki-foreground)">                 omni_httpd.cascading_query(</span><span style="color:var(--shiki-token-keyword)">name</span><span style="color:var(--shiki-foreground)">, query </span><span style="color:var(--shiki-token-keyword)">order by</span><span style="color:var(--shiki-token-keyword)"> priority desc</span><span style="color:var(--shiki-token-keyword)"> nulls</span><span style="color:var(--shiki-token-keyword)"> last</span><span style="color:var(--shiki-foreground)">)</span></span>
+<span class="line"><span class="ln" aria-hidden="true">45</span><span style="color:var(--shiki-token-keyword)">             from</span></span>
+<span class="line"><span class="ln" aria-hidden="true">46</span><span style="color:var(--shiki-foreground)">                 (</span><span style="color:var(--shiki-token-keyword)">values</span></span>
+<span class="line"><span class="ln" aria-hidden="true">47</span><span style="color:var(--shiki-token-comment)">                      -- GET</span></span>
+<span class="line"><span class="ln" aria-hidden="true">48</span><span style="color:var(--shiki-foreground)">                      (</span><span style="color:var(--shiki-token-string-expression)">'show'</span><span style="color:var(--shiki-foreground)">, $$</span><span style="color:var(--shiki-token-keyword)">select</span><span style="color:var(--shiki-foreground)"> show_motd() </span><span style="color:var(--shiki-token-keyword)">from</span><span style="color:var(--shiki-foreground)"> request </span><span style="color:var(--shiki-token-keyword)">where</span><span style="color:var(--shiki-foreground)"> request.method </span><span style="color:var(--shiki-token-keyword)">=</span><span style="color:var(--shiki-token-string-expression)"> 'GET'</span><span style="color:var(--shiki-foreground)">$$, </span><span style="color:var(--shiki-token-constant)">1</span><span style="color:var(--shiki-foreground)">),</span></span>
+<span class="line"><span class="ln" aria-hidden="true">49</span><span style="color:var(--shiki-token-comment)">                      -- POST</span></span>
+<span class="line"><span class="ln" aria-hidden="true">50</span><span style="color:var(--shiki-foreground)">                      (</span><span style="color:var(--shiki-token-string-expression)">'update'</span><span style="color:var(--shiki-foreground)">, $$</span><span style="color:var(--shiki-token-keyword)">select</span><span style="color:var(--shiki-foreground)"> update_motd(request.</span><span style="color:var(--shiki-token-keyword)">*</span><span style="color:var(--shiki-foreground)">) </span><span style="color:var(--shiki-token-keyword)">from</span><span style="color:var(--shiki-foreground)"> request </span><span style="color:var(--shiki-token-keyword)">where</span><span style="color:var(--shiki-foreground)"> request.method </span><span style="color:var(--shiki-token-keyword)">=</span><span style="color:var(--shiki-token-string-expression)"> 'POST'</span><span style="color:var(--shiki-foreground)">$$, </span><span style="color:var(--shiki-token-constant)">1</span><span style="color:var(--shiki-foreground)">),</span></span>
+<span class="line"><span class="ln" aria-hidden="true">51</span><span style="color:var(--shiki-token-comment)">                      -- No MOTDs</span></span>
+<span class="line"><span class="ln" aria-hidden="true">52</span><span style="color:var(--shiki-foreground)">                      (</span><span style="color:var(--shiki-token-string-expression)">'fallback'</span><span style="color:var(--shiki-foreground)">, $$</span><span style="color:var(--shiki-token-keyword)">select</span><span style="color:var(--shiki-foreground)"> no_motd() </span><span style="color:var(--shiki-token-keyword)">from</span><span style="color:var(--shiki-foreground)"> request </span><span style="color:var(--shiki-token-keyword)">where</span><span style="color:var(--shiki-foreground)"> request.method </span><span style="color:var(--shiki-token-keyword)">=</span><span style="color:var(--shiki-token-string-expression)"> 'GET'</span><span style="color:var(--shiki-foreground)">$$,</span></span>
+<span class="line"><span class="ln" aria-hidden="true">53</span><span style="color:var(--shiki-token-constant)">                       0</span><span style="color:var(--shiki-foreground)">)) handlers(</span><span style="color:var(--shiki-token-keyword)">name</span><span style="color:var(--shiki-foreground)">, query, priority));</span></span></code></pre></figure>
+</div></details>
+<p>Your objective is to solve one or more of the following challenges:</p>
+<h2 id="challenges" tabindex="-1">Challenges<a class="anchor" href="#challenges" aria-label="Link to this section">#</a></h2>
+<div class="adm tip" role="note"><span class="ic" aria-hidden="true">+</span><span class="t">Tip</span><div class="b">
+<p>Be the first one to solve either challenge to win a prize.</p>
+</div></div>
+<h3 id="1-make-it-serve-html-and-json" tabindex="-1">#1: Make it Serve HTML and JSON<a class="anchor" href="#1-make-it-serve-html-and-json" aria-label="Link to this section">#</a></h3>
+<p>Depending on the <code>Accept</code> header (and/or query path/string), make the service render HTML or JSON for a MOTD.</p>
+<p>For example:</p>
+<figure class="code"><figcaption class="ch"><span class="lang">text</span><button type="button" data-copy>copy</button></figcaption>
+<pre class="shiki css-variables"><code><span class="line"><span class="ln" aria-hidden="true">1</span><span>$ curl --header "Accept: application/json" http://localhost:8080</span></span>
+<span class="line"><span class="ln" aria-hidden="true">2</span><span>{"content": "...", "posted_at": "..."}</span></span></code></pre></figure>
+<details class="adm success"><summary><span class="ic" aria-hidden="true">✓</span><span class="t">First prize claimed</span></summary><div class="b">
+<p><a href="https://github.com/yrashk/yrashk.github.io/discussions/1#discussioncomment-5529719">@ggaughan solved it first</a>. You can still
+get the Finisher's prize.</p>
+</div></details>
+<h3 id="2-authorized-user-updates" tabindex="-1">#2: Authorized User Updates<a class="anchor" href="#2-authorized-user-updates" aria-label="Link to this section">#</a></h3>
+<p>Make it possible to update MOTD only by authorized users. It's up to you how you define &quot;authorized&quot; but be reasonable!</p>
+<details class="adm success"><summary><span class="ic" aria-hidden="true">✓</span><span class="t">First prize claimed</span></summary><div class="b">
+<p><a href="https://github.com/yrashk/yrashk.github.io/discussions/1#discussioncomment-5542003">@kartikynwa solved it first</a>. You can still
+get the Finisher's prize.</p>
+</div></details>
+<h3 id="3-separate-rooms" tabindex="-1">#3: Separate Rooms<a class="anchor" href="#3-separate-rooms" aria-label="Link to this section">#</a></h3>
+<p>Instead of having one global MOTD, allow updating MOTD by &quot;rooms&quot; (room name can be derived from the path or the query string).</p>
+<p>For example:</p>
+<figure class="code"><figcaption class="ch"><span class="lang">text</span><button type="button" data-copy>copy</button></figcaption>
+<pre class="shiki css-variables"><code><span class="line"><span class="ln" aria-hidden="true">1</span><span>POST /omnigres "Check out Omnigres" # => HTTP/1.1 201 OK</span></span>
+<span class="line"><span class="ln" aria-hidden="true">2</span><span>POST /postgres "We're all waiting for Postgres 16" # => HTTP/1.1 201 OK</span></span>
+<span class="line"><span class="ln" aria-hidden="true">3</span><span></span></span>
+<span class="line"><span class="ln" aria-hidden="true">4</span><span>GET /postgres # => HTTP/1.1 200 OK</span></span>
+<span class="line"><span class="ln" aria-hidden="true">5</span><span>Posted at 2023-04-04 08:01:23:13.617115</span></span>
+<span class="line"><span class="ln" aria-hidden="true">6</span><span>We're all waiting for Postgres 16</span></span>
+<span class="line"><span class="ln" aria-hidden="true">7</span><span></span></span>
+<span class="line"><span class="ln" aria-hidden="true">8</span><span>GET /postgres # => HTTP/1.1 200 OK</span></span>
+<span class="line"><span class="ln" aria-hidden="true">9</span><span>Posted at 2023-04-04 08:01:23:13.317115</span></span>
+<span class="line"><span class="ln" aria-hidden="true">10</span><span>Check out Omnigres</span></span></code></pre></figure>
+<details class="adm success"><summary><span class="ic" aria-hidden="true">✓</span><span class="t">First prize claimed</span></summary><div class="b">
+<p><a href="https://github.com/yrashk/yrashk.github.io/discussions/1#discussioncomment-5531309">@ggaughan solved it first</a>. You can still
+get the Finisher's prize.</p>
+</div></details>
+<h3 id="surprise-challenge" tabindex="-1">Surprise Challenge<a class="anchor" href="#surprise-challenge" aria-label="Link to this section">#</a></h3>
+<p>Build something not listed in the above challenges and make it awesome. First three entries win!</p>
+<h2 id="where-to-learn" tabindex="-1">Where to Learn?<a class="anchor" href="#where-to-learn" aria-label="Link to this section">#</a></h2>
+<p>The easiest way to start Omnigres is to use a <a href="https://docs.omnigres.org/quick_start/">container image</a>:</p>
+<div class="tabs">
+<section class="tab"><h4 class="tab-t">Default image</h4>
+<p>⚠️ The image below is rather <em>large (over 8Gb)</em>. If you prefer a smaller one, select the next tab.</p>
+<figure class="code"><figcaption class="ch"><span class="lang">shell</span><button type="button" data-copy>copy</button></figcaption>
+<pre class="shiki css-variables"><code><span class="line"><span class="ln" aria-hidden="true">1</span><span style="color:var(--shiki-token-function)">docker</span><span style="color:var(--shiki-token-string)"> volume</span><span style="color:var(--shiki-token-string)"> create</span><span style="color:var(--shiki-token-string)"> omnigres</span></span>
+<span class="line"><span class="ln" aria-hidden="true">2</span><span style="color:var(--shiki-token-function)">docker</span><span style="color:var(--shiki-token-string)"> run</span><span style="color:var(--shiki-token-string)"> --name</span><span style="color:var(--shiki-token-string)"> omnigres</span><span style="color:var(--shiki-token-string)"> -e</span><span style="color:var(--shiki-token-string)"> POSTGRES_PASSWORD=omnigres</span><span style="color:var(--shiki-token-string)"> -e</span><span style="color:var(--shiki-token-string)"> POSTGRES_USER=omnigres</span><span style="color:var(--shiki-foreground)"> \</span></span>
+<span class="line"><span class="ln" aria-hidden="true">3</span><span style="color:var(--shiki-token-string)">                            -e</span><span style="color:var(--shiki-token-string)"> POSTGRES_DB=omnigres</span><span style="color:var(--shiki-token-string)"> --mount</span><span style="color:var(--shiki-token-string)"> source=omnigres,target=/var/lib/postgresql/data</span><span style="color:var(--shiki-foreground)"> \</span></span>
+<span class="line"><span class="ln" aria-hidden="true">4</span><span style="color:var(--shiki-token-string)">            -p</span><span style="color:var(--shiki-token-string)"> 5432:5432</span><span style="color:var(--shiki-token-string)"> -p</span><span style="color:var(--shiki-token-string)"> 8080:8080</span><span style="color:var(--shiki-token-string)"> --rm</span><span style="color:var(--shiki-token-string)"> ghcr.io/omnigres/omnigres:latest</span></span>
+<span class="line"><span class="ln" aria-hidden="true">5</span><span style="color:var(--shiki-token-comment)"># Now you can connect to it:</span></span>
+<span class="line"><span class="ln" aria-hidden="true">6</span><span style="color:var(--shiki-token-function)">psql</span><span style="color:var(--shiki-token-string)"> -h</span><span style="color:var(--shiki-token-string)"> localhost</span><span style="color:var(--shiki-token-string)"> -p</span><span style="color:var(--shiki-token-constant)"> 5432</span><span style="color:var(--shiki-token-string)"> -U</span><span style="color:var(--shiki-token-string)"> omnigres</span><span style="color:var(--shiki-token-string)"> omnigres</span><span style="color:var(--shiki-token-comment)"> # password is `omnigres`</span></span></code></pre></figure>
+</section>
+<section class="tab"><h4 class="tab-t">Slim image</h4>
+<figure class="code"><figcaption class="ch"><span class="lang">shell</span><button type="button" data-copy>copy</button></figcaption>
+<pre class="shiki css-variables"><code><span class="line"><span class="ln" aria-hidden="true">1</span><span style="color:var(--shiki-token-function)">docker</span><span style="color:var(--shiki-token-string)"> volume</span><span style="color:var(--shiki-token-string)"> create</span><span style="color:var(--shiki-token-string)"> omnigres</span></span>
+<span class="line"><span class="ln" aria-hidden="true">2</span><span style="color:var(--shiki-token-function)">docker</span><span style="color:var(--shiki-token-string)"> run</span><span style="color:var(--shiki-token-string)"> --name</span><span style="color:var(--shiki-token-string)"> omnigres</span><span style="color:var(--shiki-token-string)"> -e</span><span style="color:var(--shiki-token-string)"> POSTGRES_PASSWORD=omnigres</span><span style="color:var(--shiki-token-string)"> -e</span><span style="color:var(--shiki-token-string)"> POSTGRES_USER=omnigres</span><span style="color:var(--shiki-foreground)"> \</span></span>
+<span class="line"><span class="ln" aria-hidden="true">3</span><span style="color:var(--shiki-token-string)">                           -e</span><span style="color:var(--shiki-token-string)"> POSTGRES_DB=omnigres</span><span style="color:var(--shiki-token-string)"> --mount</span><span style="color:var(--shiki-token-string)"> source=omnigres,target=/var/lib/postgresql/data</span><span style="color:var(--shiki-foreground)"> \</span></span>
+<span class="line"><span class="ln" aria-hidden="true">4</span><span style="color:var(--shiki-token-string)">           -p</span><span style="color:var(--shiki-token-string)"> 5432:5432</span><span style="color:var(--shiki-token-string)"> -p</span><span style="color:var(--shiki-token-string)"> 8080:8080</span><span style="color:var(--shiki-token-string)"> --rm</span><span style="color:var(--shiki-token-string)"> ghcr.io/omnigres/omnigres-slim:latest</span></span>
+<span class="line"><span class="ln" aria-hidden="true">5</span><span style="color:var(--shiki-token-comment)"># Now you can connect to it:</span></span>
+<span class="line"><span class="ln" aria-hidden="true">6</span><span style="color:var(--shiki-token-function)">psql</span><span style="color:var(--shiki-token-string)"> -h</span><span style="color:var(--shiki-token-string)"> localhost</span><span style="color:var(--shiki-token-string)"> -p</span><span style="color:var(--shiki-token-constant)"> 5432</span><span style="color:var(--shiki-token-string)"> -U</span><span style="color:var(--shiki-token-string)"> omnigres</span><span style="color:var(--shiki-token-string)"> omnigres</span><span style="color:var(--shiki-token-comment)"> # password is `omnigres`</span></span></code></pre></figure>
+</section>
+</div>
+<p>Please refer to <a href="https://docs.omnigres.org">Omnigres documentation</a> or drop by
+<a href="https://discord.gg/Jghrq588qS">our Discord server</a> to ask questions.</p>
+<h2 id="prizes" tabindex="-1">Prizes<a class="anchor" href="#prizes" aria-label="Link to this section">#</a></h2>
+<h3 id="first" tabindex="-1">First<a class="anchor" href="#first" aria-label="Link to this section">#</a></h3>
+<p>Solving any challenge first gives you a prize of $30 USD or a comparable equivalent.
+It also includes the Finisher's prize.</p>
+<h3 id="finisher" tabindex="-1">Finisher<a class="anchor" href="#finisher" aria-label="Link to this section">#</a></h3>
+<p>Solving any challenge gives you a shout out in the post, Twitter and other media. Your name
+will be documented in Omnigres documentation where we'll record this contest for posterity.</p>
+<h3 id="surprise" tabindex="-1">Surprise<a class="anchor" href="#surprise" aria-label="Link to this section">#</a></h3>
+<p>You built something not listed in the above challenges and it is awesome? There are three $50 prizes for this,
+one for each entry! Includes the Finisher's prize.</p>
+<h2 id="solution-submissions" tabindex="-1">Solution Submissions<a class="anchor" href="#solution-submissions" aria-label="Link to this section">#</a></h2>
+<p>Please post your solution somewhere like <a href="https://gist.github.com/">Github Gist</a> and post in a comment below this post.</p>
+]]></content:encoded>
+    </item>
+    <item>
+      <title>What happens if you put HTTP server inside Postgres?</title>
+      <link>https://yrashk.com/blog/2023/02/16/what-happens-if-you-put-http-server-inside-postgres/</link>
+      <guid isPermaLink="true">https://yrashk.com/blog/2023/02/16/what-happens-if-you-put-http-server-inside-postgres/</guid>
+      <pubDate>Thu, 16 Feb 2023 00:00:00 GMT</pubDate>
+      <dc:creator>Yurii Rashkovskii</dc:creator>
+      <category>Postgres</category>
+      <category>Omnigres</category>
+      <category>performance</category>
+      <description>Benchmarks and performance claims are attention-grabbers, but that's not what drew me to work on Omnigres. When I first built a prototype of its HTTP server, I didn't foresee the desire to share the numbers. As we all know, getting benchmarks right is hard, and everybody's mileage may vary. But I'll show you some numbers here anyway. It'll be great to validate or invalidate my findings!</description>
+      <content:encoded><![CDATA[<p>Benchmarks and performance claims are attention-grabbers, but that's not what
+drew me to work on Omnigres. When I first built a prototype of its HTTP server,
+I didn't foresee the desire to share the numbers. As we all know, getting
+benchmarks right is hard, and everybody's mileage may vary. But I'll show
+you some numbers here anyway. It'll be great to validate or invalidate my
+findings!</p>
+<div class="adm warning" role="note"><span class="ic" aria-hidden="true">!</span><span class="t">Outdated API</span><div class="b">
+<p>Since this article has been published, the API of Omnigres has been updated.
+I've not gotten to reflecting this in the aritcle yet. But the points made here
+are still valid!</p>
+</div></div>
+<p>But first, what's Omnigres? The shortest definition I came up with is &quot;Postgres
+as a Platform.&quot;</p>
+<p>What do I mean by this? Well, this comes from the idea that much of your
+application and its infrastructure can live inside or next to Postgres. Your
+business logic, deployment orchestration, caching, job queues, API endpoints,
+form handlers, HTTP server, you name it. Instead of building a system
+composed of multiple services, you only need one server that takes
+care of it. And if it can scale, you've got something great!</p>
+<p>I am not the only one intrigued by this idea (and many don't like it, either):
+check out <a href="https://news.ycombinator.com/item?id=33934139">this HN thread</a>.</p>
+<p>And it is not &quot;one-size-fits-all.&quot; But it fits a good set of problems. Anyway,
+that's a subject for another conversation.</p>
+<p>In the past weeks, I've taken the task of adding an embedded HTTP server to
+Omnigres. Since Omnigres is <a href="https://yrashk.com/blog/2023/01/07/why-not-rust-for-omnigres/">implemented in C</a>, it was only natural
+for me to choose <a href="https://github.com/h2o/h2o">libh2o</a> to implement the
+functionality of an HTTP server. It did help that H2O is known for its good
+performance characteristics.</p>
+<p>The idea was relatively simple: initialize a few HTTP worker processes, each
+quickly handing off details of the incoming HTTP requests to a Postgres
+instance in the same process.</p>
+<p>Sounds a bit weird, right? But bear with me, I will try to explain what's going
+on.</p>
+<p>Below is a sample piece of code of how an HTTP request can be handled.</p>
+<figure class="code"><figcaption class="ch"><span class="lang">sql</span><button type="button" data-copy>copy</button></figcaption>
+<pre class="shiki css-variables"><code><span class="line"><span class="ln" aria-hidden="true">1</span><span style="color:var(--shiki-token-keyword)">select</span><span style="color:var(--shiki-foreground)"> omni_httpd.http_response(headers </span><span style="color:var(--shiki-token-keyword)">=></span><span style="color:var(--shiki-token-keyword)"> array</span><span style="color:var(--shiki-foreground)">[omni_httpd.http_header('content-type', 'text/html')], body </span><span style="color:var(--shiki-token-keyword)">=></span><span style="color:var(--shiki-token-string-expression)"> 'Hello, &#x3C;b>'</span><span style="color:var(--shiki-token-keyword)"> ||</span><span style="color:var(--shiki-foreground)"> users.name </span><span style="color:var(--shiki-token-keyword)">||</span><span style="color:var(--shiki-token-string-expression)"> '&#x3C;/b>!'</span><span style="color:var(--shiki-foreground)">), </span><span style="color:var(--shiki-token-constant)">1</span><span style="color:var(--shiki-token-keyword)"> as</span><span style="color:var(--shiki-foreground)"> priority</span></span>
+<span class="line"><span class="ln" aria-hidden="true">2</span><span style="color:var(--shiki-token-keyword)">       from</span><span style="color:var(--shiki-foreground)"> request</span></span>
+<span class="line"><span class="ln" aria-hidden="true">3</span><span style="color:var(--shiki-token-keyword)">       inner join</span><span style="color:var(--shiki-foreground)"> users </span><span style="color:var(--shiki-token-keyword)">on</span><span style="color:var(--shiki-foreground)"> string_to_array(request.path,</span><span style="color:var(--shiki-token-string-expression)">'/'</span><span style="color:var(--shiki-foreground)">, </span><span style="color:var(--shiki-token-string-expression)">''</span><span style="color:var(--shiki-foreground)">) </span><span style="color:var(--shiki-token-keyword)">=</span><span style="color:var(--shiki-token-keyword)"> array</span><span style="color:var(--shiki-foreground)">[NULL, 'users', users.handle]</span></span>
+<span class="line"><span class="ln" aria-hidden="true">4</span><span style="color:var(--shiki-token-keyword)">union</span></span>
+<span class="line"><span class="ln" aria-hidden="true">5</span><span style="color:var(--shiki-token-keyword)">select</span><span style="color:var(--shiki-foreground)"> omni_httpd.http_response(</span><span style="color:var(--shiki-token-keyword)">status</span><span style="color:var(--shiki-token-keyword)"> =></span><span style="color:var(--shiki-token-constant)"> 404</span><span style="color:var(--shiki-foreground)">, body </span><span style="color:var(--shiki-token-keyword)">=></span><span style="color:var(--shiki-foreground)"> json_build_object(</span><span style="color:var(--shiki-token-string-expression)">'method'</span><span style="color:var(--shiki-foreground)">, request.method, </span><span style="color:var(--shiki-token-string-expression)">'path'</span><span style="color:var(--shiki-foreground)">, request.path, </span><span style="color:var(--shiki-token-string-expression)">'query_string'</span><span style="color:var(--shiki-foreground)">, request.query_string)), </span><span style="color:var(--shiki-token-constant)">0</span><span style="color:var(--shiki-token-keyword)"> AS</span><span style="color:var(--shiki-foreground)"> priority</span></span>
+<span class="line"><span class="ln" aria-hidden="true">6</span><span style="color:var(--shiki-token-keyword)">       from</span><span style="color:var(--shiki-foreground)"> request</span></span>
+<span class="line"><span class="ln" aria-hidden="true">7</span><span style="color:var(--shiki-token-keyword)">order by</span><span style="color:var(--shiki-token-keyword)"> priority DESC</span></span></code></pre></figure>
+<p>The first query in the union joins the request path of <code>/users/:user</code> with the
+<code>users</code> table on <code>users.handle</code> column and serves an HTML response with that
+user's name.</p>
+<p>The second query, being lower in priority, simply returns a 404 Not Found
+response with a JSON that contains some of the request details.</p>
+<figure class="code"><figcaption class="ch"><span class="lang">text</span><button type="button" data-copy>copy</button></figcaption>
+<pre class="shiki css-variables"><code><span class="line"><span class="ln" aria-hidden="true">1</span><span>$ http localhost:9000/users/johndoe</span></span>
+<span class="line"><span class="ln" aria-hidden="true">2</span><span>HTTP/1.1 200 OK</span></span>
+<span class="line"><span class="ln" aria-hidden="true">3</span><span>Connection: keep-alive</span></span>
+<span class="line"><span class="ln" aria-hidden="true">4</span><span>Server: omni_httpd-0.1</span></span>
+<span class="line"><span class="ln" aria-hidden="true">5</span><span>content-type: text/html</span></span>
+<span class="line"><span class="ln" aria-hidden="true">6</span><span>transfer-encoding: chunked</span></span>
+<span class="line"><span class="ln" aria-hidden="true">7</span><span></span></span>
+<span class="line"><span class="ln" aria-hidden="true">8</span><span>Hello, &#x3C;b>John&#x3C;/b>!</span></span>
+<span class="line"><span class="ln" aria-hidden="true">9</span><span></span></span>
+<span class="line"><span class="ln" aria-hidden="true">10</span><span>$ http POST localhost:9000/test\?q</span></span>
+<span class="line"><span class="ln" aria-hidden="true">11</span><span>HTTP/1.1 404 OK</span></span>
+<span class="line"><span class="ln" aria-hidden="true">12</span><span>Connection: keep-alive</span></span>
+<span class="line"><span class="ln" aria-hidden="true">13</span><span>Server: omni_httpd-0.1</span></span>
+<span class="line"><span class="ln" aria-hidden="true">14</span><span>content-type: text/json</span></span>
+<span class="line"><span class="ln" aria-hidden="true">15</span><span>transfer-encoding: chunked</span></span>
+<span class="line"><span class="ln" aria-hidden="true">16</span><span></span></span>
+<span class="line"><span class="ln" aria-hidden="true">17</span><span>{</span></span>
+<span class="line"><span class="ln" aria-hidden="true">18</span><span>    "method": "POST",</span></span>
+<span class="line"><span class="ln" aria-hidden="true">19</span><span>    "path": "/test",</span></span>
+<span class="line"><span class="ln" aria-hidden="true">20</span><span>    "query_string": "q"</span></span>
+<span class="line"><span class="ln" aria-hidden="true">21</span><span>}</span></span></code></pre></figure>
+<p>Once all this worked, I decided to try benchmark it (mostly because I wanted to see how bad would it be):</p>
+<figure class="code"><figcaption class="ch"><span class="lang">text</span><button type="button" data-copy>copy</button></figcaption>
+<pre class="shiki css-variables"><code><span class="line"><span class="ln" aria-hidden="true">1</span><span>$ wrk http://localhost:9000/users/johndoe -c 20 -t 10</span></span>
+<span class="line"><span class="ln" aria-hidden="true">2</span><span>Running 10s test @ http://localhost:9000/users/johndoe</span></span>
+<span class="line"><span class="ln" aria-hidden="true">3</span><span>  10 threads and 20 connections</span></span>
+<span class="line"><span class="ln" aria-hidden="true">4</span><span>  Thread Stats   Avg      Stdev     Max   +/- Stdev</span></span>
+<span class="line"><span class="ln" aria-hidden="true">5</span><span>    Latency   354.85us    1.40ms  47.24ms   97.05%</span></span>
+<span class="line"><span class="ln" aria-hidden="true">6</span><span>    Req/Sec    12.51k     2.37k   25.01k    73.84%</span></span>
+<span class="line"><span class="ln" aria-hidden="true">7</span><span>  1256199 requests in 10.10s, 179.70MB read</span></span>
+<span class="line"><span class="ln" aria-hidden="true">8</span><span>Requests/sec: 124366.73</span></span>
+<span class="line"><span class="ln" aria-hidden="true">9</span><span>Transfer/sec:     17.79MB</span></span></code></pre></figure>
+<p>That's on MacBook Pro M1 Max. I've also ran the same test on an older x86_64-based Linux machine and got about 70K/sec.</p>
+<p>For reference, I decided to try comparing this with a similar (but quick-and-dirty-written) Node.js implementation that goes to the database for the same effect:</p>
+<figure class="code"><figcaption class="ch"><span class="lang">js</span><button type="button" data-copy>copy</button></figcaption>
+<pre class="shiki css-variables"><code><span class="line"><span class="ln" aria-hidden="true">1</span><span style="color:var(--shiki-token-keyword)">const</span><span style="color:var(--shiki-token-constant)"> http</span><span style="color:var(--shiki-token-keyword)"> =</span><span style="color:var(--shiki-token-function)"> require</span><span style="color:var(--shiki-foreground)">(</span><span style="color:var(--shiki-token-string-expression)">"http"</span><span style="color:var(--shiki-foreground)">);</span></span>
+<span class="line"><span class="ln" aria-hidden="true">2</span></span>
+<span class="line"><span class="ln" aria-hidden="true">3</span><span style="color:var(--shiki-token-keyword)">const</span><span style="color:var(--shiki-foreground)"> { </span><span style="color:var(--shiki-token-constant)">Pool</span><span style="color:var(--shiki-foreground)"> } </span><span style="color:var(--shiki-token-keyword)">=</span><span style="color:var(--shiki-token-function)"> require</span><span style="color:var(--shiki-foreground)">(</span><span style="color:var(--shiki-token-string-expression)">'pg'</span><span style="color:var(--shiki-foreground)">)</span></span>
+<span class="line"><span class="ln" aria-hidden="true">4</span></span>
+<span class="line"><span class="ln" aria-hidden="true">5</span><span style="color:var(--shiki-token-keyword)">const</span><span style="color:var(--shiki-token-constant)"> pool</span><span style="color:var(--shiki-token-keyword)"> =</span><span style="color:var(--shiki-token-keyword)"> new</span><span style="color:var(--shiki-token-function)"> Pool</span><span style="color:var(--shiki-foreground)">({ </span><span style="color:var(--shiki-token-comment)">/* connection details */</span><span style="color:var(--shiki-token-punctuation)">,</span><span style="color:var(--shiki-foreground)"> max</span><span style="color:var(--shiki-token-keyword)">:</span><span style="color:var(--shiki-token-constant)"> 10</span><span style="color:var(--shiki-token-punctuation)">,</span><span style="color:var(--shiki-foreground)"> idleTimeMillis</span><span style="color:var(--shiki-token-keyword)">:</span><span style="color:var(--shiki-token-constant)"> 1000</span><span style="color:var(--shiki-token-keyword)"> *</span><span style="color:var(--shiki-token-constant)"> 60</span><span style="color:var(--shiki-foreground)">});</span></span>
+<span class="line"><span class="ln" aria-hidden="true">6</span></span>
+<span class="line"><span class="ln" aria-hidden="true">7</span><span style="color:var(--shiki-token-keyword)">const</span><span style="color:var(--shiki-token-constant)"> host</span><span style="color:var(--shiki-token-keyword)"> =</span><span style="color:var(--shiki-token-string-expression)"> 'localhost'</span><span style="color:var(--shiki-foreground)">;</span></span>
+<span class="line"><span class="ln" aria-hidden="true">8</span><span style="color:var(--shiki-token-keyword)">const</span><span style="color:var(--shiki-token-constant)"> port</span><span style="color:var(--shiki-token-keyword)"> =</span><span style="color:var(--shiki-token-constant)"> 8000</span><span style="color:var(--shiki-foreground)">;</span></span>
+<span class="line"><span class="ln" aria-hidden="true">9</span><span style="color:var(--shiki-token-keyword)">const</span><span style="color:var(--shiki-token-function)"> requestListener</span><span style="color:var(--shiki-token-keyword)"> =</span><span style="color:var(--shiki-token-keyword)"> function</span><span style="color:var(--shiki-foreground)"> (req</span><span style="color:var(--shiki-token-punctuation)">,</span><span style="color:var(--shiki-foreground)"> res) {</span></span>
+<span class="line"><span class="ln" aria-hidden="true">10</span><span style="color:var(--shiki-token-keyword)">    const</span><span style="color:var(--shiki-token-constant)"> split</span><span style="color:var(--shiki-token-keyword)"> =</span><span style="color:var(--shiki-token-constant)"> req</span><span style="color:var(--shiki-token-function)">.</span><span style="color:var(--shiki-token-constant)">url</span><span style="color:var(--shiki-token-function)">.split</span><span style="color:var(--shiki-foreground)">(</span><span style="color:var(--shiki-token-string-expression)">'/'</span><span style="color:var(--shiki-foreground)">);</span></span>
+<span class="line"><span class="ln" aria-hidden="true">11</span><span style="color:var(--shiki-token-keyword)">    if</span><span style="color:var(--shiki-foreground)"> (</span><span style="color:var(--shiki-token-constant)">split</span><span style="color:var(--shiki-foreground)">.</span><span style="color:var(--shiki-token-constant)">length</span><span style="color:var(--shiki-token-keyword)"> ==</span><span style="color:var(--shiki-token-constant)"> 3</span><span style="color:var(--shiki-token-keyword)"> &#x26;&#x26;</span><span style="color:var(--shiki-foreground)"> split[</span><span style="color:var(--shiki-token-constant)">1</span><span style="color:var(--shiki-foreground)">] </span><span style="color:var(--shiki-token-keyword)">==</span><span style="color:var(--shiki-token-string-expression)"> 'users'</span><span style="color:var(--shiki-foreground)">) {</span></span>
+<span class="line"><span class="ln" aria-hidden="true">12</span><span style="color:var(--shiki-token-constant)">      pool</span><span style="color:var(--shiki-token-function)">.query</span><span style="color:var(--shiki-foreground)">({name</span><span style="color:var(--shiki-token-keyword)">:</span><span style="color:var(--shiki-token-string-expression)"> "q"</span><span style="color:var(--shiki-token-punctuation)">,</span><span style="color:var(--shiki-foreground)"> text</span><span style="color:var(--shiki-token-keyword)">:</span><span style="color:var(--shiki-token-string-expression)"> "SELECT users.name FROM users WHERE users.handle = $1"</span><span style="color:var(--shiki-token-punctuation)">,</span><span style="color:var(--shiki-foreground)"> values</span><span style="color:var(--shiki-token-keyword)">:</span><span style="color:var(--shiki-foreground)"> [split[</span><span style="color:var(--shiki-token-constant)">2</span><span style="color:var(--shiki-foreground)">]]}).</span></span>
+<span class="line"><span class="ln" aria-hidden="true">13</span><span style="color:var(--shiki-token-function)">        then</span><span style="color:var(--shiki-foreground)">((qres) </span><span style="color:var(--shiki-token-keyword)">=></span><span style="color:var(--shiki-foreground)"> {</span></span>
+<span class="line"><span class="ln" aria-hidden="true">14</span><span style="color:var(--shiki-token-keyword)">          if</span><span style="color:var(--shiki-foreground)"> (</span><span style="color:var(--shiki-token-constant)">qres</span><span style="color:var(--shiki-foreground)">.</span><span style="color:var(--shiki-token-constant)">rows</span><span style="color:var(--shiki-foreground)">.</span><span style="color:var(--shiki-token-constant)">length</span><span style="color:var(--shiki-token-keyword)"> ==</span><span style="color:var(--shiki-token-constant)"> 1</span><span style="color:var(--shiki-foreground)">) {</span></span>
+<span class="line"><span class="ln" aria-hidden="true">15</span><span style="color:var(--shiki-token-constant)">            res</span><span style="color:var(--shiki-token-function)">.setHeader</span><span style="color:var(--shiki-foreground)">(</span><span style="color:var(--shiki-token-string-expression)">"Content-Type"</span><span style="color:var(--shiki-token-punctuation)">,</span><span style="color:var(--shiki-token-string-expression)"> "text/html"</span><span style="color:var(--shiki-foreground)">);</span></span>
+<span class="line"><span class="ln" aria-hidden="true">16</span><span style="color:var(--shiki-token-constant)">            res</span><span style="color:var(--shiki-token-function)">.writeHead</span><span style="color:var(--shiki-foreground)">(</span><span style="color:var(--shiki-token-constant)">200</span><span style="color:var(--shiki-foreground)">);</span></span>
+<span class="line"><span class="ln" aria-hidden="true">17</span><span style="color:var(--shiki-token-constant)">            res</span><span style="color:var(--shiki-token-function)">.end</span><span style="color:var(--shiki-foreground)">(</span><span style="color:var(--shiki-token-string-expression)">`Hello, &#x3C;b></span><span style="color:var(--shiki-token-keyword)">${</span><span style="color:var(--shiki-token-constant)">qres</span><span style="color:var(--shiki-foreground)">.rows[</span><span style="color:var(--shiki-token-constant)">0</span><span style="color:var(--shiki-foreground)">].name</span><span style="color:var(--shiki-token-keyword)">}</span><span style="color:var(--shiki-token-string-expression)">&#x3C;/b>!`</span><span style="color:var(--shiki-foreground)">);</span></span>
+<span class="line"><span class="ln" aria-hidden="true">18</span><span style="color:var(--shiki-foreground)">          } </span><span style="color:var(--shiki-token-keyword)">else</span><span style="color:var(--shiki-foreground)"> {</span></span>
+<span class="line"><span class="ln" aria-hidden="true">19</span><span style="color:var(--shiki-token-constant)">            res</span><span style="color:var(--shiki-token-function)">.setHeader</span><span style="color:var(--shiki-foreground)">(</span><span style="color:var(--shiki-token-string-expression)">"Content-Type"</span><span style="color:var(--shiki-token-punctuation)">,</span><span style="color:var(--shiki-token-string-expression)"> "application/json"</span><span style="color:var(--shiki-foreground)">);</span></span>
+<span class="line"><span class="ln" aria-hidden="true">20</span><span style="color:var(--shiki-token-constant)">            res</span><span style="color:var(--shiki-token-function)">.writeHead</span><span style="color:var(--shiki-foreground)">(</span><span style="color:var(--shiki-token-constant)">200</span><span style="color:var(--shiki-foreground)">);</span></span>
+<span class="line"><span class="ln" aria-hidden="true">21</span><span style="color:var(--shiki-token-constant)">            res</span><span style="color:var(--shiki-token-function)">.end</span><span style="color:var(--shiki-foreground)">(</span><span style="color:var(--shiki-token-constant)">JSON</span><span style="color:var(--shiki-token-function)">.stringify</span><span style="color:var(--shiki-foreground)">({method</span><span style="color:var(--shiki-token-keyword)">:</span><span style="color:var(--shiki-token-constant)"> req</span><span style="color:var(--shiki-foreground)">.method</span><span style="color:var(--shiki-token-punctuation)">,</span><span style="color:var(--shiki-foreground)"> path</span><span style="color:var(--shiki-token-keyword)">:</span><span style="color:var(--shiki-token-constant)"> req</span><span style="color:var(--shiki-foreground)">.url}));</span></span>
+<span class="line"><span class="ln" aria-hidden="true">22</span><span style="color:var(--shiki-foreground)">          }</span></span>
+<span class="line"><span class="ln" aria-hidden="true">23</span><span style="color:var(--shiki-foreground)">        })</span></span>
+<span class="line"><span class="ln" aria-hidden="true">24</span><span style="color:var(--shiki-foreground)">    } </span><span style="color:var(--shiki-token-keyword)">else</span><span style="color:var(--shiki-foreground)"> {</span></span>
+<span class="line"><span class="ln" aria-hidden="true">25</span><span style="color:var(--shiki-token-constant)">      res</span><span style="color:var(--shiki-token-function)">.setHeader</span><span style="color:var(--shiki-foreground)">(</span><span style="color:var(--shiki-token-string-expression)">"Content-Type"</span><span style="color:var(--shiki-token-punctuation)">,</span><span style="color:var(--shiki-token-string-expression)"> "application/json"</span><span style="color:var(--shiki-foreground)">);</span></span>
+<span class="line"><span class="ln" aria-hidden="true">26</span><span style="color:var(--shiki-token-constant)">      res</span><span style="color:var(--shiki-token-function)">.writeHead</span><span style="color:var(--shiki-foreground)">(</span><span style="color:var(--shiki-token-constant)">200</span><span style="color:var(--shiki-foreground)">);</span></span>
+<span class="line"><span class="ln" aria-hidden="true">27</span><span style="color:var(--shiki-token-constant)">      res</span><span style="color:var(--shiki-token-function)">.end</span><span style="color:var(--shiki-foreground)">(</span><span style="color:var(--shiki-token-constant)">JSON</span><span style="color:var(--shiki-token-function)">.stringify</span><span style="color:var(--shiki-foreground)">({method</span><span style="color:var(--shiki-token-keyword)">:</span><span style="color:var(--shiki-token-constant)"> req</span><span style="color:var(--shiki-foreground)">.method</span><span style="color:var(--shiki-token-punctuation)">,</span><span style="color:var(--shiki-foreground)"> path</span><span style="color:var(--shiki-token-keyword)">:</span><span style="color:var(--shiki-token-constant)"> req</span><span style="color:var(--shiki-foreground)">.url}));</span></span>
+<span class="line"><span class="ln" aria-hidden="true">28</span><span style="color:var(--shiki-foreground)">    }</span></span>
+<span class="line"><span class="ln" aria-hidden="true">29</span><span style="color:var(--shiki-foreground)">};</span></span>
+<span class="line"><span class="ln" aria-hidden="true">30</span><span style="color:var(--shiki-token-keyword)">const</span><span style="color:var(--shiki-token-constant)"> server</span><span style="color:var(--shiki-token-keyword)"> =</span><span style="color:var(--shiki-token-constant)"> http</span><span style="color:var(--shiki-token-function)">.createServer</span><span style="color:var(--shiki-foreground)">(requestListener);</span></span>
+<span class="line"><span class="ln" aria-hidden="true">31</span><span style="color:var(--shiki-token-constant)">server</span><span style="color:var(--shiki-token-function)">.listen</span><span style="color:var(--shiki-foreground)">(port</span><span style="color:var(--shiki-token-punctuation)">,</span><span style="color:var(--shiki-foreground)"> host</span><span style="color:var(--shiki-token-punctuation)">,</span><span style="color:var(--shiki-foreground)"> () </span><span style="color:var(--shiki-token-keyword)">=></span><span style="color:var(--shiki-foreground)"> {</span></span>
+<span class="line"><span class="ln" aria-hidden="true">32</span><span style="color:var(--shiki-token-constant)">    console</span><span style="color:var(--shiki-token-function)">.log</span><span style="color:var(--shiki-foreground)">(</span><span style="color:var(--shiki-token-string-expression)">`Server is running on http://</span><span style="color:var(--shiki-token-keyword)">${</span><span style="color:var(--shiki-foreground)">host</span><span style="color:var(--shiki-token-keyword)">}</span><span style="color:var(--shiki-token-string-expression)">:</span><span style="color:var(--shiki-token-keyword)">${</span><span style="color:var(--shiki-foreground)">port</span><span style="color:var(--shiki-token-keyword)">}</span><span style="color:var(--shiki-token-string-expression)">`</span><span style="color:var(--shiki-foreground)">);</span></span>
+<span class="line"><span class="ln" aria-hidden="true">33</span><span style="color:var(--shiki-foreground)">});</span></span></code></pre></figure>
+<p>And I re-ran the test:</p>
+<figure class="code"><figcaption class="ch"><span class="lang">text</span><button type="button" data-copy>copy</button></figcaption>
+<pre class="shiki css-variables"><code><span class="line"><span class="ln" aria-hidden="true">1</span><span>$ wrk http://localhost:8000/users/johndoe -c 20 -t 10</span></span>
+<span class="line"><span class="ln" aria-hidden="true">2</span><span>Running 10s test @ http://localhost:8000/users/johndoe</span></span>
+<span class="line"><span class="ln" aria-hidden="true">3</span><span>  10 threads and 20 connections</span></span>
+<span class="line"><span class="ln" aria-hidden="true">4</span><span>  Thread Stats   Avg      Stdev     Max   +/- Stdev</span></span>
+<span class="line"><span class="ln" aria-hidden="true">5</span><span>    Latency     1.11ms    0.99ms  33.09ms   99.15%</span></span>
+<span class="line"><span class="ln" aria-hidden="true">6</span><span>    Req/Sec     1.89k   166.30     2.19k    92.18%</span></span>
+<span class="line"><span class="ln" aria-hidden="true">7</span><span>  190319 requests in 10.10s, 33.76MB read</span></span>
+<span class="line"><span class="ln" aria-hidden="true">8</span><span>Requests/sec:  18838.56</span></span>
+<span class="line"><span class="ln" aria-hidden="true">9</span><span>Transfer/sec:      3.34MB</span></span></code></pre></figure>
+<p>From the surface, it looks like omni_httpd is faster for the time being! I am sure with time it'll get slower and I did not explore enough optimizations available for the Node.js experiment (please contribute to make this picture fairer!). But it shows what bundling can do to performance!</p>
+<p><strong>Update</strong>: As <a href="https://lobste.rs/s/39ao1j/what_happens_if_you_put_http_server_inside#c_ipefyz">someone pointed out</a>,
+using TCP locally brings unnecessary overhead where UNIX sockets would have
+performed better. So, I re-ran the Node.js test over UNIX sockets:</p>
+<figure class="code"><figcaption class="ch"><span class="lang">text</span><button type="button" data-copy>copy</button></figcaption>
+<pre class="shiki css-variables"><code><span class="line"><span class="ln" aria-hidden="true">1</span><span>$ wrk http://localhost:8000/users/johndoe -c 20 -t 10</span></span>
+<span class="line"><span class="ln" aria-hidden="true">2</span><span>Running 10s test @ http://localhost:8000/users/johndoe</span></span>
+<span class="line"><span class="ln" aria-hidden="true">3</span><span>  10 threads and 20 connections</span></span>
+<span class="line"><span class="ln" aria-hidden="true">4</span><span>  Thread Stats   Avg      Stdev     Max   +/- Stdev</span></span>
+<span class="line"><span class="ln" aria-hidden="true">5</span><span>    Latency   663.15us  224.77us   9.87ms   93.24%</span></span>
+<span class="line"><span class="ln" aria-hidden="true">6</span><span>    Req/Sec     3.05k   139.17     3.30k    88.71%</span></span>
+<span class="line"><span class="ln" aria-hidden="true">7</span><span>  306649 requests in 10.10s, 54.39MB read</span></span>
+<span class="line"><span class="ln" aria-hidden="true">8</span><span>Requests/sec:  30361.88</span></span>
+<span class="line"><span class="ln" aria-hidden="true">9</span><span>Transfer/sec:      5.39MB</span></span></code></pre></figure>
+<p>It's indeed <em>quite a bit</em> faster but still way below the numbers I was able to get with <code>omni_httpd</code>.</p>
+<p>I want to emphasize that performance was not and is not a primary goal behind
+this work. What I think is more important there is changing the way we think
+about serving HTTP clients, doing data-aware routing, etc. There's still a lot
+of research to be done on this end.</p>
+<p>I also want to mention that this is still early work. There's a lot to be done
+to make this server production-grade (starting from <a href="https://github.com/omnigres/omnigres/issues/44">enabling HTTPS support</a>,
+and improving the architecture to make <a href="https://github.com/omnigres/omnigres/issues/40">HTTP2 multiplexing really work</a>,
+but not ending there), as well as building out other extensions to make building applications really easy and convenient.</p>
+<p>If you want to chat more, join us on <a href="https://discord.gg/Jghrq588qS">Discord</a> or <a href="http://t.me/omnigres">Telegram</a>!</p>
+]]></content:encoded>
+    </item>
+    <item>
+      <title>Why not Rust for Omnigres?</title>
+      <link>https://yrashk.com/blog/2023/01/07/why-not-rust-for-omnigres/</link>
+      <guid isPermaLink="true">https://yrashk.com/blog/2023/01/07/why-not-rust-for-omnigres/</guid>
+      <pubDate>Sat, 07 Jan 2023 00:00:00 GMT</pubDate>
+      <dc:creator>Yurii Rashkovskii</dc:creator>
+      <category>Postgres</category>
+      <category>Omnigres</category>
+      <category>Rust</category>
+      <category>C</category>
+      <description>Omnigres is a new project to turn Postgres into a complete development and production deployment platform. I've started it to reflect on the complexity and inefficiencies plaguing modern business software development.</description>
+      <content:encoded><![CDATA[<p><a href="https://github.com/omnigres/omnigres">Omnigres</a> is a new project to turn
+Postgres into a complete development and production deployment platform. I've
+started it to reflect on the complexity and inefficiencies plaguing modern
+business software development.</p>
+<p>As an aging (and sometimes cranky!) developer, I crave simplicity. But that's a
+topic for another post. Here I wanted to address a common question:</p>
+<blockquote>
+<p><strong>Why didn't you implement this in Rust?</strong></p>
+</blockquote>
+<p>It's a great question, considering I've been using Rust for a number of years
+now, and I generally advocate its use for its rich ecosystem, safety and
+tooling. I <a href="https://github.com/tcdi/pgx/pulls?q=is%3Apr+author%3Ayrashk+">actively contribute</a> to
+<a href="https://github.com/tcdi/pgx">pgx</a>, a library for building Postgres extensions
+in Rust. Yet, Omnigres appears to be all done in C.</p>
+<p>Here's why.</p>
+<p><em>Beware: the list has a lot of subjective and controversial opinions.</em></p>
+<h3 id="making-a-good-wrapper-pgx-is-a-lot-of-work" tabindex="-1">Making a good wrapper (pgx) is a lot of work<a class="anchor" href="#making-a-good-wrapper-pgx-is-a-lot-of-work" aria-label="Link to this section">#</a></h3>
+<p>While it's getting there, when you try to build something pushing the
+boundaries, pgx may not yet provide sufficient API coverage, so you have to
+resort to unsafe FFI. It drove me to make a number of contributions to it.
+Still, since it takes a while to refine them enough to be considered
+well-rounded, it impedes general development velocity.</p>
+<p>Making a good, safe wrapper for such a complex project as Postgres is a
+significant undertaking. It'll take however long it takes. That's why I am
+wholeheartedly supporting it and spending time evolving it.</p>
+<p>But as of today, I want to be able to move fast.</p>
+<h3 id="postgres-is-quirky-c" tabindex="-1">Postgres is [quirky] C<a class="anchor" href="#postgres-is-quirky-c" aria-label="Link to this section">#</a></h3>
+<p>Its whole internal API is designed to be consumed by C code, and Postgres
+doesn't know anything about your other language.</p>
+<p>It uses <code>setjmp/longjmp</code> for exceptions (so you'd have to roll your own guards
+to unwind the stack). It has its own memory management system. It
+manages the SPI stack. It has lots of mutable global variables!</p>
+<p>So, to consume it from C is only natural, even though it can be dangerous.</p>
+<h3 id="dependencies" tabindex="-1">Dependencies<a class="anchor" href="#dependencies" aria-label="Link to this section">#</a></h3>
+<p>Between not really knowing what's inside of your dependencies and obnoxious
+compile times, there's a reason for having less dependencies.</p>
+<p>Rust's Cargo makes it terribly easy to add dependencies, so there's no tax on
+adding yet another library. This is generally seen as a good thing in the
+industry, but I keep coming back to the idea that less is better.</p>
+<p>If, however, you had to pay for every dependency, we'd use a lot less of them,
+only when necessary. C is excellent in this department! I gave up on a
+number of dependencies simply because I had difficulties integrating them
+into my build system. So I see this is a filter for the need <em>and</em> the
+quality of the dependency.</p>
+<h3 id="fast-compile-times" tabindex="-1">Fast compile times<a class="anchor" href="#fast-compile-times" aria-label="Link to this section">#</a></h3>
+<p>Rust compiler is notoriously slow. Pgx brings its own complexity that makes
+rapid iteration nearly impossible. My builds are extremely fast with C. It's a
+simple language, and I tend to add very few dependencies.</p>
+<h3 id="complex-language-fatigue" tabindex="-1">Complex language fatigue<a class="anchor" href="#complex-language-fatigue" aria-label="Link to this section">#</a></h3>
+<p>I've been developing software for a few decades now and am growing tired of
+complex languages. Going back to C feels like taking a vacation and stopping
+chasing ideals and just focusing on the problem at hand.</p>
+<p>If Postgres (or Linux kernel) can be done in C, I am sure a few extensions
+could, too!</p>
+<h3 id="formal-verification-methods" tabindex="-1">Formal verification methods<a class="anchor" href="#formal-verification-methods" aria-label="Link to this section">#</a></h3>
+<p>There are projects that are focusing on bringing this to Rust, but there are
+some great static analysis and formal verification tools that have been used in
+C for quite a while. I fancy <a href="https://frama-c.com">Frama-C</a> and try to add it
+<a href="https://github.com/omnigres/omnigres/blob/a291b00172a5ce430a9536c21f4a78f2f98a0114/libgluepg_curl/libgluepg_curl.c#L46-L64">bit</a>
+by bit to Omnigres where I think it may be necessary.</p>
+<h3 id="rust-safeties-are-slightly-less-relevant-in-postgres" tabindex="-1">Rust safeties are slightly less relevant in Postgres<a class="anchor" href="#rust-safeties-are-slightly-less-relevant-in-postgres" aria-label="Link to this section">#</a></h3>
+<p>Postgres is inherently <strong>single-threaded</strong> and therefore, &quot;fearless
+concurrency&quot; is not buying us much. Sure, you can build an extension that'll
+communicate with other processes and threads over shared memory, but this is
+not much of a concern at the core database level.</p>
+<p>Postgres has its own <strong>memory management</strong> story, which is quite good. Instead
+of having a single allocation pool, it has memory contexts that are established
+temporarily or for a scope. When they are deleted, all the memory allocated in
+them is released. So memory leaks are not necessarily a concern. Rust doesn't
+necessarily consider leaks a safety issue, but it's nice to know we will not
+crash the server with an OOM.</p>
+<p>Of course, there's still use-after-free, which you have to be careful about.
+This is where tools like AddressSanitizer can come in very handy.</p>
+<p>I've seen that most of my crashes in the extensions were coming from misusing
+some Postgres API, and I was getting a lot of them in Rust as well.</p>
+<hr>
+<blockquote>
+<p><strong>But Yurii, isn't C a dangerous and flawed language?</strong></p>
+</blockquote>
+<p>Yes, it is both dangerous and flawed. In general, I wouldn't build new projects
+in C, but after months of going back on forth on this, I think, ultimately,
+building a project on top of Postgres in C is reasonable.</p>
+<blockquote>
+<p>Did you consider Zig?</p>
+</blockquote>
+<p>I absolutely did. I am very interested in Zig (and have previously developed
+some small projects in it) and I keep track of its development. But I
+ultimately didn't want to fight both Postgres and Zig at the same time.</p>
+<blockquote>
+<p>Did you consider Nim?</p>
+</blockquote>
+<p>You bet! The attraction was that it compiles to C, and I can emit C code where
+necessary, obliterating the need to replicate certain tricks. But it's a
+complex, big language, and I am not confident about its own bugs, obscurities
+and upgrade stories (Nim 2 is coming!)</p>
+<hr>
+<p>Knowing how Rust crowd behaves sometimes, there may be those inclined to
+persuade me to change my opinion or prove me wrong. Of course, they are free to
+do so, but I'd prefer to focus on getting things done!</p>
+<p>Ultimately, I think Rust is great. Omnigres will have first-class support
+for it and will promote its use and the use of
+<a href="https://github.com/tcdi/pgx">pgx</a> for building extensions. <strong>Update</strong>: <a href="https://yrashk.com/blog/2023/04/05/plrust-just-shipped-easy-way-to-try-it-out/">PL/Rust
+is now being shipped with Omnigres</a>!</p>
+]]></content:encoded>
+    </item>
+  </channel>
+</rss>

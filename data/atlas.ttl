@@ -1,0 +1,1610 @@
+# The Atlas of yrashk.com: the hand-curated half, edited by hand. Vocabulary: site/DATA.md.
+# GitHub data is generated into github.ttl (scripts/github-rdf.mjs); the build queries both with the
+# WAT engine (scripts/atlas.mjs) and writes /data/atlas.js for the desktop. Run `npm run build` to check it.
+
+@base   <https://yrashk.com/atlas/> .
+@prefix :       <https://yrashk.com/atlas/> .
+@prefix yr:     <https://yrashk.com/ns#> .
+@prefix schema: <https://schema.org/> .
+@prefix xsd:    <http://www.w3.org/2001/XMLSchema#> .
+@prefix rdfs:   <http://www.w3.org/2000/01/rdf-schema#> .
+@prefix ord:    <https://ontology.inferal.com/modules/ordering/> .
+
+# ── Yurii Rashkovskii ──
+# yr:homes in clock order; yr:defaultLocation is where he is when no stay covers the day.
+# yr:stay: where he is or will be. Dates are days in the place's own calendar, endDate inclusive and
+# optional (open-ended). The current stay is the latest one that has started; its endDate ends it only when
+# the next stay does not begin the day after.
+
+:yrashk
+    a                  schema:Person ;
+    schema:name        "Yurii Rashkovskii" ;
+    schema:url         <https://yrashk.com> ;
+    schema:birthDate   "1981"^^xsd:gYear ;
+    schema:birthPlace  :ukraine ;
+    yr:homes           ( :redwood-city :comox ) ;
+    yr:defaultLocation :comox ;
+    yr:stay            [ a yr:Stay ; yr:place :bangkok ; schema:startDate "2026-11-22"^^xsd:date ; schema:endDate "2026-12-07"^^xsd:date ],
+                       [ a yr:Stay ; yr:place :redwood-city ; schema:startDate "2026-12-08"^^xsd:date ; schema:endDate "2026-12-25"^^xsd:date ],
+                       [ a yr:Stay ; yr:place :bangkok ; schema:startDate "2026-12-26"^^xsd:date ; schema:endDate "2027-01-14"^^xsd:date ],
+                       [ a yr:Stay ; yr:place :china ; schema:startDate "2027-01-15"^^xsd:date ; schema:endDate "2027-01-22"^^xsd:date ],
+                       [ a yr:Stay ; yr:place :redwood-city ; schema:startDate "2027-01-23"^^xsd:date ] .
+
+# ── Places (yr:timeZone: an IANA zone; a place needs one to be a home or a stay) ──
+
+:redwood-city
+    a           schema:Place ;
+    schema:name "Redwood City, CA" ;
+    schema:geo  [ schema:latitude 37.49 ; schema:longitude -122.24 ] ;
+    yr:timeZone "America/Los_Angeles" .
+
+:comox
+    a           schema:Place ;
+    schema:name "Comox, BC" ;
+    schema:geo  [ schema:latitude 49.67 ; schema:longitude -124.93 ] ;
+    yr:timeZone "America/Vancouver" .
+
+:san-francisco
+    a           schema:Place ;
+    schema:name "San Francisco, CA" ;
+    schema:geo  [ schema:latitude 37.77 ; schema:longitude -122.42 ] ;
+    yr:timeZone "America/Los_Angeles" .
+
+:canada
+    a           schema:Place ;
+    schema:name "Canada" ;
+    schema:geo  [ schema:latitude 56.13 ; schema:longitude -106.35 ] ;
+    yr:timeZone "America/Vancouver" .
+
+:ukraine
+    a           schema:Place ;
+    schema:name "Ukraine" ;
+    schema:geo  [ schema:latitude 49.0 ; schema:longitude 32.0 ] ;
+    yr:timeZone "Europe/Kyiv" .
+
+:bangkok
+    a           schema:Place ;
+    schema:name "Bangkok, Thailand" ;
+    schema:geo  [ schema:latitude 13.76 ; schema:longitude 100.5 ] ;
+    yr:timeZone "Asia/Bangkok" .
+
+:china
+    a           schema:Place ;
+    schema:name "China" ;
+    schema:geo  [ schema:latitude 35.86 ; schema:longitude 104.2 ] ;
+    yr:timeZone "Asia/Shanghai" .
+
+# ── Orderings (the Ontosome ordering module: https://ontosome.com/modules/ordering/) ──
+# A lesser ord:rank comes first. Ranks step by 10 so a new body can go between two without renumbering.
+# <ordering/chart>: the order the desktop receives bodies in. Among bodies of the same weight, the earlier
+# one keeps its label where labels collide. Partial: a body without a rank comes after every ranked one
+# (by kind, start year, id).
+
+<ordering/chart>
+    a                 ord:PartialOrdering ;
+    rdfs:label        "Atlas chart order" ;
+    ord:rankDirection ord:AscendingRank .
+
+<ordering/sectors>
+    a                 ord:TotalOrdering ;
+    rdfs:label        "Sector drawing order" ;
+    ord:rankDirection ord:AscendingRank .
+
+# ── Sectors: the slices of the chart, drawn in <ordering/sectors> ──
+
+<sector/companies> a yr:Sector ; rdfs:label "Companies" ; ord:inOrdering <ordering/sectors> ; ord:rank 1 .
+<sector/data> a yr:Sector ; rdfs:label "Data" ; ord:inOrdering <ordering/sectors> ; ord:rank 2 .
+<sector/machines> a yr:Sector ; rdfs:label "Machines & languages" ; ord:inOrdering <ordering/sectors> ; ord:rank 3 .
+<sector/writing> a yr:Sector ; rdfs:label "Words & ideas" ; ord:inOrdering <ordering/sectors> ; ord:rank 4 .
+<sector/life> a yr:Sector ; rdfs:label "Life" ; ord:inOrdering <ordering/sectors> ; ord:rank 5 .
+
+# ── Life ──
+
+:yrashk yr:lived :born .
+:born
+    a                  yr:LifeEvent, schema:Event ;
+    schema:name        "Born, Ukraine" ;
+    schema:description "Born in Ukraine." ;
+    yr:sector          <sector/life> ;
+    ord:inOrdering     <ordering/chart> ;
+    ord:rank           10 ;
+    yr:start           "1981"^^xsd:gYear ;
+    yr:weight          3 ;
+    yr:position        0.5 ;
+    schema:location    :ukraine .
+
+:yrashk yr:lived :first-job .
+:first-job
+    a                  yr:LifeEvent, schema:Event ;
+    schema:name        "First job" ;
+    schema:description "1999." ;
+    yr:sector          <sector/life> ;
+    ord:inOrdering     <ordering/chart> ;
+    ord:rank           20 ;
+    yr:start           "1999"^^xsd:gYear ;
+    yr:weight          2 ;
+    yr:position        0.58 .
+
+:yrashk yr:lived :moved-to-canada .
+:moved-to-canada
+    a                  yr:LifeEvent, schema:Event ;
+    schema:name        "Moved to Canada" ;
+    schema:description "Home has been in Canada since 2008; Comox, BC today." ;
+    yr:sector          <sector/life> ;
+    ord:inOrdering     <ordering/chart> ;
+    ord:rank           30 ;
+    yr:start           "2008"^^xsd:gYear ;
+    yr:weight          2 ;
+    yr:position        0.7 ;
+    schema:location    :canada .
+
+:yrashk yr:lived :ghjoin .
+:ghjoin
+    a                  yr:LifeEvent, schema:Event ;
+    schema:name        "Joins GitHub" ;
+    schema:url         <https://github.com/yrashk> ;
+    schema:description "Account created 2008-02-19. Since then: 342 public repositories, 827 followers." ;
+    yr:sector          <sector/machines> ;
+    ord:inOrdering     <ordering/chart> ;
+    ord:rank           40 ;
+    yr:start           "2008"^^xsd:gYear ;
+    yr:weight          1 ;
+    yr:position        0.4 .
+
+:yrashk yr:lived :lived-in-bangkok .
+:lived-in-bangkok
+    a                  yr:LifeEvent, schema:Event ;
+    schema:name        "Lived in Bangkok" ;
+    schema:description "Bangkok, 2014–2019." ;
+    yr:sector          <sector/life> ;
+    ord:inOrdering     <ordering/chart> ;
+    ord:rank           50 ;
+    yr:start           "2014"^^xsd:gYear ;
+    yr:end             "2019"^^xsd:gYear ;
+    yr:weight          2 ;
+    yr:position        0.3 ;
+    schema:location    :bangkok .
+
+:yrashk yr:lived :sf .
+:sf
+    a                  yr:LifeEvent, schema:Event ;
+    schema:name        "Working in San Francisco" ;
+    schema:description "Inferal is built from the Bay Area; home is Redwood City and Comox." ;
+    yr:sector          <sector/life> ;
+    ord:inOrdering     <ordering/chart> ;
+    ord:rank           60 ;
+    yr:start           "2026"^^xsd:gYear ;
+    yr:weight          2 ;
+    yr:position        0.84 ;
+    schema:location    :san-francisco .
+
+# ── Companies ──
+
+:yrashk yr:founded :inferal .
+:inferal
+    a                     yr:Company, schema:Organization ;
+    schema:name           "Inferal" ;
+    schema:url            <https://inferal.com> ;
+    schema:description    "Software is eating your business." ;
+    schema:abstract       "Data infrastructure that replaces custom glue software with live, governed decision logic. Models that run your business. Grew out of Omnigres in 2025." ;
+    yr:quote              "Data should summon agents — not the other way around." ;
+    yr:voice              "Your systems know what happened. Inferal determines what happens next." ;
+    yr:role               "founder" ;
+    yr:status             "active" ;
+    yr:group              "now" ;
+    yr:sector             <sector/companies> ;
+    ord:inOrdering        <ordering/chart> ;
+    ord:rank              70 ;
+    yr:start              "2025"^^xsd:gYear ;
+    yr:weight             4 ;
+    yr:position           0.5 ;
+    yr:color              "#ff6a3d" ;
+    yr:githubOrganization "inferal-oss",
+                          "inferaldata" ;
+    yr:notes              (
+        "Products: Relay (data movement), the Data Platform, Operational Models (ontologies) and Ontosome, a catalog of ontology modules."
+        "Team: Yurii Rashkovskii (founder), Jeremy Tregunna, Mehdi Akiki."
+        "From the Inferal blog: “Time Is Part of the Business Logic.”"
+    ) .
+
+:yrashk yr:founded :hackerintro .
+:hackerintro
+    a                  yr:Company, schema:Organization ;
+    schema:name        "HackerIntro" ;
+    schema:description "Resume Search: crawled and indexed developer resumes 24/7. Shut down in 2023." ;
+    yr:role            "founder" ;
+    yr:sector          <sector/companies> ;
+    ord:inOrdering     <ordering/chart> ;
+    ord:rank           80 ;
+    yr:start           "2021"^^xsd:gYear ;
+    yr:end             "2023"^^xsd:gYear ;
+    yr:weight          3 ;
+    yr:position        0.24 .
+
+:yrashk yr:founded :trustatom .
+:trustatom
+    a                  yr:Company, schema:Organization ;
+    schema:name        "Trustatom / Streamline.vc" ;
+    schema:description "Bitcoin-based smart contracts; raised, then pivoted to startup data assurance for investors under the Streamline.vc name." ;
+    yr:role            "founder" ;
+    yr:sector          <sector/companies> ;
+    ord:inOrdering     <ordering/chart> ;
+    ord:rank           90 ;
+    yr:start           "2014"^^xsd:gYear ;
+    yr:end             "2015"^^xsd:gYear ;
+    yr:weight          3 ;
+    yr:position        0.62 ;
+    yr:repos           ( <repo/trustatom-oss/trustatom-oss.github.io> <repo/trustatom-oss/elixir-fluent-client> ) .
+
+:yrashk yr:founded :bexio .
+:bexio
+    a                  yr:Company, schema:Organization ;
+    schema:name        "Bex.io" ;
+    schema:description "Bitcoin exchange as a service. Raised seed." ;
+    schema:abstract    "Grew out of Spawngrid in 2013." ;
+    yr:role            "founder" ;
+    yr:sector          <sector/companies> ;
+    ord:inOrdering     <ordering/chart> ;
+    ord:rank           100 ;
+    yr:start           "2013"^^xsd:gYear ;
+    yr:end             "2014"^^xsd:gYear ;
+    yr:weight          3 ;
+    yr:position        0.36 .
+
+:yrashk yr:founded :spawngrid .
+:spawngrid
+    a                  yr:Company, schema:Organization ;
+    schema:name        "Spawngrid" ;
+    schema:description "A cloud for complex Erlang systems. Also built Test.io, a property testing solution, and ultimately became Bex.io" ;
+    schema:abstract    "2011–2013; became Bex.io (2013)." ;
+    yr:role            "founder" ;
+    yr:sector          <sector/companies> ;
+    ord:inOrdering     <ordering/chart> ;
+    ord:rank           110 ;
+    yr:start           "2011"^^xsd:gYear ;
+    yr:end             "2013"^^xsd:gYear ;
+    yr:weight          3 ;
+    yr:position        0.88 ;
+    yr:continuedAs     :bexio ;
+    yr:repos           ( <repo/spawngrid/erel> <repo/spawngrid/proper_stdlib> <repo/spawngrid/seqbind> <repo/spawngrid/htoad> <repo/spawngrid/quickrel> <repo/spawngrid/exmig> ) .
+
+:yrashk yr:founded :issuesdone .
+:issuesdone
+    a                  yr:Company, schema:Organization ;
+    schema:name        "Issues Done" ;
+    schema:description "A web-based Getting Things Done application. The first company." ;
+    yr:role            "founder" ;
+    yr:sector          <sector/companies> ;
+    ord:inOrdering     <ordering/chart> ;
+    ord:rank           120 ;
+    yr:start           "2007"^^xsd:gYear ;
+    yr:end             "2008"^^xsd:gYear ;
+    yr:weight          3 ;
+    yr:position        0.5 .
+
+:yrashk yr:workedAt :hexagon .
+:hexagon
+    a                  yr:Company, schema:Organization ;
+    schema:name        "Hexagon.cc (IsoHunt)" ;
+    schema:description "Worked at Hexagon.cc (IsoHunt), 2008–2013." ;
+    yr:role            "employee" ;
+    yr:sector          <sector/companies> ;
+    ord:inOrdering     <ordering/chart> ;
+    ord:rank           130 ;
+    yr:start           "2008"^^xsd:gYear ;
+    yr:end             "2013"^^xsd:gYear ;
+    yr:weight          2 ;
+    yr:position        0.12 .
+
+:yrashk yr:workedAt :ditto .
+:ditto
+    a                  yr:Company, schema:Organization ;
+    schema:name        "Ditto" ;
+    schema:description "Worked at Ditto, 2018–2019." ;
+    yr:role            "employee" ;
+    yr:sector          <sector/companies> ;
+    ord:inOrdering     <ordering/chart> ;
+    ord:rank           140 ;
+    yr:start           "2018"^^xsd:gYear ;
+    yr:end             "2019"^^xsd:gYear ;
+    yr:weight          2 ;
+    yr:position        0.76 .
+
+:yrashk yr:founded :omnigres .
+:omnigres
+    a                  yr:Company, schema:Organization ;
+    schema:name        "Omnigres" ;
+    schema:url         <https://github.com/omnigres/omnigres> ;
+    schema:description "Postgres as a Platform." ;
+    schema:abstract    "Postgres as a complete application runtime: business logic, job queues, API endpoints, an HTTP server — inside or next to the database, instead of a constellation of services. 2022–2025; continued as Inferal (2025)." ;
+    yr:role            "founder" ;
+    yr:sector          <sector/data> ;
+    ord:inOrdering     <ordering/chart> ;
+    ord:rank           160 ;
+    yr:start           "2022"^^xsd:gYear ;
+    yr:end             "2025"^^xsd:gYear ;
+    yr:weight          4 ;
+    yr:position        0.44 ;
+    yr:chartYear       2023.6 ;
+    yr:continuedAs     :inferal ;
+    yr:repos           ( <repo/omnigres/omnigres> ) .
+
+# ── Projects ──
+
+:yrashk yr:built :pgext .
+:pgext
+    a                  yr:Project, schema:CreativeWork ;
+    schema:name        "Postgres Extensions Day" ;
+    schema:url         <https://pgext.day> ;
+    schema:description "A one-day, in-person event for the people who extend Postgres." ;
+    schema:abstract    "Organised the first edition in Montreal, May 12, 2025, hosted by the Postgres Extension Developers Coalition." ;
+    yr:role            "organizer" ;
+    yr:sector          <sector/data> ;
+    ord:inOrdering     <ordering/chart> ;
+    ord:rank           150 ;
+    yr:start           "2025"^^xsd:gYear ;
+    yr:end             "2025"^^xsd:gYear ;
+    yr:weight          3 ;
+    yr:position        0.78 ;
+    yr:chartYear       2025.36 ;
+    schema:recordedIn  [
+        a                schema:VideoObject ;
+        schema:url       <https://www.youtube.com/watch?v=cucQOOAahNY> ;
+        schema:name      "Postgres Extensions Day 2025" ;
+        schema:startDate "2025-05-12"^^xsd:date ;
+        schema:location  "Montréal" ;
+        yr:streamFrom    949 ;
+        schema:hasPart   [ a schema:Clip ; schema:startOffset 949 ; yr:speaker "Yurii Rashkovskii" ; schema:name "Welcome" ],
+                         [ a schema:Clip ; schema:startOffset 1065 ; yr:speaker "Hannu Krosing" ; schema:name "From pl/v8 to pl/<any>: towards easier extension development" ],
+                         [ a schema:Clip ; schema:startOffset 2847 ; yr:speaker "Andrey Borodin" ; schema:name "Upgrade as an extension" ],
+                         [ a schema:Clip ; schema:startOffset 4693 ; yr:speaker "Paul Jungwirth" ; schema:name "Inlining Postgres Functions, Now and Then" ],
+                         [ a schema:Clip ; schema:startOffset 6520 ; yr:speaker "Alvaro Hernandez" ; schema:name "Postgres à la carte: dynamic container images with your choice of extensions" ],
+                         [ a schema:Clip ; schema:startOffset 8752 ; yr:speaker "Yurii Rashkovskii" ; schema:name "Extension Upgrades" ; yr:talk :talk-ext-upgrades ],
+                         [ a schema:Clip ; schema:startOffset 10165 ; yr:speaker "Phil Eaton" ; schema:name "Working with MemoryContexts and debugging memory leaks in Postgres" ],
+                         [ a schema:Clip ; schema:startOffset 11707 ; yr:speaker "Sweta Vooda" ; schema:name "Postgres as a Control Plane: Challenges in Offloading Compute via Extensions" ],
+                         [ a schema:Clip ; schema:startOffset 17423 ; yr:speaker "Ruohang Feng" ; schema:name "The Missing Postgres Extension Repo and Package Manager" ],
+                         [ a schema:Clip ; schema:startOffset 18944 ; yr:speaker "David Wheeler" ; schema:name "How to automatically release your extensions on PGXN" ],
+                         [ a schema:Clip ; schema:startOffset 20936 ; yr:speaker "Cary Huang" ; schema:name "Extending PostgreSQL with Java: Overcoming Development Challenges in Bridging Java and C Application" ],
+                         [ a schema:Clip ; schema:startOffset 22733 ; yr:speaker "Cheng Chen" ; schema:name "Rethinking OLAP Architecture: The Journey to pg_mooncake v0.2" ],
+                         [ a schema:Clip ; schema:startOffset 24373 ; yr:speaker "Florents Tselai" ; schema:name "Spat: Hijacking Shared Memory for a Redis-Like Experience in PostgreSQL" ],
+                         [ a schema:Clip ; schema:startOffset 26283 ; yr:speaker "Yurii Rashkovskii" ; schema:name "Cppgres: One less reason to hate C++" ; yr:talk :talk-cppgres ],
+                         [ a schema:Clip ; schema:startOffset 28187 ; yr:speaker "Alastair Turner" ; schema:name "Extensibility - new options and a wish list" ]
+    ] .
+
+:yrashk yr:built :strata .
+:strata
+    a                  yr:Project, schema:CreativeWork ;
+    schema:name        "Strata" ;
+    schema:url         <https://yrashk.com/strata> ;
+    schema:description "A 64-bit machine where memory is explicit I/O." ;
+    schema:abstract    "A prototype instruction set and the small operating system that proves it. Local Stores instead of caches; transfers that complete with a tag; no interrupts." ;
+    yr:quote           "The machine shows through instead of being hidden." ;
+    yr:voice           "The machine shows through instead of being hidden." ;
+    yr:role            "author" ;
+    yr:status          "active · pushed today" ;
+    yr:group           "stunts" ;
+    yr:sector          <sector/machines> ;
+    ord:inOrdering     <ordering/chart> ;
+    ord:rank           170 ;
+    yr:start           "2026"^^xsd:gYear ;
+    yr:weight          4 ;
+    yr:position        0.5 ;
+    yr:color           "#e9e4d9" ;
+    yr:repos           ( <repo/yrashk/strata> ) ;
+    yr:notes           (
+        "RTL, a C emulator with JITs, the StrataOS microkernel written in Strata assembly, Strata Forth, and a browser playground."
+        "Local Stores, not caches: 64 KiB per core. Transfers carry completion tags: tget, tput, tany. Linear capabilities."
+        "StrataOS has a tiled window server and a strip of core cells that pulse on context switches — this desktop is its cousin."
+    ) .
+
+:yrashk yr:built :libycxx .
+:libycxx
+    a                  yr:Project, schema:CreativeWork ;
+    schema:name        "libycxx" ;
+    schema:url         <https://libycxx.org> ;
+    schema:description "An independent C++26 standard library." ;
+    schema:abstract    "Freestanding core plus hosted library; import std; works. Version 0.1.0. Presented as a spec sheet, because that is what it is." ;
+    yr:quote           "There is no list of tolerated failures." ;
+    yr:voice           "There is no list of tolerated failures." ;
+    yr:role            "director" ;
+    yr:status          "v0.1.0" ;
+    yr:group           "experimental" ;
+    yr:sector          <sector/machines> ;
+    ord:inOrdering     <ordering/chart> ;
+    ord:rank           180 ;
+    yr:start           "2026"^^xsd:gYear ;
+    yr:weight          4 ;
+    yr:position        0.24 ;
+    yr:color           "#9fd0ff" ;
+    yr:mono            true ;
+    yr:repos           ( <repo/yrashk/libycxx> ) ;
+    yr:notes           (
+        "2,824 spec-derived tests, plus 17,098 external libc++ and libstdc++ tests run unmodified."
+        "19 real-world projects built against it."
+        "Implemented by AI agents directed by the author."
+    ) .
+
+:yrashk yr:built :ycxx .
+:ycxx
+    a                  yr:Project, schema:CreativeWork ;
+    schema:name        "ycxx" ;
+    schema:url         <https://github.com/yrashk/ycxx> ;
+    schema:description "An independent, resident C++26 compiler." ;
+    schema:abstract    "Preprocessor, front end, constant evaluator, code generator, object writer and linker, all its own. It stays resident, holds the whole program's analysis in memory, and recomputes only what a change can affect." ;
+    yr:quote           "How far can we get with this?" ;
+    yr:voice           "How far can we get with this?" ;
+    yr:role            "director" ;
+    yr:status          "pre-0.1" ;
+    yr:group           "experimental" ;
+    yr:sector          <sector/machines> ;
+    ord:inOrdering     <ordering/chart> ;
+    ord:rank           190 ;
+    yr:start           "2026"^^xsd:gYear ;
+    yr:weight          3 ;
+    yr:position        0.34 ;
+    yr:color           "#b9a8ff" ;
+    yr:mono            true ;
+    yr:repos           ( <repo/yrashk/ycxx> ) ;
+    yr:notes           (
+        "In one week, from an old idea to compiling a good subset of C++ (classes, templates, constant evaluation) to signed macOS arm64 and static x86-64 Linux executables, with no external compiler, assembler or linker."
+        "Watch mode with an interactive trace for people and agents; ycxx policies for affine and linear type checking; its own benchmarking tool."
+        "Built by AI agents directed by the author, like libycxx before it. Open to anyone with spare LLM capacity to point at it."
+    ) .
+
+:yrashk yr:built :flyology .
+:flyology
+    a                  yr:Project, schema:CreativeWork ;
+    schema:name        "Flyology" ;
+    schema:url         <https://flyology.org> ;
+    schema:description "Systems foundations for Ada." ;
+    schema:abstract    "Named after Flyology, the book Ada Lovelace planned at twelve. Two task lanes, native and lightweight, and the libraries a serious system needs." ;
+    yr:quote           "A study of flight, revisited." ;
+    yr:voice           "A study of flight, revisited." ;
+    yr:role            "author" ;
+    yr:status          "active" ;
+    yr:group           "experimental" ;
+    yr:sector          <sector/machines> ;
+    ord:inOrdering     <ordering/chart> ;
+    ord:rank           200 ;
+    yr:start           "2026"^^xsd:gYear ;
+    yr:weight          3 ;
+    yr:position        0.78 ;
+    yr:color           "#d9c89a" ;
+    yr:repos           ( <repo/flyology-ada/flyology> <repo/flyology-ada/flyology-object-storage> <repo/flyology-ada/flyology-http> <repo/flyology-ada/flyology-postgres> <repo/flyology-ada/flyology-db> <repo/flyology-ada/flyology-simd> <repo/flyology-ada/flyology-freestanding> <repo/flyology-ada/flyology-tui> <repo/flyology-ada/flyology-rdf> <repo/flyology-ada/flyology-serde> <repo/flyology-ada/flyology-json> <repo/flyology-ada/flyology-device> <repo/flyology-ada/flyology-remoting> <repo/flyology-ada/flyology-cbor> <repo/flyology-ada/flyology-wire> <repo/flyology-ada/flyology-type-ir> <repo/flyology-ada/flyology-crc> <repo/flyology-ada/flyology.org> <repo/flyology-ada/website-kit> <repo/flyology-ada/gnat-patches> <repo/flyology-ada/agents> <repo/flyology-ada/tla> <repo/flyology-ada/counterweave> ) ;
+    yr:notes           (
+        "Libraries: HTTP, Postgres, QUIC, JSON, RDF, SIMD, TUI, NUMA, Cachelines, Allocators."
+    ) .
+
+:yrashk yr:built :lasocket .
+:lasocket
+    a                  yr:Project, schema:CreativeWork ;
+    schema:name        "lasocket" ;
+    schema:url         <https://github.com/yrashk/lasocket> ;
+    schema:description "One IP, many machines answering it at once." ;
+    schema:abstract    "Active-active TCP and UDP sockets across a LAN. Every node holds every connection; kill nodes, kill the coordinator, replace every machine, and nc, curl and ping sessions keep going, byte-exact." ;
+    yr:role            "author" ;
+    yr:status          "active" ;
+    yr:group           "stunts" ;
+    yr:sector          <sector/machines> ;
+    ord:inOrdering     <ordering/chart> ;
+    ord:rank           210 ;
+    yr:start           "2026"^^xsd:gYear ;
+    yr:weight          3 ;
+    yr:position        0.64 ;
+    yr:color           "#7fd6b0" ;
+    yr:repos           ( <repo/yrashk/lasocket> ) ;
+    yr:notes           (
+        "No coordinator on the hot path: who sends each segment block is a rendezvous hash over the live members, and nothing is acknowledged until two nodes hold it."
+        "Adapts to the switch: multicast, flood or relay per neighbor. No router or switch configuration."
+        "Rust. A Docker demo kills nodes, flips the switch through four scenarios and runs a chaos monkey while clients verify every byte."
+    ) .
+
+:yrashk yr:built :shutters .
+:shutters
+    a                  yr:Project, schema:CreativeWork ;
+    schema:name        "Shutters" ;
+    schema:url         <https://shutte.rs> ;
+    schema:description "A quiet place for your photographs." ;
+    schema:abstract    "A private, invite-only photo archive built for his family and now ready for friends." ;
+    yr:role            "author" ;
+    yr:status          "private · invite-only" ;
+    yr:group           "life" ;
+    yr:sector          <sector/life> ;
+    ord:inOrdering     <ordering/chart> ;
+    ord:rank           220 ;
+    yr:start           "2026"^^xsd:gYear ;
+    yr:approximate     true ;
+    yr:weight          3 ;
+    yr:position        0.5 ;
+    yr:color           "#b7b1a6" ;
+    yr:notes           (
+        "shutte.rs — the name is the domain."
+    ) .
+
+:yrashk yr:built :uplpgsql .
+:uplpgsql
+    a                  yr:Project, schema:CreativeWork ;
+    schema:name        "uplpgsql" ;
+    schema:url         <https://github.com/yrashk/uplpgsql> ;
+    schema:description "A JIT-compiled PL/pgSQL." ;
+    schema:abstract    "Work in progress." ;
+    yr:sector          <sector/data> ;
+    ord:inOrdering     <ordering/chart> ;
+    ord:rank           240 ;
+    yr:start           "2026"^^xsd:gYear ;
+    yr:approximate     true ;
+    yr:weight          2 ;
+    yr:position        0.2 .
+
+# ── Open source (curated) ──
+
+:yrashk yr:contributedTo :abtop .
+:abtop
+    a                  yr:Repository, schema:SoftwareSourceCode ;
+    schema:name        "abtop" ;
+    schema:url         <https://github.com/graykode/abtop> ;
+    schema:description "A contribution to abtop, an htop for AI coding agents: a light-terminal readability fix." ;
+    yr:sector          <sector/machines> ;
+    ord:inOrdering     <ordering/chart> ;
+    ord:rank           230 ;
+    yr:start           "2026"^^xsd:gYear ;
+    yr:end             "2026"^^xsd:gYear ;
+    yr:weight          1 ;
+    yr:position        0.95 ;
+    yr:repos           ( <repo/graykode/abtop> ) .
+
+:yrashk yr:contributedTo :elixir .
+:elixir
+    a                  yr:Repository, schema:SoftwareSourceCode ;
+    schema:name        "Elixir" ;
+    schema:url         <https://github.com/elixir-lang/elixir> ;
+    schema:description "An early contributor to the Elixir language, in its Erlang-VM infancy." ;
+    yr:sector          <sector/machines> ;
+    ord:inOrdering     <ordering/chart> ;
+    ord:rank           250 ;
+    yr:start           "2011"^^xsd:gYear ;
+    yr:end             "2013"^^xsd:gYear ;
+    yr:weight          2 ;
+    yr:position        0.56 ;
+    yr:repos           ( <repo/elixir-lang/elixir> <repo/elixir-lang/elixir-lang.github.com> ) .
+
+:yrashk yr:contributedTo :pumpkindb .
+:pumpkindb
+    a                  yr:Repository, schema:SoftwareSourceCode ;
+    schema:name        "PumpkinDB" ;
+    schema:url         <https://github.com/PumpkinDB/PumpkinDB> ;
+    schema:description "PumpkinDB, 2017 — the project whose commit history taught the one-commit-at-a-time essay." ;
+    yr:sector          <sector/machines> ;
+    ord:inOrdering     <ordering/chart> ;
+    ord:rank           260 ;
+    yr:start           "2017"^^xsd:gYear ;
+    yr:end             "2017"^^xsd:gYear ;
+    yr:weight          2 ;
+    yr:position        0.22 ;
+    yr:repos           ( <repo/PumpkinDB/PumpkinDB> <repo/PumpkinDB/pumpkindb.github.io> <repo/PumpkinDB/pumpkindb-java> <repo/PumpkinDB/rust-spdk> <repo/PumpkinDB/rfc> ) .
+
+:yrashk yr:contributedTo :erlzmq2 .
+:erlzmq2
+    a                  yr:Repository, schema:SoftwareSourceCode ;
+    schema:name        "erlzmq2" ;
+    schema:url         <https://github.com/zeromq/erlzmq2> ;
+    schema:description "ZeroMQ bindings for Erlang." ;
+    yr:sector          <sector/machines> ;
+    ord:inOrdering     <ordering/chart> ;
+    ord:rank           270 ;
+    yr:start           "2011"^^xsd:gYear ;
+    yr:end             "2016"^^xsd:gYear ;
+    yr:weight          2 ;
+    yr:position        0.1 ;
+    yr:repos           ( <repo/zeromq/erlzmq2> <repo/zeromq/erlzmq> <repo/agner/erlzmq.agner> ) .
+
+:yrashk yr:contributedTo :pgrx .
+:pgrx
+    a                  yr:Repository, schema:SoftwareSourceCode ;
+    schema:name        "pgrx" ;
+    schema:url         <https://github.com/pgcentralfoundation/pgrx> ;
+    schema:description "Contributions to pgrx, the framework for writing Postgres extensions in Rust." ;
+    yr:sector          <sector/data> ;
+    ord:inOrdering     <ordering/chart> ;
+    ord:rank           280 ;
+    yr:start           "2022"^^xsd:gYear ;
+    yr:end             "2023"^^xsd:gYear ;
+    yr:weight          2 ;
+    yr:position        0.1 ;
+    yr:repos           ( <repo/pgcentralfoundation/pgrx> <repo/pgext-rs/pgext-rs> ) .
+
+:yrashk yr:contributedTo :wasmrs .
+:wasmrs
+    a                  yr:Repository, schema:SoftwareSourceCode ;
+    schema:name        "wasm.rs" ;
+    schema:url         <https://github.com/wasm-rs> ;
+    schema:description "WebAssembly in Rust — and a good domain." ;
+    yr:sector          <sector/machines> ;
+    ord:inOrdering     <ordering/chart> ;
+    ord:rank           290 ;
+    yr:start           "2021"^^xsd:gYear ;
+    yr:end             "2021"^^xsd:gYear ;
+    yr:weight          1 ;
+    yr:position        0.82 ;
+    yr:repos           ( <repo/wasm-rs/async-executor> <repo/wasm-rs/wasm-rs.github.io> <repo/wasm-rs/dbg> <repo/wasm-rs/cargo-metadata> <repo/wasm-rs/shared-channel> ) .
+
+:yrashk yr:contributedTo :cplusplus .
+:cplusplus
+    a                  yr:Repository, schema:SoftwareSourceCode ;
+    schema:name        "GNU Common C++" ;
+    schema:url         <https://sourceforge.net/p/cplusplus/> ;
+    schema:description "A member of GNU Common C++, portable C++ class libraries, on SourceForge." ;
+    yr:sector          <sector/machines> ;
+    ord:inOrdering     <ordering/chart> ;
+    ord:rank           300 ;
+    yr:start           "2000"^^xsd:gYear ;
+    yr:end             "2000"^^xsd:gYear ;
+    yr:approximate     true ;
+    yr:weight          1 ;
+    yr:position        0.3 .
+
+:yrashk yr:contributedTo :eas .
+:eas
+    a                  yr:Repository, schema:SoftwareSourceCode ;
+    schema:name        "E/AS" ;
+    schema:url         <https://sourceforge.net/p/eas-dev/> ;
+    schema:description "E/AS, an open-source business automation system; one of its developers." ;
+    yr:sector          <sector/machines> ;
+    ord:inOrdering     <ordering/chart> ;
+    ord:rank           310 ;
+    yr:start           "2001"^^xsd:gYear ;
+    yr:end             "2004"^^xsd:gYear ;
+    yr:approximate     true ;
+    yr:weight          2 ;
+    yr:position        0.66 .
+
+:yrashk yr:contributedTo :camomile .
+:camomile
+    a                  yr:Repository, schema:SoftwareSourceCode ;
+    schema:name        "Camomile" ;
+    schema:url         <https://sourceforge.net/p/camomile/> ;
+    schema:description "Camomile, the Unicode library for OCaml; one of its developers." ;
+    yr:sector          <sector/machines> ;
+    ord:inOrdering     <ordering/chart> ;
+    ord:rank           320 ;
+    yr:start           "2002"^^xsd:gYear ;
+    yr:end             "2002"^^xsd:gYear ;
+    yr:approximate     true ;
+    yr:weight          1 ;
+    yr:position        0.14 .
+
+:yrashk yr:authored :ocamlspread .
+:ocamlspread
+    a                  yr:Repository, schema:SoftwareSourceCode ;
+    schema:name        "OcamlSpread" ;
+    schema:url         <https://sourceforge.net/p/ocamlspread/> ;
+    schema:description "OCaml bindings for the Spread group-communication toolkit. Released 0.0.1 in September 2002." ;
+    yr:role            "author" ;
+    yr:sector          <sector/machines> ;
+    ord:inOrdering     <ordering/chart> ;
+    ord:rank           330 ;
+    yr:start           "2002"^^xsd:gYear ;
+    yr:end             "2002"^^xsd:gYear ;
+    yr:weight          1 ;
+    yr:position        0.86 .
+
+:yrashk yr:authored :common-xml .
+:common-xml
+    a                  yr:Repository, schema:SoftwareSourceCode ;
+    schema:name        "COMMON-XML" ;
+    schema:url         <https://sourceforge.net/p/common-xml/> ;
+    schema:description "A full-featured XML library for Common Lisp." ;
+    yr:role            "author" ;
+    yr:sector          <sector/machines> ;
+    ord:inOrdering     <ordering/chart> ;
+    ord:rank           340 ;
+    yr:start           "2003"^^xsd:gYear ;
+    yr:end             "2003"^^xsd:gYear ;
+    yr:weight          1 ;
+    yr:position        0.46 .
+
+:yrashk yr:authored :cl-dtype .
+:cl-dtype
+    a                  yr:Repository, schema:SoftwareSourceCode ;
+    schema:name        "CL-DTYPE" ;
+    schema:url         <https://www.cliki.net/CL-DTYPE> ;
+    schema:description "DType, the MIT Media Lab wire format, in Common Lisp; with help from Victor Sovetov." ;
+    yr:role            "author" ;
+    yr:sector          <sector/machines> ;
+    ord:inOrdering     <ordering/chart> ;
+    ord:rank           350 ;
+    yr:start           "2003"^^xsd:gYear ;
+    yr:end             "2003"^^xsd:gYear ;
+    yr:weight          1 ;
+    yr:position        0.06 .
+
+:yrashk yr:contributedTo :etiquette .
+:etiquette
+    a                  yr:Repository, schema:SoftwareSourceCode ;
+    schema:name        "Etiquette" ;
+    schema:url         <https://sourceforge.net/p/etiquette/> ;
+    schema:description "Etiquette, Eugene Zaikonnikov's Common Lisp framework for building network protocols; one of its developers." ;
+    yr:sector          <sector/machines> ;
+    ord:inOrdering     <ordering/chart> ;
+    ord:rank           360 ;
+    yr:start           "2003"^^xsd:gYear ;
+    yr:end             "2003"^^xsd:gYear ;
+    yr:weight          1 ;
+    yr:position        0.74 .
+
+:yrashk yr:contributedTo :portableaserve .
+:portableaserve
+    a                  yr:Repository, schema:SoftwareSourceCode ;
+    schema:name        "Portable AllegroServe" ;
+    schema:url         <https://sourceforge.net/p/portableaserve/> ;
+    schema:description "Portable AllegroServe, a Common Lisp web server that runs across Lisps and systems; one of its developers." ;
+    yr:sector          <sector/machines> ;
+    ord:inOrdering     <ordering/chart> ;
+    ord:rank           370 ;
+    yr:start           "2003"^^xsd:gYear ;
+    yr:end             "2003"^^xsd:gYear ;
+    yr:approximate     true ;
+    yr:weight          1 ;
+    yr:position        0.92 .
+
+:yrashk yr:authored :encline .
+:encline
+    a                  yr:Repository, schema:SoftwareSourceCode ;
+    schema:name        "Encline" ;
+    schema:url         <https://www.cliki.net/Encline> ;
+    schema:description "A Common Lisp engine for enterprise software: frame database, workflow, group communication, transactions, failure recovery." ;
+    schema:abstract    "Came with EnclineTest (etest), its unit-test framework, in 2004." ;
+    yr:role            "author" ;
+    yr:sector          <sector/machines> ;
+    ord:inOrdering     <ordering/chart> ;
+    ord:rank           380 ;
+    yr:start           "2004"^^xsd:gYear ;
+    yr:end             "2004"^^xsd:gYear ;
+    yr:weight          2 ;
+    yr:position        0.2 .
+
+# ── Writing ──
+
+:yrashk yr:wrote :p-canoe .
+:p-canoe
+    a                    yr:Essay, schema:BlogPosting ;
+    schema:name          "Team Uncommunication" ;
+    schema:url           <https://yrashk.com/blog/2014/04/21/team-uncommunication/> ;
+    schema:description   "Two friends, a canoe, a lake on Vancouver Island. What fixed the paddling was a steering agreement, not more talking — “we didn’t need to communicate our paddling at all!”" ;
+    yr:sector            <sector/writing> ;
+    ord:inOrdering       <ordering/chart> ;
+    ord:rank             390 ;
+    yr:start             "2014"^^xsd:gYear ;
+    yr:weight            1 ;
+    yr:position          0.3 ;
+    yr:chartYear         2014.3 ;
+    schema:datePublished "2014-04-21"^^xsd:date ;
+    yr:listed            true ;
+    yr:featured          true ;
+    schema:keywords      "practices",
+                         "teamwork" .
+
+:yrashk yr:wrote :p-c4 .
+:p-c4
+    a                    yr:Essay, schema:BlogPosting ;
+    schema:name          "Solving Problems, One Commit at a Time" ;
+    schema:url           <https://yrashk.com/blog/2017/09/04/solving-problems-one-commit-at-a-time/> ;
+    schema:description   "Every commit is a problem statement and its solution. The history of this very site still reads “Problem: …”." ;
+    yr:sector            <sector/data> ;
+    ord:inOrdering       <ordering/chart> ;
+    ord:rank             400 ;
+    yr:start             "2017"^^xsd:gYear ;
+    yr:weight            1 ;
+    yr:position          0.62 ;
+    yr:chartYear         2017.67 ;
+    schema:datePublished "2017-09-04"^^xsd:date ;
+    yr:listed            true ;
+    yr:featured          true ;
+    schema:keywords      "Git",
+                         "C4",
+                         "practices" ;
+    yr:related           :pumpkindb .
+
+:yrashk yr:wrote :p-rust .
+:p-rust
+    a                    yr:Essay, schema:BlogPosting ;
+    schema:name          "Why not Rust for Omnigres?" ;
+    schema:url           <https://yrashk.com/blog/2023/01/07/why-not-rust-for-omnigres/> ;
+    schema:description   "On the complexity and inefficiencies plaguing modern business software — and a deliberately unfashionable choice." ;
+    yr:sector            <sector/data> ;
+    ord:inOrdering       <ordering/chart> ;
+    ord:rank             410 ;
+    yr:start             "2023"^^xsd:gYear ;
+    yr:weight            1 ;
+    yr:position          0.56 ;
+    yr:chartYear         2023.02 ;
+    schema:datePublished "2023-01-07"^^xsd:date ;
+    yr:listed            true ;
+    yr:featured          true ;
+    schema:keywords      "Postgres",
+                         "Omnigres",
+                         "Rust",
+                         "C" ;
+    yr:related           :omnigres .
+
+:yrashk yr:wrote :p-http .
+:p-http
+    a                    yr:Essay, schema:BlogPosting ;
+    schema:name          "What happens if you put HTTP server inside Postgres?" ;
+    schema:url           <https://yrashk.com/blog/2023/02/16/what-happens-if-you-put-http-server-inside-postgres/> ;
+    schema:description   "Benchmarks are attention-grabbers, but that’s not what drew me to Omnigres. Still: one query that makes a database answer HTTP." ;
+    yr:sector            <sector/data> ;
+    ord:inOrdering       <ordering/chart> ;
+    ord:rank             420 ;
+    yr:start             "2023"^^xsd:gYear ;
+    yr:weight            1 ;
+    yr:position          0.4 ;
+    yr:chartYear         2023.13 ;
+    schema:datePublished "2023-02-16"^^xsd:date ;
+    yr:listed            true ;
+    yr:featured          true ;
+    yr:sample            true ;
+    schema:keywords      "Postgres",
+                         "Omnigres",
+                         "performance" ;
+    yr:related           :omnigres .
+
+:yrashk yr:wrote :p-pgext25 .
+:p-pgext25
+    a                    yr:Essay, schema:BlogPosting ;
+    schema:name          "Postgres Extensions Day 2025 Montreal: Registration and Call for Speakers" ;
+    schema:url           <https://yrashk.com/blog/2025/02/26/postgres-extensions-day-2025-montreal-registration-and-call-for-speakers/> ;
+    schema:description   "On May 12th, 2025, the Postgres Extension Developers Coalition hosts a one-day, in-person event in Montreal." ;
+    yr:sector            <sector/data> ;
+    ord:inOrdering       <ordering/chart> ;
+    ord:rank             430 ;
+    yr:start             "2025"^^xsd:gYear ;
+    yr:weight            1 ;
+    yr:position          0.66 ;
+    yr:chartYear         2025.15 ;
+    schema:datePublished "2025-02-26"^^xsd:date ;
+    yr:listed            true ;
+    schema:keywords      "Postgres" ;
+    yr:related           :pgext .
+
+:yrashk yr:wrote :p-d3x .
+:p-d3x
+    a                    yr:Essay, schema:BlogPosting ;
+    schema:name          "Omnigres Developer Experience" ;
+    schema:url           <https://yrashk.com/blog/2023/07/20/omnigres-developer-experience/> ;
+    schema:description   "The most successful developer tools are usually the ones with an amazing developer experience." ;
+    yr:sector            <sector/data> ;
+    ord:inOrdering       <ordering/chart> ;
+    ord:rank             440 ;
+    yr:start             "2023"^^xsd:gYear ;
+    yr:weight            1 ;
+    yr:position          0.3 ;
+    yr:chartYear         2023.55 ;
+    schema:datePublished "2023-07-20"^^xsd:date ;
+    yr:listed            true ;
+    schema:keywords      "Omnigres",
+                         "D3X" ;
+    yr:related           :omnigres .
+
+:yrashk yr:wrote :p-regr .
+:p-regr
+    a                    yr:Essay, schema:BlogPosting ;
+    schema:name          "Structured Postgres Regression Tests" ;
+    schema:url           <https://yrashk.com/blog/2023/04/23/structured-postgres-regression-tests/> ;
+    schema:description   "As my tests became larger, I started getting lost in them." ;
+    yr:sector            <sector/data> ;
+    ord:inOrdering       <ordering/chart> ;
+    ord:rank             450 ;
+    yr:start             "2023"^^xsd:gYear ;
+    yr:weight            1 ;
+    yr:position          0.62 ;
+    yr:chartYear         2023.31 ;
+    schema:datePublished "2023-04-23"^^xsd:date ;
+    yr:listed            true ;
+    schema:keywords      "Postgres",
+                         "Omnigres" ;
+    yr:related           :omnigres .
+
+:yrashk yr:wrote :p-lim .
+:p-lim
+    a                    yr:Essay, schema:BlogPosting ;
+    schema:name          "Avoiding Postgres Extensions Limitations" ;
+    schema:url           <https://yrashk.com/blog/2023/04/10/avoiding-postgres-extensions-limitations/> ;
+    schema:description   "Postgres extensions are great, but there are edges in some of its features." ;
+    yr:sector            <sector/data> ;
+    ord:inOrdering       <ordering/chart> ;
+    ord:rank             460 ;
+    yr:start             "2023"^^xsd:gYear ;
+    yr:weight            1 ;
+    yr:position          0.2 ;
+    yr:chartYear         2023.27 ;
+    schema:datePublished "2023-04-10"^^xsd:date ;
+    yr:listed            true ;
+    schema:keywords      "Postgres",
+                         "tips" ;
+    yr:related           :omnigres .
+
+:yrashk yr:wrote :p-sum .
+:p-sum
+    a                    yr:Essay, schema:BlogPosting ;
+    schema:name          "Sum Types in Postgres" ;
+    schema:url           <https://yrashk.com/blog/2023/04/09/sum-types-in-postgres/> ;
+    schema:description   "A generalized mechanism for values that can be any of the given variants." ;
+    yr:sector            <sector/data> ;
+    ord:inOrdering       <ordering/chart> ;
+    ord:rank             470 ;
+    yr:start             "2023"^^xsd:gYear ;
+    yr:weight            1 ;
+    yr:position          0.72 ;
+    yr:chartYear         2023.27 ;
+    schema:datePublished "2023-04-09"^^xsd:date ;
+    yr:listed            true ;
+    schema:keywords      "Postgres",
+                         "Omnigres",
+                         "types" ;
+    yr:related           :omnigres .
+
+:yrashk yr:wrote :p-plrust .
+:p-plrust
+    a                    yr:Essay, schema:BlogPosting ;
+    schema:name          "PL/Rust Just Shipped: Easy Way to Try It Out" ;
+    schema:url           <https://yrashk.com/blog/2023/04/05/plrust-just-shipped-easy-way-to-try-it-out/> ;
+    schema:description   "PL/Rust 1.0.0 is out; here’s a quick way to try it without the long setup." ;
+    yr:sector            <sector/data> ;
+    ord:inOrdering       <ordering/chart> ;
+    ord:rank             480 ;
+    yr:start             "2023"^^xsd:gYear ;
+    yr:weight            1 ;
+    yr:position          0.12 ;
+    yr:chartYear         2023.26 ;
+    schema:datePublished "2023-04-05"^^xsd:date ;
+    yr:listed            true ;
+    schema:keywords      "Postgres",
+                         "Rust",
+                         "Docker" ;
+    yr:related           :omnigres .
+
+:yrashk yr:wrote :p-game .
+:p-game
+    a                    yr:Essay, schema:BlogPosting ;
+    schema:name          "Make Postgres an Application Server, Gamified" ;
+    schema:url           <https://yrashk.com/blog/2023/04/04/make-postgres-an-application-server-gamified/> ;
+    schema:description   "Can Postgres be a fully self-sufficient platform for your application?" ;
+    yr:sector            <sector/data> ;
+    ord:inOrdering       <ordering/chart> ;
+    ord:rank             490 ;
+    yr:start             "2023"^^xsd:gYear ;
+    yr:weight            1 ;
+    yr:position          0.5 ;
+    yr:chartYear         2023.25 ;
+    schema:datePublished "2023-04-04"^^xsd:date ;
+    yr:listed            true ;
+    schema:keywords      "Postgres",
+                         "Omnigres",
+                         "contest" ;
+    yr:related           :omnigres .
+
+:yrashk yr:wrote :p-couchdb .
+:p-couchdb
+    a                    yr:Essay, schema:BlogPosting ;
+    schema:name          "What Is Missing in CouchDB Approach" ;
+    schema:url           <https://yrashk.com/blog/2007/11/22/what-is-missing-in-couchdb-approach/> ;
+    schema:description   "From the archive: an object’s slot should be an object too." ;
+    yr:sector            <sector/data> ;
+    ord:inOrdering       <ordering/chart> ;
+    ord:rank             500 ;
+    yr:start             "2007"^^xsd:gYear ;
+    yr:weight            1 ;
+    yr:position          0.34 ;
+    yr:chartYear         2007.89 ;
+    schema:datePublished "2007-11-22"^^xsd:date ;
+    yr:listed            true ;
+    schema:keywords      "databases",
+                         "CouchDB" ;
+    yr:related           :pumpkindb .
+
+:yrashk yr:wrote :p-docdb-fud .
+:p-docdb-fud
+    a                    yr:Essay, schema:BlogPosting ;
+    schema:name          "Top 10 Reasons to Avoid Document Databases FUD" ;
+    schema:url           <https://yrashk.com/blog/2008/04/26/top-10-reasons-to-avoid-document-databases-fud/> ;
+    schema:description   "From the archive: a point-by-point answer to the case against document databases, from the StrokeDB days." ;
+    yr:sector            <sector/data> ;
+    ord:inOrdering       <ordering/chart> ;
+    ord:rank             510 ;
+    yr:start             "2008"^^xsd:gYear ;
+    yr:weight            1 ;
+    yr:position          0.5 ;
+    yr:chartYear         2008.32 ;
+    schema:datePublished "2008-04-26"^^xsd:date ;
+    yr:listed            true ;
+    schema:keywords      "databases",
+                         "StrokeDB" ;
+    yr:related           :pumpkindb .
+
+:yrashk yr:wrote :p-no-database .
+:p-no-database
+    a                    yr:Essay, schema:BlogPosting ;
+    schema:name          "We Don’t Need a “Database”" ;
+    schema:url           <https://yrashk.com/blog/2008/05/16/we-dont-need-a-database/> ;
+    schema:description   "From the archive: “Your application itself IS a smart database.”" ;
+    yr:sector            <sector/data> ;
+    ord:inOrdering       <ordering/chart> ;
+    ord:rank             520 ;
+    yr:start             "2008"^^xsd:gYear ;
+    yr:weight            1 ;
+    yr:position          0.66 ;
+    yr:chartYear         2008.37 ;
+    schema:datePublished "2008-05-16"^^xsd:date ;
+    yr:listed            true ;
+    schema:keywords      "databases",
+                         "StrokeDB" ;
+    yr:related           :pumpkindb .
+
+:yrashk yr:wrote :p-save .
+:p-save
+    a                    yr:Essay, schema:BlogPosting ;
+    schema:name          "Is “Save” Obsolete?" ;
+    schema:url           <https://yrashk.com/blog/2008/07/13/is-save-obsolete/> ;
+    schema:description   "From the archive: persist every change, and record business operations instead of saves." ;
+    yr:sector            <sector/data> ;
+    ord:inOrdering       <ordering/chart> ;
+    ord:rank             530 ;
+    yr:start             "2008"^^xsd:gYear ;
+    yr:weight            1 ;
+    yr:position          0.82 ;
+    yr:chartYear         2008.53 ;
+    schema:datePublished "2008-07-13"^^xsd:date ;
+    yr:listed            true ;
+    schema:keywords      "databases",
+                         "StrokeDB" ;
+    yr:related           :pumpkindb .
+
+:yrashk yr:wrote :p-team-play .
+:p-team-play
+    a                    yr:Essay, schema:BlogPosting ;
+    schema:name          "The Team Play Myth" ;
+    schema:url           <https://yrashk.com/blog/2014/09/07/the-team-play-myth/> ;
+    schema:description   "The sequel to Team Uncommunication: one person per small project, and every teammate an educator." ;
+    yr:sector            <sector/writing> ;
+    ord:inOrdering       <ordering/chart> ;
+    ord:rank             540 ;
+    yr:start             "2014"^^xsd:gYear ;
+    yr:weight            1 ;
+    yr:position          0.55 ;
+    yr:chartYear         2014.68 ;
+    schema:datePublished "2014-09-07"^^xsd:date ;
+    yr:listed            true ;
+    schema:keywords      "practices",
+                         "teamwork" ;
+    yr:related           :p-canoe .
+
+:yrashk yr:wrote :p-lazy-es .
+:p-lazy-es
+    a                    yr:Essay, schema:BlogPosting ;
+    schema:name          "Lazy Event Sourcing" ;
+    schema:url           <https://yrashk.com/blog/2016/04/13/lazy-event-sourcing/> ;
+    schema:description   "Query the events when you need the data, instead of predicting the future in a state database." ;
+    yr:sector            <sector/data> ;
+    ord:inOrdering       <ordering/chart> ;
+    ord:rank             550 ;
+    yr:start             "2016"^^xsd:gYear ;
+    yr:weight            1 ;
+    yr:position          0.3 ;
+    yr:chartYear         2016.28 ;
+    schema:datePublished "2016-04-13"^^xsd:date ;
+    yr:listed            true ;
+    schema:keywords      "event sourcing",
+                         "databases" ;
+    yr:related           :pumpkindb .
+
+:yrashk yr:wrote :p-no-user .
+:p-no-user
+    a                    yr:Essay, schema:BlogPosting ;
+    schema:name          "There Is No “User”" ;
+    schema:url           <https://yrashk.com/blog/2016/09/26/there-is-no-user/> ;
+    schema:description   "Record what happened — someone signed in with LinkedIn — and decide what that was later." ;
+    yr:sector            <sector/data> ;
+    ord:inOrdering       <ordering/chart> ;
+    ord:rank             560 ;
+    yr:start             "2016"^^xsd:gYear ;
+    yr:weight            1 ;
+    yr:position          0.46 ;
+    yr:chartYear         2016.74 ;
+    schema:datePublished "2016-09-26"^^xsd:date ;
+    yr:listed            true ;
+    schema:keywords      "event sourcing",
+                         "databases" ;
+    yr:related           :pumpkindb .
+
+:yrashk yr:wrote :p-pumpkins .
+:p-pumpkins
+    a                    yr:Essay, schema:BlogPosting ;
+    schema:name          "Your Functional Programs Are Imperative Pumpkins" ;
+    schema:url           <https://yrashk.com/blog/2016/10/30/your-functional-programs-are-imperative-pumpkins/> ;
+    schema:description   "Immutable code on a mutable database is still an imperative system. It doesn’t have to be." ;
+    yr:sector            <sector/data> ;
+    ord:inOrdering       <ordering/chart> ;
+    ord:rank             570 ;
+    yr:start             "2016"^^xsd:gYear ;
+    yr:weight            1 ;
+    yr:position          0.72 ;
+    yr:chartYear         2016.83 ;
+    schema:datePublished "2016-10-30"^^xsd:date ;
+    yr:listed            true ;
+    schema:keywords      "event sourcing",
+                         "databases",
+                         "functional programming" ;
+    yr:related           :pumpkindb .
+
+:yrashk yr:wrote :p-abstractions .
+:p-abstractions
+    a                    yr:Essay, schema:BlogPosting ;
+    schema:name          "Removing Obscuring Abstractions" ;
+    schema:url           <https://yrashk.com/blog/2017/06/09/removing-obscuring-abstractions/> ;
+    schema:description   "Down to a B+ tree key/value store with no overwrites, to see what storing and finding data really costs." ;
+    yr:sector            <sector/data> ;
+    ord:inOrdering       <ordering/chart> ;
+    ord:rank             580 ;
+    yr:start             "2017"^^xsd:gYear ;
+    yr:weight            1 ;
+    yr:position          0.86 ;
+    yr:chartYear         2017.44 ;
+    schema:datePublished "2017-06-09"^^xsd:date ;
+    yr:listed            true ;
+    schema:keywords      "PumpkinDB",
+                         "databases" ;
+    yr:related           :pumpkindb .
+
+:yrashk yr:wrote :p-covers .
+:p-covers
+    a                    yr:Essay, schema:BlogPosting ;
+    schema:name          "Under the Covers of Code" ;
+    schema:url           <https://yrashk.com/blog/2018/01/31/under-the-covers-of-code/> ;
+    schema:description   "Code says what, not why. Problem/Solution commits, and SIT, an issue tracker that lives in the repository." ;
+    yr:sector            <sector/data> ;
+    ord:inOrdering       <ordering/chart> ;
+    ord:rank             590 ;
+    yr:start             "2018"^^xsd:gYear ;
+    yr:weight            1 ;
+    yr:position          0.48 ;
+    yr:chartYear         2018.08 ;
+    schema:datePublished "2018-01-31"^^xsd:date ;
+    yr:listed            true ;
+    schema:keywords      "Git",
+                         "practices" ;
+    yr:related           :p-c4 .
+
+:yrashk yr:wrote :p-dear-oss .
+:p-dear-oss
+    a                    yr:Essay, schema:BlogPosting ;
+    schema:name          "Dear Open Source Projects…" ;
+    schema:url           <https://yrashk.com/blog/2018/03/15/dear-open-source-projects/> ;
+    schema:description   "On choosing open, durable places for a community to talk." ;
+    yr:sector            <sector/writing> ;
+    ord:inOrdering       <ordering/chart> ;
+    ord:rank             600 ;
+    yr:start             "2018"^^xsd:gYear ;
+    yr:weight            1 ;
+    yr:position          0.7 ;
+    yr:chartYear         2018.2 ;
+    schema:datePublished "2018-03-15"^^xsd:date ;
+    yr:listed            true ;
+    schema:keywords      "open source" .
+
+:yrashk yr:wrote :p-3x .
+:p-3x
+    a                    yr:Essay, schema:BlogPosting ;
+    schema:name          "Repeating Yourself Thrice Doesn’t Turn You Into a 3x Developer" ;
+    schema:url           <https://yrashk.com/blog/2023/07/30/repeating-yourself-thrice-doesnt-turn-you-into-a-3x-developer/> ;
+    schema:description   "Three tiers, three times the work. Written with Ophir Lojkine." ;
+    yr:sector            <sector/data> ;
+    ord:inOrdering       <ordering/chart> ;
+    ord:rank             610 ;
+    yr:start             "2023"^^xsd:gYear ;
+    yr:weight            1 ;
+    yr:position          0.86 ;
+    yr:chartYear         2023.58 ;
+    schema:datePublished "2023-07-30"^^xsd:date ;
+    yr:listed            true ;
+    schema:keywords      "Omnigres",
+                         "Postgres",
+                         "architecture" ;
+    yr:related           :omnigres .
+
+:yrashk yr:wrote :p-firing .
+:p-firing
+    a                    yr:Essay, schema:BlogPosting ;
+    schema:name          "Firing Developers Won’t Make Software Cheaper" ;
+    schema:url           <https://yrashk.com/blog/2025/06/21/firing-developers-wont-make-software-cheaper/> ;
+    schema:description   "Reduce the need for software instead of hiding its complexity." ;
+    yr:sector            <sector/writing> ;
+    ord:inOrdering       <ordering/chart> ;
+    ord:rank             620 ;
+    yr:start             "2025"^^xsd:gYear ;
+    yr:weight            1 ;
+    yr:position          0.4 ;
+    yr:chartYear         2025.47 ;
+    schema:datePublished "2025-06-21"^^xsd:date ;
+    yr:listed            true ;
+    schema:keywords      "AI",
+                         "software" ;
+    yr:related           :inferal .
+
+# ── Talks ──
+
+:yrashk yr:presented :talk-cppgres .
+:talk-cppgres
+    a                  yr:Talk, schema:Event ;
+    schema:name        "Cppgres: One less reason to hate C++" ;
+    schema:url         <https://www.youtube.com/watch?v=cucQOOAahNY&t=26283s> ;
+    schema:description "Writing Postgres extensions in C++20 with a header-only library — and why the old reasons to avoid C++ no longer hold." ;
+    yr:sector          <sector/data> ;
+    ord:inOrdering     <ordering/chart> ;
+    ord:rank           630 ;
+    yr:start           "2025"^^xsd:gYear ;
+    yr:end             "2025"^^xsd:gYear ;
+    yr:weight          1 ;
+    yr:chartYear       2025.36 ;
+    schema:startDate   "2025-05-12"^^xsd:date ;
+    schema:superEvent  [ a schema:Event ; schema:name "Postgres Extensions Day 2025" ; schema:location "Montréal" ] ;
+    schema:recordedIn  [
+        a              schema:VideoObject ;
+        schema:url     <https://www.youtube.com/watch?v=cucQOOAahNY> ;
+        yr:startOffset 26283 ;
+        yr:endOffset   28187 ;
+        yr:cut         true ;
+        yr:stream      :pgext
+    ] ;
+    yr:related         :pgext .
+
+:yrashk yr:presented :talk-ext-upgrades .
+:talk-ext-upgrades
+    a                  yr:Talk, schema:Event ;
+    schema:name        "Extension Upgrades" ;
+    schema:url         <https://www.youtube.com/watch?v=cucQOOAahNY&t=8752s> ;
+    schema:description "Install paths, upgrade paths, and versioning everything — including the shared library — so pg_upgrade keeps working." ;
+    yr:sector          <sector/data> ;
+    ord:inOrdering     <ordering/chart> ;
+    ord:rank           640 ;
+    yr:start           "2025"^^xsd:gYear ;
+    yr:end             "2025"^^xsd:gYear ;
+    yr:weight          1 ;
+    yr:chartYear       2025.36 ;
+    schema:startDate   "2025-05-12"^^xsd:date ;
+    schema:superEvent  [ a schema:Event ; schema:name "Postgres Extensions Day 2025" ; schema:location "Montréal" ] ;
+    schema:recordedIn  [
+        a              schema:VideoObject ;
+        schema:url     <https://www.youtube.com/watch?v=cucQOOAahNY> ;
+        yr:startOffset 8752 ;
+        yr:endOffset   10165 ;
+        yr:cut         true ;
+        yr:stream      :pgext
+    ] ;
+    yr:related         :pgext .
+
+:yrashk yr:presented :talk-pgpm .
+:talk-pgpm
+    a                  yr:Talk, schema:Event ;
+    schema:name        "Postgres.pm: Packaging Manager Magic" ;
+    schema:url         <https://postgresconf.org/conferences/postgresconf_global_2025/program/proposals/postgres-pm-build-better> ;
+    schema:description "GitHub URL in, package out: building and packaging Postgres extensions automatically." ;
+    yr:sector          <sector/data> ;
+    ord:inOrdering     <ordering/chart> ;
+    ord:rank           650 ;
+    yr:start           "2025"^^xsd:gYear ;
+    yr:end             "2025"^^xsd:gYear ;
+    yr:weight          1 ;
+    yr:chartYear       2025.21 ;
+    schema:startDate   "2025-03-19"^^xsd:date ;
+    schema:superEvent  [ a schema:Event ; schema:name "Postgres Conference 2025" ; schema:location "Orlando" ] ;
+    yr:related         :omnigres .
+
+:yrashk yr:presented :talk-immutability .
+:talk-immutability
+    a                  yr:Talk, schema:Event ;
+    schema:name        "How immutability challenges extension packaging and distribution" ;
+    schema:url         <https://2026.pgconf.dev/session/618> ;
+    schema:description "An open discussion with Alastair Turner, David E. Wheeler and Floor Drees on extensions in image-based Postgres deployments." ;
+    yr:sector          <sector/data> ;
+    ord:inOrdering     <ordering/chart> ;
+    ord:rank           660 ;
+    yr:start           "2026"^^xsd:gYear ;
+    yr:end             "2026"^^xsd:gYear ;
+    yr:weight          1 ;
+    yr:chartYear       2026.38 ;
+    schema:startDate   "2026-05-19"^^xsd:date ;
+    schema:superEvent  [ a schema:Event ; schema:name "PGConf.dev 2026" ] ;
+    yr:format          "panel" .
+
+:yrashk yr:presented :talk-unusual-types .
+:talk-unusual-types
+    a                  yr:Talk, schema:Event ;
+    schema:name        "Unusual Useful Types for Postgres" ;
+    schema:url         <https://percona.university/percona-university-istanbul-open-source-databases-meetup-2024/> ;
+    schema:description "Identity types for JOIN safety, variants, and other uses of the Postgres type system." ;
+    yr:sector          <sector/data> ;
+    ord:inOrdering     <ordering/chart> ;
+    ord:rank           670 ;
+    yr:start           "2024"^^xsd:gYear ;
+    yr:end             "2024"^^xsd:gYear ;
+    yr:weight          1 ;
+    yr:chartYear       2024.68 ;
+    schema:startDate   "2024-09-07"^^xsd:date ;
+    schema:superEvent  [ a schema:Event ; schema:name "Percona University Istanbul 2024" ; schema:location "Istanbul" ] ;
+    yr:related         :omnigres .
+
+:yrashk yr:presented :talk-pushing-boundaries .
+:talk-pushing-boundaries
+    a                  yr:Talk, schema:Event ;
+    schema:name        "Pushing boundaries with extensions, for extensions" ;
+    schema:url         <https://www.pgevents.ca/events/pgconfdev2024/sessions/session/14-pushing-boundaries-with-extensions-for-extensions/> ;
+    schema:description "The Postgres API surface, versioning, and provisioning: the limits of the extension system and how to work around them today." ;
+    yr:sector          <sector/data> ;
+    ord:inOrdering     <ordering/chart> ;
+    ord:rank           680 ;
+    yr:start           "2024"^^xsd:gYear ;
+    yr:end             "2024"^^xsd:gYear ;
+    yr:weight          1 ;
+    yr:chartYear       2024.41 ;
+    schema:startDate   "2024-05-29"^^xsd:date ;
+    schema:superEvent  [ a schema:Event ; schema:name "PGConf.dev 2024" ; schema:location "Vancouver" ] ;
+    yr:alsoAt          ( "Postgres Conference 2024" "PGIBZ 2024" ) ;
+    yr:related         :omnigres .
+
+:yrashk yr:presented :talk-buildable .
+:talk-buildable
+    a                  yr:Talk, schema:Event ;
+    schema:name        "Universally Buildable Extensions: Dev to Prod" ;
+    schema:url         <https://www.youtube.com/watch?v=R5ijx8IJyaM> ;
+    schema:description "Describing Postgres extensions so they build anywhere, from development to production." ;
+    yr:sector          <sector/data> ;
+    ord:inOrdering     <ordering/chart> ;
+    ord:rank           690 ;
+    yr:start           "2024"^^xsd:gYear ;
+    yr:end             "2024"^^xsd:gYear ;
+    yr:weight          1 ;
+    yr:chartYear       2024.33 ;
+    schema:startDate   "2024-05-01"^^xsd:date ;
+    schema:superEvent  [ a schema:Event ; schema:name "Extension Ecosystem Mini-Summit 5" ; schema:location "online" ] ;
+    yr:slides          <https://justatheory.com/shared/extension-ecosystem-summit/omni-universally-buildable-extensions.pdf> ;
+    schema:recordedIn  [
+        a          schema:VideoObject ;
+        schema:url <https://www.youtube.com/watch?v=R5ijx8IJyaM>
+    ] ;
+    yr:related         :omnigres .
+
+:yrashk yr:presented :talk-postgres-can-do-what .
+:talk-postgres-can-do-what
+    a                  yr:Talk, schema:Event ;
+    schema:name        "Omnigres: Postgres can do WHAT?" ;
+    schema:url         <https://postgresconf.org/conferences/2024/program/proposals/omnigres-postgres-can-do-what> ;
+    schema:description "Postgres as a platform for data-intensive applications: a constellation of extensions." ;
+    yr:sector          <sector/data> ;
+    ord:inOrdering     <ordering/chart> ;
+    ord:rank           700 ;
+    yr:start           "2024"^^xsd:gYear ;
+    yr:end             "2024"^^xsd:gYear ;
+    yr:weight          1 ;
+    yr:chartYear       2024.29 ;
+    schema:superEvent  [ a schema:Event ; schema:name "Postgres Conference 2024" ; schema:location "San Jose" ] ;
+    yr:related         :omnigres .
+
+:yrashk yr:presented :talk-lazy-es .
+:talk-lazy-es
+    a                  yr:Talk, schema:Event ;
+    schema:name        "Lazy event sourcing: Living in the now" ;
+    schema:url         <https://www.oreilly.com/library/view/oreilly-software-architecture/9781491976142/video289771.html> ;
+    schema:description "Designing event-sourced systems that defer deciding what the state of the world should include until the very end." ;
+    yr:sector          <sector/data> ;
+    ord:inOrdering     <ordering/chart> ;
+    ord:rank           710 ;
+    yr:start           "2016"^^xsd:gYear ;
+    yr:end             "2016"^^xsd:gYear ;
+    yr:weight          1 ;
+    yr:chartYear       2016.87 ;
+    schema:startDate   "2016-11-15"^^xsd:date ;
+    schema:superEvent  [ a schema:Event ; schema:name "O'Reilly Software Architecture Conference" ; schema:location "San Francisco" ] ;
+    schema:recordedIn  [
+        a          schema:VideoObject ;
+        schema:url <https://www.oreilly.com/library/view/oreilly-software-architecture/9781491976142/video289771.html> ;
+        yr:host    "O'Reilly"
+    ] .
+
+:yrashk yr:presented :talk-bitcoin-elixir .
+:talk-bitcoin-elixir
+    a                  yr:Talk, schema:Event ;
+    schema:name        "Bitcoin & Elixir: Living the Cutting Edge" ;
+    schema:url         <https://www.youtube.com/watch?v=ySkC4vxBfko> ;
+    schema:description "Building a Bitcoin exchange service in Elixir, from the Bex.io trenches." ;
+    yr:sector          <sector/companies> ;
+    ord:inOrdering     <ordering/chart> ;
+    ord:rank           720 ;
+    yr:start           "2014"^^xsd:gYear ;
+    yr:end             "2014"^^xsd:gYear ;
+    yr:weight          1 ;
+    yr:chartYear       2014.18 ;
+    schema:superEvent  [ a schema:Event ; schema:name "Erlang Factory SF Bay Area 2014" ; schema:location "San Francisco" ] ;
+    schema:recordedIn  [
+        a          schema:VideoObject ;
+        schema:url <https://www.youtube.com/watch?v=ySkC4vxBfko> ;
+        yr:seconds 2905
+    ] ;
+    yr:related         :bexio,
+                       :elixir .
+
+:yrashk yr:presented :talk-meta-is-mega .
+:talk-meta-is-mega
+    a                  yr:Talk, schema:Event ;
+    schema:name        "Meta is Mega" ;
+    schema:url         <https://www.erlang-factory.com/conference/Toronto2013/speakers/YuriiRashkovskii> ;
+    schema:description "Elixir with Erlang to build useful tools quickly — Hypnotoad, a server orchestration tool, as the example." ;
+    yr:sector          <sector/machines> ;
+    ord:inOrdering     <ordering/chart> ;
+    ord:rank           730 ;
+    yr:start           "2013"^^xsd:gYear ;
+    yr:end             "2013"^^xsd:gYear ;
+    yr:weight          1 ;
+    yr:chartYear       2013.89 ;
+    schema:startDate   "2013-11-23"^^xsd:date ;
+    schema:superEvent  [ a schema:Event ; schema:name "Toronto Erlang Factory Lite 2013" ; schema:location "Toronto" ] ;
+    yr:related         :elixir .
+
+:yrashk yr:presented :talk-erlang-dc-meta .
+:talk-erlang-dc-meta
+    a                  yr:Talk, schema:Event ;
+    schema:name        "Erlang metaprogramming with Elixir" ;
+    schema:url         <https://www.youtube.com/watch?v=m32CGvzixrQ> ;
+    schema:description "Elixir as a meta-compiler for Erlang that stays close to Erlang itself." ;
+    yr:sector          <sector/machines> ;
+    ord:inOrdering     <ordering/chart> ;
+    ord:rank           740 ;
+    yr:start           "2013"^^xsd:gYear ;
+    yr:end             "2013"^^xsd:gYear ;
+    yr:weight          1 ;
+    yr:chartYear       2013.9 ;
+    schema:superEvent  [ a schema:Event ; schema:name "Erlang DC 2013" ; schema:location "Washington, DC" ] ;
+    schema:recordedIn  [
+        a          schema:VideoObject ;
+        schema:url <https://www.youtube.com/watch?v=m32CGvzixrQ> ;
+        yr:seconds 3470
+    ] ;
+    yr:related         :elixir .
+
+:yrashk yr:presented :talk-euc-meta .
+:talk-euc-meta
+    a                  yr:Talk, schema:Event ;
+    schema:name        "Meta-Programming with Elixir" ;
+    schema:url         <https://www.youtube.com/watch?v=a3eJoM5FFiQ> ;
+    schema:description "Programming Erlang more productively through Elixir macros — and the pitfalls to avoid." ;
+    yr:sector          <sector/machines> ;
+    ord:inOrdering     <ordering/chart> ;
+    ord:rank           750 ;
+    yr:start           "2013"^^xsd:gYear ;
+    yr:end             "2013"^^xsd:gYear ;
+    yr:weight          1 ;
+    yr:chartYear       2013.45 ;
+    schema:superEvent  [ a schema:Event ; schema:name "Erlang User Conference 2013" ; schema:location "Stockholm" ] ;
+    schema:recordedIn  [
+        a          schema:VideoObject ;
+        schema:url <https://www.youtube.com/watch?v=a3eJoM5FFiQ> ;
+        yr:seconds 2390
+    ] ;
+    yr:related         :elixir .
+
+:yrashk yr:presented :talk-genomu .
+:talk-genomu
+    a                  yr:Talk, schema:Event ;
+    schema:name        "Genomu: A Concurrency-Oriented Database" ;
+    schema:url         <https://www.youtube.com/watch?v=ujaoprIKY9M> ;
+    schema:description "A database in Elixir on Riak Core: event sourcing, a redis-like API, and conflict resolution by log merging." ;
+    yr:sector          <sector/machines> ;
+    ord:inOrdering     <ordering/chart> ;
+    ord:rank           760 ;
+    yr:start           "2013"^^xsd:gYear ;
+    yr:end             "2013"^^xsd:gYear ;
+    yr:weight          1 ;
+    yr:chartYear       2013.22 ;
+    schema:startDate   "2013-03-22"^^xsd:date ;
+    schema:superEvent  [ a schema:Event ; schema:name "Erlang Factory SF Bay Area 2013" ; schema:location "San Francisco" ] ;
+    schema:recordedIn  [
+        a          schema:VideoObject ;
+        schema:url <https://www.youtube.com/watch?v=ujaoprIKY9M> ;
+        yr:seconds 2528
+    ] ;
+    yr:related         :elixir .
+
+:yrashk yr:presented :talk-vancouver-meta .
+:talk-vancouver-meta
+    a                  yr:Talk, schema:Event ;
+    schema:name        "Erlang metaprogramming with Elixir" ;
+    schema:url         <https://www.youtube.com/watch?v=qCtoqwQ7x5M> ;
+    schema:description "Erlang can have many faces: Elixir as a way to write less boilerplate." ;
+    yr:sector          <sector/machines> ;
+    ord:inOrdering     <ordering/chart> ;
+    ord:rank           770 ;
+    yr:start           "2012"^^xsd:gYear ;
+    yr:end             "2012"^^xsd:gYear ;
+    yr:weight          1 ;
+    yr:chartYear       2012.57 ;
+    schema:startDate   "2012-07-28"^^xsd:date ;
+    schema:superEvent  [ a schema:Event ; schema:name "Vancouver Erlang Factory Lite 2012" ; schema:location "Vancouver" ] ;
+    schema:recordedIn  [
+        a          schema:VideoObject ;
+        schema:url <https://www.youtube.com/watch?v=qCtoqwQ7x5M> ;
+        yr:seconds 1769
+    ] ;
+    yr:related         :elixir .
+
+:yrashk yr:presented :talk-parse-transforms .
+:talk-parse-transforms
+    a                  yr:Talk, schema:Event ;
+    schema:name        "Fear Not, or a Brief Introduction to Parse Transformations" ;
+    schema:url         <https://www.youtube.com/watch?v=FJErAhBIYUA> ;
+    schema:description "Parse transformations in Erlang, without the fear." ;
+    yr:sector          <sector/machines> ;
+    ord:inOrdering     <ordering/chart> ;
+    ord:rank           780 ;
+    yr:start           "2012"^^xsd:gYear ;
+    yr:end             "2012"^^xsd:gYear ;
+    yr:weight          1 ;
+    yr:chartYear       2012.22 ;
+    schema:superEvent  [ a schema:Event ; schema:name "Erlang Factory SF Bay Area 2012" ; schema:location "San Francisco" ] ;
+    schema:recordedIn  [
+        a          schema:VideoObject ;
+        schema:url <https://www.youtube.com/watch?v=FJErAhBIYUA> ;
+        yr:seconds 1194
+    ] ;
+    yr:related         :spawngrid .
+
+:yrashk yr:presented :talk-erlang-web .
+:talk-erlang-web
+    a                  yr:Talk, schema:Event ;
+    schema:name        "Building Web Applications in the Erlang Era" ;
+    schema:url         <https://www.erlang-factory.com/conference/London2011/speakers/YuriiRashkovskii> ;
+    schema:description "Thick clients, Socket.IO, session-oriented development and fault-tolerant session management in Erlang." ;
+    yr:sector          <sector/machines> ;
+    ord:inOrdering     <ordering/chart> ;
+    ord:rank           790 ;
+    yr:start           "2011"^^xsd:gYear ;
+    yr:end             "2011"^^xsd:gYear ;
+    yr:weight          1 ;
+    yr:chartYear       2011.45 ;
+    schema:superEvent  [ a schema:Event ; schema:name "Erlang Factory London 2011" ; schema:location "London" ] .
+
+:yrashk yr:presented :talk-beamjs .
+:talk-beamjs
+    a                  yr:Talk, schema:Event ;
+    schema:name        "Beam.js: Erlang Meets JavaScript" ;
+    schema:url         <https://www.infoq.com/presentations/Beamjs-Erlang-Meets-JavaScript/> ;
+    schema:description "A JavaScript platform built on erlv8, with bi-directional integration with Erlang." ;
+    yr:sector          <sector/machines> ;
+    ord:inOrdering     <ordering/chart> ;
+    ord:rank           800 ;
+    yr:start           "2011"^^xsd:gYear ;
+    yr:end             "2011"^^xsd:gYear ;
+    yr:weight          1 ;
+    yr:chartYear       2011.22 ;
+    schema:superEvent  [ a schema:Event ; schema:name "Erlang Factory SF Bay Area 2011" ; schema:location "San Francisco" ] ;
+    schema:recordedIn  [
+        a          schema:VideoObject ;
+        schema:url <https://www.infoq.com/presentations/Beamjs-Erlang-Meets-JavaScript/> ;
+        yr:host    "InfoQ" ;
+        yr:seconds 1801
+    ] .
+
+:yrashk yr:presented :talk-parallel-testing .
+:talk-parallel-testing
+    a                  yr:Talk, schema:Event ;
+    schema:name        "Highly parallel testing in Erlang" ;
+    schema:url         <https://github.com/kenpratt/vancouver_erlang> ;
+    schema:description "Parallel integration testing with epitest." ;
+    yr:sector          <sector/machines> ;
+    ord:inOrdering     <ordering/chart> ;
+    ord:rank           810 ;
+    yr:start           "2010"^^xsd:gYear ;
+    yr:end             "2010"^^xsd:gYear ;
+    yr:weight          1 ;
+    yr:chartYear       2010.48 ;
+    schema:startDate   "2010-06-24"^^xsd:date ;
+    schema:superEvent  [ a schema:Event ; schema:name "Vancouver Erlang Meetup" ; schema:location "Vancouver" ] .

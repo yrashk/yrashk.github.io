@@ -1,0 +1,112 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<rss version="2.0" xmlns:atom="http://www.w3.org/2005/Atom" xmlns:content="http://purl.org/rss/1.0/modules/content/" xmlns:dc="http://purl.org/dc/elements/1.1/">
+  <channel>
+    <title>Yurii Rashkovskii — event sourcing</title>
+    <link>https://yrashk.com/</link>
+    <description>Founder of Inferal. Essays and notes on how people and systems work.</description>
+    <language>en</language>
+    <atom:link href="https://yrashk.com/rss/event%20sourcing.xml" rel="self" type="application/rss+xml"/>
+    <lastBuildDate>Sun, 30 Oct 2016 00:00:00 GMT</lastBuildDate>
+    <item>
+      <title>Your Functional Programs Are Imperative Pumpkins</title>
+      <link>https://yrashk.com/blog/2016/10/30/your-functional-programs-are-imperative-pumpkins/</link>
+      <guid isPermaLink="true">https://yrashk.com/blog/2016/10/30/your-functional-programs-are-imperative-pumpkins/</guid>
+      <pubDate>Sun, 30 Oct 2016 00:00:00 GMT</pubDate>
+      <dc:creator>Yurii Rashkovskii</dc:creator>
+      <category>event sourcing</category>
+      <category>databases</category>
+      <category>functional programming</category>
+      <description>Earlier this year, on a rainy night in Bangkok, I was attending a regular Hack Night event, and I just had to jump into somebody’s else conversation without an invitation.</description>
+      <content:encoded><![CDATA[<p><img src="https://yrashk.com/blog/posts/your-functional-programs-are-imperative-pumpkins/1.jpg" alt=""></p>
+<p>Earlier this year, on a rainy night in Bangkok, I was attending a regular Hack Night event, and I just had to jump into somebody’s else conversation without an invitation.</p>
+<p>The guy I almost interrupted was describing the beauty and benefits of functional programming and, in particular, immutability. In fact, he was even pitching Elixir and if you know me, you know I’ve been engaged in the project for some time, so it was extra rewarding to listen to that.</p>
+<p>Except for one thing.</p>
+<p>I switched to the Java ecosystem as my primary stack some time ago, for a number of reasons. So listening in, I felt a mix of loss and guilt for abandoning such a beautiful functional ship for the industrial trenches and all their impurities. That didn’t feel good at all.</p>
+<p>However, man is not a rational animal, he is a rationalizing one (<em>thank you, Mr. Heinlein</em>), so I was desperately seeking for a justification for not being in that camp anymore, even though I do understand the values and benefits of functional programming.</p>
+<p>Almost nobody in the functional camp wants to hear the good old reasons of tooling, ecosystem maturity, community size, leadership, performance, etc. — these simply have been mulled over way too many times. While I believe that many of these reasons are quite valid and are in fact my reasons for changing ships, I felt like there’s also something more important about it.</p>
+<p>Something not immediately obvious.</p>
+<p>I’ve been mildly obsessed with data modelling and databases for at least a decade now. Programs without data and without data persistence aren’t very practical, of course, but accepting that there is only one way to do that wasn’t very exciting, so I tried to learn more.</p>
+<p>Once, I tried to marry the concepts of a frame database with a language-integrated database (<em>hello, MUMPS!</em>). Another time, I took Riak Core and ignored the CRDT work, opting for a bastardized interpretation of event sourcing and <a href="https://www.youtube.com/watch?v=ujaoprIKY9M">built a prototype for a client in gaming</a>.</p>
+<p>For the past year or so, I’ve been on my follow-up quest to figure out the innards and hidden secrets of event sourcing. I’ve built a few private prototypes and then incorporated some of my findings into the <a href="https://eventsourcing.com">Eventsourcing project</a>.</p>
+<p>Arguably, one of my most important discoveries has been that the phrase that begins with <em>“event…”</em> doesn’t have to end with “<em>handlers”</em>. That seems to be a common pattern in programming circles. If there’s an event, there must be a handler — a conflation with a concept of a message. Feels almost like a knee jerk reaction.</p>
+<p>Instead, seeing an event as a <em>categorization</em>, simply a piece of data that represents something we considered to have happened, opens up some interesting opportunities. Suddenly, we don’t have to handle events when they “arrive” and we can simply store them.</p>
+<p>We can index them, and query relevant ones on demand, when we need them, and construct domain model objects as we please. Since we never modify the events (after all, they have happened already!), we can see our data models as pure functions on events.</p>
+<p>This is true even in the classic event sourcing model where you do handle the events to apply changes to the read side, but having that gap that “event handling” introduces, these functions might provide a different level of data consistency.</p>
+<p>But what is even more interesting, is that, generally speaking, writing to such a database is similarly almost as functional. A command that generates events is a function on input data that returns journal entries and index records to be amended to the database.</p>
+<p>When somebody is trying to write to such a database, they are no longer fighting for a shared resource, they can all write and the read side can figure out what to make of it.</p>
+<p>So it hit me. Practical functional programming, in many instances, is far from delivering on its potential because while it works really well within code, the moment we persist data, all of that ends. In most applications, data on the disk is mutable, and the mutations are mostly not lossless. For practical reasons, the data that was updated is data gone.</p>
+<p>So while functional approach make our lives better between the moments we hit the disk, its effect is significantly reduced by those reads and writes especially writes!)</p>
+<p>If we consider the data layer as something that connects our business logic together (however <em>inside-out</em> this sounds*)*, then we have these pieces of pure, clean code floating in a sea of dirty mutable data.</p>
+<p><img src="https://yrashk.com/blog/posts/your-functional-programs-are-imperative-pumpkins/2.png" alt=""></p>
+<p>Finally, I had a justification that I actually understood and believed in.</p>
+<p>Often times, when we build systems, regardless of the underlying programming language, what we build is not quite functional <em>as a whole</em> because of the way we manage the data. So then, does it matter that some of the components aren’t pure?</p>
+<p>Well, yes, it does as it would have been better to have those components done right — we’d save so much time fighting the bugs! However, combined into a system, they will still suffer from the trade-offs of the mutable, non-functional model.</p>
+<p>So when I did jump into the conversation, I brought up exactly this issue — our systems are largely not functional.</p>
+<p>But they can be.</p>
+]]></content:encoded>
+    </item>
+    <item>
+      <title>There Is No “User”</title>
+      <link>https://yrashk.com/blog/2016/09/26/there-is-no-user/</link>
+      <guid isPermaLink="true">https://yrashk.com/blog/2016/09/26/there-is-no-user/</guid>
+      <pubDate>Mon, 26 Sep 2016 00:00:00 GMT</pubDate>
+      <dc:creator>Yurii Rashkovskii</dc:creator>
+      <category>event sourcing</category>
+      <category>databases</category>
+      <description>We all have had some of our lightbulb moments happen at the wrong time. This one happened to me at the very beginning of a project, the time when you need to get stuff out of the door as quickly as possible to test the assumptions and hypotheses.</description>
+      <content:encoded><![CDATA[<p><img src="https://yrashk.com/blog/posts/there-is-no-user/1.jpg" alt=""></p>
+<p>We all have had some of our <em>lightbulb moments</em> happen at the wrong time. This one happened to me at the very beginning of a project, the time when you need to get stuff out of the door as quickly as possible to test the assumptions and hypotheses.</p>
+<p>I was building the most common, the most boring part of the application, namely minimalistic user authentication. My habitual way of doing this is to start with a third-party OAuth authentication scheme to delay doing the more tedious ones. This time it was LinkedIn (but could have been anything else) and the moment I got the access token back, I was about to declare some sort of “user” record that would be associated with the email address I got back from LinkedIn. Sounds familiar?</p>
+<p>But then something stopped me. Lately, I’ve been trying to see and describe systems through concepts mapped to what has happened “in the real world” as closely as possible, as opposed to synthesizing concepts. So, instead of explaining this part as “here we’re creating a user and associating an access token to his LinkedIn account”, I went back and described this “somebody clicked the <code>Sign in with LinkedIn</code> button, and I know that person’s email address and can probably learn a bit more about them using LinkedIn API”.</p>
+<p><img src="https://yrashk.com/blog/posts/there-is-no-user/2.png" alt=""></p>
+<p>I know it sounds a little silly (because, duh, that’s what happened, isn’t it obvious?) but I find that <a href="https://blog.eventsourcing.com/why-use-eventsourcing-database-6b5e2ac61848">recording actual facts versus substituting them with what we made of them</a> is very rewarding in the longer term. The substitution is likely to introduce some loss or distortion of information along the way and there’s very little we can do to recover it.</p>
+<p>So I just kept the record of what happened, but I needed to refer to this person’s unique identifier (independent of its identity attributes such as email address). Since I was developing using <a href="https://eventsourcing.com">Eventsourcing</a> I was thinking how to describe the fact that the system learned that a person exists through an event. <code>LearnedAboutAPerson</code> was cute but too self-centered and error-prone. What if the system “knew” about this person in some way before? <code>PersonCreated</code> is a big no-no for proper event sourcing systems (persons are definitely not created when they attempt to log in!). Nothing seemed to fit quite right. But I still needed to refer to some event’s UUID to link the activity to it so I can later link it all together.</p>
+<p>Because I couldn’t find any event I can refer to, the solution was to just generate a random UUID for a person, and attach whatever I learned about this person in subsequent events. And while doing this, I should use the information I know about this person to see if I’ve already known about it. This is how <a href="https://rfc.eventsourcing.com/spec:10/LIBRE">RFC 10/LIBRE</a> was born. If you read through the example in 2.1. you will recognize the case I was talking about.</p>
+<p>One of the interesting aspects of introducing something into existence by merely referencing it is that it allows you to decide just <em>what that was</em> later, if ever!</p>
+<p>How does this work? In the above example, I basically have three resulting events, <code>AuthenticationTokenAcquired</code>, <code>NameChanged</code> and <code>EmailChanged</code>. They all refer to the same UUID, yet nothing anywhere defines just what that UUID is referring to. Was that a person? Was that a device doing all the clicking? Does it matter? Can we decide later?</p>
+<p>Which gets me to the next point.</p>
+<p><em>User</em> is probably the most pervasive domain model in the industry, especially since the widespread adoption of the two-tier client-server model. This has been going on for decades. Nearly every project starts with it. A number of standards and frameworks have been designed to generalize the concept, with different degrees of universality.</p>
+<p>Yet, what exactly does constitute a user?</p>
+<p>In a “users” table you can often find things like name, password, e-mail, confirmation/reset tokens, two-factor authentication secret, last access information. Users can be often found associated with groups. Or roles. Or both.</p>
+<p>So, it is an arbitrary set of attributes that cross several domains, such as authentication, identity, logging, membership, permissions.</p>
+<p>On the other side, for example, in the context of Java security frameworks, a User is a Principal usually referring to a human operator. And a Principal is a Subject that is represented by an account, a role or some other identifier. And a Subject is something that is accessing an object.</p>
+<p>On both sides of the spectrum, it is hard to define clearly and succinctly what a user actually is.</p>
+<p>Because there is no such thing. A person or a program can log in and use the application. A user can’t, because “user” is really more of a role. Merriam-Webster defines “user” as a “person or thing that uses something”. Anything that connects to the application, automatically assumes this role.</p>
+<p>But, if everybody and everything has this role, isn’t this an equivalent of not having it at all? To give you an example, if everybody had assumed the role of an administrator, would there actually be any administrators?</p>
+<p>I will be talking about the concepts behind this in November 2016 at <a href="http://conferences.oreilly.com/software-architecture/engineering-business-ca/public/schedule/detail/52244">O’Reilly Software Architecture in San Francisco</a>. This will be the first time I will be presenting Lazy Event Sourcing in front of a larger audience.</p>
+<p>If you can’t come, you’re always welcome at <a href="http://gitter.im/eventsourcing/eventsourcing">Eventsourcing‘s Gitter</a> to create a useful distraction in a form of conversation!</p>
+]]></content:encoded>
+    </item>
+    <item>
+      <title>Lazy Event Sourcing</title>
+      <link>https://yrashk.com/blog/2016/04/13/lazy-event-sourcing/</link>
+      <guid isPermaLink="true">https://yrashk.com/blog/2016/04/13/lazy-event-sourcing/</guid>
+      <pubDate>Wed, 13 Apr 2016 00:00:00 GMT</pubDate>
+      <dc:creator>Yurii Rashkovskii</dc:creator>
+      <category>event sourcing</category>
+      <category>databases</category>
+      <description>If you read Fowler’s article on event sourcing or learned about it through many other sources, there’s one particular mental picture of this approach that you might have affixed to your brain.</description>
+      <content:encoded><![CDATA[<p>If you read Fowler’s <a href="http://martinfowler.com/eaaDev/EventSourcing.html">article on event sourcing</a> or learned about it through many other sources, there’s one particular mental picture of this approach that you might have affixed to your brain.</p>
+<figure class="fig">
+<p><img src="https://yrashk.com/blog/posts/lazy-event-sourcing/1.png" alt="Classic event sourcing approach"></p>
+<figcaption>Classic event sourcing approach</figcaption></figure>
+<p>Basically, user’s UI (or another external system) generates commands, we process them by logging them to the event store and updating the <em>“state of the world”</em> database, which, in turn, is queried against by the end user application.</p>
+<p>This approach is remarkably simple and beautiful (we are able to replay the events, we’re able to query the data and we can still leverage the battlefield proven database of our choice), but I noticed that what I really was looking for in event sourcing is the ability to <em>avoid predicting the future</em> and this model wasn’t particularly solving it because I had to write down the updated state of the world to the database.</p>
+<p>Let me elaborate. The idea of being able to collect the intent of the action and all accompanying data naturally brings us to the idea of being able to look in the past and extract information that was not particularly useful back when the events were logged (new insights, new functionality, whatever the reason is). So what does that mean? Should I migrate my database to account for this new information and load the missing data? Should I replay my events and repopulate the database?</p>
+<p>None of that sounded particularly easy to me.</p>
+<p>Having developed a multitude of projects during my career, I learned the obvious idea that everything changes the hard way. There is simply no way to know what your application and its domain models will look like months ahead of time. Unless it’s your third rewrite, and even that is iffy.</p>
+<p>What if I can delay the prediction of the future until we are in that future? By logging events to the event store, I can always rebuild the state just the way it is necessary at that point in time. Except that, as I’ve pointed out earlier, that’s a costly solution if you have to run through every event you’ve logged to rebuild the state.</p>
+<p>But what if I can simply query the events when I need to show data to the user? Let’s say we have a user and users typically have an email address associated with them. Let’s assume we had a <em>UserCreated</em> event and a number of <em>EmailChanged</em> events. What if, instead of building a state database with all the users, whenever the user information is requested, we only had to search for <em>UserCreated(id: &lt;id&gt;)</em> and the last <em>EmailChanged(userId: &lt;id&gt;)</em>?</p>
+<p>Huh. So this way, we can simply have an on-demand (lazy) retrieval of this piece of user’s information without incurring the cost of maintaining the entire state database.</p>
+<p>If the algorithm for figuring out user’s email ever changes, all I have to do is to change this method. Most importantly, until I write <em>User#email()</em>, I don’t have to know that this is how I will shape the data. I just need to record all the data in my events without a loss.</p>
+<p>What is even more interesting, this approach has led me to a logical next step: <em>there is no single version of the “state of the world”</em>. Just like we, humans, experience the world and reality in different ways, programs can see the reality through different prisms and there are little to no reasons why they shouldn’t be able to.</p>
+<p>Does this approach have tradeoffs? It sure does. For one, if your on-demand event search/computation is expensive, that’s a problem. However, when such hotspots are discovered, they can be optimized by pre-processing and caching (although it is best to avoid expensive searches altogether, but that’s not always possible).</p>
+<p>Does this mean we shouldn’t have event handlers that are executed at the time of event logging? Don’t think so, it’s still a very valid use case. Just doesn’t have to be done for every event.</p>
+<p>Here’s another interesting consequence of this approach. With growing adoption of GraphQL, this means that our application will only query data that’s explicitly requested by the frontend application. Of course, this is not going to help the majority of REST-based applications, but can serve as a great extra incentive…</p>
+<blockquote>
+<p>This is the approach <a href="http://eventsourcing.com/">Eventsourcing for Java</a> implements, along with its extension called <a href="https://es4j.eventsourcing.com/docs/master/core_concepts/domain_protocol.html">Domain Protocol</a>. It also has a <a href="https://github.com/eventsourcing/es4j-graphql">GraphQL adaptor</a>. ES4J is open source and is licensed under the terms of Mozilla Public License 2.0. Check it out!</p>
+</blockquote>
+]]></content:encoded>
+    </item>
+  </channel>
+</rss>

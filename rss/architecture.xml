@@ -1,0 +1,69 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<rss version="2.0" xmlns:atom="http://www.w3.org/2005/Atom" xmlns:content="http://purl.org/rss/1.0/modules/content/" xmlns:dc="http://purl.org/dc/elements/1.1/">
+  <channel>
+    <title>Yurii Rashkovskii — architecture</title>
+    <link>https://yrashk.com/</link>
+    <description>Founder of Inferal. Essays and notes on how people and systems work.</description>
+    <language>en</language>
+    <atom:link href="https://yrashk.com/rss/architecture.xml" rel="self" type="application/rss+xml"/>
+    <lastBuildDate>Sun, 30 Jul 2023 00:00:00 GMT</lastBuildDate>
+    <item>
+      <title>Repeating Yourself Thrice Doesn’t Turn You Into a 3x Developer</title>
+      <link>https://yrashk.com/blog/2023/07/30/repeating-yourself-thrice-doesnt-turn-you-into-a-3x-developer/</link>
+      <guid isPermaLink="true">https://yrashk.com/blog/2023/07/30/repeating-yourself-thrice-doesnt-turn-you-into-a-3x-developer/</guid>
+      <pubDate>Sun, 30 Jul 2023 00:00:00 GMT</pubDate>
+      <dc:creator>Yurii Rashkovskii</dc:creator>
+      <category>Omnigres</category>
+      <category>architecture</category>
+      <description>Three is a magic number. This is the number of things we can keep in our minds without losing focus. So, logically, a three-tier software architecture (database, backend and frontend) is a great model.</description>
+      <content:encoded><![CDATA[<p><img src="https://yrashk.com/blog/posts/repeating-yourself-thrice-doesnt-turn-you-into-a-3x-developer/1.jpg" alt=""></p>
+<p>Three is a magic number. This is the number of things we can keep in our minds without losing focus. So, logically, a three-tier software architecture (database, backend and frontend) is a great model.</p>
+<p>Right? We thought so, too.</p>
+<p><strong>Then why does building a feature take so much time?</strong></p>
+<p>As engineers, tech leaders, and developers, we often find ourselves mired in the complexities of application “plumbing.”</p>
+<p>The three-tier model burdens developers with an array of time-consuming trivialities. From endlessly shuffling bytes between the three layers to tediously defining data structures three times over, we wrestle with synchronization overhead across different codebases while striving to optimize performance, manage database schema changes, and maintain data consistency.</p>
+<p>This leaves us yearning for more time to innovate and build cool new features for our users.</p>
+<p>Now, it makes sense: we’ve lost sight that even in a clear 3-tiers architecture, there are more than three things to consider. We, solo developers and small teams, always have to reserve some mental space for non-technical matters, such as the users, their needs, and communication. And even in the technical realm, having three cleanly separated layers still forces us to think about two more things: communication and synchronization between consecutive layers.</p>
+<p>Looking at the three-tier architecture, we can see how every tier and their integration keep us busy. Let’s say you have a small blogging application and want to add a “category” to each blog post. That sounds like a simple thing to add. But if you follow all the <em>good practices</em> of typical modern web development, here is what you’ll probably have to do:</p>
+<ul>
+<li>Write a database schema migration that creates the new post category structure in the database. Optionally, write a “down” migration that removes it to be able to roll back your changes quickly if necessary.</li>
+<li>Update your Go struct definitions, Java classes, or whatever backend language-specific structure definitions you use, ideally keeping compatibility with the old and the new database schema. Write backend unit tests for the functions that handle this new data structure.</li>
+<li>Write new database queries and document the changes in your API responses.</li>
+<li>Update the TypeScript types in your frontend to add the new field, keeping the ability to parse backend responses both with and without the field. Write unit tests for that logic.</li>
+<li>Update your React components to display the post’s category.</li>
+<li>Ensure data validation for the category is consistent across all layers.</li>
+<li>Write an integration test to ensure that the new code on each of the three layers works fine with the rest of the system.</li>
+<li>Synchronize the rollout of updates between the database schema, backend, and frontend. If multiple teams are working on the project, ensure they are all on the same page about when and how the rollout will happen.</li>
+</ul>
+<p>Ultimately, what is just a tiny line of text at the top of blog posts for the users becomes a daunting task, representing tens of hours of engineering work to implement.</p>
+<p>This inefficiency extends to the end-users. Shuffling bytes between multiple layers has a cost: network latency, serialization and deserialization of data, etc. It’s hard to convince people that it’s normal loading a post on Reddit, which contains no more than a few bytes of useful information, to take tens of seconds on their holiday 3G connection. It’s also hard to explain why we can’t do something trivial to the user because it would take too many resources.</p>
+<h2 id="how-did-we-end-up-here" tabindex="-1">How did we end up here?<a class="anchor" href="#how-did-we-end-up-here" aria-label="Link to this section">#</a></h2>
+<p>The three-tier architecture is a masterful construct born from the ingenuity of digital artisans seeking to optimize the division of labour.</p>
+<p>It did not emerge as a torture instrument for web developers but as a response to the growing complexity of web applications. The specialization of labor is the reason why we are not all hunter-gatherers anymore. Similarly, the three-tier model allows us to seek excellence in each specialized function. While it may serve larger organizations with specialized teams well, applying it rigidly in smaller settings is counterproductive. You also can’t ignore that specialization and separating work typically lead to much longer delivery cycles due to the synchronization and communication overhead. How often have you seen such teams ship fast?</p>
+<p>Specialization is great when you have a conveyor belt. This implies your inputs and outputs are stable, predictable, and your timing is set. Smaller organizations and individual developers may not have such a luxury. Instead, they may benefit from being able to react and adapt faster. So the shorter their shipping cycle, the better.</p>
+<h2 id="the-road-ahead" tabindex="-1">The road ahead<a class="anchor" href="#the-road-ahead" aria-label="Link to this section">#</a></h2>
+<p>Thankfully, we are not alone in recognizing these challenges. A new generation of tools is emerging to bridge the gap and achieve the goal of rapid application development.</p>
+<h2 id="how-people-work-around-the-problem-today" tabindex="-1">How people work around the problem today<a class="anchor" href="#how-people-work-around-the-problem-today" aria-label="Link to this section">#</a></h2>
+<p>Developers have adopted several workarounds to mitigate the issues of the three-tier model. These include:</p>
+<ol>
+<li><strong>No-code tools</strong>: Tools like Budibase have significantly reduced development time, allowing semi-technical people to build a full application quickly. But their inflexibility and maintenance challenges often limit their long-term viability. Writing an application in a no-code tool is a non-starter if you want it to grow and evolve in the future without having to rewrite it from scratch. And letting go of modern version management software to send emails to colleagues to “please not touch that because I’m working on it” feels like going back to the middle ages. Besides, few no-code tools are interested in you being able to leave their platform easily.</li>
+<li><strong>Backend as a service (BaaS)</strong>: Services like Firebase provide pre-made, one-size-fits-all backends, removing a lot of the backend and database work duplication and greatly accelerating app development. However, they are often trying to hold their users captive. They make local development difficult. They make your application less self-reliant and more expensive to host, deploy, and maintain. Many of these BaaS either end up being abandoned or acquired, leaving everyone rushing to rewrite their code to use something else. And even when everything goes well with your provider, you still need to handle the synchronization between your frontend and your BaaS.</li>
+<li><strong>Database-over-HTTP web servers</strong>: Tools like PostgREST and Hasura GraphQL expose a database over HTTP. They tremendously reduce the work developers need to do on the backend, while still being quite lightweight, easy and cheap to deploy. But they solve only a part of the problem. Their goal is not to be a sufficient approach to build a complete application, and they still require you to spend time synchronizing your frontend code and database structure. You cannot do much more to answer a web request than just representing the database contents as it is, unprocessed, but in JSON.</li>
+</ol>
+<h2 id="how-are-we-trying-to-solve-this" tabindex="-1">How are we trying to solve this<a class="anchor" href="#how-are-we-trying-to-solve-this" aria-label="Link to this section">#</a></h2>
+<p>We see all the solutions mentioned above as steps in the right direction but are still not satisfied with the state of rapid application development tools. We believe it’s not only possible, but even probable that in the near future, building a full stack production-ready application will take ten times less effort than today. And rather than waiting for the tooling of the future to arrive, we are uniting, and authoring these tools today, to make this vision a reality. We are not pretending we have found the definitive answer to the triple work problem yet, but the projects we work on already significantly reduce the time it takes to go from an idea to a working web application today without sacrificing the ease of collaborative development and the speed of deployment.</p>
+<ul>
+<li>For instance, Ophir is working on <a href="https://sql.ophir.dev/"><strong>SQLPage</strong></a>, a fast application development framework based on SQL that makes building graphical web applications as simple as writing a database query. SQLPage offers a database-agnostic solution without any dependencies. With SQL as the foundation, you can build a full web app in just one day.</li>
+<li>Similarly, Yurii is developing <a href="https://omnigres.com/"><strong>Omnigres</strong></a>: Designed for larger applications, Omnigres simplifies the development of complex backend logic that runs directly inside a Postgres database. It transforms Postgres into a full back-end application platform.</li>
+</ul>
+<figure class="fig">
+<p><img src="https://yrashk.com/blog/posts/repeating-yourself-thrice-doesnt-turn-you-into-a-3x-developer/2.jpg" alt="Our dream is to enable fluid translation of ideas into working applications."></p>
+<figcaption>Our dream is to enable fluid translation of ideas into working applications.</figcaption></figure>
+<h2 id="avoiding-triple-work-in-your-next-project" tabindex="-1">Avoiding triple work in your next project<a class="anchor" href="#avoiding-triple-work-in-your-next-project" aria-label="Link to this section">#</a></h2>
+<p>The three-tier model has its drawbacks, especially for solo developers and small teams, causing developers to spend excessive time on repetitive tasks and affecting both application performance and development pace.</p>
+<p><strong>What is your take on the subject?</strong> If you have felt the hurdles of triple work before and would be interested in migrating to something else, we would love to hear about it in the comments below. If, on the contrary, you think the three-tier model is the way to go even for small teams and building an entire app in the database is a terrible idea, we would love to hear your arguments, too!</p>
+<p><em>This post is written in collaboration between Ophir Lojkine and Yurii Rashkovskii.</em></p>
+]]></content:encoded>
+    </item>
+  </channel>
+</rss>

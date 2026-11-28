@@ -1,0 +1,69 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<rss version="2.0" xmlns:atom="http://www.w3.org/2005/Atom" xmlns:content="http://purl.org/rss/1.0/modules/content/" xmlns:dc="http://purl.org/dc/elements/1.1/">
+  <channel>
+    <title>Yurii Rashkovskii — PumpkinDB</title>
+    <link>https://yrashk.com/</link>
+    <description>Founder of Inferal. Essays and notes on how people and systems work.</description>
+    <language>en</language>
+    <atom:link href="https://yrashk.com/rss/PumpkinDB.xml" rel="self" type="application/rss+xml"/>
+    <lastBuildDate>Fri, 09 Jun 2017 00:00:00 GMT</lastBuildDate>
+    <item>
+      <title>Removing Obscuring Abstractions</title>
+      <link>https://yrashk.com/blog/2017/06/09/removing-obscuring-abstractions/</link>
+      <guid isPermaLink="true">https://yrashk.com/blog/2017/06/09/removing-obscuring-abstractions/</guid>
+      <pubDate>Fri, 09 Jun 2017 00:00:00 GMT</pubDate>
+      <dc:creator>Yurii Rashkovskii</dc:creator>
+      <category>PumpkinDB</category>
+      <category>databases</category>
+      <description>Well over a decade ago Chuck Moore mentioned an idea of “unnecessary abstractions”, abstractions that obscure the nature of the underlying concept.</description>
+      <content:encoded><![CDATA[<p><img src="https://yrashk.com/blog/posts/removing-obscuring-abstractions/1.jpg" alt=""></p>
+<blockquote>
+<p><strong>“…abstraction</strong> is a technique for arranging complexity of computer systems. It works by establishing a level of complexity on which a person interacts with the system, suppressing the more complex details below the current level. The programmer works with an idealized interface (usually well defined) and can add additional levels of functionality that would otherwise be too complex to handle.” <br>
+<em>— Wikipedia</em></p>
+</blockquote>
+<p>Well over a decade ago Chuck Moore mentioned an idea of “unnecessary abstractions”, abstractions that obscure the nature of the underlying concept and he also talked a bit about how he writes code bottom up, defining whichever words (<em>instructions</em>) he deems to be useful, changing them as the understanding evolves.</p>
+<p>This approach seems to be profoundly different from what most of us do. We are taught to be reasonably lazy and rely on existing libraries and tools as much as possible. After all, we are often required to ship as soon as possible. And I generally don’t disagree with that. Creating complex systems involving multiple domains is hard on its own, so the more code we can reuse, the better.</p>
+<p>However, I do want to single out a category of tools that we use and argue that it is important to be able to cut through layers of abstractions and understand and appreciate the “physics” involved.</p>
+<p>This category is <strong>databases</strong>. Arguably, a database is most commonly used and useful abstraction of all. It extends, persists and shares the memory available to our applications. The databases we use most tend to have a wide array of great functionality. Querying, indexing, distribution, fail-over, backups, you name it. These things work quite well (most of the time, in most cases). So why should we peek through these layers at all?</p>
+<p>As Wikipedia defined it, abstractions <em>“suppress the more complex details”</em> and therefore removes the understanding of how things work further away from us, the users of the abstraction. While of course it is not a mystery or a particularly secret knowledge as to how any particular database operates (especially if you’re using open source), under the physical and psychological constraints of deadlines, it is so alluring to focus on the database abstraction itself and not think of the complexity involved. After all, that stuff <em>is</em> complex.</p>
+<p>As a result, we end up having poorly modelled domains, inefficient queries, and start looking for <a href="https://medium.com/@pk.patrick.kelly/youre-not-google-stop-trying-58b74137ad51">solutions that might be wrong</a>.</p>
+<p>My hunch is that by shaking off a few layers (it’s rather impractical to shake them all off) we can get just a bit closer “to the metal” and really appreciate what’s involved in storing, retrieving and finding data.</p>
+<p>The level of abstraction at which I decided to stop here is a B+ tree key/value database. You can seek to the beginning, the end, a particular key prefix, and go to the previous or next key. Fairly compact abstraction surface, I would say. As an additional twist, <a href="https://yrashk.com/blog/2016/10/30/your-functional-programs-are-imperative-pumpkins/">being an advocate for event sourcing, functional programming and immutability</a>, I self-imposed one rule: no overwrites. I can associate a value to a key, but I can’t change it after that.</p>
+<p>If you are familiar with the recent open source work I’ve been doing, yes, I am describing <a href="http://pumpkindb.org">PumpkinDB</a>.</p>
+<p>I want to show you a small example. Please bear with its slightly artificiality and almost-intentional silliness (the hope is that one day I will have a better one!). This time I was playing with a design of a simple todo list. You can add items to the list, you can change their description, you can check them off or undo that. For the sake of simplicity, no deletion, no re-ordering.</p>
+<p>How would I implement that given the architecture and limitations I described above?</p>
+<p>Turns out, this is not very complex.</p>
+<p>What’s the first thing to do here? Well, obviously, if we don’t add items to the list, this is not going to be a very useful list. So we need to record some key/value pairs that indicate just that. Let’s assume that for every new item we assign a random UUID. How can we record this in such a way that we can easily find all added items?</p>
+<p>One way would be to combine some shared prefix (let’s say, <code>AddTodoItem</code>) with the UUID, leaving the associated value empty. But if you peek into the diagram below, you can find that there’s something different there. Thing is, while the above structure <em>does</em> allow us to find all added todo items, they will come in a random order (those UUIDs are random, after all).</p>
+<p>One thing we can do is add a timestamp to the value and sort the items after we fetch them. But this hardly sounds like an efficient approach. Instead, what we <em>can</em> do is move the UUID to the value and append the key with some sort of unique and monotonically grown timestamp. A <a href="http://pumpkindb.org/doc/script/HLC.html">Hybrid Logical Clock</a> is a good candidate for this. Now, one can quickly scan through all <code>AddedTodoItem</code>-prefixed key/value pairs and figure out what’s in the list, in what order and when exactly were the items added.</p>
+<p>In PumpkinScript, this will be something like <code>&quot;AddedTodoItem&quot; [<a href="http://pumpkindb.org/doc/script/DUP.html">DUP</a> <a href="http://pumpkindb.org/doc/script/CURSOR/KEY.html">CURSOR/KEY</a> <a href="http://pumpkindb.org/doc/script/SWAP.html">SWAP</a> <a href="http://pumpkindb.org/doc/script/CURSOR/VAL.html">CURSOR/VAL</a> TRUE] <a href="http://pumpkindb.org/doc/script/CURSOR/DOWHILE-PREFIXED.html">CURSOR/DOWHILE-PREFIXED</a></code>. For every AddedTodoItem-prefixed key/value pair, extract the key and value.</p>
+<figure class="code"><figcaption class="ch"><span class="lang">text</span><span class="nm">todolist.txt</span><button type="button" data-copy>copy</button></figcaption>
+<pre class="shiki css-variables"><code><span class="line"><span class="ln" aria-hidden="true">1</span><span></span></span>
+<span class="line"><span class="ln" aria-hidden="true">2</span><span>                                                  Event-specific journals</span></span>
+<span class="line"><span class="ln" aria-hidden="true">3</span><span></span></span>
+<span class="line"><span class="ln" aria-hidden="true">4</span><span>                           +---------------+---------------+               +-------------+</span></span>
+<span class="line"><span class="ln" aria-hidden="true">5</span><span>                           |               |               |               |             |</span></span>
+<span class="line"><span class="ln" aria-hidden="true">6</span><span>                           | AddedTodoItem | HLC timestamp +--------------->     UUID    |</span></span>
+<span class="line"><span class="ln" aria-hidden="true">7</span><span>    Per-item journal       |               |               |               |             |</span></span>
+<span class="line"><span class="ln" aria-hidden="true">8</span><span>                           ++--------------+---------------+               +-------------+</span></span>
+<span class="line"><span class="ln" aria-hidden="true">9</span><span>+------+---------------+    ^                   +------------------------------^</span></span>
+<span class="line"><span class="ln" aria-hidden="true">10</span><span>|      |               |    |                   ^</span></span>
+<span class="line"><span class="ln" aria-hidden="true">11</span><span>| UUID | HLC timestamp +---+^-------------------|-----+---------------+    +-------------+</span></span>
+<span class="line"><span class="ln" aria-hidden="true">12</span><span>|      |               |   |                   ||     |               |    |             |</span></span>
+<span class="line"><span class="ln" aria-hidden="true">13</span><span>| UUID | HLC timestamp +---> ChangedTodoItem   ||UUID | HLC timestamp +----> Item's name |</span></span>
+<span class="line"><span class="ln" aria-hidden="true">14</span><span>|      |               |   |                   ||     |               |    |             |</span></span>
+<span class="line"><span class="ln" aria-hidden="true">15</span><span>| UUID | HLC timestamp +---+v-------------------------+---------------+    +-------------+</span></span>
+<span class="line"><span class="ln" aria-hidden="true">16</span><span>|      |               |    |                   |</span></span>
+<span class="line"><span class="ln" aria-hidden="true">17</span><span>+------+---------------+   +v------------------++-----+---------------+    +-------------+</span></span>
+<span class="line"><span class="ln" aria-hidden="true">18</span><span>                           |                   |      |               |    |             |</span></span>
+<span class="line"><span class="ln" aria-hidden="true">19</span><span>                           | ChangedItemStatus | UUID | HLC timestamp +----> True/False  |</span></span>
+<span class="line"><span class="ln" aria-hidden="true">20</span><span>                           |                   |      |               |    |             |</span></span>
+<span class="line"><span class="ln" aria-hidden="true">21</span><span>                           +-------------------+------+---------------+    +-------------+</span></span></code></pre></figure>
+<p>Very similarly, we can design the layout for changing item’s description and status (<code>ChangedTodoItem</code> and <code>ChangedItemStatus</code>). The main difference in key composition here is that here we use three elements (prefix, item <em>UUID</em> reference, and a timestamp) instead of two.</p>
+<p>Now, even though we’re able to sort through individual event types, if we want to see an aggregated list of events per item, that’ll again be rather inefficient as we would need to fetch all events with a certain UUID referenced in the key and then merge-sort all of them by the timestamp. What we can do instead is introduce another key space. Keys starting with a UUID should be appended with a timestamp and the value should be a key of a specific event. In PumpkinScript, retrieving from this list is still pretty trivial: <code>uuid [<a href="http://pumpkindb.org/doc/script/DUP.html">DUP</a> <a href="http://pumpkindb.org/doc/script/CURSOR/KEY.html">CURSOR/KEY</a> <a href="http://pumpkindb.org/doc/script/SWAP.html">SWAP</a> <a href="http://pumpkindb.org/doc/script/CURSOR/VAL.html">CURSOR/VAL</a> <a href="http://pumpkindb.org/doc/script/DUP.html">DUP</a> <a href="http://pumpkindb.org/doc/script/RETR.html">RETR</a> TRUE] <a href="http://pumpkindb.org/doc/script/CURSOR/DOWHILE-PREFIXED.html">CURSOR/DOWHILE-PREFIXED</a></code>.</p>
+<p>As you can see, using this approach, we can actually tell what is going on — how much of a key space are we iterating through, how much data we’re duplicating, and so on. Of course, we’re not exposed to the mechanics of disks, memory paging or [NVMe] controller access at this level. For most of applications, that level of abstraction would indeed be too much. However, arguably, the B+-tree level is simple enough to work with and yet tells us a lot more about <em>how things work</em> and just how much complexity would be involved.</p>
+<p>If you’re interested in exploring these and similar ideas, I will be happy if you check out <a href="https://github.com/PumpkinDB/PumpkinDB#readme">PumpkinDB</a> project. We’re also hanging out on <a href="https://gitter.im/PumpkinDB/Lobby">Gitter</a> and are not opposed to answering questions!</p>
+]]></content:encoded>
+    </item>
+  </channel>
+</rss>

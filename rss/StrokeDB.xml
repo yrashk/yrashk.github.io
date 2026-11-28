@@ -1,0 +1,108 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<rss version="2.0" xmlns:atom="http://www.w3.org/2005/Atom" xmlns:content="http://purl.org/rss/1.0/modules/content/" xmlns:dc="http://purl.org/dc/elements/1.1/">
+  <channel>
+    <title>Yurii Rashkovskii — StrokeDB</title>
+    <link>https://yrashk.com/</link>
+    <description>Founder of Inferal. Essays and notes on how people and systems work.</description>
+    <language>en</language>
+    <atom:link href="https://yrashk.com/rss/StrokeDB.xml" rel="self" type="application/rss+xml"/>
+    <lastBuildDate>Sun, 13 Jul 2008 00:00:00 GMT</lastBuildDate>
+    <item>
+      <title>Is “Save” Obsolete?</title>
+      <link>https://yrashk.com/blog/2008/07/13/is-save-obsolete/</link>
+      <guid isPermaLink="true">https://yrashk.com/blog/2008/07/13/is-save-obsolete/</guid>
+      <pubDate>Sun, 13 Jul 2008 00:00:00 GMT</pubDate>
+      <dc:creator>Yurii Rashkovskii</dc:creator>
+      <category>databases</category>
+      <category>StrokeDB</category>
+      <description>Leaving my hangover apart, I want to talk about some recent &quot;realization&quot; I had. I am not sure it is necessarily a good idea, but it might be worth some investigation. So here we go.</description>
+      <content:encoded><![CDATA[<p>Leaving my hangover apart, I want to talk about some recent &quot;realization&quot; I had. I am not sure it is necessarily a good idea, but it might be worth some investigation. So here we go.</p>
+<p>In those ORMs I know (I do not pretend to know all of them, and I had an extensive experience only with few of them, mostly in Ruby) your way to operate with your objects' persistency is basically a read-edit-save loop (RESL). There is nothing bad about this way, especially given that you have no built-in versioning in typical relational databases and ORMs.</p>
+<p>But as you may know, we at <a href="http://idbns.com/">idbns</a> team are experimenting with some weird ideas and prototypes (like <a href="http://strokedb.com/">StrokeDB</a>) and one of the things we definitely love about our approach to data management is a built-in versioning.</p>
+<p>At this moment, StrokeDB implements this RESL thing, too. It is a quite common approach, but it isn't any fun. It does work with versioning pretty well — it just increments document version once you save — nothing really tricky.</p>
+<p>But there is one thing. My own viewpoint that I've developed within past few years is that your persistency mechanism should not let you &quot;separate&quot; your objects from your <a href="https://yrashk.com/blog/2008/05/16/we-dont-need-a-database/">programming environment</a>. So why the hell should I remind my programming environment to persist object's change every time I modify it? Wouldn't it be nice to persist data transparently?</p>
+<p>May be. There is nothing new about this idea, but as far as I understand, there is not much public use of it in the industry.</p>
+<p>Let's try to see where will it lead us to. Given we have built-in versioning, every change (like slot's value change) will cause versions change quite frequently, and, what is more important, these versions will be pretty much pointless. You will have a great history of every single change, but you wouldn't be able to say &quot;and here we did that&quot; for any more-than-one-slot update.</p>
+<p>Unless you describe it explicitly. What if we'll make a record for every &quot;business operation&quot;, something like a document that says:</p>
+<ul>
+<li>this operation was performed at Jul 13, 2008 04:17AM PST</li>
+<li>this operation was &quot;week expenses adjustment&quot;</li>
+<li>this operation was performed on document 61fe324e-3e6e-49e8-9427-6ebab7c31ff9</li>
+<li>this operation starts at version 164c2a4b-294a-4253-97e7-124cc1e4a1cc and ends at version 9d888a2a-7f69-40ae-83c6-c55262d89d99</li>
+</ul>
+<p>It seems that having such kind of an explicit records will also allow us to run some kind of smart and safe compaction on a database.</p>
+<p>I am not sure about the whole idea, but it still sounds interesting for me. What do <strong>you</strong> think?</p>
+]]></content:encoded>
+    </item>
+    <item>
+      <title>We Don’t Need a “Database”</title>
+      <link>https://yrashk.com/blog/2008/05/16/we-dont-need-a-database/</link>
+      <guid isPermaLink="true">https://yrashk.com/blog/2008/05/16/we-dont-need-a-database/</guid>
+      <pubDate>Fri, 16 May 2008 00:00:00 GMT</pubDate>
+      <dc:creator>Yurii Rashkovskii</dc:creator>
+      <category>databases</category>
+      <category>StrokeDB</category>
+      <description>I’ve been trying to formulate what StrokeDB is recently. And here is my summary: StrokeDB is not a database; it is a programming environment on top of Ruby.</description>
+      <content:encoded><![CDATA[<p>I’ve been trying to formulate what <a href="http://strokedb.com/">StrokeDB</a> is recently. And here is my summary: StrokeDB is not a database; it is a programming environment on top of Ruby (until we’ll have it ported to other languages). And here are my thoughts about “database” concept.</p>
+<p>Do we <strong>really</strong> need “databases”? Well, I mean, we surely need some toolset to be able to store and retrieve data, but who said we need it in a form of pure datasets to be stored and retrieved? Who said that there should be a database server to interact with? Who said we might need special domain languages designed to manipulate arbitrary data?</p>
+<p>What we <strong>really</strong> need is a persistence-aware programming environment, aren’t we? We just need to be able to store and retrieve data no matter how its persistence handled internally. There is nothing new about it, actually — MUMPS and GemStone/S (or even PL/SQL) were around for decades. What we <strong>really</strong> might need is to be able to create your-application-data-domain specific languages without any hassles — since we need to manipulate application’s data, not just <strong>any</strong> data (like you basically do with SQL).</p>
+<p>It is quite popular in Rails world to say that we need a <em>stupid</em> database, just a kind of storage and let Ruby do the rest. Basically, they have a point. They use RDBMS as a data storage layer and their database is actually <em>smart</em>, because what is really important for data handling is actually implemented in Ruby. It is still usually limited by RDBMS design constraints, though.</p>
+<p>My point is that your data should be as close to your main programming environment as it is possible. Your structures should be as <em>native</em> as it is possible — and they should be handled within the same environment. That’s reminds things like PL/SQL. Basically, PL/SQL is not THAT bad, but the thing with it is that usually you was using not ONLY PL/SQL, but, say, some Java code to interoperate with Oracle database.</p>
+<blockquote>
+<p>Your application itself <strong>IS</strong> a <em>smart</em> database.</p>
+</blockquote>
+<p>So, I’d say we’re in the beginning of the long way “back to the future” — persistence-aware programming environments, not just <em>databases</em>.</p>
+<p>Viva <strong>smart</strong> databases!</p>
+<p>P.S. I am going to blog about data organization concepts within such environments soon — that’s an interesting topic to talk about and it is surely more concrete than this one :)</p>
+]]></content:encoded>
+    </item>
+    <item>
+      <title>Top 10 Reasons to Avoid Document Databases FUD</title>
+      <link>https://yrashk.com/blog/2008/04/26/top-10-reasons-to-avoid-document-databases-fud/</link>
+      <guid isPermaLink="true">https://yrashk.com/blog/2008/04/26/top-10-reasons-to-avoid-document-databases-fud/</guid>
+      <pubDate>Sat, 26 Apr 2008 00:00:00 GMT</pubDate>
+      <dc:creator>Yurii Rashkovskii</dc:creator>
+      <category>databases</category>
+      <category>StrokeDB</category>
+      <description>First of all I’d like to note that the below answers are not about SimpleDB but rather to prevent FUD about document-based databases.</description>
+      <content:encoded><![CDATA[<p>This article is written in response to <a href="http://www.ryanpark.org/2008/04/top-10-avoid-the-simpledb-hype.html">Top 10 Reasons to Avoid the SimpleDB Hype</a></p>
+<p>First of all I’d like to note that the below answers are not about SimpleDB but rather to prevent FUD about document-based databases.</p>
+<h2 id="1-data-integrity-is-not-guaranteed" tabindex="-1">1. Data integrity is not guaranteed.<a class="anchor" href="#1-data-integrity-is-not-guaranteed" aria-label="Link to this section">#</a></h2>
+<p>This could be the case with SimpleDB, but overall nothing prevents document databases from managing data integrity very well.</p>
+<p>Regarding the constraints, there is nothing that prevents defining validations in a document or its related “meta” document (this is pretty much how <a href="http://strokedb.com/">StrokeDB</a> works — you can define your validations within meta document and they will let your document stay validated)</p>
+<p>More interesting are the concerns about the conflicts. I’d say that this problem is hardly addressed in a common RDBMS approach. All you usually get is either user’s A or user’s B most recent update — there seems to be no easy way graceful conflict resulution. On the contrary, since document databases approach is rather novel there is certainly enough room to adopt ways to deal with conflicts. For example, with different and configurable algorithms — like merging them slot-by-slot 3-ways, or even some special programmer-defined algorithms. I can hardly imagine how to do this sort of stuff with traditional RDBMS in a relatively easy manner.</p>
+<h2 id="2-inconsistency-will-provide-a-terrible-user-experience" tabindex="-1">2. Inconsistency will provide a terrible user experience.<a class="anchor" href="#2-inconsistency-will-provide-a-terrible-user-experience" aria-label="Link to this section">#</a></h2>
+<p>First of all, it should noted that described inconsistencies are also quite possible with distributed RDBMS setups — they too are constrained by a certain lag before the data is going to be propagated through replicas.</p>
+<p>The actual problem is not with lag — it is more about leaving documents in a consistent state.</p>
+<p>This problem could be easily addressed in any kind of database, either relational or document-based.</p>
+<h2 id="3-aggregate-operations-will-require-more-coding" tabindex="-1">3. Aggregate operations will require more coding.<a class="anchor" href="#3-aggregate-operations-will-require-more-coding" aria-label="Link to this section">#</a></h2>
+<p>Again, while this seems to be true for SimpleDB, other document-based databases address this problem pretty well with Views approach (<a href="http://incubator.apache.org/couchdb/">CouchDB</a>, StrokeDB [Views is WIP]) — so you can define any kind of aggregation, even such that are simply not supported by RDBMS.</p>
+<h2 id="4-complicated-reports-and-ad-hoc-queries-will-require-a-lot-more-coding" tabindex="-1">4. Complicated reports, and ad hoc queries, will require a lot more coding.<a class="anchor" href="#4-complicated-reports-and-ad-hoc-queries-will-require-a-lot-more-coding" aria-label="Link to this section">#</a></h2>
+<p>I’d refer to Views approach once again — it is quite a nice way to produce complicated reports as quickly as well-known RDBMS indexes do.</p>
+<p>“Views” could be viewed as subroutines with a special well-defined API — and we can use these subroutines to index specific “queries” even in runtime. That’s pretty interesting.</p>
+<h2 id="5-aggregate-operations-will-be-much-slower-if-you-dont-use-an-rdbms" tabindex="-1">5. Aggregate operations will be much slower if you don’t use an RDBMS.<a class="anchor" href="#5-aggregate-operations-will-be-much-slower-if-you-dont-use-an-rdbms" aria-label="Link to this section">#</a></h2>
+<p>This is a dubious statement. First, for the majority of the queries speed is defined by the speed of the index (all that B+ trees stuff). Document-oriented database views are indexed the very same way.</p>
+<p>Speaking of those RDBMS “rows” and objects I wouldn’t say they are much different. An Object with key/value pairs slots is definitely a “row” in that sense. So what’s so different about them?</p>
+<p>On the other hand, “real” relational database should actually use aggregating operations (joins) far more frequently than typical document database. Relational database is basically about storing short “facts” with relations between them and using lots of join operations to aggregate synthetic data. That wouldn’t be efficient/easy enough to program though — that is why most of relational database in the “real world” are organized in the form of fairly wide tables.</p>
+<p>And, finally, for the well-done DODBs it is possible to use nice Map-Reduce API to build and incrementally update very complex aggregations.</p>
+<h2 id="6-data-import-export-and-backup-will-be-slow-and-difficult" tabindex="-1">6. Data import, export, and backup will be slow and difficult.<a class="anchor" href="#6-data-import-export-and-backup-will-be-slow-and-difficult" aria-label="Link to this section">#</a></h2>
+<p>“There are no such tools for key-value data stores, because these products are so new.”</p>
+<p>Is lack of maturity a good reason to blame new technologies?</p>
+<p>SimpleDB implementation in particular might have its own flaws in this area — but nothing prevents it from improving things in theory and practice.</p>
+<h2 id="7-simpledb-isnt-that-fast" tabindex="-1">7. SimpleDB isn’t that fast.<a class="anchor" href="#7-simpledb-isnt-that-fast" aria-label="Link to this section">#</a></h2>
+<p>Since this this post I am talking about document databases in general, I’d skip those “internet latency” issues. It’s kinda irrelevant.</p>
+<h2 id="8-relational-databases-are-scalable-even-with-massive-data-sets" tabindex="-1">8. Relational databases are scalable, even with massive data sets.<a class="anchor" href="#8-relational-databases-are-scalable-even-with-massive-data-sets" aria-label="Link to this section">#</a></h2>
+<p>The main argument here is that “those guys do scale relational database, so they are scalable”. True. They are scalable. But at what cost? “Those guys” were able to do a lot of great stuff utilizing manpower before letting machinery do this back tens years ago. But is it a good excuse to manufacture goods without machinery these days just because it is possible? I doubt it. Throwing man power at a problem is not always the best approach.</p>
+<p>And… you said “relational”? Facebook and others do a lot of denormalization, they don’t <strong>ever</strong> use JOIN, they’d rather do several consequent requests and build intermediate results on a webserver (when you have 20 times more webservers than DBs it’s obviously good to move some load there). They treat good old MySQL as object storage with very fast B+ tree indexes. Finally, the resulting database is <strong>not</strong> a relational one. One thousand of MySQLs is just a distributed object storage with simple fast indexes and a bunch of hand-written code in php/ruby/python/whatever around it.</p>
+<h2 id="9-super-scalability-is-overrated-slowing-the-pace-of-your-product-development-is-even-worse" tabindex="-1">9. Super-scalability is overrated. Slowing the pace of your product development is even worse.<a class="anchor" href="#9-super-scalability-is-overrated-slowing-the-pace-of-your-product-development-is-even-worse" aria-label="Link to this section">#</a></h2>
+<p>Super-scalability issue is not really overrated. The problem with the approach of “why not wait and address super-scalability once you’ve created a super product” is that once you will address super-scalability, it will be quite a different product.</p>
+<p>The issue with scalability these days is that less scalable applications are quite different from the the ones that are hugely scalable — and that is why writing a scalable application from the scratch is definitely a waste of time and money.</p>
+<p>But what if scaling from SQLite-like backend to 2 datacenters will be quite painless and will not require you to rethink database interactions in your application? With the right database API design it is quite possible. BigTable, Amazon Dynamo, CouchDB, StrokeDB approaches are all about addressing this need.</p>
+<h2 id="10-simpledb-is-useful-but-only-in-certain-contexts" tabindex="-1">10. SimpleDB is useful, but only in certain contexts.<a class="anchor" href="#10-simpledb-is-useful-but-only-in-certain-contexts" aria-label="Link to this section">#</a></h2>
+<p>Same can be said for relational databases. In the real world, data is not really well structured — it is rather versatile and it’s repsentation depends on point of view. This problem is very well addressed by document databases (and StrokeDB in particular was created in attempts to solve this problem).</p>
+<p>“Amazon SimpleDB, Apache CouchDB, and the Google Datastore API aren’t bad products. But we do them a disservice when we construe them to be replacements for general-purpose databases. Used carefully, they can help your organization. But used indiscriminately, you’ll create a lot more work for your programmers and you’ll make your application perform even worse”</p>
+<p>Relational databases are not bad products either. Used carefully, they can help your organization. But used indiscriminately, you’ll create a lot more work for your programmers and you’ll make your application development even more complex.</p>
+]]></content:encoded>
+    </item>
+  </channel>
+</rss>

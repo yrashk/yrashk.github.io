@@ -1,0 +1,24 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<rss version="2.0" xmlns:atom="http://www.w3.org/2005/Atom" xmlns:content="http://purl.org/rss/1.0/modules/content/" xmlns:dc="http://purl.org/dc/elements/1.1/">
+  <channel>
+    <title>Yurii Rashkovskii — CouchDB</title>
+    <link>https://yrashk.com/</link>
+    <description>Founder of Inferal. Essays and notes on how people and systems work.</description>
+    <language>en</language>
+    <atom:link href="https://yrashk.com/rss/CouchDB.xml" rel="self" type="application/rss+xml"/>
+    <lastBuildDate>Thu, 22 Nov 2007 00:00:00 GMT</lastBuildDate>
+    <item>
+      <title>What Is Missing in CouchDB Approach</title>
+      <link>https://yrashk.com/blog/2007/11/22/what-is-missing-in-couchdb-approach/</link>
+      <guid isPermaLink="true">https://yrashk.com/blog/2007/11/22/what-is-missing-in-couchdb-approach/</guid>
+      <pubDate>Thu, 22 Nov 2007 00:00:00 GMT</pubDate>
+      <dc:creator>Yurii Rashkovskii</dc:creator>
+      <category>databases</category>
+      <category>CouchDB</category>
+      <description>CouchDb approach is missing one simple idea — object’s slot (or field) should be an object too.</description>
+      <content:encoded><![CDATA[<p>Talking from the perspective of my background database research (http://xi.verbdev.com/, outdated and incomplete), CouchDb approach is missing one simple idea — object’s slot (or field) should be an object too. This way all things become easier and there is no need in thinking how to build relationship, who should refer who, etc. — you just build this relationships in-place.</p>
+<p>Or am I missing something in either CouchDb approach or in my own approach?</p>
+]]></content:encoded>
+    </item>
+  </channel>
+</rss>
